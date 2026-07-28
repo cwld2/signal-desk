@@ -53,23 +53,42 @@ jobs:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
         run: test -n "$DASHSCOPE_API_KEY"
 
-      - name: Prepare content branch worktree
+      - name: Detect content branch
+        id: content-branch
         shell: bash
         run: |
           if git ls-remote --exit-code --heads origin content >/dev/null 2>&1; then
-            git fetch origin content
-            git worktree add --detach "$RUNNER_TEMP/signal-content" origin/content
+            echo "exists=true" >> "$GITHUB_OUTPUT"
           else
-            git worktree add --detach "$RUNNER_TEMP/signal-content"
-            cd "$RUNNER_TEMP/signal-content"
-            git switch --orphan content
-            git rm -rf .
-            mkdir -p data
-            if [ -d "$GITHUB_WORKSPACE/public/data" ]; then
-              cp -a "$GITHUB_WORKSPACE/public/data/." data/
-            fi
+            echo "exists=false" >> "$GITHUB_OUTPUT"
           fi
-          mkdir -p "$RUNNER_TEMP/signal-content/data/archive"
+
+      - name: Checkout existing content branch
+        if: steps.content-branch.outputs.exists == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: content
+          path: content-store
+
+      - name: Checkout seed for first content migration
+        if: steps.content-branch.outputs.exists == 'false'
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: content-store
+
+      - name: Initialize first content branch
+        if: steps.content-branch.outputs.exists == 'false'
+        shell: bash
+        run: |
+          cd "$GITHUB_WORKSPACE/content-store"
+          git switch --orphan content
+          git rm -rf .
+          mkdir -p data
+          if [ -d "$GITHUB_WORKSPACE/public/data" ]; then
+            cp -a "$GITHUB_WORKSPACE/public/data/." data/
+          fi
+          mkdir -p data/archive
 
       - name: Generate daily feed
         env:
@@ -77,20 +96,20 @@ jobs:
           DASHSCOPE_BASE_URL: ${{ vars.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1' }}
           DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'qwen3.7-flash' }}
           DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'qwen3.7-plus' }}
-          SIGNAL_DATA_DIR: ${{ runner.temp }}/signal-content/data
+          SIGNAL_DATA_DIR: ${{ github.workspace }}/content-store/data
           SIGNAL_FORCE_REBUILD: ${{ (github.event_name == 'push' || inputs.mode == 'force-rebuild-today') && '1' || '0' }}
           SIGNAL_RESELECT: ${{ github.event_name == 'push' && '1' || '0' }}
         run: npm run generate
 
       - name: Validate code and data
         env:
-          SIGNAL_DATA_DIR: ${{ runner.temp }}/signal-content/data
+          SIGNAL_DATA_DIR: ${{ github.workspace }}/content-store/data
         run: npm test && npm run check && node scripts/validate-feed.js
 
       - name: Persist generated content branch
         shell: bash
         run: |
-          cd "$RUNNER_TEMP/signal-content"
+          cd "$GITHUB_WORKSPACE/content-store"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data
@@ -105,7 +124,7 @@ jobs:
           mkdir -p site
           cp -a public/. site/
           rm -rf site/data
-          cp -a "$RUNNER_TEMP/signal-content/data" site/data
+          cp -a "$GITHUB_WORKSPACE/content-store/data" site/data
 
       - name: Verify published artifact has no secrets
         shell: bash

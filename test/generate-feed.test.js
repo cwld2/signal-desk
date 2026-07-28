@@ -189,6 +189,9 @@ test("workflow persists only content branch and supports config/force triggers",
   const workflow = fs.readFileSync(path.join(__dirname, "..", ".github", "workflows", "daily-feed.yml"), "utf8");
   assert.match(workflow, /paths:\s*\n\s*- "config\/\*\*"/);
   assert.match(workflow, /force-rebuild-today/);
+  assert.match(workflow, /Checkout existing content branch/);
+  assert.match(workflow, /path: content-store/);
+  assert.doesNotMatch(workflow, /git worktree/);
   assert.match(workflow, /git push origin HEAD:content/);
   assert.doesNotMatch(workflow, /git add public\/data/);
 });
