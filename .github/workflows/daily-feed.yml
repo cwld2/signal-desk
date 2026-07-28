@@ -18,6 +18,7 @@ on:
         options:
           - normal
           - force-rebuild-today
+          - force-weekly-now
 
 permissions:
   contents: write
@@ -98,8 +99,9 @@ jobs:
           DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'qwen3.7-flash' }}
           DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'qwen3.7-plus' }}
           SIGNAL_DATA_DIR: ${{ github.workspace }}/content-store/data
-          SIGNAL_FORCE_REBUILD: ${{ (github.event_name == 'push' || inputs.mode == 'force-rebuild-today') && '1' || '0' }}
-          SIGNAL_RESELECT: ${{ github.event_name == 'push' && '1' || '0' }}
+          SIGNAL_FORCE_REBUILD: ${{ (github.event_name == 'push' || inputs.mode == 'force-rebuild-today' || inputs.mode == 'force-weekly-now') && '1' || '0' }}
+          SIGNAL_RESELECT: ${{ (github.event_name == 'push' || inputs.mode == 'force-weekly-now') && '1' || '0' }}
+          SIGNAL_FORCE_WEEKLY: ${{ (inputs.mode == 'force-weekly-now' || contains(github.event.head_commit.message, '[weekly-now]')) && '1' || '0' }}
         run: npm run generate
 
       - name: Validate code and data

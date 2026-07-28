@@ -18,9 +18,10 @@
     "practice": 2,
     "update": 1
   },
-  "sundayQuotas": {
+  "weeklyQuotas": {
+    "weekday": "Mon",
     "game": 2,
-    "art": 1
+    "art": 2
   },
   "manualDailyLimit": 2,
   "sourceDailyLimit": 1,

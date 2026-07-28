@@ -227,6 +227,26 @@
       "accent": "#c33b32"
     },
     {
+      "id": "lospec-articles",
+      "name": "Lospec Articles",
+      "enabled": true,
+      "url": "https://lospec.com/articles",
+      "site": "https://lospec.com/articles/",
+      "format": "html",
+      "itemSelector": "article",
+      "titleSelector": "h2 a",
+      "summarySelector": "p",
+      "dateSelector": "time",
+      "lane": "art",
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "authority": 5,
+      "weight": 1.1,
+      "dailyLimit": 1,
+      "accent": "#3f7f69"
+    },
+    {
       "id": "aseprite",
       "name": "Aseprite Blog",
       "enabled": true,

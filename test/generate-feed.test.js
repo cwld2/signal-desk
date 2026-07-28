@@ -11,10 +11,11 @@ const {
   candidateBodyPool,
   deduplicate,
   extractReadableArticle,
-  isSundayInShanghai,
+  isWeeklyEditionInShanghai,
   localSelect,
   normalizeAnalysis,
   normalizeSelection,
+  parseHtmlListing,
   parseModelJson,
   prefilterCandidates,
   selectPendingManualEntries,
@@ -61,7 +62,7 @@ test("does not fill a quota when quality candidates are insufficient", () => {
   assert.equal(selected.update.length, 0);
 });
 
-test("Sunday adds at most two game articles and one art article", () => {
+test("weekly edition adds at most two game and two art articles", () => {
   const candidates = [
     fixture("p1"), fixture("p2"), fixture("u1", { slot: "update" }),
     fixture("g1", { lane: "game" }), fixture("g2", { lane: "game" }), fixture("g3", { lane: "game" }),
@@ -69,7 +70,29 @@ test("Sunday adds at most two game articles and one art article", () => {
   ];
   const selected = localSelect(candidates, true, editorial);
   assert.equal(selected.game.length, 2);
-  assert.equal(selected.art.length, 1);
+  assert.equal(selected.art.length, 2);
+});
+
+test("parses configured HTML article listings", () => {
+  const source = {
+    id: "pixel-guides",
+    name: "Pixel Guides",
+    url: "https://example.com/articles",
+    site: "https://example.com/",
+    itemSelector: "article",
+    titleSelector: "h2 a",
+    summarySelector: "p",
+    dateSelector: "time",
+    lane: "art",
+    authority: 5,
+    accent: "#123456"
+  };
+  const html = `<main><article><h2><a href="/guide">Pixel animation guide</a></h2><time datetime="2026-07-20T08:00:00Z">July 20</time><p>Plan readable sprite motion with clear key poses and spacing.</p></article></main>`;
+  const items = parseHtmlListing(html, source);
+  assert.equal(items.length, 1);
+  assert.equal(items[0].url, "https://example.com/guide");
+  assert.equal(items[0].publishedAt, "2026-07-20T08:00:00.000Z");
+  assert.equal(items[0].topic, "像素美术");
 });
 
 test("weekday body pool excludes weekly lanes and caps AI candidates", () => {
@@ -188,9 +211,9 @@ test("same-day normal mode skips calls while force mode rebuilds", () => {
   assert.equal(shouldRebuildExistingEdition({ ...previous, schemaVersion: 2 }, "2026-07-28", true, true), false);
 });
 
-test("detects Sunday using Asia/Shanghai instead of UTC", () => {
-  assert.equal(isSundayInShanghai(new Date("2026-08-01T16:30:00.000Z")), true);
-  assert.equal(isSundayInShanghai(new Date("2026-08-02T16:30:00.000Z")), false);
+test("detects Monday weekly edition using Asia/Shanghai instead of UTC", () => {
+  assert.equal(isWeeklyEditionInShanghai(new Date("2026-08-02T16:30:00.000Z"), editorial.weeklyQuotas.weekday), true);
+  assert.equal(isWeeklyEditionInShanghai(new Date("2026-08-03T16:30:00.000Z"), editorial.weeklyQuotas.weekday), false);
 });
 
 test("missing Bailian key exits before overwriting previous data", () => {
@@ -209,6 +232,9 @@ test("workflow persists only content branch and supports config/force triggers",
   assert.match(workflow, /paths:\s*\n\s*- "config\/\*\*"/);
   assert.match(workflow, /\.github\/workflows\/daily-feed\.yml/);
   assert.match(workflow, /force-rebuild-today/);
+  assert.match(workflow, /force-weekly-now/);
+  assert.match(workflow, /SIGNAL_FORCE_WEEKLY/);
+  assert.match(workflow, /\[weekly-now\]/);
   assert.match(workflow, /Checkout existing content branch/);
   assert.match(workflow, /path: content-store/);
   assert.match(workflow, /git rm -rf --ignore-unmatch \./);

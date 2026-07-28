@@ -96,13 +96,65 @@ async function fetchArticle(item, editorial) {
   }
 }
 
+function parseHtmlListing(html, source, baseUrl = source.url) {
+  const virtualConsole = new VirtualConsole();
+  virtualConsole.on("jsdomError", () => {});
+  const dom = new JSDOM(html, { url: baseUrl, virtualConsole });
+  try {
+    const itemSelector = source.itemSelector || "article";
+    const titleSelector = source.titleSelector || "h2 a, h3 a";
+    const summarySelector = source.summarySelector || "p";
+    const dateSelector = source.dateSelector || "time";
+    return Array.from(dom.window.document.querySelectorAll(itemSelector)).slice(0, 35).map((element) => {
+      const titleElement = element.querySelector(titleSelector);
+      const title = String(titleElement?.textContent || "").replace(/\s+/g, " ").trim();
+      let url;
+      try {
+        url = new URL(titleElement?.getAttribute("href") || "", baseUrl);
+        if (!["http:", "https:"].includes(url.protocol)) return null;
+      } catch {
+        return null;
+      }
+      const summary = Array.from(element.querySelectorAll(summarySelector))
+        .map((paragraph) => String(paragraph.textContent || "").replace(/\s+/g, " ").trim())
+        .filter(Boolean)
+        .join(" ")
+        .slice(0, 900);
+      const dateElement = element.querySelector(dateSelector);
+      const rawDate = dateElement?.getAttribute("datetime") || dateElement?.textContent || "";
+      const parsedDate = Date.parse(rawDate);
+      if (!title || !summary) return null;
+      return {
+        id: hash(`${source.id}|${url.toString()}|${title}`),
+        title,
+        url: url.toString(),
+        summary,
+        publishedAt: Number.isFinite(parsedDate) ? new Date(parsedDate).toISOString() : null,
+        sourceId: source.id,
+        sourceName: source.name,
+        sourceSite: source.site,
+        lane: source.lane,
+        accent: source.accent,
+        topic: source.lane === "art" ? "像素美术" : source.lane === "game" ? "游戏开发" : "AI 动态",
+        score: Math.min(100, Number(source.authority || 3) * 12 + 20),
+        readMinutes: 5
+      };
+    }).filter(Boolean);
+  } finally {
+    dom.window.close();
+  }
+}
+
 async function fetchSource(source) {
   const started = Date.now();
   try {
     const result = await fetchText(source.url, {
-      accept: "application/rss+xml,application/atom+xml,application/xml,text/xml;q=0.9,*/*;q=0.2"
+      accept: source.format === "html"
+        ? "text/html,application/xhtml+xml;q=0.9"
+        : "application/rss+xml,application/atom+xml,application/xml,text/xml;q=0.9,*/*;q=0.2"
     });
-    const items = parseFeed(result.text, source).map((item) => ({
+    const parsedItems = source.format === "html" ? parseHtmlListing(result.text, source, result.finalUrl) : parseFeed(result.text, source);
+    const items = parsedItems.map((item) => ({
       ...item,
       category: source.category,
       slot: source.slot || source.category,
@@ -259,15 +311,15 @@ function selectionCandidates(candidates) {
   return groups.flatMap(([, predicate, limit]) => candidates.filter(predicate).slice(0, limit));
 }
 
-function candidateBodyPool(candidates, sunday) {
+function candidateBodyPool(candidates, weeklyEdition) {
   const practice = candidates.filter((item) => item.lane === "ai" && item.slot === "practice").slice(0, 12);
   const update = candidates.filter((item) => item.lane === "ai" && item.slot === "update").slice(0, 8);
-  const game = sunday ? candidates.filter((item) => item.lane === "game").slice(0, 8) : [];
-  const art = sunday ? candidates.filter((item) => item.lane === "art").slice(0, 5) : [];
+  const game = weeklyEdition ? candidates.filter((item) => item.lane === "game").slice(0, 8) : [];
+  const art = weeklyEdition ? candidates.filter((item) => item.lane === "art").slice(0, 8) : [];
   return deduplicate([...practice, ...update, ...game, ...art]);
 }
 
-function selectionPrompt(candidates, editorial, sunday) {
+function selectionPrompt(candidates, editorial, weeklyEdition) {
   const excerptLength = editorial.quality.selectionExcerptCharacters;
   const compact = selectionCandidates(candidates).map((item) => ({
     id: item.id,
@@ -290,7 +342,7 @@ function selectionPrompt(candidates, editorial, sunday) {
 2. 同一来源最多 1 篇。
 3. practice 必须含机制、代码、实验、步骤、评测或可复现工作流，纯观点不能入选。
 4. update 必须是会影响实际使用的重要模型、API、版本、安全或兼容性变化，普通公关稿不能入选。
-5. 今天${sunday ? "是周日，另选最多 2 篇 game 和 1 篇 art" : "不是周日，不选 game/art"}。
+5. 今天${weeklyEdition ? `生成每周内容，目标选满 ${editorial.weeklyQuotas.game} 篇 game 和 ${editorial.weeklyQuotas.art} 篇 art；质量不达标时允许少选` : "不生成每周内容，不选 game/art"}。
 
 只返回 JSON：
 {"practiceIds":["id"],"updateIds":["id"],"gameIds":["id"],"artIds":["id"],"reasons":{"id":"简短入选或淘汰理由"}}
@@ -388,24 +440,24 @@ function enforceQuota(candidates, ids, predicate, limit, usedSources = new Set()
   return selected;
 }
 
-function localSelect(candidates, sunday, editorial = require("../config/editorial.json")) {
+function localSelect(candidates, weeklyEdition, editorial = require("../config/editorial.json")) {
   const used = new Set();
   const take = (predicate, limit) => enforceQuota(candidates, candidates.filter(predicate).map((item) => item.id), predicate, limit, used, editorial.sourceDailyLimit);
   const practice = take((item) => item.lane === "ai" && item.slot === "practice", editorial.automaticQuotas.practice);
   const update = take((item) => item.lane === "ai" && item.slot === "update", editorial.automaticQuotas.update);
-  const game = sunday ? take((item) => item.lane === "game", editorial.sundayQuotas.game) : [];
-  const art = sunday ? take((item) => item.lane === "art", editorial.sundayQuotas.art) : [];
+  const game = weeklyEdition ? take((item) => item.lane === "game", editorial.weeklyQuotas.game) : [];
+  const art = weeklyEdition ? take((item) => item.lane === "art", editorial.weeklyQuotas.art) : [];
   return { practice, update, game, art };
 }
 
-async function chooseItems(candidates, sunday, editorial, client, runReport) {
-  const choice = await client.json(selectionPrompt(candidates, editorial, sunday), client.selectionModel, normalizeSelection);
+async function chooseItems(candidates, weeklyEdition, editorial, client, runReport) {
+  const choice = await client.json(selectionPrompt(candidates, editorial, weeklyEdition), client.selectionModel, normalizeSelection);
   const used = new Set();
   const sourceLimit = editorial.sourceDailyLimit;
   const practice = enforceQuota(candidates, choice.practiceIds, (item) => item.lane === "ai" && item.slot === "practice", editorial.automaticQuotas.practice, used, sourceLimit);
   const update = enforceQuota(candidates, choice.updateIds, (item) => item.lane === "ai" && item.slot === "update", editorial.automaticQuotas.update, used, sourceLimit);
-  const game = sunday ? enforceQuota(candidates, choice.gameIds, (item) => item.lane === "game", editorial.sundayQuotas.game, used, sourceLimit) : [];
-  const art = sunday ? enforceQuota(candidates, choice.artIds, (item) => item.lane === "art", editorial.sundayQuotas.art, used, sourceLimit) : [];
+  const game = weeklyEdition ? enforceQuota(candidates, choice.gameIds, (item) => item.lane === "game", editorial.weeklyQuotas.game, used, sourceLimit) : [];
+  const art = weeklyEdition ? enforceQuota(candidates, choice.artIds, (item) => item.lane === "art", editorial.weeklyQuotas.art, used, sourceLimit) : [];
   runReport.selectionReasons = choice.reasons && typeof choice.reasons === "object" ? choice.reasons : {};
   const selectedIds = new Set([...practice, ...update, ...game, ...art].map((item) => item.id));
   for (const item of selectionCandidates(candidates)) {
@@ -527,8 +579,8 @@ function currentDateParts(date = new Date()) {
   return Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
 }
 
-function isSundayInShanghai(date = new Date()) {
-  return currentDateParts(date).weekday === "Sun";
+function isWeeklyEditionInShanghai(date = new Date(), weekday = "Mon") {
+  return currentDateParts(date).weekday === weekday;
 }
 
 function editionDate(date = new Date()) {
@@ -609,17 +661,17 @@ async function manualCandidates(entries, processedUrls, editorial, runReport, so
   return candidates;
 }
 
-function buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date, sunday, client }) {
-  const priorWeekly = sunday ? { game: [], art: [] } : {
+function buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date, weeklyEdition, weeklyReason, client }) {
+  const priorWeekly = weeklyEdition ? { game: [], art: [] } : {
     game: (previous?.lanes?.game || []).filter((item) => !item.manual),
     art: (previous?.lanes?.art || []).filter((item) => !item.manual)
   };
   const automaticAiIds = new Set([...selected.practice, ...selected.update].map((item) => item.id));
-  const sundayIds = new Set([...selected.game, ...selected.art].map((item) => item.id));
+  const weeklyIds = new Set([...selected.game, ...selected.art].map((item) => item.id));
   const manualIds = new Set(selected.manual.map((item) => item.id));
   const ai = analyzed.filter((item) => automaticAiIds.has(item.id) || (manualIds.has(item.id) && item.lane === "ai"));
-  const game = [...priorWeekly.game, ...analyzed.filter((item) => sundayIds.has(item.id) && item.lane === "game"), ...analyzed.filter((item) => manualIds.has(item.id) && item.lane === "game")];
-  const art = [...priorWeekly.art, ...analyzed.filter((item) => sundayIds.has(item.id) && item.lane === "art"), ...analyzed.filter((item) => manualIds.has(item.id) && item.lane === "art")];
+  const game = [...priorWeekly.game, ...analyzed.filter((item) => weeklyIds.has(item.id) && item.lane === "game"), ...analyzed.filter((item) => manualIds.has(item.id) && item.lane === "game")];
+  const art = [...priorWeekly.art, ...analyzed.filter((item) => weeklyIds.has(item.id) && item.lane === "art"), ...analyzed.filter((item) => manualIds.has(item.id) && item.lane === "art")];
   const items = deduplicate([...ai, ...game, ...art]);
   const oldSeen = previous?.history?.seenIds || [];
   const oldManual = previous?.history?.processedManualUrls || [];
@@ -629,7 +681,7 @@ function buildOutput({ candidates, selected, analyzed, previous, sourceResults, 
     generatedAt: new Date().toISOString(),
     timezone: TIME_ZONE,
     schedule: "Daily 08:00 Asia/Shanghai",
-    edition: { date, isSunday: sunday },
+    edition: { date, isWeeklyEdition: weeklyEdition, weeklyReason },
     stats: {
       candidates: candidates.length,
       selected: items.length,
@@ -735,7 +787,10 @@ async function main() {
   const sourceResults = await Promise.all(sources.map(fetchSource));
   if (!sourceResults.some((result) => result.ok)) throw new Error("所有订阅源抓取失败，保留上次网站");
 
-  const sunday = isSundayInShanghai();
+  const forceWeekly = process.env.SIGNAL_FORCE_WEEKLY === "1";
+  const scheduledWeekly = isWeeklyEditionInShanghai(new Date(), editorial.weeklyQuotas.weekday);
+  const weeklyEdition = scheduledWeekly || forceWeekly;
+  const weeklyReason = forceWeekly && !scheduledWeekly ? "manual" : scheduledWeekly ? "monday" : null;
   const rebuildExisting = shouldRebuildExistingEdition(previous, today, force, reselect);
   let candidates;
   let selected;
@@ -760,11 +815,11 @@ async function main() {
     const feedItems = deduplicate(sourceResults.flatMap((result) => result.items)).filter((item) => force || !seenIds.has(item.id));
     const filtered = prefilterCandidates(feedItems, editorial);
     runReport.rejected.push(...filtered.rejected);
-    const bodyPool = candidateBodyPool(filtered.eligible, sunday);
+    const bodyPool = candidateBodyPool(filtered.eligible, weeklyEdition);
     const hydrated = await hydrateBodies(bodyPool, editorial);
     runReport.rejected.push(...hydrated.rejected);
     candidates = deduplicate(hydrated.candidates);
-    selected = await chooseItems(candidates, sunday, editorial, client, runReport);
+    selected = await chooseItems(candidates, weeklyEdition, editorial, client, runReport);
 
     const processedManual = new Set(previous?.history?.processedManualUrls || []);
     selected.manual = await manualCandidates(manualEntries, processedManual, editorial, runReport, sources);
@@ -784,7 +839,7 @@ async function main() {
   const analyzed = [];
   for (const item of toAnalyze) analyzed.push(await analyzeItem(item, previousById, client, editorial, force));
 
-  const output = buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date: today, sunday, client });
+  const output = buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date: today, weeklyEdition, weeklyReason, client });
   await writeOutput(output);
   await writeRunSummary(runReport, client, sourceResults, selected);
   console.log(`生成 ${today} 简报：自动 AI ${output.stats.practice}+${output.stats.update}，手动 ${output.stats.manual}，游戏 ${output.stats.game}，美术 ${output.stats.art}，百炼调用 ${client.calls} 次。`);
@@ -813,12 +868,13 @@ module.exports = {
   deduplicate,
   enforceQuota,
   extractReadableArticle,
-  isSundayInShanghai,
+  isWeeklyEditionInShanghai,
   localSelect,
   normalizeAnalysis,
   normalizeSelection,
   normalizeUrl,
   parseModelJson,
+  parseHtmlListing,
   prefilterCandidates,
   selectPendingManualEntries,
   shouldRebuildExistingEdition,
