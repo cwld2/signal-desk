@@ -246,6 +246,15 @@ function previousItems(previous) {
   return previous.items || Object.values(previous.lanes || {}).flat();
 }
 
+function reuseEditionSelection(previous, date) {
+  if (previous?.edition?.date !== date) return null;
+  return {
+    ai: [...(previous.lanes?.ai || [])],
+    game: [...(previous.lanes?.game || [])],
+    art: [...(previous.lanes?.art || [])]
+  };
+}
+
 async function chooseItems(items, isSunday) {
   const local = localSelect(items, isSunday);
   const selected = { ai: local.ai, game: local.game, art: local.art };
@@ -355,10 +364,12 @@ async function main() {
   }
   const allItems = deduplicate(sourceResults.flatMap((result) => result.items));
   const sunday = isSundayInShanghai();
+  const date = currentDateParts();
+  const editionDate = `${date.year}-${date.month}-${date.day}`;
   const seenIds = new Set([...(previous?.history?.seenIds || []), ...previousItems(previous).map((item) => item.id)]);
   const unseenItems = allItems.filter((item) => !seenIds.has(item.id));
-  const selected = await chooseItems(unseenItems, sunday);
-  if (!sunday) {
+  const selected = reuseEditionSelection(previous, editionDate) || await chooseItems(unseenItems, sunday);
+  if (!sunday && previous?.edition?.date !== editionDate) {
     selected.game = (previous?.lanes?.game || []).slice(0, MAX_GAME);
     selected.art = (previous?.lanes?.art || []).slice(0, MAX_ART);
   }
@@ -374,4 +385,4 @@ async function main() {
 
 if (require.main === module) main().catch((error) => { console.error(error); process.exitCode = 1; });
 
-module.exports = { articleBody, canReuseAnalysis, currentDateParts, deduplicate, fallbackAnalysis, isSundayInShanghai, localSelect, normalizeList, parseModelJson };
+module.exports = { articleBody, canReuseAnalysis, currentDateParts, deduplicate, fallbackAnalysis, isSundayInShanghai, localSelect, normalizeList, parseModelJson, reuseEditionSelection };

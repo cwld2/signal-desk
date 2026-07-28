@@ -8,7 +8,8 @@ const {
   deduplicate,
   isSundayInShanghai,
   localSelect,
-  parseModelJson
+  parseModelJson,
+  reuseEditionSelection
 } = require("../scripts/generate-feed");
 
 function fixture(id, lane, sourceId, score = 80) {
@@ -69,6 +70,13 @@ test("reuses a completed analysis only when the article content hash is unchange
   const previous = { ...item, analysis: { summary: "done" }, analysisStatus: "complete" };
   assert.equal(canReuseAnalysis(previous, item), true);
   assert.equal(canReuseAnalysis(previous, { ...item, contentHash: "changed-body" }), false);
+});
+
+test("reuses the same dated edition during deployment retries", () => {
+  const article = fixture("same-day", "ai", "source");
+  const previous = { edition: { date: "2026-07-28" }, lanes: { ai: [article], game: [], art: [] } };
+  assert.equal(reuseEditionSelection(previous, "2026-07-28").ai[0].id, article.id);
+  assert.equal(reuseEditionSelection(previous, "2026-07-29"), null);
 });
 
 test("static site reads generated JSON and contains no embedded Bailian key", () => {
