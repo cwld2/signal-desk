@@ -17,6 +17,7 @@ const {
   parseModelJson,
   prefilterCandidates,
   selectPendingManualEntries,
+  shouldRebuildExistingEdition,
   shouldSkipEdition
 } = require("../scripts/generate-feed");
 
@@ -167,6 +168,9 @@ test("same-day normal mode skips calls while force mode rebuilds", () => {
   const previous = { edition: { date: "2026-07-28" } };
   assert.equal(shouldSkipEdition(previous, "2026-07-28", false), true);
   assert.equal(shouldSkipEdition(previous, "2026-07-28", true), false);
+  assert.equal(shouldRebuildExistingEdition(previous, "2026-07-28", true, false), false);
+  assert.equal(shouldRebuildExistingEdition({ ...previous, schemaVersion: 2 }, "2026-07-28", true, false), true);
+  assert.equal(shouldRebuildExistingEdition({ ...previous, schemaVersion: 2 }, "2026-07-28", true, true), false);
 });
 
 test("detects Sunday using Asia/Shanghai instead of UTC", () => {
@@ -188,6 +192,7 @@ test("missing Bailian key exits before overwriting previous data", () => {
 test("workflow persists only content branch and supports config/force triggers", () => {
   const workflow = fs.readFileSync(path.join(__dirname, "..", ".github", "workflows", "daily-feed.yml"), "utf8");
   assert.match(workflow, /paths:\s*\n\s*- "config\/\*\*"/);
+  assert.match(workflow, /\.github\/workflows\/daily-feed\.yml/);
   assert.match(workflow, /force-rebuild-today/);
   assert.match(workflow, /Checkout existing content branch/);
   assert.match(workflow, /path: content-store/);

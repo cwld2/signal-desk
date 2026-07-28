@@ -525,6 +525,10 @@ function shouldSkipEdition(previous, date, force = false) {
   return Boolean(previous?.edition?.date === date && !force);
 }
 
+function shouldRebuildExistingEdition(previous, date, force, reselect) {
+  return Boolean(previous?.schemaVersion === 2 && previous?.edition?.date === date && force && !reselect);
+}
+
 function selectPendingManualEntries(entries, processedUrls, limit) {
   return entries
     .filter((entry) => !processedUrls.has(normalizeUrl(entry.url)))
@@ -717,7 +721,7 @@ async function main() {
   if (!sourceResults.some((result) => result.ok)) throw new Error("所有订阅源抓取失败，保留上次网站");
 
   const sunday = isSundayInShanghai();
-  const rebuildExisting = Boolean(previous?.edition?.date === today && force && !reselect);
+  const rebuildExisting = shouldRebuildExistingEdition(previous, today, force, reselect);
   let candidates;
   let selected;
   if (rebuildExisting) {
@@ -800,5 +804,6 @@ module.exports = {
   parseModelJson,
   prefilterCandidates,
   selectPendingManualEntries,
+  shouldRebuildExistingEdition,
   shouldSkipEdition
 };
