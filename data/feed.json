@@ -1,155 +1,26 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-28T08:08:12.276Z",
+  "generatedAt": "2026-07-28T09:01:12.847Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 08:00 Asia/Shanghai",
   "edition": {
     "date": "2026-07-28",
-    "isSunday": false
+    "isWeeklyEdition": true,
+    "weeklyReason": "manual"
   },
   "stats": {
-    "candidates": 17,
-    "selected": 2,
+    "candidates": 33,
+    "selected": 6,
     "ai": 2,
     "practice": 2,
     "update": 0,
     "manual": 0,
-    "game": 0,
-    "art": 0,
+    "game": 2,
+    "art": 2,
     "studyMinutes": 30,
-    "bailianCalls": 3
+    "bailianCalls": 7
   },
   "items": [
-    {
-      "id": "5cf2105afd9249d5",
-      "title": "How LangChain Built an Agent-First Data Stack",
-      "url": "https://www.langchain.com/blog/agent-data-stack",
-      "summary": "Learn how LangChain used Hex, dbt, semantic models, and observability to build a trusted data agent and scale self-service analysis by 40x.",
-      "publishedAt": "2026-07-28T05:40:47.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
-      "lane": "ai",
-      "accent": "#1c3c3c",
-      "topic": "AI 辅助学习",
-      "score": 72,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 24,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 94,
-      "bodyHash": "f69a39dd2a68bad43fabac16",
-      "extraction": {
-        "method": "readability",
-        "length": 16633,
-        "originalLength": 16633,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "LangChain 构建 Agent 优先数据栈的实践与架构演进",
-      "analysis": {
-        "listSummary": "本文介绍了 LangChain 数据团队如何将传统 BI 工具迁移至 Agent 优先的数据栈。通过引入 Hex、dbt、语义模型及可观测性工具，团队将自助分析请求处理量提升了 40 倍。文章详细拆解了如何通过多层上下文（数据模型、语义层、业务指南、信任信号）赋能 Agent，并分享了反馈循环与工程经验，适合数据工程师、AI 应用开发者及数据团队负责人阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "传统数据栈以仪表盘、报表和 SQL 工作流为中心，这种架构在 AI 时代暴露出局限性。AI Agent 需要清晰的定义、可信的数据源、丰富的业务上下文以及对数据底层逻辑的访问权限。如果缺乏这些上下文，Agent 虽然能够生成语法正确的 SQL，但生成的结果往往难以信任，可能会忽略公司特定的业务定义、选错数据表，或者给出技术上合法但对业务毫无用处的答案。",
-              "在迁移前，LangChain 的所有数据需求几乎全部由数据团队处理，而当时该团队仅有 1 名成员。传统的 BI 工具虽然能胜任预定义的报表需求，但极其僵化。探索性分析难以协作和共享，非数据团队成员很难自主探索未建模的数据。这导致了严重的瓶颈：业务人员提出了许多有价值的问题，但解答这些问题需要数据团队成员介入，进行问题翻译、模型查找、查询编写与结果验证。数据团队陷入了处理一次性临时请求的泥潭，无法专注于深度分析、数据建模和跨部门项目。",
-              "团队迫切需要一种“Agent 优先”的数据栈，以同时支持多种用户群体。部分用户需要精美的仪表盘，部分需要 Notebook 和 SQL，还有部分需要对话式界面来直接获取答案而无需了解数据物理位置。工程师和技术运营人员需要灵活性，而业务用户则需要更安全、更有引导性的探索方式。同时，团队希望拥有一个统一的数据工作中心，避免引入新工具导致使用习惯、上下文和信任度在多个系统间割裂。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "架构迁移与统一工作区：团队在 6 周内 100% 弃用了旧版 BI 工具，全面迁移至 Hex。Hex 被选为中心数据工作区，因为它同时支持仪表盘、Notebook 和对话式分析，满足了不同技术背景用户的需求。Agent 的访问表面被广泛扩展，包括 Hex UI（Threads 和 notebooks）、Slack、CLI 工作流、MCP 以及 LangSmith Fleet。这种广泛的触点设计至关重要，因为当用户能在其日常工作环境中直接使用 Agent 时，采用率最高。",
-              "多层上下文构建机制：Agent 的表现高度依赖于上下文。LangChain 构建了多层上下文体系：1. 数据模型层（dbt）：dbt 是管理数据模型上下文的核心。团队摒弃了弱定义，采用强定义，明确说明数据的业务含义、允许的值、解释指南以及默认过滤规则。这大幅降低了 Agent 基于错误业务理解生成技术正确答案的概率。2. 语义模型层：用于定义 ARR、销售管道、客户健康度等高频指标及模型间的关系，确保指标定义的一致性。3. 业务上下文层（Workspace guides）：对于无法塞入表或指标定义的公司流程、团队工作流和报告约定，团队使用 Hex 工作区指南。这些指南以纯文本形式编写，通过 GitHub 仓库同步至 Hex，支持版本控制和审查。4. 信任与实现层：通过“认可（Endorsements）”机制，由数据团队专属标记可信的仪表盘和资产，防止 Agent 在多个相似资产中选错数据源。同时，Agent 可以直接访问 GitHub 中的 dbt 仓库，获取底层的 SQL 和转换逻辑，为技术用户提供深度调试能力。",
-              "反馈与优化循环：上下文需要闭环反馈。团队利用 Hex Context Studio（或自建的 LangSmith）作为可观测性工具，监控对话主题趋势、常见警告和上下文缺口。如果发现用户反复询问同类问题，则考虑开发新仪表盘；如果 Agent 在某个指标上挣扎，则优化语义模型定义。这一循环使数据团队能够精准识别报告、文档和建模中的盲区，持续迭代数据栈。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "证据：迁移取得了显著的业务成果。自助数据 Agent 处理的请求量达到了原 3 人数据团队直接处理量的 40 倍。在过去 30 天内，近 100% 的已配置用户（占公司总人数的三分之一）使用了数据 Agent，产生了约 2200 次对话（平均每位用户每月 23 次）。目前 100% 的公司员工以某种形式使用了新栈，其中 70% 为只读权限，30% 为 Agent 权限（通过 IT 自助申请）。数据团队并未消失，而是将精力转移到了需要更深业务上下文、更强数据建模和跨部门对齐的高杠杆工作上。",
-              "结论：构建 Agent 优先数据栈的核心在于“使上下文显性化”。Agent 需要理解数据的含义、可信的来源、业务的运作方式以及何时需要额外谨慎。坚实的数据建模基础是前提，如果人类觉得数据模型混乱，Agent 也会觉得混乱。高质量的上下文（清晰的定义、业务词汇、指标逻辑）是最高杠杆的投资。数据团队的角色正在发生根本性转变：从手动回答每一个问题，转向设计上下文、模型和信任系统，从而赋能全公司更好地回答问题。",
-              "边界与局限：Agent 无法魔法般地解决底层数据质量问题，语义模型必须建立在扎实的数据建模基础之上。此外，自助服务并不免除数据教育的责任，用户必须理解系统的力量与局限，Agent 的回答在用于重大决策时仍需人类判断和数据团队的验证。团队也承认目前仍处于早期阶段，未来需要引入 Evals（评估）机制来结构化地测试上下文更改的效果，并进一步自动化上下文建议的工作流。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "传统 BI 工具无法满足 Agent 对业务上下文和可信数据源的需求，企业需向 Agent 优先架构演进。",
-          "通过 dbt 强定义、语义模型、Hex 工作区指南和资产认可机制，为 Agent 构建多层上下文体系。",
-          "统一工作区结合多触点（Slack、CLI、MCP 等）可最大化 Agent 的采用率和实用性。",
-          "可观测性工具能揭示上下文缺口，形成“监控-分析-迭代”的反馈闭环，持续优化 Agent 表现。",
-          "坚实的数据建模基础是 Agent 发挥作用的前提，数据团队的核心价值转向上下文与信任系统设计。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "Agent 访问表面包括 Hex UI (Threads/notebooks)、Slack、CLI、MCP 和 LangSmith Fleet。",
-            "basis": "source"
-          },
-          {
-            "text": "dbt 用于管理数据模型上下文，提供包含业务逻辑、允许值和默认过滤规则的列/表定义。",
-            "basis": "source"
-          },
-          {
-            "text": "语义模型定义 ARR、管道等核心指标及模型关系，确保指标计算逻辑一致性。",
-            "basis": "source"
-          },
-          {
-            "text": "Hex 工作区指南通过 GitHub 仓库同步，用于记录公司流程、报告约定等纯文本业务上下文。",
-            "basis": "source"
-          },
-          {
-            "text": "Endorsements（认可）机制由数据团队专属控制，用于标记可信仪表盘和资产，防止 Agent 选用错误数据源。",
-            "basis": "source"
-          },
-          {
-            "text": "使用 Hex Context Studio 或 LangSmith 进行可观测性分析，监控对话趋势、警告和上下文缺口。",
-            "basis": "source"
-          },
-          {
-            "text": "未来计划引入 Evals（评估）机制，以结构化方式测试上下文更改（如指标定义更新）对 Agent 回答质量的提升效果。",
-            "basis": "source"
-          },
-          {
-            "text": "MCP (Model Context Protocol) 是一种允许 Agent 标准化连接外部数据源和工具链的协议，用于扩展 Agent 的访问表面。",
-            "basis": "inference"
-          },
-          {
-            "text": "LangSmith Fleet 是 LangSmith 提供的一种用于管理和部署多个 Agent 实例或工作流的机制，支持通过 MCP 和 CLI 进行集成。",
-            "basis": "inference"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "企业构建内部 AI 数据助手（Text-to-SQL 或数据分析 Agent）（延伸建议，非原文直接步骤）",
-            "steps": [
-              "1. 盘点并重构核心数据模型，使用 dbt 编写包含业务含义、枚举值和过滤规则的强定义。",
-              "2. 构建语义层，统一定义高频业务指标（如 MRR、转化率），避免 Agent 重复推断逻辑。",
-              "3. 编写业务指南（Prompt/Context），说明数据使用规范、排雷指南和公司特定流程。",
-              "4. 实施资产认可机制，仅将经过数据团队审核的模型/报表暴露给 Agent 作为可信源。",
-              "5. 接入可观测性平台，定期分析 Agent 失败或低置信度对话，迭代上下文和模型。"
-            ],
-            "tools": [
-              "dbt",
-              "Hex / Metabase",
-              "LangSmith / Langfuse",
-              "GitHub",
-              "Slack"
-            ],
-            "verification": [
-              "通过 A/B 测试或 Evals 对比上下文优化前后的 Agent 回答准确率。",
-              "统计自助分析请求拦截率及数据团队临时工单减少量。",
-              "监控 Agent 对话中的警告频率和上下文缺口指标。"
-            ]
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-07-28T08:05:40.793Z",
-      "model": "qwen3.7-plus"
-    },
     {
       "id": "6a4d7adf06c505e0",
       "title": "Six Agent Harness Capabilities for Higher Model Performance",
@@ -177,235 +48,685 @@
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "NVIDIA NOOA：通过六大Harness能力与面向对象架构提升AI Agent性能",
+      "displayTitle": "NVIDIA NOOA 框架：通过面向对象架构与六大能力重塑 AI Agent 性能与效率",
       "analysis": {
-        "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出Agent性能不仅取决于模型，更受Harness架构影响。NOOA将Agent抽象为单一Python类，通过类型化输入输出、引用传递等六大核心理念，显著提升模型在软件工程、网络安全和推理任务中的表现。其自主管理的长期记忆系统在不增加上下文负担下将Token消耗降低约一半，为构建高效、可调试的Agent提供新范式。",
+        "listSummary": "本文介绍了 NVIDIA 推出的 NOOA（面向对象代理）框架，该框架将 Agent 抽象为单一 Python 类，通过类型化输入输出、引用传递等六大理念重构 Harness 架构。文章详细展示了 NOOA 在软件工程、网络安全和通用推理基准测试中超越 SOTA 的表现，并证明其能将 Token 成本降低一半。适合关注 AI Agent 架构设计、性能优化及工程化落地的开发者阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建优秀的AI Agent不仅在于选择正确的模型，模型周围的架构（Harness）同样决定了最终结果。Harness负责渲染上下文、执行动作、管理状态以及判断任务何时完成。仅Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。传统的Agent开发涉及协调提示模板、工具模式、回调代码和工作流图等多个移动部件，过程复杂且难以像传统软件那样进行版本控制、代码审查和单元测试。开发者需要一种更简单、更贴近传统软件工程实践的方法，来构建、调试和维护复杂的Agent系统，同时解决上下文窗口限制和Token成本高昂的问题。NVIDIA Labs Object-Oriented Agents (NOOA) 正是基于这一洞察构建的开源研究预览版，旨在通过创新的架构设计解决上述痛点。"
+              "构建卓越的 AI 代理（Agent）不仅仅取决于选择合适的基础模型，模型周围的架构（Harness）同样起着决定性作用。Harness 负责渲染上下文、执行动作、管理状态以及决定任务何时完成，其设计质量对最终结果的影响与模型本身不相上下。研究表明，仅 Harness 设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的 Token 成本差异。传统的 Agent 开发往往需要协调提示模板、工具模式（Tool schemas）、回调代码和工作流图等多个复杂组件，这种碎片化的方式增加了开发和维护的难度。为了解决这一问题，NVIDIA 推出了 NVIDIA Labs Object-Oriented Agents (NOOA) 框架。该框架基于一个核心洞察：将 Agent 的开发回归到传统的软件开发范式，通过统一的面向对象设计来简化架构，从而在提升模型性能的同时大幅降低 Token 消耗。NOOA 作为一个开源的研究预览版，提供了 Python 框架、内存系统、能力测试和基准代理，旨在让社区能够复现、挑战并在此基础上构建更优的解决方案。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "NOOA框架将Agent简化为单一的Python类。其方法即为能力，字段即为状态，文档字符串即为提示，类型注解即为强制契约。标准Python方法体若为省略号（...），则由LLM驱动的循环在运行时完成；若为正常方法体，则作为普通确定性Python运行。这种设计使得Agent可以被差分、代码审查、单元测试、跟踪、版本控制和重构。NOOA提出了六个面向模型的接口理念：第一，类型化输入/输出，Agentic调用具有类型化参数和验证的返回值，而非自由文本；第二，引用传递，模型操作实时Python对象，看到有界预览而非序列化转储；第三，代码即动作，模型通过编写Python执行控制流和内联方法调用，将动作直接转化为可执行的代码逻辑；第四，可编程循环工程，编排循环是普通Python，开发者和模型均可编写，使得复杂的任务分解和重试逻辑能够像传统代码一样被调试和优化；第五，显式对象状态，持久化、类型化状态存在于Agent对象上，而非仅在对话历史中；第六，模型可调用的Harness API，上下文块和事件历史是模型可检查和管理的API。",
-              "在内存管理方面，NOOA摒弃了自动后台摘要，采用代理自主管理的长期记忆子系统。代理通过模型可调用的工具主动写入、查询和纠正记录，记录带有类型、重要性和标签，并通过“支持”、“矛盾”、“派生自”等类型化关系构成知识图谱。后台反思过程负责合并重复、链接相关记录、提炼洞察并修剪无关信息。所有数据持久化在人类可读的单一SQLite文件中，支持多Agent共享存储且保留独立所有权。",
-              "在论证其有效性时，文章通过多个基准测试展示了NOOA在相同模型下的性能提升与成本降低。在SWE-bench Verified中，NOOA使用GPT-5.5达到82.2%的准确率，且仅需29次LLM调用和约110万Token。对比Harness需要66次调用和220万Token才能达到78.2%。这主要得益于引用传递机制，工具结果直接作为实时Python变量组合，避免了上下文窗口的文本往返。模型看到类型化、有界的预览，完整值保留在执行环境中。这使得NOOA无需上下文压缩即可解决SWE-Bench任务，中位数会话峰值仅为22-72k prompt tokens，转录保持追加有效且缓存命中。"
+              "NOOA 的核心方法论是将 Agent 抽象为一个单一的 Python 类。在这个设计中，类的方法代表其能力，字段代表其状态，文档字符串（Docstrings）作为提示词，而类型注解则作为强制执行的契约。标准 Python 方法如果方法体为省略号（...），则在运行时由 LLM 驱动的循环完成；具有正常方法体的则作为普通的确定性 Python 代码运行。这种设计使得 Agent 可以像普通代码一样进行差异比对、代码审查、单元测试、追踪、版本控制和重构。在架构层面，NOOA 提出了六个面向模型的接口理念以驱动性能提升：第一，类型化输入/输出，代理调用具有类型化的参数和经过验证的返回值，而非自由文本；第二，引用传递，模型直接操作实时的 Python 对象，查看有界的预览信息，而不是序列化的数据转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的 Python 代码来执行动作；第四，可编程循环工程，编排循环是普通的 Python 代码，开发者和模型均可编写；第五，显式对象状态，持久化且类型化的状态直接存在于代理对象上，而不仅仅是对话历史；第六，模型可调用的 Harness API，上下文块和事件历史成为模型可以检查和管理 API。",
+              "在内存系统方面，NOOA 摒弃了自动后台总结管道，转而采用由代理通过模型可调用工具主动管理的长期记忆存储。代理在工作过程中有意地写入、查询和纠正记录，同时与当前回合相关的自发记忆会自动浮现到上下文中。记录带有类型、重要性和标签，并通过“支持”、“矛盾”和“派生自”等类型化关系连接成知识图谱。后台反思过程负责合并重复项、链接相关记录、提炼洞察并修剪过时信息。所有数据持久化在一个人类可读的 SQLite 文件中，支持多代理共享存储。在通用推理任务（如 ARC-AGI-3）中，NOOA 采用世界模型技能，指导代理在其工作区构建一组 Python 程序来编码观察到的状态并预测下一个状态。每个回合代理进行逆向预测（Retrodicts），将预测与实际发生的情况进行比较，并在不匹配时修正模型和假设。此外，NOOA 在运行环境上采用了分层沙箱机制，包括进程内单元防护、每次运行的操作系统权限降级、游戏身份的端到端匿名化以及内核强制的每单元沙箱。红队审计表明，这种严格的安全设计确保了在竞赛模式下没有规则泄露，为生产环境部署提供了可靠的安全基线。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章提供了详实的基准测试证据。在软件工程领域，NOOA在SWE-bench Verified上使用GPT-5.5达到82.2%，超越提交时的SOTA（79.2%），使用Opus 4.6达到79.8%，且仅使用253行通用Agent代码，无基准特定提示。在网络安全领域，CyberGym L1基准测试中，NOOA在无网络访问和严格规则“作弊检查”下解决了86.8%的任务。其确定性门控机制将验证器输出转化为崩溃判定、确认崩溃匹配、重放输入检查复现，确保漏洞发现的准确性，整个运行过程作为单一轨迹可被检查和测试。在通用推理方面，ARC-AGI-3测试中，单Agent通过构建Python世界模型进行反向预测。该技能指示Agent在其工作区中构建一组Python程序来编码观察到的状态并预测下一个状态，每回合通过比较预测与实际发生的情况来修正模型和假设。GPT-5.5达到50.2% RHAE（技能提升8.5分，记忆提升11.8分），GPT-5.6-sol达到85.1%，且每局成本低于20美元。",
-              "结论表明，Harness工程不仅能提升准确性，还能大幅提高效率。NOOA通过面向对象的设计和引用传递等机制，使Agent开发回归传统软件开发模式，支持差分、审查、单元测试和重构，同时在不牺牲性能的前提下显著降低了Token消耗。",
-              "边界与适用性方面，NOOA目前作为开源研究预览版发布，旨在为开放Agent生态系统提供一个实验性表面，而非现有Harness的直接替代品。其技术文档公开，允许任何项目采用、挑战或改进这些技术。此外，ARC-AGI-3的测试在严格的分层沙箱（进程内单元防护、每次运行OS权限降级、端到端匿名化、内核强制沙箱）下进行，红队审计未发现规则泄漏，证明了其在安全部署（如结合NVIDIA OpenShell安全运行时）方面的可靠性。"
+              "NOOA 的六大能力在多个领域得到了实证检验。在软件工程领域，使用 GPT-5.5 的 NOOA 在 SWE-bench Verified 上达到了 82.2% 的准确率，超越了提交时的 SOTA（79.2%），且仅使用 29 次 LLM 调用和约 110 万 Token，而对比 Harness 需要 66 次调用和 220 万 Token 才能达到 78.2%。在网络安全领域，NOOA 在 CyberGym L1 上解决了 86.8% 的任务，且在没有网络访问和特定网络安全引导的情况下，完全依赖代码推理。在通用推理方面，GPT-5.5 在 ARC-AGI-3 上达到 50.2% 的平均 RHAE，GPT-5.6-sol 达到 85.1%，且每局游戏成本均低于 20 美元。在漏洞发现任务中，NOOA 将验证管道实现为单一对象，通过三个确定性门控（判定崩溃、匹配漏洞、重现输入）确保发现的准确性。由于这些门控是普通的类型化方法，而不是在独立进程之间传递的自由格式文本，因此只有当代码明确允许时才会接受发现，整个运行过程成为一个可检查和测试的单一追踪记录。这种方法彻底消除了模型可能忽略或误解提示指令的风险。",
+              "结论表明，Harness 工程不仅能提升准确率，还能显著提高效率。通过引用传递和避免上下文压缩，NOOA 在保持高性能的同时将 Token 成本降低了一半。然而，其适用边界在于，NOOA 目前被定位为开源的实验性表面，而非现有 Harness 的完全替代品。其高级性能依赖于前沿模型（如 GPT-5.5/5.6）的强大能力，且在处理复杂代码和漏洞时，需要结合 NVIDIA OpenShell 等安全运行时进行分层沙箱隔离，以防止潜在的安全风险。同时，NOOA 强调开放实现的重要性，团队可以检查方法而不是盲目信任，构建透明、类型化、可检查的代理。这种设计支持现有的安全审查、访问控制和可观察性实践，使得企业级应用能够无缝集成到现有的 DevOps 和 MLOps 流程中。"
             ]
           }
         ],
         "keyPoints": [
-          "NOOA将Agent抽象为单一Python类，使Agent开发回归传统软件工程的版本控制、审查和测试模式。",
-          "提出六大面向模型的接口理念，包括类型化输入输出、引用传递、代码即动作等，显著提升模型性能。",
-          "引入代理自主管理的长期记忆系统，通过知识图谱和后台反思机制实现跨会话知识积累，数据持久化于SQLite。",
-          "借助引用传递机制避免上下文序列化，在SWE-bench等任务中将Token消耗降低约一半，且无需上下文压缩。",
-          "在SWE-bench、CyberGym L1和ARC-AGI-3等多个基准测试中，使用通用Agent代码取得SOTA或领先成绩。"
+          "NOOA 将 Agent 抽象为单一 Python 类，通过类型化输入输出、引用传递和代码即动作等六大理念重构 Harness 架构。",
+          "采用主动管理的长期记忆系统，通过知识图谱和 SQLite 持久化实现跨会话知识积累，无需重新训练。",
+          "在 SWE-bench Verified 上，NOOA 以约一半的 Token 消耗（110万 vs 220万）实现了超越 SOTA 的 82.2% 准确率。",
+          "在 ARC-AGI-3 中通过构建 Python 世界模型和逆向预测机制，以低于 20 美元/局的成本达到 85.1% 的高分。",
+          "漏洞发现流程通过确定性门控方法（崩溃判定、漏洞匹配、重现验证）确保推理结果的严格可验证性。"
         ],
         "technicalDetails": [
           {
-            "text": "NOOA框架将Agent定义为单一Python类，方法体为省略号(...)时由LLM驱动循环在运行时完成，正常方法体作为确定性Python运行。",
+            "text": "Agent 被定义为单一 Python 类，方法体为省略号（...）的方法在运行时由 LLM 驱动的循环完成，普通方法体作为确定性 Python 运行。",
             "basis": "source"
           },
           {
-            "text": "六大接口理念包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
+            "text": "六大接口理念包括：类型化输入/输出、引用传递（操作实时 Python 对象）、代码即动作、可编程循环工程、显式对象状态、模型可调用的 Harness API。",
             "basis": "source"
           },
           {
-            "text": "长期记忆子系统使用SQLite文件持久化，记录带有类型、重要性、标签，并通过supports, contradicts, derived-from等关系构成知识图谱。",
+            "text": "长期记忆系统使用 SQLite 文件持久化，记录带有类型、重要性和标签，通过支持、矛盾、派生自等关系形成知识图谱，并包含后台反思合并与修剪机制。",
             "basis": "source"
           },
           {
-            "text": "在SWE-bench Verified中，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens，对比Harness需66次调用和2.2M tokens达到78.2%。",
+            "text": "在 SWE-bench Verified 中，NOOA 使用 GPT-5.5 达到 82.2% 准确率，消耗 29 次 LLM 调用和约 1.1M tokens；对比 Harness 需 66 次调用和 2.2M tokens 达到 78.2%。",
             "basis": "source"
           },
           {
-            "text": "ARC-AGI-3测试中，GPT-5.5达到50.2% mean RHAE，GPT-5.6-sol达到85.1%，每局成本均低于20美元（分别为$17.85和$13.3）。",
+            "text": "ARC-AGI-3 评估中，代理通过构建 Python 程序编码状态并预测下一状态，每回合进行逆向预测（retrodicts）以修正世界模型和假设。",
             "basis": "source"
           },
           {
-            "text": "NOOA通过Pass by reference机制，使工具结果成为实时Python变量，中位数会话峰值prompt tokens为22-72k，无需上下文压缩。",
+            "text": "漏洞发现验证管道包含三个确定性门控方法：将原始输出转为崩溃判定、确认崩溃匹配报告漏洞、重跑输入检查重现。",
             "basis": "source"
           },
           {
-            "text": "CyberGym L1漏洞发现任务中，NOOA使用三个确定性门控方法：转化崩溃判定、确认崩溃匹配、重放输入检查复现。",
-            "basis": "source"
-          },
-          {
-            "text": "ARC-AGI-3运行环境采用分层沙箱，包括进程内cell guard、per-run OS privilege drop、端到端匿名化和内核强制per-cell sandbox。",
-            "basis": "source"
+            "text": "NOOA 框架依赖底层大模型（如 GPT-5.5/5.6）的强代码生成与推理能力，若使用较弱模型可能无法发挥引用传递和代码即动作的优势。",
+            "basis": "inference"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "构建需要长期记忆和复杂状态管理的AI Agent系统",
+            "scenario": "构建需要严格状态管理和低 Token 消耗的复杂企业级 AI Agent 系统",
             "steps": [
-              "1. 将Agent状态和工具封装为面向对象的Python类，利用类型注解约束输入输出。",
-              "2. 使用引用传递机制处理工具返回值，避免将大型对象序列化为文本塞入上下文窗口。",
-              "3. 设计基于SQLite的长期记忆模块，允许Agent通过工具主动写入和查询结构化知识图谱。",
-              "4. 将编排逻辑编写为标准Python循环，而非依赖黑盒工作流引擎。"
+              "1. 将 Agent 核心逻辑封装为单一 Python 类，利用类型注解定义输入输出契约。",
+              "2. 将工具调用结果作为实时 Python 对象引用传递，避免序列化为文本塞入上下文。",
+              "3. 设计确定性门控方法（如数据校验、状态检查）与 LLM 推理步骤交替执行。",
+              "4. 引入基于 SQLite 的主动记忆模块，让 Agent 在任务中显式写入和查询关键状态。"
             ],
             "tools": [
-              "Python",
+              "Python 3.10+ (支持类型注解)",
               "SQLite",
-              "NVIDIA NOOA Framework",
-              "NVIDIA OpenShell"
+              "NVIDIA NOOA 框架",
+              "NVIDIA OpenShell (用于安全沙箱)"
             ],
             "verification": [
-              "1. 通过单元测试验证Agent类的确定性方法。",
-              "2. 监控LLM调用的Token消耗和上下文窗口峰值，验证引用传递是否有效降低了序列化开销。",
-              "3. 检查SQLite文件中的记忆记录，验证知识图谱的关联性和后台反思的修剪效果。",
-              "4. 在沙箱环境中进行红队测试，验证Agent在受限权限下的安全性和无泄漏性。"
+              "1. 对比传统文本上下文方案与引用传递方案的 Token 消耗和基准测试得分。",
+              "2. 对确定性门控方法进行单元测试，确保非 LLM 逻辑的 100% 可靠性。",
+              "3. 检查 SQLite 记忆文件的可读性与多进程/多 Agent 共享时的并发安全性。"
             ]
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-28T08:08:12.276Z",
+      "analyzedAt": "2026-07-28T08:52:08.847Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "abe2f1f83a34b4d2",
+      "title": "Full Text Search in SmithDB: Designing an Inverted Index for Object Storage",
+      "url": "https://www.langchain.com/blog/full-text-search-in-smithdb-designing-an-inverted-index-for-object-storage",
+      "summary": "SmithDB supports full-text search and JSON filtering over agent traces with a median (P50) latency of 400 ms, even though the underlying data consists of large, deeply nested JSON documents stored in object storage.",
+      "publishedAt": "2026-07-27T05:12:17.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 56,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 25,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 86,
+      "bodyHash": "89032125f63081ad06690f3a",
+      "extraction": {
+        "method": "readability",
+        "length": 17593,
+        "originalLength": 17593,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "SmithDB 倒排索引设计：面向对象存储的全文搜索与 JSON 过滤优化",
+      "analysis": {
+        "listSummary": "本文介绍 SmithDB 为对象存储设计倒排索引的演进过程。针对 Agent 追踪数据 payload 庞大、词频极度倾斜及对象存储高延迟特性，作者放弃基于本地磁盘的 Tantivy，基于 Vortex 列式格式进行深度定制。文章剖析了 V1 方案在编码控制上的失败原因，重点阐述 V2 方案如何通过字节预算行组、FST 字典及逐词块位打包技术，将搜索 P50 延迟控制在 400ms 内。适合数据库内核开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "SmithDB 旨在为 Agent 追踪数据提供全文搜索和 JSON 过滤能力，其中位数延迟控制在 400 毫秒。然而，将传统搜索引擎应用于此类数据面临两大独特挑战。首先是 Agent 追踪数据的极端特征。每个 LangSmith 事件的输入和输出字段占据了绝大部分字节，常见 payload 大小超过 1 MB，甚至达到数百 MB。随着大语言模型上下文窗口的扩大和 Agent 运行时间的延长，这些 payload 仍在持续膨胀。内容列的大小远超身份、时间戳等元数据列。这种特征彻底颠覆了传统搜索索引的经济学。传统日志引擎索引数十亿个小文档，索引体积相对较小，源数据与索引的比例约为 1:1.25。而 SmithDB 索引的是数十亿个巨型文档，单个文档产生的索引数据可能超过许多小日志行的总和，其源数据与索引比例高达 1:1.9。这意味着如果没有索引，内容过滤将导致灾难性的性能问题，例如查询包含特定工具输出的运行，可能需要扫描数 GB 的 payload 才能返回几行结果。此外，自然语言和 JSON payload 的词频遵循齐普夫分布，少数通用词出现在几乎所有文档中，而长尾词仅出现一两次。索引必须在跨越多个数量级的词频差异下保持紧凑。同时，用户查询模态多样，包括按路径存在、按键值匹配和全文搜索。",
+              "第二大挑战是对象存储架构。SmithDB 将所有持久化数据存储在对象存储中，计算节点相对无状态。在对象存储上，查询成本大致与发出的请求数乘以每次请求读取的字节数成正比。每次对象存储请求带有几十到几百毫秒的延迟，且单请求吞吐量适中。因此，在知道是否需要之前，提前获取大型倒排列表或位置列表会主导查询延迟。SmithDB 倒排索引的方方面面，从存储布局到查询执行，都是基于这些约束设计的。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "为了应对上述挑战，SmithDB 团队首先评估了直接采用 Tantivy 的可行性，但最终放弃。Tantivy 围绕 mmap 构建，假设随机 I/O 成本极低，而对象存储的往返延迟在百毫秒级别，布局和数据合并决定了查询延迟而非 CPU。其次，SmithDB 查询通过 Apache DataFusion 在 Vortex 上运行，需要搜索谓词下推到统一的扫描管道中，而 Tantivy 拥有独立的段模型和 I/O 假设。最后，Tantivy 的写入器会按插入顺序分配段本地的文档 ID 并在每次合并时重新编号，而 SmithDB 需要索引直接指向 Vortex 数据文件中的行位置，且其压缩过程会重映射行位置，这与 Tantivy 的合并机制不兼容。",
+              "团队随后尝试了 V1 方案，即教科书式倒排索引的直接翻译，依赖 Vortex 的默认编码。该方案在规模化时暴露出三个致命问题。第一，缺乏逐词编码控制。Vortex 为整列选择编码，导致单个高频词迫使整个数据块中所有词的位宽变大，造成位打包效率低下，恶化了缓存行为和读取体积。第二，固定大小的行组无视词倾斜。按固定词数批处理导致高频词可能将单个行组推至 100 MB 以上，而低频词行组仅几 MB。这在查询时转化为巨大的对象存储 GET 请求，在合并时转化为巨大的内存解码开销。第三，合并必须重塑位置列表。合并两个段意味着解码完整的位置嵌套列表，将其重新洗牌到新的文档顺序中，并重新计算所有外部偏移，导致 CPU 时间和内存分配在压缩时飙升。",
+              "为此，团队设计了 V2 倒排索引存储布局。V2 将行组的组织单位从固定词数改为字节预算。通过设定 32 MB 的倒排列表字节和 64 MB 的原始词字符串字节上限，彻底解决了行组大小不可控的问题，为每次对象存储读取和内存占用提供了上限。行组内包含四列：term（使用 FST 将词映射为序号）、term_info（包含文档计数及偏移量）、postings（倒排列表）和 positions（位置信息，仅用于全文搜索）。在编码选择上，团队采用 FST 作为词字典。对比测试表明，在低基数的 JSON 路径列中，FST 将字典压缩至 3.8 KiB，比 zstd 小四个数量级；在高基数的词值列中，FST 虽比 zstd 大 1.5 倍，但 zstd 是不透明的，每次查找都需要解压，而 FST 本身就是索引，支持精确查找、前缀扫描和自动机遍历，查找成本仅为 O(|term|)。此外，团队将键值搜索和全文搜索合并到单一 FST 中，通过存储 {token}\\0{flattened_path} 格式，使键值搜索变为精确查找，全文搜索变为前缀扫描。对于倒排列表和位置，采用 128 元素块的位打包差值编码，尾部使用 VInt。这种设计实现了逐词独立的位宽控制，且对 Vortex 表现为不透明的二进制 blob，支持按需解码和跳过。与 Tantivy 每个段构建一个 FST 不同，SmithDB 每个行组构建一个 FST，使得写入器可以流式处理而无需在内存中持有段级 FST，且查询时的区域级剪枝可跳过大多数行组。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供了详实的数据来支撑 V2 方案的有效性。在包含 279 万词项的代表性行组中，term_key 使用 FST 仅占 3.8 KiB，而 FSST 为 88.8 MiB，zstd 为 16.3 KiB；term_value 使用 FST 为 32.7 MiB，FSST 为 55.1 MiB，zstd 为 21.7 MiB。这些数据证明 FST 在路径查询上具有压倒性优势，在词值查询上虽牺牲了部分压缩率，但换取了免解压查询的能力。V2 方案通过字节预算行组和逐词块位打包，成功解决了 V1 方案中对象存储 I/O 突刺和合并 CPU 开销过大的问题，最终实现了 400 毫秒的 P50 搜索延迟。",
+              "结论是，针对对象存储和超大 payload 的特殊场景，直接套用基于本地磁盘假设的通用搜索库（如 Tantivy）是行不通的。必须从第一性原理出发，深度结合底层列式存储引擎（如 Vortex）的特性，定制存储布局和编码策略，才能在控制成本的同时满足延迟要求。",
+              "边界方面，本文仅详细探讨了 V2 倒排索引的存储布局设计，并未涉及索引构建、合并的具体实现细节，也未详细展开读路径的优化策略（作者提示这些内容将在博客的第二部分介绍）。此外，FST 在极高基数场景下的压缩率劣势是已知的权衡，文章未探讨在极端数据分布下 FST 内存占用超限的降级方案。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Agent 追踪数据 payload 庞大且词频极度倾斜，导致传统日志引擎的 source:index 比例从 1:1.25 恶化至 1:1.9，必须依赖倒排索引避免全量扫描。",
+          "对象存储的高延迟（百毫秒级）和按请求计费特性，要求索引设计必须最小化请求次数和单次读取字节数，而非追求 CPU 计算极致。",
+          "放弃 Tantivy 是因为其 mmap 本地磁盘假设、独立段模型以及文档 ID 重编号机制，与 SmithDB 的 Vortex 列式引擎下推及行位置对齐需求不兼容。",
+          "V1 方案失败在于依赖 Vortex 默认列级编码和固定行数行组，导致高频词拉高全局位宽，且合并 positions 时 CPU 开销巨大。",
+          "V2 方案采用字节预算行组（32MB posting + 64MB term-string），彻底解决了行组大小不可控和对象存储 I/O 突刺问题。",
+          "引入 FST 字典和逐词块位打包（Block-bitpacked deltas）技术，在牺牲部分高基数词压缩率的前提下，实现了免解压直接查询和按需解码。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "SmithDB 支持对 agent traces 进行全文搜索和 JSON 过滤，中位数 (P50) 延迟为 400 ms。",
+            "basis": "source"
+          },
+          {
+            "text": "Agent traces 的 source:index 比例平均约为 1:1.9，而传统日志引擎约为 1:1.25。",
+            "basis": "source"
+          },
+          {
+            "text": "Vortex 的 I/O 调度器将 1 MB 间隙内的相邻 segment 读取合并为单个请求，最大窗口为 16 MB。",
+            "basis": "source"
+          },
+          {
+            "text": "V2 布局中，每个行组设定 32 MB 的 posting 字节预算和 64 MB 的原始 term-string 字节预算。",
+            "basis": "source"
+          },
+          {
+            "text": "FST 字典将 keyed-search 和 full-text 查询合并，term_value 存储格式为 {token}\\0{flattened_path}。",
+            "basis": "source"
+          },
+          {
+            "text": "Postings 和 positions 采用 128 元素块位打包（Block-bitpacked deltas），尾部不足 128 元素使用 VInt 编码。",
+            "basis": "source"
+          },
+          {
+            "text": "在包含 279 万词项的测试行组中，term_key 使用 FST 压缩至 3.8 KiB，比 zstd (16.3 KiB) 小约 4 倍。",
+            "basis": "source"
+          },
+          {
+            "text": "Tantivy 每个 segment 构建一个 FST 并进行分片，而 SmithDB 每个 row group 构建一个 FST。",
+            "basis": "source"
+          },
+          {
+            "text": "SmithDB 使用 Apache DataFusion 作为查询引擎，并通过 Vortex 处理核心事件数据文件。",
+            "basis": "source"
+          },
+          {
+            "text": "对象存储单次请求延迟通常在几十到几百毫秒之间，查询成本正比于请求数与每次读取字节数的乘积。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在对象存储（如 S3）上构建和查询大规模倒排索引",
+            "steps": [
+              "1. 评估数据特征：分析文档大小分布和词频倾斜度，确定是否需要字节预算而非固定行数来划分数据块。",
+              "2. 选择字典编码：对比 FST、zstd 等方案。若查询需要高频前缀扫描或正则匹配，优先选择 FST 以避免解压开销。",
+              "3. 优化 Posting List 编码：采用分块位打包（如 128 元素块）结合 VInt 尾部，实现逐词独立的位宽控制，减少 I/O 体积。",
+              "4. 合并 I/O 请求：在客户端或存储引擎层实现 I/O 调度器，将相邻的小范围读取合并为单次大请求，以摊薄对象存储的请求延迟。"
+            ],
+            "tools": [
+              "Apache Arrow / Vortex",
+              "Rust (Tantivy/FST 库)",
+              "对象存储 (S3/MinIO)"
+            ],
+            "verification": [
+              "1. 监控对象存储 GET 请求次数和单次读取字节数，验证 I/O 合并策略是否生效。",
+              "2. 压测不同词频分布下的查询延迟（P50/P99），验证逐词位打包和字节预算行组对长尾查询的优化效果。",
+              "3. 对比 FST 与 zstd 在特定查询模式（如精确匹配 vs 前缀扫描）下的 CPU 使用率和查询延迟。"
+            ]
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-28T08:54:56.425Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "dc21b90615df56a5",
+      "title": "Meet the Unity CLI: manage Unity from your terminal",
+      "url": "https://unity.com/blog/meet-the-unity-cli",
+      "summary": "Install editors, automate CI, and drive a running Editor or dev build from the terminal. The Unity CLI and com.unity.pipeline package give scripts and AI agents a fast, structured way to operate Unity.",
+      "publishedAt": "2026-07-20T00:00:00.000Z",
+      "sourceId": "unity",
+      "sourceName": "Unity Blog",
+      "sourceSite": "https://blog.unity.com/",
+      "lane": "game",
+      "accent": "#222c37",
+      "topic": "Agent 与自动化",
+      "score": 73,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 16,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 82,
+      "bodyHash": "57bf85614973e8dcb5dfa913",
+      "extraction": {
+        "method": "readability",
+        "length": 11371,
+        "originalLength": 11371,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Unity CLI 与 Pipeline 包发布：从终端管理 Unity 并赋能 AI 代理",
+      "analysis": {
+        "listSummary": "本文介绍 Unity 推出的 Unity CLI 及实验性 com.unity.pipeline 包。Unity CLI 提供独立命令行工具，管理编辑器、模块及认证，专为 CI 设计。Pipeline 包允许通过本地 API 驱动运行中的编辑器或开发版 Player，支持暴露自定义命令。结合实时执行 C# 的 eval 功能，这些工具为 AI 代理提供了观察、操作和验证项目的结构化执行层，提升自动化效率。适合关注 Unity 自动化及 AI 集成的开发者。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "软件开发范式正加速向终端、脚本、CI/CD 流水线以及 AI 代理转移。在这一趋势下，传统的 Unity 工作流暴露出明显的瓶颈。过去，开发者若需在无头环境中管理 Unity，通常依赖 Unity Hub 的 headless 模式（-- --headless）。然而，这种旧版方式启动速度缓慢，当脚本或 AI 代理在单个任务中需要进行数十次调用时，累积的启动延迟会严重拖慢整体工作流效率。此外，依赖 UI 的操作方式无法直接融入自动化管道，限制了大规模构建和测试的扩展性。",
+              "与此同时，AI 编码助手在实际工程落地中面临着“最后一公里”的困境。当前的 AI 模型非常擅长生成代码和资产内容，但在“运行项目、观察错误、尝试修复”的闭环上表现挣扎。AI 助手可以生成一个游戏玩法脚本，但无法直接运行测试来验证其有效性。它们往往只能依赖人工复制粘贴控制台输出，或者尝试解析难以提取的非结构化文本。AI 代理需要机器可读的结构化数据（如 JSON）和明确的退出码契约，以便在管道中可靠地捕获失败并做出决策。",
+              "核心问题在于，业界急需一种无需 UI、启动迅速、输出结构化且支持非交互式操作的命令行工具，以接管 Unity 的环境管理。同时，还需要一种底层机制，让外部脚本或 AI 代理能够直接驱动运行中的 Unity 实例，甚至深入引擎内部执行代码。只有解决这些问题，才能将 Unity 从一个需要人工干预的编辑器，转变为一个 AI 代理可以自主观察、操作和验证的自动化环境。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "为了解决环境管理问题，Unity 推出了 Unity CLI。它被设计为一个单一、独立且无外部依赖的原生二进制文件，安装后自动加入系统 PATH。其核心设计哲学是“为自动化而生”。CLI 的所有命令均支持 JSON 和 TSV 结构化输出，错误信息定向至 stderr，结果定向至 stdout，并遵循严格的退出码契约（0 表示成功，1 表示错误，130 表示取消）。这种设计使得 CI 管道能够轻松解析结果并捕获失败。此外，CLI 支持非交互式安装（通过 --accept-eula 和 --yes 跳过所有提示）以及基于环境变量的服务账号认证，完美契合无头构建代理的需求，且由于是原生二进制，其启动速度远超旧版 Hub headless 模式。",
+              "为了实现对运行中实例的控制，Unity 引入了实验性的 com.unity.pipeline 包。该包通过本地 API 将运行中的 Editor 或开发版 Player 转化为可编程的自动化目标。其核心机制是基于属性的命令发现：开发者只需在项目的静态方法上添加 [CliCommand] 和 [CliArg] 属性，Pipeline 包即可自动发现并注册这些方法为 CLI 命令，无需任何手动注册步骤。这使得 Editor 具备了“自描述”能力，外部工具可以在运行时查询并调用项目暴露的自定义操作，将原本需要人工在编辑器中点击的功能转化为脚本可调用的工具。",
+              "在深入引擎内部执行方面，Unity 提供了 eval 功能。通过 unity command eval，开发者可以在运行中的 Editor 或 Player 内实时执行任意 C# 表达式。该功能底层使用 Roslyn 编译器，并在 Editor 的主线程上运行，这意味着它可以访问项目能触及的任何引擎或编辑器 API。由于完全绕过了项目级的重新编译和域重载（Domain Reload），其响应时间从传统的数秒缩短至毫秒级。为了平衡这种强大的底层访问能力，eval 被设计为受安全令牌（security token）保护，防止未授权的代码执行。",
+              "文章论证了这三层架构（CLI 管理、Pipeline 驱动、eval 深入）如何协同赋能 AI 代理。CLI 提供机器友好的结构化输入输出，让模型获得干净的、可解析的结果；Pipeline 让 Editor 暴露自定义工具，使 AI 能够动态发现并调用项目特定的操作，而无需依赖硬编码的命令列表；eval 则打破了预定义命令的限制，让 AI 的能力边界等同于 Unity 的 API 边界。这三者共同构建了一个完整的反馈循环，使 AI 代理能够观察场景状态、执行修改、进入 Play 模式验证结果，实现了从“建议者”到“验证者”的转变。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供了大量具体的命令和代码示例作为证据支撑。例如，安装命令 unity install 6000.2.10f1 -m android ios webgl 证明了模块管理的便捷性；unity editors --format json 证明了结构化输出的存在；C# 代码片段展示了 [CliCommand(\"greet\")] 的具体用法及参数定义；unity command eval \"return Application.version;\" 证明了实时执行 C# 的能力。此外，文章通过描述一个 25 秒的视频演示（AI 代理接收自然语言 bug 报告，使用 eval 检查场景、重新启用碰撞体并验证修复），直观展示了这些工具结合后的最终效果。",
+              "基于上述证据，文章得出了明确的核心结论：Unity CLI 和 Pipeline 包不仅仅是便利性的提升，它们是 AI 辅助开发的基础设施。文章清晰界定了它们与 Unity AI 产品的关系：Unity AI 负责推理和决策（决定做什么），而 CLI 和 Pipeline 构成了执行面（execution surface），负责快速、本地化地执行这些决策。它们是 Unity AI 工具的底层支撑，同时也向任何第三方代理、MCP 服务器或自定义脚本完全开放。",
+              "然而，文章也明确指出了当前版本的适用边界与限制。首先，com.unity.pipeline 包目前仍处于实验性阶段（experimental），其 API 和行为预期会发生演进，生产环境需谨慎使用。其次，Player 运行时 API 严格限制在本地（localhost-only），默认处于关闭状态，且明确强调仅适用于开发和 QA 构建，绝不能用于生产环境（never production）。第三，eval 功能虽然强大，但受安全令牌保护，且由于在主线程运行，执行耗时操作可能会阻塞主线程。最后，CLI 对标准包管理器（如 brew, winget, apt）的支持尚未就绪，目前仍需依赖官方提供的 shell 脚本进行安装。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Unity CLI 是独立的命令行二进制文件，用于管理编辑器、模块、项目和认证，专为自动化和 CI 优化，启动速度优于旧版 Hub headless 模式。",
+          "com.unity.pipeline 实验性包允许通过本地 API 驱动运行中的 Editor 或开发版 Player，支持通过 [CliCommand] 属性自动暴露自定义静态方法为 CLI 命令。",
+          "unity command eval 利用 Roslyn 在运行中的实例主线程内实时执行 C# 代码，无需重新编译或域重载，提供毫秒级反馈，且受安全令牌保护。",
+          "这些工具共同为 AI 代理提供了结构化输出、自描述命令和实时执行能力，构建了完整的“观察-操作-验证”闭环，弥补了 AI 助手缺乏执行环境的短板。",
+          "CLI 和 Pipeline 作为执行层（execution surface），与作为推理层的 Unity AI 协同工作，是 Unity AI 辅助工具链的底层基础，同时兼容第三方代理和 MCP 服务器。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Unity CLI 安装脚本（macOS/Linux 使用 curl，Windows 使用 irm），当前通过 UNITY_CLI_CHANNEL=beta 环境变量指定 beta 通道进行安装。",
+            "basis": "source"
+          },
+          {
+            "text": "CLI 支持 --format json 和 --format tsv 输出结构化数据，退出码遵循 0（成功）、1（错误）、130（取消）的严格契约。",
+            "basis": "source"
+          },
+          {
+            "text": "com.unity.pipeline 包通过 [CliCommand] 和 [CliArg] 属性自动发现并注册静态方法为 CLI 命令，无需手动注册步骤。",
+            "basis": "source"
+          },
+          {
+            "text": "unity command eval 使用 Roslyn 编译器在 Editor 的主线程上编译并运行 C# 表达式，受安全令牌（security token）保护。",
+            "basis": "source"
+          },
+          {
+            "text": "Player 运行时 API 仅限本地（localhost-only），默认处于关闭状态，且明确禁止用于生产环境（never production）。",
+            "basis": "source"
+          },
+          {
+            "text": "由于 eval 在 Editor 或 Player 的主线程运行且无域重载，执行耗时较长或死循环的 C# 代码可能会导致主线程阻塞，影响实时帧率或导致无响应。",
+            "basis": "inference"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在 CI/CD 流水线中自动化构建和测试 Unity 项目，或为 AI 代理搭建本地调试与验证环境。",
+            "steps": [
+              "1. 在 CI 节点使用官方脚本安装 Unity CLI，并配置服务账号环境变量进行无头认证。",
+              "2. 使用 unity install 命令非交互式安装指定版本的 Unity 编辑器及所需构建模块（如 android, ios）。",
+              "3. 在 Unity 项目中引入 com.unity.pipeline 包，为自定义测试或构建脚本添加 [CliCommand] 属性以暴露命令。",
+              "4. 在 CI 脚本或 AI 代理逻辑中，通过 unity command 调用暴露的自定义命令，或使用 eval 执行实时状态检查。",
+              "5. 解析 CLI 返回的 JSON 输出并检查退出码，以决定流水线的后续分支或 AI 代理的下一步动作。"
+            ],
+            "tools": [
+              "Unity CLI",
+              "com.unity.pipeline",
+              "CI/CD 平台（如 GitHub Actions, GitLab CI）",
+              "终端脚本（Bash/PowerShell）"
+            ],
+            "verification": [
+              "检查 CLI 命令的退出码是否为 0，确认安装或构建成功。",
+              "解析 JSON 格式输出，验证返回的数据结构是否符合预期。",
+              "在本地运行 AI 代理脚本，验证其能否通过 eval 成功读取场景状态并修改 GameObject 属性，且无编译延迟。"
+            ]
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-28T08:57:04.744Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "a593cff299a339e0",
+      "title": "Dev snapshot: Godot 4.8 dev 2",
+      "url": "https://godotengine.org/article/dev-snapshot-godot-4-8-dev-2/",
+      "summary": "Happy GodotCon Boston for those who celebrate! While many key contributors are already at this event as we speak, that doesn’t mean that development snapshots are slowing down anytime soon. We hope anyone that couldn’t make it to the event this year looks forward to further coverage and highlights in the near future, as you enjoy Godot 4.8 dev 2 in the meantime! Please consider supporting the project financially , if you are able. Godot is maintained by the efforts of volunteers and a small team of paid contributors. Your donations go towards sponsoring their work and ensuring they can dedicate their undivided attention to the needs of the project. Jump to the Downloads section , and give it a spin right now, or continue reading to learn more about improvements in this release. You can also try the Web editor , the XR editor , or the Android editor for this release. If you are interested",
+      "publishedAt": "2026-07-21T12:00:00.000Z",
+      "sourceId": "godot",
+      "sourceName": "Godot Engine",
+      "sourceSite": "https://godotengine.org/blog/",
+      "lane": "game",
+      "accent": "#478cbf",
+      "topic": "AI 辅助学习",
+      "score": 64,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 9,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 82,
+      "bodyHash": "782d53098b07800638e8f9a2",
+      "extraction": {
+        "method": "readability",
+        "length": 6113,
+        "originalLength": 6113,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Godot 4.8 dev 2 开发快照发布说明解析",
+      "analysis": {
+        "listSummary": "本文介绍 Godot 4.8 dev 2 开发快照更新。该版本包含 93 位贡献者提交的 197 项修复，重点改进编辑器体验，如检查器自动展开资源、支持从文件系统直接运行场景，以及优化 Object 变体在版本控制中的换行显示。此外涵盖 2D/3D 编辑器、核心性能、渲染及 Jolt 物理引擎更新。适合 Godot 开发者评估新特性并参与测试。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "Godot 引擎作为一个由志愿者和少数带薪贡献者维护的非营利开源项目，其开发迭代依赖于社区的持续反馈与贡献。在 GodotCon Boston 举办之际，官方发布了 4.8 dev 2 开发快照，旨在让无法参会的开发者也能体验最新进展。",
+              "在编辑器日常使用体验方面，存在两个明显的痛点。首先，检查器（Inspector）在初始化时虽然能自动展开大多数项目，但资源（Resources）始终是一个盲区，无法自动展开，迫使开发者进行额外的手动点击操作，打断了流畅的工作流。其次，在运行场景时，开发者必须先将场景加载到编辑器中才能运行，无法直接从文件系统的上下文菜单中一键播放，增加了不必要的操作步骤。",
+              "在工程化与版本控制集成方面，Object 数据的序列化方式存在缺陷。虽然开发者倾向于将设置存储为文本而非二进制数据以利用 diff 和 merge 功能，但 Object 数据在写入时将所有属性批量挤在同一行。这种单行格式使得在版本控制中直观解析文件差异变得几乎不可能，导致任何合并工具都只能将其当作二进制文件处理，严重削弱了文本格式在版本管理中的优势。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "为了解决上述编辑器体验问题，社区贡献者提出了针对性的改进方案。Hugo Locurcio 通过提交 GH-99725，实现了在检查器中自动展开新创建资源的功能，填补了这一长期的体验盲区。DexterFstone 则在 GH-111941 中扩展了文件系统的上下文菜单，允许开发者直接从中播放任何场景，无需额外步骤，显著简化了场景测试流程。",
+              "针对版本控制的序列化痛点，Robert Wallis 主导了 GH-92102。该方案修改了 Object 变体的写入逻辑，在属性之间强制插入换行符（\\n）。这一改动为 Object 数据提供了呼吸空间，使得文本差异对比工具能够逐行解析属性变化，从而恢复了文本格式在 diff 和 merge 操作中的核心优势。",
+              "除了上述核心改进，开发团队还推进了大量其他优化。在 2D/3D 方面，为 2D 场景绘制添加了正确的使用说明，并在 3D 编辑器中默认重新启用了自由视角惯性。在核心与性能方面，确保了主线程的唯一性并避免不必要的释放，同时加速了大量子节点的移除过程。在渲染与导出方面，使着色器编译器的浮点常量格式化具有确定性，并在 WorldEnvironment 天空反射中使用了非体积雾。此外，第三方物理引擎 Jolt 也更新到了 5.6.0 版本。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "本次发布的直接证据是构建基于 commit 7220d456d，且包含了 93 位贡献者提交的 197 项修复。官方提供了包含 GDScript 和 GDExtension 支持的标准构建版本，以及额外支持 C# 的 .NET（mono）构建版本。同时，开发者还可以通过 Web 编辑器、XR 编辑器或 Android 编辑器（需申请加入测试组）来体验该版本。",
+              "结论表明，Godot 4.8 dev 2 在提升开发者日常工作流效率（如检查器交互、场景运行）和工程化协作能力（如版本控制文本对比）方面取得了实质性进展。这些改进体现了引擎对开发者实际痛点的敏锐捕捉与快速响应。",
+              "然而，必须明确该版本的适用边界。作为一个开发快照（pre-release piece of software），它本质上是不稳定的。尽管引擎维护者尽力确保预览版的稳定性，但仍可能存在未修复的已知问题或引发项目回归。因此，官方严格建议开发者在测试时频繁备份，或使用 Git 等版本控制系统来保护项目，以防数据损坏或丢失。目前该版本虽未引入新的已知问题，但测试者仍需通过 GitHub issue tracker 密切关注并报告任何回归缺陷。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Godot 4.8 dev 2 包含 93 位贡献者提交的 197 项修复，构建基于 commit 7220d456d。",
+          "检查器（Inspector）现在会自动展开新创建的资源，优化了日常编辑体验。",
+          "支持直接从文件系统的上下文菜单中运行场景，简化了测试流程。",
+          "Object 变体在序列化时属性间增加了换行符，大幅改善了版本控制中的 diff 和 merge 体验。",
+          "核心性能与渲染得到优化，包括加速子节点移除、更新 Jolt Physics 至 5.6.0 等。",
+          "作为预发布版本，官方强烈建议测试时使用版本控制系统或频繁备份以防数据丢失。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "检查器自动展开资源 (GH-99725)",
+            "basis": "source"
+          },
+          {
+            "text": "从文件系统上下文菜单直接播放场景 (GH-111941)",
+            "basis": "source"
+          },
+          {
+            "text": "Object 变体写入时在属性之间添加换行符 \\n (GH-92102)",
+            "basis": "source"
+          },
+          {
+            "text": "构建基于 commit 7220d456d，包含 197 项修复",
+            "basis": "source"
+          },
+          {
+            "text": "更新第三方物理引擎 Jolt Physics 至 5.6.0 (GH-121260)",
+            "basis": "source"
+          },
+          {
+            "text": "确保主线程唯一性并避免不必要释放 (GH-121161)",
+            "basis": "source"
+          },
+          {
+            "text": "着色器编译器浮点常量格式化具有确定性 (GH-120968)",
+            "basis": "source"
+          },
+          {
+            "text": "Android 编辑器预发布版本需申请加入测试组获取",
+            "basis": "source"
+          },
+          {
+            "text": "Object 属性换行使得 Git 等文本合并工具能逐行解析差异，避免被当作二进制处理",
+            "basis": "inference"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在 Godot 4.8 dev 2 开发快照中进行项目测试与版本控制集成",
+            "steps": [
+              "1. 下载标准版或 .NET 版 Godot 4.8 dev 2 构建。",
+              "2. 在测试前，确保项目已提交至 Git 等版本控制系统。",
+              "3. 利用新的 Object 换行特性，在修改资源后使用 Git diff 检查属性变化。",
+              "4. 通过文件系统右键菜单直接运行场景进行快速测试。",
+              "5. 若发现回归缺陷，在 GitHub issue tracker 中搜索并提交 bug 报告。"
+            ],
+            "tools": [
+              "Godot 4.8 dev 2",
+              "Git",
+              "GitHub Issue Tracker"
+            ],
+            "verification": [
+              "检查 Git diff 是否能清晰显示 Object 资源的属性级变更。",
+              "验证从文件系统右键菜单运行场景是否成功。",
+              "确认检查器中新创建的资源是否自动展开。"
+            ]
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-28T08:58:56.529Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "7b649b8bd33448ac72755b24",
+      "title": "Lospec Pixel Art Scaler Revamp + Pixel Art Rotator",
+      "url": "https://lospec.com/articles/lospec-pixel-art-scaler-revamp-pixel-art-rotator",
+      "summary": "Our popular Pixel Art Scaler tool has been upgraded so that it works purely in your client, so it no longer has to go to our server. Not only will this be faster for you, it will also reduce the strain on our server so everything else will process faster. The UI should now also be a little easier to use. If you don't like this change, the older version is still available. Theres also a new feature where you can pick from various pixel art scaling algorithms for upscaling your art. None of these are perfect, and wont be as good as scaling things up by hand, but they can be interesting to see, and might be a good starting point for other things. In addition there's also a new tool called the Pixel Art Rotator, which is very similar, just for rotation instead of scaling. This uses algorithms that work better than just typical pixel rotation, which can have very noisy and messy results. If y",
+      "publishedAt": "2026-07-03T16:25:58.958Z",
+      "sourceId": "lospec-articles",
+      "sourceName": "Lospec Articles",
+      "sourceSite": "https://lospec.com/articles/",
+      "lane": "art",
+      "accent": "#3f7f69",
+      "topic": "像素美术",
+      "score": 80,
+      "readMinutes": 3,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 80,
+      "bodyHash": "7bda9fbd98077d0817295478",
+      "extraction": {
+        "method": "readability",
+        "length": 1150,
+        "originalLength": 1150,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Lospec 像素画缩放与旋转工具更新分析",
+      "analysis": {
+        "listSummary": "Lospec 更新了像素画缩放和旋转工具。缩放工具改为纯客户端运行，提升速度并减轻服务器压力，同时新增多种放大算法。新增的旋转工具采用优化算法，解决了传统像素旋转产生的噪点问题。文章指出自动缩放算法虽不完美且不及手工缩放，但可作为创作起点。适合像素画创作者了解新工具特性及适用场景。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "Lospec 对其广受欢迎的像素画缩放工具（Pixel Art Scaler）进行了重大升级，并推出了一款全新的像素画旋转工具（Pixel Art Rotator）。",
+              "在更新前，传统的像素旋转操作往往会产生嘈杂且混乱的视觉结果，而原有的缩放工具依赖服务器处理，存在性能瓶颈与网络延迟。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "缩放工具被重构为纯客户端运行，消除了服务器往返延迟，从而提升了处理速度并降低了服务器负载。同时，工具引入了多种像素画放大算法供用户选择，并优化了用户界面。",
+              "新增的旋转工具则采用了专门优化的算法，以替代容易产生噪点的常规像素旋转方法。作者客观指出，这些自动算法并非完美，无法达到手工缩放的质量，但可作为二次创作的起点。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "结论表明，客户端渲染和专用算法显著提升了工具的处理效率和输出质量，解决了传统旋转的噪点痛点。",
+              "然而，其适用边界在于：自动缩放算法存在固有局限，不能完全替代精细的手工像素画缩放操作。此外，旧版缩放工具仍被保留，以满足不同用户的偏好，且作者开放了算法反馈渠道以持续迭代。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "像素画缩放工具已迁移至纯客户端运行，提升处理速度并减轻服务器压力。",
+          "新增多种像素画放大算法，虽不完美但可作为创作起点。",
+          "推出全新的像素画旋转工具，采用优化算法解决传统旋转的噪点问题。",
+          "自动缩放效果无法替代手工缩放，旧版工具仍保留供用户选择。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Pixel Art Scaler 工具改为纯客户端运行（works purely in your client）",
+            "basis": "source"
+          },
+          {
+            "text": "提供多种像素画缩放算法（various pixel art scaling algorithms）用于放大",
+            "basis": "source"
+          },
+          {
+            "text": "Pixel Art Rotator 使用优于典型像素旋转的算法，避免嘈杂和混乱的结果",
+            "basis": "source"
+          },
+          {
+            "text": "自动缩放算法不如手工缩放效果好",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在像素画创作中需要快速预览放大或旋转效果，并以此为基础进行手工精修时",
+            "steps": [
+              "1. 访问 Lospec 工具页面选择新版 Scaler 或 Rotator",
+              "2. 上传原始像素画图像",
+              "3. 在客户端选择所需的缩放算法或旋转参数",
+              "4. 导出结果并导入图像编辑软件作为手工精修的参考底稿"
+            ],
+            "tools": [
+              "Lospec Pixel Art Scaler",
+              "Lospec Pixel Art Rotator",
+              "图像编辑软件（如 Aseprite 或 Photoshop）"
+            ],
+            "verification": [
+              "对比自动处理结果与手工处理结果的边缘清晰度",
+              "检查旋转后图像是否消除了传统算法的噪点和混乱像素"
+            ]
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-28T08:59:40.255Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "3f15c705a77ae010",
+      "title": "Aseprite v1.3.16 & v1.3.17-beta1",
+      "url": "https://blog.aseprite.org/2025/12/11/aseprite-v1316/",
+      "summary": "Hi asepriters! Today we’re releasing Aseprite v1.3.16 as the new stable version. It includes all the new features from the previous v1.3.16-betas and a lot of bug fixes. On the other hand, in the Steam beta channel you’ll find the new Aseprite v1.3.17-beta1 with new features. In this release we’re featuring erema.pixel ! What’s new in Aseprite v1.3.17-beta1 New option to paint/select rounded rectangles #2184 You can change the corner radius in real-time pressing the C key: Moving the selection in Tiled Mode now works correctly #1457 Now mouse buttons (even X1 / X2) can be associated to commands / tools / drag values #598 #1793 Other changes that you can find in the release notes : Avoid confusing UX creating new keyframes for slices #5125 #2284 Avoid confusion with Slice selection search field #5484 t/27705 Don’t modify the sprite when we just click/select slices #5578 Lua API: Added Dia",
+      "publishedAt": "2025-12-11T00:00:00.000Z",
+      "sourceId": "aseprite",
+      "sourceName": "Aseprite Blog",
+      "sourceSite": "https://blog.aseprite.org/",
+      "lane": "art",
+      "accent": "#7d4db3",
+      "topic": "像素美术",
+      "score": 64,
+      "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
+      "readMinutes": 5,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 63,
+      "bodyHash": "048ded6c07b5a548a8814a8c",
+      "extraction": {
+        "method": "readability",
+        "length": 3181,
+        "originalLength": 3181,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Aseprite v1.3.16 稳定版与 v1.3.17-beta1 测试版发布解析",
+      "analysis": {
+        "listSummary": "本文解析了 Aseprite v1.3.16 稳定版与 v1.3.17-beta1 测试版的更新内容。稳定版整合了前期特性并修复大量崩溃与 UI 缺陷，新增快捷键搜索与独立图层命令；测试版则引入圆角矩形实时调整、平铺模式选区修复及鼠标侧键自定义。适合像素画创作者评估升级价值，特别是需要优化快捷键与鼠标工作流的用户。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "Aseprite 官方发布了 v1.3.16 稳定版和 v1.3.17-beta1 测试版。稳定版整合了前期测试版的所有新功能并修复了大量已知缺陷，测试版则进一步引入了圆角矩形绘制、鼠标侧键自定义等交互新特性。此次双版本并行发布，旨在提升像素画创作效率与软件整体稳定性，同时满足不同用户群体对于生产环境稳定性与新功能尝鲜的差异化需求。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过详尽的版本更新日志，分类说明了两个版本的具体改进。v1.3.17-beta1 侧重于核心交互增强，包括圆角矩形半径实时调整、平铺模式下选区移动修复及鼠标侧键映射；v1.3.16 则侧重于系统级优化与底层缺陷修复，涵盖快捷键搜索、Windows 文件关联、Linux 双击阈值调整，以及大量针对 UI 组件、Lua API 和特定绘图工具的崩溃修复。作者通过引用具体的 Issue 编号，清晰论证了各项改动的来源与针对性。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供了大量具体的 Issue 编号（如 #2184, #5465 等）作为功能更新与缺陷修复的直接证据。结论表明，v1.3.16 是追求稳定性的首选，而 v1.3.17-beta1 适合愿意尝试新交互特性的 Steam 渠道用户。适用边界在于：测试版可能仍存在未暴露的未知问题，不建议用于关键生产项目；此外，部分系统级优化（如 Windows 文件关联、Linux X11 双击阈值）具有严格的操作系统特定性，跨平台用户体验存在客观差异。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "v1.3.16 为最新稳定版，整合了前期 beta 功能并修复大量崩溃与 UI 缺陷。",
+          "v1.3.17-beta1 新增圆角矩形绘制与选择功能，支持按 C 键实时调整圆角半径。",
+          "测试版支持将鼠标侧键（X1/X2）关联至命令、工具或拖动值，提升操作效率。",
+          "稳定版新增按快捷键搜索命令功能，以及可绑定快捷键的“Solo Layer”命令。",
+          "Lua API 升级至版本 38，优化了事务（transaction）中的撤销步骤生成逻辑。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "绘制或选择圆角矩形时，按 C 键可实时改变圆角半径",
+            "basis": "source"
+          },
+          {
+            "text": "鼠标按钮（包括 X1/X2）可关联到命令、工具或拖动值",
+            "basis": "source"
+          },
+          {
+            "text": "Lua API 更新至版本 38，事务外属性更改不生成撤销步骤，事务内图层标志更改生成撤销步骤",
+            "basis": "source"
+          },
+          {
+            "text": "Windows 下可将任意文件关联至运行中的 Aseprite 实例并自定义资源管理器缩略图",
+            "basis": "source"
+          },
+          {
+            "text": "Linux X11 环境下增加了双击检测的移动阈值以防止误触",
+            "basis": "inference"
+          },
+          {
+            "text": "平铺模式（Tiled Mode）下移动选区的坐标计算或渲染逻辑已修复以正确工作",
+            "basis": "inference"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在团队中推广 Aseprite 新版本及自定义工作流",
+            "steps": [
+              "评估 v1.3.16 稳定性后全员升级至稳定版",
+              "利用新增的快捷键搜索和 Solo Layer 快捷键优化图层管理",
+              "配置鼠标侧键映射以加速常用工具切换",
+              "编写 Lua 脚本时注意 API 版本 38 的事务撤销逻辑变更"
+            ],
+            "tools": [
+              "Aseprite v1.3.16/v1.3.17-beta1",
+              "Steam 客户端（用于获取 beta 版）"
+            ],
+            "verification": [
+              "测试圆角矩形 C 键调整是否流畅",
+              "验证鼠标侧键绑定是否生效",
+              "检查 Lua 脚本在事务内外的撤销行为是否符合预期"
+            ]
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-28T09:01:12.846Z",
       "model": "qwen3.7-plus"
     }
   ],
   "study": [
     {
-      "id": "5cf2105afd9249d5",
-      "title": "How LangChain Built an Agent-First Data Stack",
-      "url": "https://www.langchain.com/blog/agent-data-stack",
-      "summary": "Learn how LangChain used Hex, dbt, semantic models, and observability to build a trusted data agent and scale self-service analysis by 40x.",
-      "publishedAt": "2026-07-28T05:40:47.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
-      "lane": "ai",
-      "accent": "#1c3c3c",
-      "topic": "AI 辅助学习",
-      "score": 72,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 24,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 94,
-      "bodyHash": "f69a39dd2a68bad43fabac16",
-      "extraction": {
-        "method": "readability",
-        "length": 16633,
-        "originalLength": 16633,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "LangChain 构建 Agent 优先数据栈的实践与架构演进",
-      "analysis": {
-        "listSummary": "本文介绍了 LangChain 数据团队如何将传统 BI 工具迁移至 Agent 优先的数据栈。通过引入 Hex、dbt、语义模型及可观测性工具，团队将自助分析请求处理量提升了 40 倍。文章详细拆解了如何通过多层上下文（数据模型、语义层、业务指南、信任信号）赋能 Agent，并分享了反馈循环与工程经验，适合数据工程师、AI 应用开发者及数据团队负责人阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "传统数据栈以仪表盘、报表和 SQL 工作流为中心，这种架构在 AI 时代暴露出局限性。AI Agent 需要清晰的定义、可信的数据源、丰富的业务上下文以及对数据底层逻辑的访问权限。如果缺乏这些上下文，Agent 虽然能够生成语法正确的 SQL，但生成的结果往往难以信任，可能会忽略公司特定的业务定义、选错数据表，或者给出技术上合法但对业务毫无用处的答案。",
-              "在迁移前，LangChain 的所有数据需求几乎全部由数据团队处理，而当时该团队仅有 1 名成员。传统的 BI 工具虽然能胜任预定义的报表需求，但极其僵化。探索性分析难以协作和共享，非数据团队成员很难自主探索未建模的数据。这导致了严重的瓶颈：业务人员提出了许多有价值的问题，但解答这些问题需要数据团队成员介入，进行问题翻译、模型查找、查询编写与结果验证。数据团队陷入了处理一次性临时请求的泥潭，无法专注于深度分析、数据建模和跨部门项目。",
-              "团队迫切需要一种“Agent 优先”的数据栈，以同时支持多种用户群体。部分用户需要精美的仪表盘，部分需要 Notebook 和 SQL，还有部分需要对话式界面来直接获取答案而无需了解数据物理位置。工程师和技术运营人员需要灵活性，而业务用户则需要更安全、更有引导性的探索方式。同时，团队希望拥有一个统一的数据工作中心，避免引入新工具导致使用习惯、上下文和信任度在多个系统间割裂。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "架构迁移与统一工作区：团队在 6 周内 100% 弃用了旧版 BI 工具，全面迁移至 Hex。Hex 被选为中心数据工作区，因为它同时支持仪表盘、Notebook 和对话式分析，满足了不同技术背景用户的需求。Agent 的访问表面被广泛扩展，包括 Hex UI（Threads 和 notebooks）、Slack、CLI 工作流、MCP 以及 LangSmith Fleet。这种广泛的触点设计至关重要，因为当用户能在其日常工作环境中直接使用 Agent 时，采用率最高。",
-              "多层上下文构建机制：Agent 的表现高度依赖于上下文。LangChain 构建了多层上下文体系：1. 数据模型层（dbt）：dbt 是管理数据模型上下文的核心。团队摒弃了弱定义，采用强定义，明确说明数据的业务含义、允许的值、解释指南以及默认过滤规则。这大幅降低了 Agent 基于错误业务理解生成技术正确答案的概率。2. 语义模型层：用于定义 ARR、销售管道、客户健康度等高频指标及模型间的关系，确保指标定义的一致性。3. 业务上下文层（Workspace guides）：对于无法塞入表或指标定义的公司流程、团队工作流和报告约定，团队使用 Hex 工作区指南。这些指南以纯文本形式编写，通过 GitHub 仓库同步至 Hex，支持版本控制和审查。4. 信任与实现层：通过“认可（Endorsements）”机制，由数据团队专属标记可信的仪表盘和资产，防止 Agent 在多个相似资产中选错数据源。同时，Agent 可以直接访问 GitHub 中的 dbt 仓库，获取底层的 SQL 和转换逻辑，为技术用户提供深度调试能力。",
-              "反馈与优化循环：上下文需要闭环反馈。团队利用 Hex Context Studio（或自建的 LangSmith）作为可观测性工具，监控对话主题趋势、常见警告和上下文缺口。如果发现用户反复询问同类问题，则考虑开发新仪表盘；如果 Agent 在某个指标上挣扎，则优化语义模型定义。这一循环使数据团队能够精准识别报告、文档和建模中的盲区，持续迭代数据栈。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "证据：迁移取得了显著的业务成果。自助数据 Agent 处理的请求量达到了原 3 人数据团队直接处理量的 40 倍。在过去 30 天内，近 100% 的已配置用户（占公司总人数的三分之一）使用了数据 Agent，产生了约 2200 次对话（平均每位用户每月 23 次）。目前 100% 的公司员工以某种形式使用了新栈，其中 70% 为只读权限，30% 为 Agent 权限（通过 IT 自助申请）。数据团队并未消失，而是将精力转移到了需要更深业务上下文、更强数据建模和跨部门对齐的高杠杆工作上。",
-              "结论：构建 Agent 优先数据栈的核心在于“使上下文显性化”。Agent 需要理解数据的含义、可信的来源、业务的运作方式以及何时需要额外谨慎。坚实的数据建模基础是前提，如果人类觉得数据模型混乱，Agent 也会觉得混乱。高质量的上下文（清晰的定义、业务词汇、指标逻辑）是最高杠杆的投资。数据团队的角色正在发生根本性转变：从手动回答每一个问题，转向设计上下文、模型和信任系统，从而赋能全公司更好地回答问题。",
-              "边界与局限：Agent 无法魔法般地解决底层数据质量问题，语义模型必须建立在扎实的数据建模基础之上。此外，自助服务并不免除数据教育的责任，用户必须理解系统的力量与局限，Agent 的回答在用于重大决策时仍需人类判断和数据团队的验证。团队也承认目前仍处于早期阶段，未来需要引入 Evals（评估）机制来结构化地测试上下文更改的效果，并进一步自动化上下文建议的工作流。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "传统 BI 工具无法满足 Agent 对业务上下文和可信数据源的需求，企业需向 Agent 优先架构演进。",
-          "通过 dbt 强定义、语义模型、Hex 工作区指南和资产认可机制，为 Agent 构建多层上下文体系。",
-          "统一工作区结合多触点（Slack、CLI、MCP 等）可最大化 Agent 的采用率和实用性。",
-          "可观测性工具能揭示上下文缺口，形成“监控-分析-迭代”的反馈闭环，持续优化 Agent 表现。",
-          "坚实的数据建模基础是 Agent 发挥作用的前提，数据团队的核心价值转向上下文与信任系统设计。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "Agent 访问表面包括 Hex UI (Threads/notebooks)、Slack、CLI、MCP 和 LangSmith Fleet。",
-            "basis": "source"
-          },
-          {
-            "text": "dbt 用于管理数据模型上下文，提供包含业务逻辑、允许值和默认过滤规则的列/表定义。",
-            "basis": "source"
-          },
-          {
-            "text": "语义模型定义 ARR、管道等核心指标及模型关系，确保指标计算逻辑一致性。",
-            "basis": "source"
-          },
-          {
-            "text": "Hex 工作区指南通过 GitHub 仓库同步，用于记录公司流程、报告约定等纯文本业务上下文。",
-            "basis": "source"
-          },
-          {
-            "text": "Endorsements（认可）机制由数据团队专属控制，用于标记可信仪表盘和资产，防止 Agent 选用错误数据源。",
-            "basis": "source"
-          },
-          {
-            "text": "使用 Hex Context Studio 或 LangSmith 进行可观测性分析，监控对话趋势、警告和上下文缺口。",
-            "basis": "source"
-          },
-          {
-            "text": "未来计划引入 Evals（评估）机制，以结构化方式测试上下文更改（如指标定义更新）对 Agent 回答质量的提升效果。",
-            "basis": "source"
-          },
-          {
-            "text": "MCP (Model Context Protocol) 是一种允许 Agent 标准化连接外部数据源和工具链的协议，用于扩展 Agent 的访问表面。",
-            "basis": "inference"
-          },
-          {
-            "text": "LangSmith Fleet 是 LangSmith 提供的一种用于管理和部署多个 Agent 实例或工作流的机制，支持通过 MCP 和 CLI 进行集成。",
-            "basis": "inference"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "企业构建内部 AI 数据助手（Text-to-SQL 或数据分析 Agent）（延伸建议，非原文直接步骤）",
-            "steps": [
-              "1. 盘点并重构核心数据模型，使用 dbt 编写包含业务含义、枚举值和过滤规则的强定义。",
-              "2. 构建语义层，统一定义高频业务指标（如 MRR、转化率），避免 Agent 重复推断逻辑。",
-              "3. 编写业务指南（Prompt/Context），说明数据使用规范、排雷指南和公司特定流程。",
-              "4. 实施资产认可机制，仅将经过数据团队审核的模型/报表暴露给 Agent 作为可信源。",
-              "5. 接入可观测性平台，定期分析 Agent 失败或低置信度对话，迭代上下文和模型。"
-            ],
-            "tools": [
-              "dbt",
-              "Hex / Metabase",
-              "LangSmith / Langfuse",
-              "GitHub",
-              "Slack"
-            ],
-            "verification": [
-              "通过 A/B 测试或 Evals 对比上下文优化前后的 Agent 回答准确率。",
-              "统计自助分析请求拦截率及数据团队临时工单减少量。",
-              "监控 Agent 对话中的警告频率和上下文缺口指标。"
-            ]
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-07-28T08:05:40.793Z",
-      "model": "qwen3.7-plus"
-    },
-    {
       "id": "6a4d7adf06c505e0",
       "title": "Six Agent Harness Capabilities for Higher Model Performance",
       "url": "https://developer.nvidia.com/blog/six-agent-harness-capabilities-for-higher-model-performance/",
@@ -432,235 +753,229 @@
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "NVIDIA NOOA：通过六大Harness能力与面向对象架构提升AI Agent性能",
+      "displayTitle": "NVIDIA NOOA 框架：通过面向对象架构与六大能力重塑 AI Agent 性能与效率",
       "analysis": {
-        "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出Agent性能不仅取决于模型，更受Harness架构影响。NOOA将Agent抽象为单一Python类，通过类型化输入输出、引用传递等六大核心理念，显著提升模型在软件工程、网络安全和推理任务中的表现。其自主管理的长期记忆系统在不增加上下文负担下将Token消耗降低约一半，为构建高效、可调试的Agent提供新范式。",
+        "listSummary": "本文介绍了 NVIDIA 推出的 NOOA（面向对象代理）框架，该框架将 Agent 抽象为单一 Python 类，通过类型化输入输出、引用传递等六大理念重构 Harness 架构。文章详细展示了 NOOA 在软件工程、网络安全和通用推理基准测试中超越 SOTA 的表现，并证明其能将 Token 成本降低一半。适合关注 AI Agent 架构设计、性能优化及工程化落地的开发者阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建优秀的AI Agent不仅在于选择正确的模型，模型周围的架构（Harness）同样决定了最终结果。Harness负责渲染上下文、执行动作、管理状态以及判断任务何时完成。仅Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。传统的Agent开发涉及协调提示模板、工具模式、回调代码和工作流图等多个移动部件，过程复杂且难以像传统软件那样进行版本控制、代码审查和单元测试。开发者需要一种更简单、更贴近传统软件工程实践的方法，来构建、调试和维护复杂的Agent系统，同时解决上下文窗口限制和Token成本高昂的问题。NVIDIA Labs Object-Oriented Agents (NOOA) 正是基于这一洞察构建的开源研究预览版，旨在通过创新的架构设计解决上述痛点。"
+              "构建卓越的 AI 代理（Agent）不仅仅取决于选择合适的基础模型，模型周围的架构（Harness）同样起着决定性作用。Harness 负责渲染上下文、执行动作、管理状态以及决定任务何时完成，其设计质量对最终结果的影响与模型本身不相上下。研究表明，仅 Harness 设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的 Token 成本差异。传统的 Agent 开发往往需要协调提示模板、工具模式（Tool schemas）、回调代码和工作流图等多个复杂组件，这种碎片化的方式增加了开发和维护的难度。为了解决这一问题，NVIDIA 推出了 NVIDIA Labs Object-Oriented Agents (NOOA) 框架。该框架基于一个核心洞察：将 Agent 的开发回归到传统的软件开发范式，通过统一的面向对象设计来简化架构，从而在提升模型性能的同时大幅降低 Token 消耗。NOOA 作为一个开源的研究预览版，提供了 Python 框架、内存系统、能力测试和基准代理，旨在让社区能够复现、挑战并在此基础上构建更优的解决方案。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "NOOA框架将Agent简化为单一的Python类。其方法即为能力，字段即为状态，文档字符串即为提示，类型注解即为强制契约。标准Python方法体若为省略号（...），则由LLM驱动的循环在运行时完成；若为正常方法体，则作为普通确定性Python运行。这种设计使得Agent可以被差分、代码审查、单元测试、跟踪、版本控制和重构。NOOA提出了六个面向模型的接口理念：第一，类型化输入/输出，Agentic调用具有类型化参数和验证的返回值，而非自由文本；第二，引用传递，模型操作实时Python对象，看到有界预览而非序列化转储；第三，代码即动作，模型通过编写Python执行控制流和内联方法调用，将动作直接转化为可执行的代码逻辑；第四，可编程循环工程，编排循环是普通Python，开发者和模型均可编写，使得复杂的任务分解和重试逻辑能够像传统代码一样被调试和优化；第五，显式对象状态，持久化、类型化状态存在于Agent对象上，而非仅在对话历史中；第六，模型可调用的Harness API，上下文块和事件历史是模型可检查和管理的API。",
-              "在内存管理方面，NOOA摒弃了自动后台摘要，采用代理自主管理的长期记忆子系统。代理通过模型可调用的工具主动写入、查询和纠正记录，记录带有类型、重要性和标签，并通过“支持”、“矛盾”、“派生自”等类型化关系构成知识图谱。后台反思过程负责合并重复、链接相关记录、提炼洞察并修剪无关信息。所有数据持久化在人类可读的单一SQLite文件中，支持多Agent共享存储且保留独立所有权。",
-              "在论证其有效性时，文章通过多个基准测试展示了NOOA在相同模型下的性能提升与成本降低。在SWE-bench Verified中，NOOA使用GPT-5.5达到82.2%的准确率，且仅需29次LLM调用和约110万Token。对比Harness需要66次调用和220万Token才能达到78.2%。这主要得益于引用传递机制，工具结果直接作为实时Python变量组合，避免了上下文窗口的文本往返。模型看到类型化、有界的预览，完整值保留在执行环境中。这使得NOOA无需上下文压缩即可解决SWE-Bench任务，中位数会话峰值仅为22-72k prompt tokens，转录保持追加有效且缓存命中。"
+              "NOOA 的核心方法论是将 Agent 抽象为一个单一的 Python 类。在这个设计中，类的方法代表其能力，字段代表其状态，文档字符串（Docstrings）作为提示词，而类型注解则作为强制执行的契约。标准 Python 方法如果方法体为省略号（...），则在运行时由 LLM 驱动的循环完成；具有正常方法体的则作为普通的确定性 Python 代码运行。这种设计使得 Agent 可以像普通代码一样进行差异比对、代码审查、单元测试、追踪、版本控制和重构。在架构层面，NOOA 提出了六个面向模型的接口理念以驱动性能提升：第一，类型化输入/输出，代理调用具有类型化的参数和经过验证的返回值，而非自由文本；第二，引用传递，模型直接操作实时的 Python 对象，查看有界的预览信息，而不是序列化的数据转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的 Python 代码来执行动作；第四，可编程循环工程，编排循环是普通的 Python 代码，开发者和模型均可编写；第五，显式对象状态，持久化且类型化的状态直接存在于代理对象上，而不仅仅是对话历史；第六，模型可调用的 Harness API，上下文块和事件历史成为模型可以检查和管理 API。",
+              "在内存系统方面，NOOA 摒弃了自动后台总结管道，转而采用由代理通过模型可调用工具主动管理的长期记忆存储。代理在工作过程中有意地写入、查询和纠正记录，同时与当前回合相关的自发记忆会自动浮现到上下文中。记录带有类型、重要性和标签，并通过“支持”、“矛盾”和“派生自”等类型化关系连接成知识图谱。后台反思过程负责合并重复项、链接相关记录、提炼洞察并修剪过时信息。所有数据持久化在一个人类可读的 SQLite 文件中，支持多代理共享存储。在通用推理任务（如 ARC-AGI-3）中，NOOA 采用世界模型技能，指导代理在其工作区构建一组 Python 程序来编码观察到的状态并预测下一个状态。每个回合代理进行逆向预测（Retrodicts），将预测与实际发生的情况进行比较，并在不匹配时修正模型和假设。此外，NOOA 在运行环境上采用了分层沙箱机制，包括进程内单元防护、每次运行的操作系统权限降级、游戏身份的端到端匿名化以及内核强制的每单元沙箱。红队审计表明，这种严格的安全设计确保了在竞赛模式下没有规则泄露，为生产环境部署提供了可靠的安全基线。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章提供了详实的基准测试证据。在软件工程领域，NOOA在SWE-bench Verified上使用GPT-5.5达到82.2%，超越提交时的SOTA（79.2%），使用Opus 4.6达到79.8%，且仅使用253行通用Agent代码，无基准特定提示。在网络安全领域，CyberGym L1基准测试中，NOOA在无网络访问和严格规则“作弊检查”下解决了86.8%的任务。其确定性门控机制将验证器输出转化为崩溃判定、确认崩溃匹配、重放输入检查复现，确保漏洞发现的准确性，整个运行过程作为单一轨迹可被检查和测试。在通用推理方面，ARC-AGI-3测试中，单Agent通过构建Python世界模型进行反向预测。该技能指示Agent在其工作区中构建一组Python程序来编码观察到的状态并预测下一个状态，每回合通过比较预测与实际发生的情况来修正模型和假设。GPT-5.5达到50.2% RHAE（技能提升8.5分，记忆提升11.8分），GPT-5.6-sol达到85.1%，且每局成本低于20美元。",
-              "结论表明，Harness工程不仅能提升准确性，还能大幅提高效率。NOOA通过面向对象的设计和引用传递等机制，使Agent开发回归传统软件开发模式，支持差分、审查、单元测试和重构，同时在不牺牲性能的前提下显著降低了Token消耗。",
-              "边界与适用性方面，NOOA目前作为开源研究预览版发布，旨在为开放Agent生态系统提供一个实验性表面，而非现有Harness的直接替代品。其技术文档公开，允许任何项目采用、挑战或改进这些技术。此外，ARC-AGI-3的测试在严格的分层沙箱（进程内单元防护、每次运行OS权限降级、端到端匿名化、内核强制沙箱）下进行，红队审计未发现规则泄漏，证明了其在安全部署（如结合NVIDIA OpenShell安全运行时）方面的可靠性。"
+              "NOOA 的六大能力在多个领域得到了实证检验。在软件工程领域，使用 GPT-5.5 的 NOOA 在 SWE-bench Verified 上达到了 82.2% 的准确率，超越了提交时的 SOTA（79.2%），且仅使用 29 次 LLM 调用和约 110 万 Token，而对比 Harness 需要 66 次调用和 220 万 Token 才能达到 78.2%。在网络安全领域，NOOA 在 CyberGym L1 上解决了 86.8% 的任务，且在没有网络访问和特定网络安全引导的情况下，完全依赖代码推理。在通用推理方面，GPT-5.5 在 ARC-AGI-3 上达到 50.2% 的平均 RHAE，GPT-5.6-sol 达到 85.1%，且每局游戏成本均低于 20 美元。在漏洞发现任务中，NOOA 将验证管道实现为单一对象，通过三个确定性门控（判定崩溃、匹配漏洞、重现输入）确保发现的准确性。由于这些门控是普通的类型化方法，而不是在独立进程之间传递的自由格式文本，因此只有当代码明确允许时才会接受发现，整个运行过程成为一个可检查和测试的单一追踪记录。这种方法彻底消除了模型可能忽略或误解提示指令的风险。",
+              "结论表明，Harness 工程不仅能提升准确率，还能显著提高效率。通过引用传递和避免上下文压缩，NOOA 在保持高性能的同时将 Token 成本降低了一半。然而，其适用边界在于，NOOA 目前被定位为开源的实验性表面，而非现有 Harness 的完全替代品。其高级性能依赖于前沿模型（如 GPT-5.5/5.6）的强大能力，且在处理复杂代码和漏洞时，需要结合 NVIDIA OpenShell 等安全运行时进行分层沙箱隔离，以防止潜在的安全风险。同时，NOOA 强调开放实现的重要性，团队可以检查方法而不是盲目信任，构建透明、类型化、可检查的代理。这种设计支持现有的安全审查、访问控制和可观察性实践，使得企业级应用能够无缝集成到现有的 DevOps 和 MLOps 流程中。"
             ]
           }
         ],
         "keyPoints": [
-          "NOOA将Agent抽象为单一Python类，使Agent开发回归传统软件工程的版本控制、审查和测试模式。",
-          "提出六大面向模型的接口理念，包括类型化输入输出、引用传递、代码即动作等，显著提升模型性能。",
-          "引入代理自主管理的长期记忆系统，通过知识图谱和后台反思机制实现跨会话知识积累，数据持久化于SQLite。",
-          "借助引用传递机制避免上下文序列化，在SWE-bench等任务中将Token消耗降低约一半，且无需上下文压缩。",
-          "在SWE-bench、CyberGym L1和ARC-AGI-3等多个基准测试中，使用通用Agent代码取得SOTA或领先成绩。"
+          "NOOA 将 Agent 抽象为单一 Python 类，通过类型化输入输出、引用传递和代码即动作等六大理念重构 Harness 架构。",
+          "采用主动管理的长期记忆系统，通过知识图谱和 SQLite 持久化实现跨会话知识积累，无需重新训练。",
+          "在 SWE-bench Verified 上，NOOA 以约一半的 Token 消耗（110万 vs 220万）实现了超越 SOTA 的 82.2% 准确率。",
+          "在 ARC-AGI-3 中通过构建 Python 世界模型和逆向预测机制，以低于 20 美元/局的成本达到 85.1% 的高分。",
+          "漏洞发现流程通过确定性门控方法（崩溃判定、漏洞匹配、重现验证）确保推理结果的严格可验证性。"
         ],
         "technicalDetails": [
           {
-            "text": "NOOA框架将Agent定义为单一Python类，方法体为省略号(...)时由LLM驱动循环在运行时完成，正常方法体作为确定性Python运行。",
+            "text": "Agent 被定义为单一 Python 类，方法体为省略号（...）的方法在运行时由 LLM 驱动的循环完成，普通方法体作为确定性 Python 运行。",
             "basis": "source"
           },
           {
-            "text": "六大接口理念包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
+            "text": "六大接口理念包括：类型化输入/输出、引用传递（操作实时 Python 对象）、代码即动作、可编程循环工程、显式对象状态、模型可调用的 Harness API。",
             "basis": "source"
           },
           {
-            "text": "长期记忆子系统使用SQLite文件持久化，记录带有类型、重要性、标签，并通过supports, contradicts, derived-from等关系构成知识图谱。",
+            "text": "长期记忆系统使用 SQLite 文件持久化，记录带有类型、重要性和标签，通过支持、矛盾、派生自等关系形成知识图谱，并包含后台反思合并与修剪机制。",
             "basis": "source"
           },
           {
-            "text": "在SWE-bench Verified中，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens，对比Harness需66次调用和2.2M tokens达到78.2%。",
+            "text": "在 SWE-bench Verified 中，NOOA 使用 GPT-5.5 达到 82.2% 准确率，消耗 29 次 LLM 调用和约 1.1M tokens；对比 Harness 需 66 次调用和 2.2M tokens 达到 78.2%。",
             "basis": "source"
           },
           {
-            "text": "ARC-AGI-3测试中，GPT-5.5达到50.2% mean RHAE，GPT-5.6-sol达到85.1%，每局成本均低于20美元（分别为$17.85和$13.3）。",
+            "text": "ARC-AGI-3 评估中，代理通过构建 Python 程序编码状态并预测下一状态，每回合进行逆向预测（retrodicts）以修正世界模型和假设。",
             "basis": "source"
           },
           {
-            "text": "NOOA通过Pass by reference机制，使工具结果成为实时Python变量，中位数会话峰值prompt tokens为22-72k，无需上下文压缩。",
+            "text": "漏洞发现验证管道包含三个确定性门控方法：将原始输出转为崩溃判定、确认崩溃匹配报告漏洞、重跑输入检查重现。",
             "basis": "source"
           },
           {
-            "text": "CyberGym L1漏洞发现任务中，NOOA使用三个确定性门控方法：转化崩溃判定、确认崩溃匹配、重放输入检查复现。",
-            "basis": "source"
-          },
-          {
-            "text": "ARC-AGI-3运行环境采用分层沙箱，包括进程内cell guard、per-run OS privilege drop、端到端匿名化和内核强制per-cell sandbox。",
-            "basis": "source"
+            "text": "NOOA 框架依赖底层大模型（如 GPT-5.5/5.6）的强代码生成与推理能力，若使用较弱模型可能无法发挥引用传递和代码即动作的优势。",
+            "basis": "inference"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "构建需要长期记忆和复杂状态管理的AI Agent系统",
+            "scenario": "构建需要严格状态管理和低 Token 消耗的复杂企业级 AI Agent 系统",
             "steps": [
-              "1. 将Agent状态和工具封装为面向对象的Python类，利用类型注解约束输入输出。",
-              "2. 使用引用传递机制处理工具返回值，避免将大型对象序列化为文本塞入上下文窗口。",
-              "3. 设计基于SQLite的长期记忆模块，允许Agent通过工具主动写入和查询结构化知识图谱。",
-              "4. 将编排逻辑编写为标准Python循环，而非依赖黑盒工作流引擎。"
+              "1. 将 Agent 核心逻辑封装为单一 Python 类，利用类型注解定义输入输出契约。",
+              "2. 将工具调用结果作为实时 Python 对象引用传递，避免序列化为文本塞入上下文。",
+              "3. 设计确定性门控方法（如数据校验、状态检查）与 LLM 推理步骤交替执行。",
+              "4. 引入基于 SQLite 的主动记忆模块，让 Agent 在任务中显式写入和查询关键状态。"
             ],
             "tools": [
-              "Python",
+              "Python 3.10+ (支持类型注解)",
               "SQLite",
-              "NVIDIA NOOA Framework",
-              "NVIDIA OpenShell"
+              "NVIDIA NOOA 框架",
+              "NVIDIA OpenShell (用于安全沙箱)"
             ],
             "verification": [
-              "1. 通过单元测试验证Agent类的确定性方法。",
-              "2. 监控LLM调用的Token消耗和上下文窗口峰值，验证引用传递是否有效降低了序列化开销。",
-              "3. 检查SQLite文件中的记忆记录，验证知识图谱的关联性和后台反思的修剪效果。",
-              "4. 在沙箱环境中进行红队测试，验证Agent在受限权限下的安全性和无泄漏性。"
+              "1. 对比传统文本上下文方案与引用传递方案的 Token 消耗和基准测试得分。",
+              "2. 对确定性门控方法进行单元测试，确保非 LLM 逻辑的 100% 可靠性。",
+              "3. 检查 SQLite 记忆文件的可读性与多进程/多 Agent 共享时的并发安全性。"
             ]
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-28T08:08:12.276Z",
+      "analyzedAt": "2026-07-28T08:52:08.847Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "abe2f1f83a34b4d2",
+      "title": "Full Text Search in SmithDB: Designing an Inverted Index for Object Storage",
+      "url": "https://www.langchain.com/blog/full-text-search-in-smithdb-designing-an-inverted-index-for-object-storage",
+      "summary": "SmithDB supports full-text search and JSON filtering over agent traces with a median (P50) latency of 400 ms, even though the underlying data consists of large, deeply nested JSON documents stored in object storage.",
+      "publishedAt": "2026-07-27T05:12:17.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 56,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 25,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 86,
+      "bodyHash": "89032125f63081ad06690f3a",
+      "extraction": {
+        "method": "readability",
+        "length": 17593,
+        "originalLength": 17593,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "SmithDB 倒排索引设计：面向对象存储的全文搜索与 JSON 过滤优化",
+      "analysis": {
+        "listSummary": "本文介绍 SmithDB 为对象存储设计倒排索引的演进过程。针对 Agent 追踪数据 payload 庞大、词频极度倾斜及对象存储高延迟特性，作者放弃基于本地磁盘的 Tantivy，基于 Vortex 列式格式进行深度定制。文章剖析了 V1 方案在编码控制上的失败原因，重点阐述 V2 方案如何通过字节预算行组、FST 字典及逐词块位打包技术，将搜索 P50 延迟控制在 400ms 内。适合数据库内核开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "SmithDB 旨在为 Agent 追踪数据提供全文搜索和 JSON 过滤能力，其中位数延迟控制在 400 毫秒。然而，将传统搜索引擎应用于此类数据面临两大独特挑战。首先是 Agent 追踪数据的极端特征。每个 LangSmith 事件的输入和输出字段占据了绝大部分字节，常见 payload 大小超过 1 MB，甚至达到数百 MB。随着大语言模型上下文窗口的扩大和 Agent 运行时间的延长，这些 payload 仍在持续膨胀。内容列的大小远超身份、时间戳等元数据列。这种特征彻底颠覆了传统搜索索引的经济学。传统日志引擎索引数十亿个小文档，索引体积相对较小，源数据与索引的比例约为 1:1.25。而 SmithDB 索引的是数十亿个巨型文档，单个文档产生的索引数据可能超过许多小日志行的总和，其源数据与索引比例高达 1:1.9。这意味着如果没有索引，内容过滤将导致灾难性的性能问题，例如查询包含特定工具输出的运行，可能需要扫描数 GB 的 payload 才能返回几行结果。此外，自然语言和 JSON payload 的词频遵循齐普夫分布，少数通用词出现在几乎所有文档中，而长尾词仅出现一两次。索引必须在跨越多个数量级的词频差异下保持紧凑。同时，用户查询模态多样，包括按路径存在、按键值匹配和全文搜索。",
+              "第二大挑战是对象存储架构。SmithDB 将所有持久化数据存储在对象存储中，计算节点相对无状态。在对象存储上，查询成本大致与发出的请求数乘以每次请求读取的字节数成正比。每次对象存储请求带有几十到几百毫秒的延迟，且单请求吞吐量适中。因此，在知道是否需要之前，提前获取大型倒排列表或位置列表会主导查询延迟。SmithDB 倒排索引的方方面面，从存储布局到查询执行，都是基于这些约束设计的。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "为了应对上述挑战，SmithDB 团队首先评估了直接采用 Tantivy 的可行性，但最终放弃。Tantivy 围绕 mmap 构建，假设随机 I/O 成本极低，而对象存储的往返延迟在百毫秒级别，布局和数据合并决定了查询延迟而非 CPU。其次，SmithDB 查询通过 Apache DataFusion 在 Vortex 上运行，需要搜索谓词下推到统一的扫描管道中，而 Tantivy 拥有独立的段模型和 I/O 假设。最后，Tantivy 的写入器会按插入顺序分配段本地的文档 ID 并在每次合并时重新编号，而 SmithDB 需要索引直接指向 Vortex 数据文件中的行位置，且其压缩过程会重映射行位置，这与 Tantivy 的合并机制不兼容。",
+              "团队随后尝试了 V1 方案，即教科书式倒排索引的直接翻译，依赖 Vortex 的默认编码。该方案在规模化时暴露出三个致命问题。第一，缺乏逐词编码控制。Vortex 为整列选择编码，导致单个高频词迫使整个数据块中所有词的位宽变大，造成位打包效率低下，恶化了缓存行为和读取体积。第二，固定大小的行组无视词倾斜。按固定词数批处理导致高频词可能将单个行组推至 100 MB 以上，而低频词行组仅几 MB。这在查询时转化为巨大的对象存储 GET 请求，在合并时转化为巨大的内存解码开销。第三，合并必须重塑位置列表。合并两个段意味着解码完整的位置嵌套列表，将其重新洗牌到新的文档顺序中，并重新计算所有外部偏移，导致 CPU 时间和内存分配在压缩时飙升。",
+              "为此，团队设计了 V2 倒排索引存储布局。V2 将行组的组织单位从固定词数改为字节预算。通过设定 32 MB 的倒排列表字节和 64 MB 的原始词字符串字节上限，彻底解决了行组大小不可控的问题，为每次对象存储读取和内存占用提供了上限。行组内包含四列：term（使用 FST 将词映射为序号）、term_info（包含文档计数及偏移量）、postings（倒排列表）和 positions（位置信息，仅用于全文搜索）。在编码选择上，团队采用 FST 作为词字典。对比测试表明，在低基数的 JSON 路径列中，FST 将字典压缩至 3.8 KiB，比 zstd 小四个数量级；在高基数的词值列中，FST 虽比 zstd 大 1.5 倍，但 zstd 是不透明的，每次查找都需要解压，而 FST 本身就是索引，支持精确查找、前缀扫描和自动机遍历，查找成本仅为 O(|term|)。此外，团队将键值搜索和全文搜索合并到单一 FST 中，通过存储 {token}\\0{flattened_path} 格式，使键值搜索变为精确查找，全文搜索变为前缀扫描。对于倒排列表和位置，采用 128 元素块的位打包差值编码，尾部使用 VInt。这种设计实现了逐词独立的位宽控制，且对 Vortex 表现为不透明的二进制 blob，支持按需解码和跳过。与 Tantivy 每个段构建一个 FST 不同，SmithDB 每个行组构建一个 FST，使得写入器可以流式处理而无需在内存中持有段级 FST，且查询时的区域级剪枝可跳过大多数行组。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供了详实的数据来支撑 V2 方案的有效性。在包含 279 万词项的代表性行组中，term_key 使用 FST 仅占 3.8 KiB，而 FSST 为 88.8 MiB，zstd 为 16.3 KiB；term_value 使用 FST 为 32.7 MiB，FSST 为 55.1 MiB，zstd 为 21.7 MiB。这些数据证明 FST 在路径查询上具有压倒性优势，在词值查询上虽牺牲了部分压缩率，但换取了免解压查询的能力。V2 方案通过字节预算行组和逐词块位打包，成功解决了 V1 方案中对象存储 I/O 突刺和合并 CPU 开销过大的问题，最终实现了 400 毫秒的 P50 搜索延迟。",
+              "结论是，针对对象存储和超大 payload 的特殊场景，直接套用基于本地磁盘假设的通用搜索库（如 Tantivy）是行不通的。必须从第一性原理出发，深度结合底层列式存储引擎（如 Vortex）的特性，定制存储布局和编码策略，才能在控制成本的同时满足延迟要求。",
+              "边界方面，本文仅详细探讨了 V2 倒排索引的存储布局设计，并未涉及索引构建、合并的具体实现细节，也未详细展开读路径的优化策略（作者提示这些内容将在博客的第二部分介绍）。此外，FST 在极高基数场景下的压缩率劣势是已知的权衡，文章未探讨在极端数据分布下 FST 内存占用超限的降级方案。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Agent 追踪数据 payload 庞大且词频极度倾斜，导致传统日志引擎的 source:index 比例从 1:1.25 恶化至 1:1.9，必须依赖倒排索引避免全量扫描。",
+          "对象存储的高延迟（百毫秒级）和按请求计费特性，要求索引设计必须最小化请求次数和单次读取字节数，而非追求 CPU 计算极致。",
+          "放弃 Tantivy 是因为其 mmap 本地磁盘假设、独立段模型以及文档 ID 重编号机制，与 SmithDB 的 Vortex 列式引擎下推及行位置对齐需求不兼容。",
+          "V1 方案失败在于依赖 Vortex 默认列级编码和固定行数行组，导致高频词拉高全局位宽，且合并 positions 时 CPU 开销巨大。",
+          "V2 方案采用字节预算行组（32MB posting + 64MB term-string），彻底解决了行组大小不可控和对象存储 I/O 突刺问题。",
+          "引入 FST 字典和逐词块位打包（Block-bitpacked deltas）技术，在牺牲部分高基数词压缩率的前提下，实现了免解压直接查询和按需解码。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "SmithDB 支持对 agent traces 进行全文搜索和 JSON 过滤，中位数 (P50) 延迟为 400 ms。",
+            "basis": "source"
+          },
+          {
+            "text": "Agent traces 的 source:index 比例平均约为 1:1.9，而传统日志引擎约为 1:1.25。",
+            "basis": "source"
+          },
+          {
+            "text": "Vortex 的 I/O 调度器将 1 MB 间隙内的相邻 segment 读取合并为单个请求，最大窗口为 16 MB。",
+            "basis": "source"
+          },
+          {
+            "text": "V2 布局中，每个行组设定 32 MB 的 posting 字节预算和 64 MB 的原始 term-string 字节预算。",
+            "basis": "source"
+          },
+          {
+            "text": "FST 字典将 keyed-search 和 full-text 查询合并，term_value 存储格式为 {token}\\0{flattened_path}。",
+            "basis": "source"
+          },
+          {
+            "text": "Postings 和 positions 采用 128 元素块位打包（Block-bitpacked deltas），尾部不足 128 元素使用 VInt 编码。",
+            "basis": "source"
+          },
+          {
+            "text": "在包含 279 万词项的测试行组中，term_key 使用 FST 压缩至 3.8 KiB，比 zstd (16.3 KiB) 小约 4 倍。",
+            "basis": "source"
+          },
+          {
+            "text": "Tantivy 每个 segment 构建一个 FST 并进行分片，而 SmithDB 每个 row group 构建一个 FST。",
+            "basis": "source"
+          },
+          {
+            "text": "SmithDB 使用 Apache DataFusion 作为查询引擎，并通过 Vortex 处理核心事件数据文件。",
+            "basis": "source"
+          },
+          {
+            "text": "对象存储单次请求延迟通常在几十到几百毫秒之间，查询成本正比于请求数与每次读取字节数的乘积。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在对象存储（如 S3）上构建和查询大规模倒排索引",
+            "steps": [
+              "1. 评估数据特征：分析文档大小分布和词频倾斜度，确定是否需要字节预算而非固定行数来划分数据块。",
+              "2. 选择字典编码：对比 FST、zstd 等方案。若查询需要高频前缀扫描或正则匹配，优先选择 FST 以避免解压开销。",
+              "3. 优化 Posting List 编码：采用分块位打包（如 128 元素块）结合 VInt 尾部，实现逐词独立的位宽控制，减少 I/O 体积。",
+              "4. 合并 I/O 请求：在客户端或存储引擎层实现 I/O 调度器，将相邻的小范围读取合并为单次大请求，以摊薄对象存储的请求延迟。"
+            ],
+            "tools": [
+              "Apache Arrow / Vortex",
+              "Rust (Tantivy/FST 库)",
+              "对象存储 (S3/MinIO)"
+            ],
+            "verification": [
+              "1. 监控对象存储 GET 请求次数和单次读取字节数，验证 I/O 合并策略是否生效。",
+              "2. 压测不同词频分布下的查询延迟（P50/P99），验证逐词位打包和字节预算行组对长尾查询的优化效果。",
+              "3. 对比 FST 与 zstd 在特定查询模式（如精确匹配 vs 前缀扫描）下的 CPU 使用率和查询延迟。"
+            ]
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-28T08:54:56.425Z",
       "model": "qwen3.7-plus"
     }
   ],
   "lanes": {
     "ai": [
-      {
-        "id": "5cf2105afd9249d5",
-        "title": "How LangChain Built an Agent-First Data Stack",
-        "url": "https://www.langchain.com/blog/agent-data-stack",
-        "summary": "Learn how LangChain used Hex, dbt, semantic models, and observability to build a trusted data agent and scale self-service analysis by 40x.",
-        "publishedAt": "2026-07-28T05:40:47.000Z",
-        "sourceId": "langchain",
-        "sourceName": "LangChain Blog",
-        "sourceSite": "https://blog.langchain.com/",
-        "lane": "ai",
-        "accent": "#1c3c3c",
-        "topic": "AI 辅助学习",
-        "score": 72,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 24,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 94,
-        "bodyHash": "f69a39dd2a68bad43fabac16",
-        "extraction": {
-          "method": "readability",
-          "length": 16633,
-          "originalLength": 16633,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "LangChain 构建 Agent 优先数据栈的实践与架构演进",
-        "analysis": {
-          "listSummary": "本文介绍了 LangChain 数据团队如何将传统 BI 工具迁移至 Agent 优先的数据栈。通过引入 Hex、dbt、语义模型及可观测性工具，团队将自助分析请求处理量提升了 40 倍。文章详细拆解了如何通过多层上下文（数据模型、语义层、业务指南、信任信号）赋能 Agent，并分享了反馈循环与工程经验，适合数据工程师、AI 应用开发者及数据团队负责人阅读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "传统数据栈以仪表盘、报表和 SQL 工作流为中心，这种架构在 AI 时代暴露出局限性。AI Agent 需要清晰的定义、可信的数据源、丰富的业务上下文以及对数据底层逻辑的访问权限。如果缺乏这些上下文，Agent 虽然能够生成语法正确的 SQL，但生成的结果往往难以信任，可能会忽略公司特定的业务定义、选错数据表，或者给出技术上合法但对业务毫无用处的答案。",
-                "在迁移前，LangChain 的所有数据需求几乎全部由数据团队处理，而当时该团队仅有 1 名成员。传统的 BI 工具虽然能胜任预定义的报表需求，但极其僵化。探索性分析难以协作和共享，非数据团队成员很难自主探索未建模的数据。这导致了严重的瓶颈：业务人员提出了许多有价值的问题，但解答这些问题需要数据团队成员介入，进行问题翻译、模型查找、查询编写与结果验证。数据团队陷入了处理一次性临时请求的泥潭，无法专注于深度分析、数据建模和跨部门项目。",
-                "团队迫切需要一种“Agent 优先”的数据栈，以同时支持多种用户群体。部分用户需要精美的仪表盘，部分需要 Notebook 和 SQL，还有部分需要对话式界面来直接获取答案而无需了解数据物理位置。工程师和技术运营人员需要灵活性，而业务用户则需要更安全、更有引导性的探索方式。同时，团队希望拥有一个统一的数据工作中心，避免引入新工具导致使用习惯、上下文和信任度在多个系统间割裂。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "架构迁移与统一工作区：团队在 6 周内 100% 弃用了旧版 BI 工具，全面迁移至 Hex。Hex 被选为中心数据工作区，因为它同时支持仪表盘、Notebook 和对话式分析，满足了不同技术背景用户的需求。Agent 的访问表面被广泛扩展，包括 Hex UI（Threads 和 notebooks）、Slack、CLI 工作流、MCP 以及 LangSmith Fleet。这种广泛的触点设计至关重要，因为当用户能在其日常工作环境中直接使用 Agent 时，采用率最高。",
-                "多层上下文构建机制：Agent 的表现高度依赖于上下文。LangChain 构建了多层上下文体系：1. 数据模型层（dbt）：dbt 是管理数据模型上下文的核心。团队摒弃了弱定义，采用强定义，明确说明数据的业务含义、允许的值、解释指南以及默认过滤规则。这大幅降低了 Agent 基于错误业务理解生成技术正确答案的概率。2. 语义模型层：用于定义 ARR、销售管道、客户健康度等高频指标及模型间的关系，确保指标定义的一致性。3. 业务上下文层（Workspace guides）：对于无法塞入表或指标定义的公司流程、团队工作流和报告约定，团队使用 Hex 工作区指南。这些指南以纯文本形式编写，通过 GitHub 仓库同步至 Hex，支持版本控制和审查。4. 信任与实现层：通过“认可（Endorsements）”机制，由数据团队专属标记可信的仪表盘和资产，防止 Agent 在多个相似资产中选错数据源。同时，Agent 可以直接访问 GitHub 中的 dbt 仓库，获取底层的 SQL 和转换逻辑，为技术用户提供深度调试能力。",
-                "反馈与优化循环：上下文需要闭环反馈。团队利用 Hex Context Studio（或自建的 LangSmith）作为可观测性工具，监控对话主题趋势、常见警告和上下文缺口。如果发现用户反复询问同类问题，则考虑开发新仪表盘；如果 Agent 在某个指标上挣扎，则优化语义模型定义。这一循环使数据团队能够精准识别报告、文档和建模中的盲区，持续迭代数据栈。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "证据：迁移取得了显著的业务成果。自助数据 Agent 处理的请求量达到了原 3 人数据团队直接处理量的 40 倍。在过去 30 天内，近 100% 的已配置用户（占公司总人数的三分之一）使用了数据 Agent，产生了约 2200 次对话（平均每位用户每月 23 次）。目前 100% 的公司员工以某种形式使用了新栈，其中 70% 为只读权限，30% 为 Agent 权限（通过 IT 自助申请）。数据团队并未消失，而是将精力转移到了需要更深业务上下文、更强数据建模和跨部门对齐的高杠杆工作上。",
-                "结论：构建 Agent 优先数据栈的核心在于“使上下文显性化”。Agent 需要理解数据的含义、可信的来源、业务的运作方式以及何时需要额外谨慎。坚实的数据建模基础是前提，如果人类觉得数据模型混乱，Agent 也会觉得混乱。高质量的上下文（清晰的定义、业务词汇、指标逻辑）是最高杠杆的投资。数据团队的角色正在发生根本性转变：从手动回答每一个问题，转向设计上下文、模型和信任系统，从而赋能全公司更好地回答问题。",
-                "边界与局限：Agent 无法魔法般地解决底层数据质量问题，语义模型必须建立在扎实的数据建模基础之上。此外，自助服务并不免除数据教育的责任，用户必须理解系统的力量与局限，Agent 的回答在用于重大决策时仍需人类判断和数据团队的验证。团队也承认目前仍处于早期阶段，未来需要引入 Evals（评估）机制来结构化地测试上下文更改的效果，并进一步自动化上下文建议的工作流。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "传统 BI 工具无法满足 Agent 对业务上下文和可信数据源的需求，企业需向 Agent 优先架构演进。",
-            "通过 dbt 强定义、语义模型、Hex 工作区指南和资产认可机制，为 Agent 构建多层上下文体系。",
-            "统一工作区结合多触点（Slack、CLI、MCP 等）可最大化 Agent 的采用率和实用性。",
-            "可观测性工具能揭示上下文缺口，形成“监控-分析-迭代”的反馈闭环，持续优化 Agent 表现。",
-            "坚实的数据建模基础是 Agent 发挥作用的前提，数据团队的核心价值转向上下文与信任系统设计。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "Agent 访问表面包括 Hex UI (Threads/notebooks)、Slack、CLI、MCP 和 LangSmith Fleet。",
-              "basis": "source"
-            },
-            {
-              "text": "dbt 用于管理数据模型上下文，提供包含业务逻辑、允许值和默认过滤规则的列/表定义。",
-              "basis": "source"
-            },
-            {
-              "text": "语义模型定义 ARR、管道等核心指标及模型关系，确保指标计算逻辑一致性。",
-              "basis": "source"
-            },
-            {
-              "text": "Hex 工作区指南通过 GitHub 仓库同步，用于记录公司流程、报告约定等纯文本业务上下文。",
-              "basis": "source"
-            },
-            {
-              "text": "Endorsements（认可）机制由数据团队专属控制，用于标记可信仪表盘和资产，防止 Agent 选用错误数据源。",
-              "basis": "source"
-            },
-            {
-              "text": "使用 Hex Context Studio 或 LangSmith 进行可观测性分析，监控对话趋势、警告和上下文缺口。",
-              "basis": "source"
-            },
-            {
-              "text": "未来计划引入 Evals（评估）机制，以结构化方式测试上下文更改（如指标定义更新）对 Agent 回答质量的提升效果。",
-              "basis": "source"
-            },
-            {
-              "text": "MCP (Model Context Protocol) 是一种允许 Agent 标准化连接外部数据源和工具链的协议，用于扩展 Agent 的访问表面。",
-              "basis": "inference"
-            },
-            {
-              "text": "LangSmith Fleet 是 LangSmith 提供的一种用于管理和部署多个 Agent 实例或工作流的机制，支持通过 MCP 和 CLI 进行集成。",
-              "basis": "inference"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "企业构建内部 AI 数据助手（Text-to-SQL 或数据分析 Agent）（延伸建议，非原文直接步骤）",
-              "steps": [
-                "1. 盘点并重构核心数据模型，使用 dbt 编写包含业务含义、枚举值和过滤规则的强定义。",
-                "2. 构建语义层，统一定义高频业务指标（如 MRR、转化率），避免 Agent 重复推断逻辑。",
-                "3. 编写业务指南（Prompt/Context），说明数据使用规范、排雷指南和公司特定流程。",
-                "4. 实施资产认可机制，仅将经过数据团队审核的模型/报表暴露给 Agent 作为可信源。",
-                "5. 接入可观测性平台，定期分析 Agent 失败或低置信度对话，迭代上下文和模型。"
-              ],
-              "tools": [
-                "dbt",
-                "Hex / Metabase",
-                "LangSmith / Langfuse",
-                "GitHub",
-                "Slack"
-              ],
-              "verification": [
-                "通过 A/B 测试或 Evals 对比上下文优化前后的 Agent 回答准确率。",
-                "统计自助分析请求拦截率及数据团队临时工单减少量。",
-                "监控 Agent 对话中的警告频率和上下文缺口指标。"
-              ]
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-28T08:05:40.793Z",
-        "model": "qwen3.7-plus"
-      },
       {
         "id": "6a4d7adf06c505e0",
         "title": "Six Agent Harness Capabilities for Higher Model Performance",
@@ -688,105 +1003,687 @@
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "NVIDIA NOOA：通过六大Harness能力与面向对象架构提升AI Agent性能",
+        "displayTitle": "NVIDIA NOOA 框架：通过面向对象架构与六大能力重塑 AI Agent 性能与效率",
         "analysis": {
-          "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出Agent性能不仅取决于模型，更受Harness架构影响。NOOA将Agent抽象为单一Python类，通过类型化输入输出、引用传递等六大核心理念，显著提升模型在软件工程、网络安全和推理任务中的表现。其自主管理的长期记忆系统在不增加上下文负担下将Token消耗降低约一半，为构建高效、可调试的Agent提供新范式。",
+          "listSummary": "本文介绍了 NVIDIA 推出的 NOOA（面向对象代理）框架，该框架将 Agent 抽象为单一 Python 类，通过类型化输入输出、引用传递等六大理念重构 Harness 架构。文章详细展示了 NOOA 在软件工程、网络安全和通用推理基准测试中超越 SOTA 的表现，并证明其能将 Token 成本降低一半。适合关注 AI Agent 架构设计、性能优化及工程化落地的开发者阅读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "构建优秀的AI Agent不仅在于选择正确的模型，模型周围的架构（Harness）同样决定了最终结果。Harness负责渲染上下文、执行动作、管理状态以及判断任务何时完成。仅Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。传统的Agent开发涉及协调提示模板、工具模式、回调代码和工作流图等多个移动部件，过程复杂且难以像传统软件那样进行版本控制、代码审查和单元测试。开发者需要一种更简单、更贴近传统软件工程实践的方法，来构建、调试和维护复杂的Agent系统，同时解决上下文窗口限制和Token成本高昂的问题。NVIDIA Labs Object-Oriented Agents (NOOA) 正是基于这一洞察构建的开源研究预览版，旨在通过创新的架构设计解决上述痛点。"
+                "构建卓越的 AI 代理（Agent）不仅仅取决于选择合适的基础模型，模型周围的架构（Harness）同样起着决定性作用。Harness 负责渲染上下文、执行动作、管理状态以及决定任务何时完成，其设计质量对最终结果的影响与模型本身不相上下。研究表明，仅 Harness 设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的 Token 成本差异。传统的 Agent 开发往往需要协调提示模板、工具模式（Tool schemas）、回调代码和工作流图等多个复杂组件，这种碎片化的方式增加了开发和维护的难度。为了解决这一问题，NVIDIA 推出了 NVIDIA Labs Object-Oriented Agents (NOOA) 框架。该框架基于一个核心洞察：将 Agent 的开发回归到传统的软件开发范式，通过统一的面向对象设计来简化架构，从而在提升模型性能的同时大幅降低 Token 消耗。NOOA 作为一个开源的研究预览版，提供了 Python 框架、内存系统、能力测试和基准代理，旨在让社区能够复现、挑战并在此基础上构建更优的解决方案。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "NOOA框架将Agent简化为单一的Python类。其方法即为能力，字段即为状态，文档字符串即为提示，类型注解即为强制契约。标准Python方法体若为省略号（...），则由LLM驱动的循环在运行时完成；若为正常方法体，则作为普通确定性Python运行。这种设计使得Agent可以被差分、代码审查、单元测试、跟踪、版本控制和重构。NOOA提出了六个面向模型的接口理念：第一，类型化输入/输出，Agentic调用具有类型化参数和验证的返回值，而非自由文本；第二，引用传递，模型操作实时Python对象，看到有界预览而非序列化转储；第三，代码即动作，模型通过编写Python执行控制流和内联方法调用，将动作直接转化为可执行的代码逻辑；第四，可编程循环工程，编排循环是普通Python，开发者和模型均可编写，使得复杂的任务分解和重试逻辑能够像传统代码一样被调试和优化；第五，显式对象状态，持久化、类型化状态存在于Agent对象上，而非仅在对话历史中；第六，模型可调用的Harness API，上下文块和事件历史是模型可检查和管理的API。",
-                "在内存管理方面，NOOA摒弃了自动后台摘要，采用代理自主管理的长期记忆子系统。代理通过模型可调用的工具主动写入、查询和纠正记录，记录带有类型、重要性和标签，并通过“支持”、“矛盾”、“派生自”等类型化关系构成知识图谱。后台反思过程负责合并重复、链接相关记录、提炼洞察并修剪无关信息。所有数据持久化在人类可读的单一SQLite文件中，支持多Agent共享存储且保留独立所有权。",
-                "在论证其有效性时，文章通过多个基准测试展示了NOOA在相同模型下的性能提升与成本降低。在SWE-bench Verified中，NOOA使用GPT-5.5达到82.2%的准确率，且仅需29次LLM调用和约110万Token。对比Harness需要66次调用和220万Token才能达到78.2%。这主要得益于引用传递机制，工具结果直接作为实时Python变量组合，避免了上下文窗口的文本往返。模型看到类型化、有界的预览，完整值保留在执行环境中。这使得NOOA无需上下文压缩即可解决SWE-Bench任务，中位数会话峰值仅为22-72k prompt tokens，转录保持追加有效且缓存命中。"
+                "NOOA 的核心方法论是将 Agent 抽象为一个单一的 Python 类。在这个设计中，类的方法代表其能力，字段代表其状态，文档字符串（Docstrings）作为提示词，而类型注解则作为强制执行的契约。标准 Python 方法如果方法体为省略号（...），则在运行时由 LLM 驱动的循环完成；具有正常方法体的则作为普通的确定性 Python 代码运行。这种设计使得 Agent 可以像普通代码一样进行差异比对、代码审查、单元测试、追踪、版本控制和重构。在架构层面，NOOA 提出了六个面向模型的接口理念以驱动性能提升：第一，类型化输入/输出，代理调用具有类型化的参数和经过验证的返回值，而非自由文本；第二，引用传递，模型直接操作实时的 Python 对象，查看有界的预览信息，而不是序列化的数据转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的 Python 代码来执行动作；第四，可编程循环工程，编排循环是普通的 Python 代码，开发者和模型均可编写；第五，显式对象状态，持久化且类型化的状态直接存在于代理对象上，而不仅仅是对话历史；第六，模型可调用的 Harness API，上下文块和事件历史成为模型可以检查和管理 API。",
+                "在内存系统方面，NOOA 摒弃了自动后台总结管道，转而采用由代理通过模型可调用工具主动管理的长期记忆存储。代理在工作过程中有意地写入、查询和纠正记录，同时与当前回合相关的自发记忆会自动浮现到上下文中。记录带有类型、重要性和标签，并通过“支持”、“矛盾”和“派生自”等类型化关系连接成知识图谱。后台反思过程负责合并重复项、链接相关记录、提炼洞察并修剪过时信息。所有数据持久化在一个人类可读的 SQLite 文件中，支持多代理共享存储。在通用推理任务（如 ARC-AGI-3）中，NOOA 采用世界模型技能，指导代理在其工作区构建一组 Python 程序来编码观察到的状态并预测下一个状态。每个回合代理进行逆向预测（Retrodicts），将预测与实际发生的情况进行比较，并在不匹配时修正模型和假设。此外，NOOA 在运行环境上采用了分层沙箱机制，包括进程内单元防护、每次运行的操作系统权限降级、游戏身份的端到端匿名化以及内核强制的每单元沙箱。红队审计表明，这种严格的安全设计确保了在竞赛模式下没有规则泄露，为生产环境部署提供了可靠的安全基线。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "文章提供了详实的基准测试证据。在软件工程领域，NOOA在SWE-bench Verified上使用GPT-5.5达到82.2%，超越提交时的SOTA（79.2%），使用Opus 4.6达到79.8%，且仅使用253行通用Agent代码，无基准特定提示。在网络安全领域，CyberGym L1基准测试中，NOOA在无网络访问和严格规则“作弊检查”下解决了86.8%的任务。其确定性门控机制将验证器输出转化为崩溃判定、确认崩溃匹配、重放输入检查复现，确保漏洞发现的准确性，整个运行过程作为单一轨迹可被检查和测试。在通用推理方面，ARC-AGI-3测试中，单Agent通过构建Python世界模型进行反向预测。该技能指示Agent在其工作区中构建一组Python程序来编码观察到的状态并预测下一个状态，每回合通过比较预测与实际发生的情况来修正模型和假设。GPT-5.5达到50.2% RHAE（技能提升8.5分，记忆提升11.8分），GPT-5.6-sol达到85.1%，且每局成本低于20美元。",
-                "结论表明，Harness工程不仅能提升准确性，还能大幅提高效率。NOOA通过面向对象的设计和引用传递等机制，使Agent开发回归传统软件开发模式，支持差分、审查、单元测试和重构，同时在不牺牲性能的前提下显著降低了Token消耗。",
-                "边界与适用性方面，NOOA目前作为开源研究预览版发布，旨在为开放Agent生态系统提供一个实验性表面，而非现有Harness的直接替代品。其技术文档公开，允许任何项目采用、挑战或改进这些技术。此外，ARC-AGI-3的测试在严格的分层沙箱（进程内单元防护、每次运行OS权限降级、端到端匿名化、内核强制沙箱）下进行，红队审计未发现规则泄漏，证明了其在安全部署（如结合NVIDIA OpenShell安全运行时）方面的可靠性。"
+                "NOOA 的六大能力在多个领域得到了实证检验。在软件工程领域，使用 GPT-5.5 的 NOOA 在 SWE-bench Verified 上达到了 82.2% 的准确率，超越了提交时的 SOTA（79.2%），且仅使用 29 次 LLM 调用和约 110 万 Token，而对比 Harness 需要 66 次调用和 220 万 Token 才能达到 78.2%。在网络安全领域，NOOA 在 CyberGym L1 上解决了 86.8% 的任务，且在没有网络访问和特定网络安全引导的情况下，完全依赖代码推理。在通用推理方面，GPT-5.5 在 ARC-AGI-3 上达到 50.2% 的平均 RHAE，GPT-5.6-sol 达到 85.1%，且每局游戏成本均低于 20 美元。在漏洞发现任务中，NOOA 将验证管道实现为单一对象，通过三个确定性门控（判定崩溃、匹配漏洞、重现输入）确保发现的准确性。由于这些门控是普通的类型化方法，而不是在独立进程之间传递的自由格式文本，因此只有当代码明确允许时才会接受发现，整个运行过程成为一个可检查和测试的单一追踪记录。这种方法彻底消除了模型可能忽略或误解提示指令的风险。",
+                "结论表明，Harness 工程不仅能提升准确率，还能显著提高效率。通过引用传递和避免上下文压缩，NOOA 在保持高性能的同时将 Token 成本降低了一半。然而，其适用边界在于，NOOA 目前被定位为开源的实验性表面，而非现有 Harness 的完全替代品。其高级性能依赖于前沿模型（如 GPT-5.5/5.6）的强大能力，且在处理复杂代码和漏洞时，需要结合 NVIDIA OpenShell 等安全运行时进行分层沙箱隔离，以防止潜在的安全风险。同时，NOOA 强调开放实现的重要性，团队可以检查方法而不是盲目信任，构建透明、类型化、可检查的代理。这种设计支持现有的安全审查、访问控制和可观察性实践，使得企业级应用能够无缝集成到现有的 DevOps 和 MLOps 流程中。"
               ]
             }
           ],
           "keyPoints": [
-            "NOOA将Agent抽象为单一Python类，使Agent开发回归传统软件工程的版本控制、审查和测试模式。",
-            "提出六大面向模型的接口理念，包括类型化输入输出、引用传递、代码即动作等，显著提升模型性能。",
-            "引入代理自主管理的长期记忆系统，通过知识图谱和后台反思机制实现跨会话知识积累，数据持久化于SQLite。",
-            "借助引用传递机制避免上下文序列化，在SWE-bench等任务中将Token消耗降低约一半，且无需上下文压缩。",
-            "在SWE-bench、CyberGym L1和ARC-AGI-3等多个基准测试中，使用通用Agent代码取得SOTA或领先成绩。"
+            "NOOA 将 Agent 抽象为单一 Python 类，通过类型化输入输出、引用传递和代码即动作等六大理念重构 Harness 架构。",
+            "采用主动管理的长期记忆系统，通过知识图谱和 SQLite 持久化实现跨会话知识积累，无需重新训练。",
+            "在 SWE-bench Verified 上，NOOA 以约一半的 Token 消耗（110万 vs 220万）实现了超越 SOTA 的 82.2% 准确率。",
+            "在 ARC-AGI-3 中通过构建 Python 世界模型和逆向预测机制，以低于 20 美元/局的成本达到 85.1% 的高分。",
+            "漏洞发现流程通过确定性门控方法（崩溃判定、漏洞匹配、重现验证）确保推理结果的严格可验证性。"
           ],
           "technicalDetails": [
             {
-              "text": "NOOA框架将Agent定义为单一Python类，方法体为省略号(...)时由LLM驱动循环在运行时完成，正常方法体作为确定性Python运行。",
+              "text": "Agent 被定义为单一 Python 类，方法体为省略号（...）的方法在运行时由 LLM 驱动的循环完成，普通方法体作为确定性 Python 运行。",
               "basis": "source"
             },
             {
-              "text": "六大接口理念包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
+              "text": "六大接口理念包括：类型化输入/输出、引用传递（操作实时 Python 对象）、代码即动作、可编程循环工程、显式对象状态、模型可调用的 Harness API。",
               "basis": "source"
             },
             {
-              "text": "长期记忆子系统使用SQLite文件持久化，记录带有类型、重要性、标签，并通过supports, contradicts, derived-from等关系构成知识图谱。",
+              "text": "长期记忆系统使用 SQLite 文件持久化，记录带有类型、重要性和标签，通过支持、矛盾、派生自等关系形成知识图谱，并包含后台反思合并与修剪机制。",
               "basis": "source"
             },
             {
-              "text": "在SWE-bench Verified中，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens，对比Harness需66次调用和2.2M tokens达到78.2%。",
+              "text": "在 SWE-bench Verified 中，NOOA 使用 GPT-5.5 达到 82.2% 准确率，消耗 29 次 LLM 调用和约 1.1M tokens；对比 Harness 需 66 次调用和 2.2M tokens 达到 78.2%。",
               "basis": "source"
             },
             {
-              "text": "ARC-AGI-3测试中，GPT-5.5达到50.2% mean RHAE，GPT-5.6-sol达到85.1%，每局成本均低于20美元（分别为$17.85和$13.3）。",
+              "text": "ARC-AGI-3 评估中，代理通过构建 Python 程序编码状态并预测下一状态，每回合进行逆向预测（retrodicts）以修正世界模型和假设。",
               "basis": "source"
             },
             {
-              "text": "NOOA通过Pass by reference机制，使工具结果成为实时Python变量，中位数会话峰值prompt tokens为22-72k，无需上下文压缩。",
+              "text": "漏洞发现验证管道包含三个确定性门控方法：将原始输出转为崩溃判定、确认崩溃匹配报告漏洞、重跑输入检查重现。",
               "basis": "source"
             },
             {
-              "text": "CyberGym L1漏洞发现任务中，NOOA使用三个确定性门控方法：转化崩溃判定、确认崩溃匹配、重放输入检查复现。",
-              "basis": "source"
-            },
-            {
-              "text": "ARC-AGI-3运行环境采用分层沙箱，包括进程内cell guard、per-run OS privilege drop、端到端匿名化和内核强制per-cell sandbox。",
-              "basis": "source"
+              "text": "NOOA 框架依赖底层大模型（如 GPT-5.5/5.6）的强代码生成与推理能力，若使用较弱模型可能无法发挥引用传递和代码即动作的优势。",
+              "basis": "inference"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "构建需要长期记忆和复杂状态管理的AI Agent系统",
+              "scenario": "构建需要严格状态管理和低 Token 消耗的复杂企业级 AI Agent 系统",
               "steps": [
-                "1. 将Agent状态和工具封装为面向对象的Python类，利用类型注解约束输入输出。",
-                "2. 使用引用传递机制处理工具返回值，避免将大型对象序列化为文本塞入上下文窗口。",
-                "3. 设计基于SQLite的长期记忆模块，允许Agent通过工具主动写入和查询结构化知识图谱。",
-                "4. 将编排逻辑编写为标准Python循环，而非依赖黑盒工作流引擎。"
+                "1. 将 Agent 核心逻辑封装为单一 Python 类，利用类型注解定义输入输出契约。",
+                "2. 将工具调用结果作为实时 Python 对象引用传递，避免序列化为文本塞入上下文。",
+                "3. 设计确定性门控方法（如数据校验、状态检查）与 LLM 推理步骤交替执行。",
+                "4. 引入基于 SQLite 的主动记忆模块，让 Agent 在任务中显式写入和查询关键状态。"
               ],
               "tools": [
-                "Python",
+                "Python 3.10+ (支持类型注解)",
                 "SQLite",
-                "NVIDIA NOOA Framework",
-                "NVIDIA OpenShell"
+                "NVIDIA NOOA 框架",
+                "NVIDIA OpenShell (用于安全沙箱)"
               ],
               "verification": [
-                "1. 通过单元测试验证Agent类的确定性方法。",
-                "2. 监控LLM调用的Token消耗和上下文窗口峰值，验证引用传递是否有效降低了序列化开销。",
-                "3. 检查SQLite文件中的记忆记录，验证知识图谱的关联性和后台反思的修剪效果。",
-                "4. 在沙箱环境中进行红队测试，验证Agent在受限权限下的安全性和无泄漏性。"
+                "1. 对比传统文本上下文方案与引用传递方案的 Token 消耗和基准测试得分。",
+                "2. 对确定性门控方法进行单元测试，确保非 LLM 逻辑的 100% 可靠性。",
+                "3. 检查 SQLite 记忆文件的可读性与多进程/多 Agent 共享时的并发安全性。"
               ]
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-28T08:08:12.276Z",
+        "analyzedAt": "2026-07-28T08:52:08.847Z",
+        "model": "qwen3.7-plus"
+      },
+      {
+        "id": "abe2f1f83a34b4d2",
+        "title": "Full Text Search in SmithDB: Designing an Inverted Index for Object Storage",
+        "url": "https://www.langchain.com/blog/full-text-search-in-smithdb-designing-an-inverted-index-for-object-storage",
+        "summary": "SmithDB supports full-text search and JSON filtering over agent traces with a median (P50) latency of 400 ms, even though the underlying data consists of large, deeply nested JSON documents stored in object storage.",
+        "publishedAt": "2026-07-27T05:12:17.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "Agent 与自动化",
+        "score": 56,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 25,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 86,
+        "bodyHash": "89032125f63081ad06690f3a",
+        "extraction": {
+          "method": "readability",
+          "length": 17593,
+          "originalLength": 17593,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "SmithDB 倒排索引设计：面向对象存储的全文搜索与 JSON 过滤优化",
+        "analysis": {
+          "listSummary": "本文介绍 SmithDB 为对象存储设计倒排索引的演进过程。针对 Agent 追踪数据 payload 庞大、词频极度倾斜及对象存储高延迟特性，作者放弃基于本地磁盘的 Tantivy，基于 Vortex 列式格式进行深度定制。文章剖析了 V1 方案在编码控制上的失败原因，重点阐述 V2 方案如何通过字节预算行组、FST 字典及逐词块位打包技术，将搜索 P50 延迟控制在 400ms 内。适合数据库内核开发者阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "SmithDB 旨在为 Agent 追踪数据提供全文搜索和 JSON 过滤能力，其中位数延迟控制在 400 毫秒。然而，将传统搜索引擎应用于此类数据面临两大独特挑战。首先是 Agent 追踪数据的极端特征。每个 LangSmith 事件的输入和输出字段占据了绝大部分字节，常见 payload 大小超过 1 MB，甚至达到数百 MB。随着大语言模型上下文窗口的扩大和 Agent 运行时间的延长，这些 payload 仍在持续膨胀。内容列的大小远超身份、时间戳等元数据列。这种特征彻底颠覆了传统搜索索引的经济学。传统日志引擎索引数十亿个小文档，索引体积相对较小，源数据与索引的比例约为 1:1.25。而 SmithDB 索引的是数十亿个巨型文档，单个文档产生的索引数据可能超过许多小日志行的总和，其源数据与索引比例高达 1:1.9。这意味着如果没有索引，内容过滤将导致灾难性的性能问题，例如查询包含特定工具输出的运行，可能需要扫描数 GB 的 payload 才能返回几行结果。此外，自然语言和 JSON payload 的词频遵循齐普夫分布，少数通用词出现在几乎所有文档中，而长尾词仅出现一两次。索引必须在跨越多个数量级的词频差异下保持紧凑。同时，用户查询模态多样，包括按路径存在、按键值匹配和全文搜索。",
+                "第二大挑战是对象存储架构。SmithDB 将所有持久化数据存储在对象存储中，计算节点相对无状态。在对象存储上，查询成本大致与发出的请求数乘以每次请求读取的字节数成正比。每次对象存储请求带有几十到几百毫秒的延迟，且单请求吞吐量适中。因此，在知道是否需要之前，提前获取大型倒排列表或位置列表会主导查询延迟。SmithDB 倒排索引的方方面面，从存储布局到查询执行，都是基于这些约束设计的。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "为了应对上述挑战，SmithDB 团队首先评估了直接采用 Tantivy 的可行性，但最终放弃。Tantivy 围绕 mmap 构建，假设随机 I/O 成本极低，而对象存储的往返延迟在百毫秒级别，布局和数据合并决定了查询延迟而非 CPU。其次，SmithDB 查询通过 Apache DataFusion 在 Vortex 上运行，需要搜索谓词下推到统一的扫描管道中，而 Tantivy 拥有独立的段模型和 I/O 假设。最后，Tantivy 的写入器会按插入顺序分配段本地的文档 ID 并在每次合并时重新编号，而 SmithDB 需要索引直接指向 Vortex 数据文件中的行位置，且其压缩过程会重映射行位置，这与 Tantivy 的合并机制不兼容。",
+                "团队随后尝试了 V1 方案，即教科书式倒排索引的直接翻译，依赖 Vortex 的默认编码。该方案在规模化时暴露出三个致命问题。第一，缺乏逐词编码控制。Vortex 为整列选择编码，导致单个高频词迫使整个数据块中所有词的位宽变大，造成位打包效率低下，恶化了缓存行为和读取体积。第二，固定大小的行组无视词倾斜。按固定词数批处理导致高频词可能将单个行组推至 100 MB 以上，而低频词行组仅几 MB。这在查询时转化为巨大的对象存储 GET 请求，在合并时转化为巨大的内存解码开销。第三，合并必须重塑位置列表。合并两个段意味着解码完整的位置嵌套列表，将其重新洗牌到新的文档顺序中，并重新计算所有外部偏移，导致 CPU 时间和内存分配在压缩时飙升。",
+                "为此，团队设计了 V2 倒排索引存储布局。V2 将行组的组织单位从固定词数改为字节预算。通过设定 32 MB 的倒排列表字节和 64 MB 的原始词字符串字节上限，彻底解决了行组大小不可控的问题，为每次对象存储读取和内存占用提供了上限。行组内包含四列：term（使用 FST 将词映射为序号）、term_info（包含文档计数及偏移量）、postings（倒排列表）和 positions（位置信息，仅用于全文搜索）。在编码选择上，团队采用 FST 作为词字典。对比测试表明，在低基数的 JSON 路径列中，FST 将字典压缩至 3.8 KiB，比 zstd 小四个数量级；在高基数的词值列中，FST 虽比 zstd 大 1.5 倍，但 zstd 是不透明的，每次查找都需要解压，而 FST 本身就是索引，支持精确查找、前缀扫描和自动机遍历，查找成本仅为 O(|term|)。此外，团队将键值搜索和全文搜索合并到单一 FST 中，通过存储 {token}\\0{flattened_path} 格式，使键值搜索变为精确查找，全文搜索变为前缀扫描。对于倒排列表和位置，采用 128 元素块的位打包差值编码，尾部使用 VInt。这种设计实现了逐词独立的位宽控制，且对 Vortex 表现为不透明的二进制 blob，支持按需解码和跳过。与 Tantivy 每个段构建一个 FST 不同，SmithDB 每个行组构建一个 FST，使得写入器可以流式处理而无需在内存中持有段级 FST，且查询时的区域级剪枝可跳过大多数行组。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文提供了详实的数据来支撑 V2 方案的有效性。在包含 279 万词项的代表性行组中，term_key 使用 FST 仅占 3.8 KiB，而 FSST 为 88.8 MiB，zstd 为 16.3 KiB；term_value 使用 FST 为 32.7 MiB，FSST 为 55.1 MiB，zstd 为 21.7 MiB。这些数据证明 FST 在路径查询上具有压倒性优势，在词值查询上虽牺牲了部分压缩率，但换取了免解压查询的能力。V2 方案通过字节预算行组和逐词块位打包，成功解决了 V1 方案中对象存储 I/O 突刺和合并 CPU 开销过大的问题，最终实现了 400 毫秒的 P50 搜索延迟。",
+                "结论是，针对对象存储和超大 payload 的特殊场景，直接套用基于本地磁盘假设的通用搜索库（如 Tantivy）是行不通的。必须从第一性原理出发，深度结合底层列式存储引擎（如 Vortex）的特性，定制存储布局和编码策略，才能在控制成本的同时满足延迟要求。",
+                "边界方面，本文仅详细探讨了 V2 倒排索引的存储布局设计，并未涉及索引构建、合并的具体实现细节，也未详细展开读路径的优化策略（作者提示这些内容将在博客的第二部分介绍）。此外，FST 在极高基数场景下的压缩率劣势是已知的权衡，文章未探讨在极端数据分布下 FST 内存占用超限的降级方案。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Agent 追踪数据 payload 庞大且词频极度倾斜，导致传统日志引擎的 source:index 比例从 1:1.25 恶化至 1:1.9，必须依赖倒排索引避免全量扫描。",
+            "对象存储的高延迟（百毫秒级）和按请求计费特性，要求索引设计必须最小化请求次数和单次读取字节数，而非追求 CPU 计算极致。",
+            "放弃 Tantivy 是因为其 mmap 本地磁盘假设、独立段模型以及文档 ID 重编号机制，与 SmithDB 的 Vortex 列式引擎下推及行位置对齐需求不兼容。",
+            "V1 方案失败在于依赖 Vortex 默认列级编码和固定行数行组，导致高频词拉高全局位宽，且合并 positions 时 CPU 开销巨大。",
+            "V2 方案采用字节预算行组（32MB posting + 64MB term-string），彻底解决了行组大小不可控和对象存储 I/O 突刺问题。",
+            "引入 FST 字典和逐词块位打包（Block-bitpacked deltas）技术，在牺牲部分高基数词压缩率的前提下，实现了免解压直接查询和按需解码。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "SmithDB 支持对 agent traces 进行全文搜索和 JSON 过滤，中位数 (P50) 延迟为 400 ms。",
+              "basis": "source"
+            },
+            {
+              "text": "Agent traces 的 source:index 比例平均约为 1:1.9，而传统日志引擎约为 1:1.25。",
+              "basis": "source"
+            },
+            {
+              "text": "Vortex 的 I/O 调度器将 1 MB 间隙内的相邻 segment 读取合并为单个请求，最大窗口为 16 MB。",
+              "basis": "source"
+            },
+            {
+              "text": "V2 布局中，每个行组设定 32 MB 的 posting 字节预算和 64 MB 的原始 term-string 字节预算。",
+              "basis": "source"
+            },
+            {
+              "text": "FST 字典将 keyed-search 和 full-text 查询合并，term_value 存储格式为 {token}\\0{flattened_path}。",
+              "basis": "source"
+            },
+            {
+              "text": "Postings 和 positions 采用 128 元素块位打包（Block-bitpacked deltas），尾部不足 128 元素使用 VInt 编码。",
+              "basis": "source"
+            },
+            {
+              "text": "在包含 279 万词项的测试行组中，term_key 使用 FST 压缩至 3.8 KiB，比 zstd (16.3 KiB) 小约 4 倍。",
+              "basis": "source"
+            },
+            {
+              "text": "Tantivy 每个 segment 构建一个 FST 并进行分片，而 SmithDB 每个 row group 构建一个 FST。",
+              "basis": "source"
+            },
+            {
+              "text": "SmithDB 使用 Apache DataFusion 作为查询引擎，并通过 Vortex 处理核心事件数据文件。",
+              "basis": "source"
+            },
+            {
+              "text": "对象存储单次请求延迟通常在几十到几百毫秒之间，查询成本正比于请求数与每次读取字节数的乘积。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在对象存储（如 S3）上构建和查询大规模倒排索引",
+              "steps": [
+                "1. 评估数据特征：分析文档大小分布和词频倾斜度，确定是否需要字节预算而非固定行数来划分数据块。",
+                "2. 选择字典编码：对比 FST、zstd 等方案。若查询需要高频前缀扫描或正则匹配，优先选择 FST 以避免解压开销。",
+                "3. 优化 Posting List 编码：采用分块位打包（如 128 元素块）结合 VInt 尾部，实现逐词独立的位宽控制，减少 I/O 体积。",
+                "4. 合并 I/O 请求：在客户端或存储引擎层实现 I/O 调度器，将相邻的小范围读取合并为单次大请求，以摊薄对象存储的请求延迟。"
+              ],
+              "tools": [
+                "Apache Arrow / Vortex",
+                "Rust (Tantivy/FST 库)",
+                "对象存储 (S3/MinIO)"
+              ],
+              "verification": [
+                "1. 监控对象存储 GET 请求次数和单次读取字节数，验证 I/O 合并策略是否生效。",
+                "2. 压测不同词频分布下的查询延迟（P50/P99），验证逐词位打包和字节预算行组对长尾查询的优化效果。",
+                "3. 对比 FST 与 zstd 在特定查询模式（如精确匹配 vs 前缀扫描）下的 CPU 使用率和查询延迟。"
+              ]
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-28T08:54:56.425Z",
         "model": "qwen3.7-plus"
       }
     ],
-    "game": [],
-    "art": []
+    "game": [
+      {
+        "id": "dc21b90615df56a5",
+        "title": "Meet the Unity CLI: manage Unity from your terminal",
+        "url": "https://unity.com/blog/meet-the-unity-cli",
+        "summary": "Install editors, automate CI, and drive a running Editor or dev build from the terminal. The Unity CLI and com.unity.pipeline package give scripts and AI agents a fast, structured way to operate Unity.",
+        "publishedAt": "2026-07-20T00:00:00.000Z",
+        "sourceId": "unity",
+        "sourceName": "Unity Blog",
+        "sourceSite": "https://blog.unity.com/",
+        "lane": "game",
+        "accent": "#222c37",
+        "topic": "Agent 与自动化",
+        "score": 73,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 16,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 82,
+        "bodyHash": "57bf85614973e8dcb5dfa913",
+        "extraction": {
+          "method": "readability",
+          "length": 11371,
+          "originalLength": 11371,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Unity CLI 与 Pipeline 包发布：从终端管理 Unity 并赋能 AI 代理",
+        "analysis": {
+          "listSummary": "本文介绍 Unity 推出的 Unity CLI 及实验性 com.unity.pipeline 包。Unity CLI 提供独立命令行工具，管理编辑器、模块及认证，专为 CI 设计。Pipeline 包允许通过本地 API 驱动运行中的编辑器或开发版 Player，支持暴露自定义命令。结合实时执行 C# 的 eval 功能，这些工具为 AI 代理提供了观察、操作和验证项目的结构化执行层，提升自动化效率。适合关注 Unity 自动化及 AI 集成的开发者。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "软件开发范式正加速向终端、脚本、CI/CD 流水线以及 AI 代理转移。在这一趋势下，传统的 Unity 工作流暴露出明显的瓶颈。过去，开发者若需在无头环境中管理 Unity，通常依赖 Unity Hub 的 headless 模式（-- --headless）。然而，这种旧版方式启动速度缓慢，当脚本或 AI 代理在单个任务中需要进行数十次调用时，累积的启动延迟会严重拖慢整体工作流效率。此外，依赖 UI 的操作方式无法直接融入自动化管道，限制了大规模构建和测试的扩展性。",
+                "与此同时，AI 编码助手在实际工程落地中面临着“最后一公里”的困境。当前的 AI 模型非常擅长生成代码和资产内容，但在“运行项目、观察错误、尝试修复”的闭环上表现挣扎。AI 助手可以生成一个游戏玩法脚本，但无法直接运行测试来验证其有效性。它们往往只能依赖人工复制粘贴控制台输出，或者尝试解析难以提取的非结构化文本。AI 代理需要机器可读的结构化数据（如 JSON）和明确的退出码契约，以便在管道中可靠地捕获失败并做出决策。",
+                "核心问题在于，业界急需一种无需 UI、启动迅速、输出结构化且支持非交互式操作的命令行工具，以接管 Unity 的环境管理。同时，还需要一种底层机制，让外部脚本或 AI 代理能够直接驱动运行中的 Unity 实例，甚至深入引擎内部执行代码。只有解决这些问题，才能将 Unity 从一个需要人工干预的编辑器，转变为一个 AI 代理可以自主观察、操作和验证的自动化环境。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "为了解决环境管理问题，Unity 推出了 Unity CLI。它被设计为一个单一、独立且无外部依赖的原生二进制文件，安装后自动加入系统 PATH。其核心设计哲学是“为自动化而生”。CLI 的所有命令均支持 JSON 和 TSV 结构化输出，错误信息定向至 stderr，结果定向至 stdout，并遵循严格的退出码契约（0 表示成功，1 表示错误，130 表示取消）。这种设计使得 CI 管道能够轻松解析结果并捕获失败。此外，CLI 支持非交互式安装（通过 --accept-eula 和 --yes 跳过所有提示）以及基于环境变量的服务账号认证，完美契合无头构建代理的需求，且由于是原生二进制，其启动速度远超旧版 Hub headless 模式。",
+                "为了实现对运行中实例的控制，Unity 引入了实验性的 com.unity.pipeline 包。该包通过本地 API 将运行中的 Editor 或开发版 Player 转化为可编程的自动化目标。其核心机制是基于属性的命令发现：开发者只需在项目的静态方法上添加 [CliCommand] 和 [CliArg] 属性，Pipeline 包即可自动发现并注册这些方法为 CLI 命令，无需任何手动注册步骤。这使得 Editor 具备了“自描述”能力，外部工具可以在运行时查询并调用项目暴露的自定义操作，将原本需要人工在编辑器中点击的功能转化为脚本可调用的工具。",
+                "在深入引擎内部执行方面，Unity 提供了 eval 功能。通过 unity command eval，开发者可以在运行中的 Editor 或 Player 内实时执行任意 C# 表达式。该功能底层使用 Roslyn 编译器，并在 Editor 的主线程上运行，这意味着它可以访问项目能触及的任何引擎或编辑器 API。由于完全绕过了项目级的重新编译和域重载（Domain Reload），其响应时间从传统的数秒缩短至毫秒级。为了平衡这种强大的底层访问能力，eval 被设计为受安全令牌（security token）保护，防止未授权的代码执行。",
+                "文章论证了这三层架构（CLI 管理、Pipeline 驱动、eval 深入）如何协同赋能 AI 代理。CLI 提供机器友好的结构化输入输出，让模型获得干净的、可解析的结果；Pipeline 让 Editor 暴露自定义工具，使 AI 能够动态发现并调用项目特定的操作，而无需依赖硬编码的命令列表；eval 则打破了预定义命令的限制，让 AI 的能力边界等同于 Unity 的 API 边界。这三者共同构建了一个完整的反馈循环，使 AI 代理能够观察场景状态、执行修改、进入 Play 模式验证结果，实现了从“建议者”到“验证者”的转变。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文提供了大量具体的命令和代码示例作为证据支撑。例如，安装命令 unity install 6000.2.10f1 -m android ios webgl 证明了模块管理的便捷性；unity editors --format json 证明了结构化输出的存在；C# 代码片段展示了 [CliCommand(\"greet\")] 的具体用法及参数定义；unity command eval \"return Application.version;\" 证明了实时执行 C# 的能力。此外，文章通过描述一个 25 秒的视频演示（AI 代理接收自然语言 bug 报告，使用 eval 检查场景、重新启用碰撞体并验证修复），直观展示了这些工具结合后的最终效果。",
+                "基于上述证据，文章得出了明确的核心结论：Unity CLI 和 Pipeline 包不仅仅是便利性的提升，它们是 AI 辅助开发的基础设施。文章清晰界定了它们与 Unity AI 产品的关系：Unity AI 负责推理和决策（决定做什么），而 CLI 和 Pipeline 构成了执行面（execution surface），负责快速、本地化地执行这些决策。它们是 Unity AI 工具的底层支撑，同时也向任何第三方代理、MCP 服务器或自定义脚本完全开放。",
+                "然而，文章也明确指出了当前版本的适用边界与限制。首先，com.unity.pipeline 包目前仍处于实验性阶段（experimental），其 API 和行为预期会发生演进，生产环境需谨慎使用。其次，Player 运行时 API 严格限制在本地（localhost-only），默认处于关闭状态，且明确强调仅适用于开发和 QA 构建，绝不能用于生产环境（never production）。第三，eval 功能虽然强大，但受安全令牌保护，且由于在主线程运行，执行耗时操作可能会阻塞主线程。最后，CLI 对标准包管理器（如 brew, winget, apt）的支持尚未就绪，目前仍需依赖官方提供的 shell 脚本进行安装。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Unity CLI 是独立的命令行二进制文件，用于管理编辑器、模块、项目和认证，专为自动化和 CI 优化，启动速度优于旧版 Hub headless 模式。",
+            "com.unity.pipeline 实验性包允许通过本地 API 驱动运行中的 Editor 或开发版 Player，支持通过 [CliCommand] 属性自动暴露自定义静态方法为 CLI 命令。",
+            "unity command eval 利用 Roslyn 在运行中的实例主线程内实时执行 C# 代码，无需重新编译或域重载，提供毫秒级反馈，且受安全令牌保护。",
+            "这些工具共同为 AI 代理提供了结构化输出、自描述命令和实时执行能力，构建了完整的“观察-操作-验证”闭环，弥补了 AI 助手缺乏执行环境的短板。",
+            "CLI 和 Pipeline 作为执行层（execution surface），与作为推理层的 Unity AI 协同工作，是 Unity AI 辅助工具链的底层基础，同时兼容第三方代理和 MCP 服务器。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Unity CLI 安装脚本（macOS/Linux 使用 curl，Windows 使用 irm），当前通过 UNITY_CLI_CHANNEL=beta 环境变量指定 beta 通道进行安装。",
+              "basis": "source"
+            },
+            {
+              "text": "CLI 支持 --format json 和 --format tsv 输出结构化数据，退出码遵循 0（成功）、1（错误）、130（取消）的严格契约。",
+              "basis": "source"
+            },
+            {
+              "text": "com.unity.pipeline 包通过 [CliCommand] 和 [CliArg] 属性自动发现并注册静态方法为 CLI 命令，无需手动注册步骤。",
+              "basis": "source"
+            },
+            {
+              "text": "unity command eval 使用 Roslyn 编译器在 Editor 的主线程上编译并运行 C# 表达式，受安全令牌（security token）保护。",
+              "basis": "source"
+            },
+            {
+              "text": "Player 运行时 API 仅限本地（localhost-only），默认处于关闭状态，且明确禁止用于生产环境（never production）。",
+              "basis": "source"
+            },
+            {
+              "text": "由于 eval 在 Editor 或 Player 的主线程运行且无域重载，执行耗时较长或死循环的 C# 代码可能会导致主线程阻塞，影响实时帧率或导致无响应。",
+              "basis": "inference"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在 CI/CD 流水线中自动化构建和测试 Unity 项目，或为 AI 代理搭建本地调试与验证环境。",
+              "steps": [
+                "1. 在 CI 节点使用官方脚本安装 Unity CLI，并配置服务账号环境变量进行无头认证。",
+                "2. 使用 unity install 命令非交互式安装指定版本的 Unity 编辑器及所需构建模块（如 android, ios）。",
+                "3. 在 Unity 项目中引入 com.unity.pipeline 包，为自定义测试或构建脚本添加 [CliCommand] 属性以暴露命令。",
+                "4. 在 CI 脚本或 AI 代理逻辑中，通过 unity command 调用暴露的自定义命令，或使用 eval 执行实时状态检查。",
+                "5. 解析 CLI 返回的 JSON 输出并检查退出码，以决定流水线的后续分支或 AI 代理的下一步动作。"
+              ],
+              "tools": [
+                "Unity CLI",
+                "com.unity.pipeline",
+                "CI/CD 平台（如 GitHub Actions, GitLab CI）",
+                "终端脚本（Bash/PowerShell）"
+              ],
+              "verification": [
+                "检查 CLI 命令的退出码是否为 0，确认安装或构建成功。",
+                "解析 JSON 格式输出，验证返回的数据结构是否符合预期。",
+                "在本地运行 AI 代理脚本，验证其能否通过 eval 成功读取场景状态并修改 GameObject 属性，且无编译延迟。"
+              ]
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-28T08:57:04.744Z",
+        "model": "qwen3.7-plus"
+      },
+      {
+        "id": "a593cff299a339e0",
+        "title": "Dev snapshot: Godot 4.8 dev 2",
+        "url": "https://godotengine.org/article/dev-snapshot-godot-4-8-dev-2/",
+        "summary": "Happy GodotCon Boston for those who celebrate! While many key contributors are already at this event as we speak, that doesn’t mean that development snapshots are slowing down anytime soon. We hope anyone that couldn’t make it to the event this year looks forward to further coverage and highlights in the near future, as you enjoy Godot 4.8 dev 2 in the meantime! Please consider supporting the project financially , if you are able. Godot is maintained by the efforts of volunteers and a small team of paid contributors. Your donations go towards sponsoring their work and ensuring they can dedicate their undivided attention to the needs of the project. Jump to the Downloads section , and give it a spin right now, or continue reading to learn more about improvements in this release. You can also try the Web editor , the XR editor , or the Android editor for this release. If you are interested",
+        "publishedAt": "2026-07-21T12:00:00.000Z",
+        "sourceId": "godot",
+        "sourceName": "Godot Engine",
+        "sourceSite": "https://godotengine.org/blog/",
+        "lane": "game",
+        "accent": "#478cbf",
+        "topic": "AI 辅助学习",
+        "score": 64,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 9,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 82,
+        "bodyHash": "782d53098b07800638e8f9a2",
+        "extraction": {
+          "method": "readability",
+          "length": 6113,
+          "originalLength": 6113,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Godot 4.8 dev 2 开发快照发布说明解析",
+        "analysis": {
+          "listSummary": "本文介绍 Godot 4.8 dev 2 开发快照更新。该版本包含 93 位贡献者提交的 197 项修复，重点改进编辑器体验，如检查器自动展开资源、支持从文件系统直接运行场景，以及优化 Object 变体在版本控制中的换行显示。此外涵盖 2D/3D 编辑器、核心性能、渲染及 Jolt 物理引擎更新。适合 Godot 开发者评估新特性并参与测试。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "Godot 引擎作为一个由志愿者和少数带薪贡献者维护的非营利开源项目，其开发迭代依赖于社区的持续反馈与贡献。在 GodotCon Boston 举办之际，官方发布了 4.8 dev 2 开发快照，旨在让无法参会的开发者也能体验最新进展。",
+                "在编辑器日常使用体验方面，存在两个明显的痛点。首先，检查器（Inspector）在初始化时虽然能自动展开大多数项目，但资源（Resources）始终是一个盲区，无法自动展开，迫使开发者进行额外的手动点击操作，打断了流畅的工作流。其次，在运行场景时，开发者必须先将场景加载到编辑器中才能运行，无法直接从文件系统的上下文菜单中一键播放，增加了不必要的操作步骤。",
+                "在工程化与版本控制集成方面，Object 数据的序列化方式存在缺陷。虽然开发者倾向于将设置存储为文本而非二进制数据以利用 diff 和 merge 功能，但 Object 数据在写入时将所有属性批量挤在同一行。这种单行格式使得在版本控制中直观解析文件差异变得几乎不可能，导致任何合并工具都只能将其当作二进制文件处理，严重削弱了文本格式在版本管理中的优势。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "为了解决上述编辑器体验问题，社区贡献者提出了针对性的改进方案。Hugo Locurcio 通过提交 GH-99725，实现了在检查器中自动展开新创建资源的功能，填补了这一长期的体验盲区。DexterFstone 则在 GH-111941 中扩展了文件系统的上下文菜单，允许开发者直接从中播放任何场景，无需额外步骤，显著简化了场景测试流程。",
+                "针对版本控制的序列化痛点，Robert Wallis 主导了 GH-92102。该方案修改了 Object 变体的写入逻辑，在属性之间强制插入换行符（\\n）。这一改动为 Object 数据提供了呼吸空间，使得文本差异对比工具能够逐行解析属性变化，从而恢复了文本格式在 diff 和 merge 操作中的核心优势。",
+                "除了上述核心改进，开发团队还推进了大量其他优化。在 2D/3D 方面，为 2D 场景绘制添加了正确的使用说明，并在 3D 编辑器中默认重新启用了自由视角惯性。在核心与性能方面，确保了主线程的唯一性并避免不必要的释放，同时加速了大量子节点的移除过程。在渲染与导出方面，使着色器编译器的浮点常量格式化具有确定性，并在 WorldEnvironment 天空反射中使用了非体积雾。此外，第三方物理引擎 Jolt 也更新到了 5.6.0 版本。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "本次发布的直接证据是构建基于 commit 7220d456d，且包含了 93 位贡献者提交的 197 项修复。官方提供了包含 GDScript 和 GDExtension 支持的标准构建版本，以及额外支持 C# 的 .NET（mono）构建版本。同时，开发者还可以通过 Web 编辑器、XR 编辑器或 Android 编辑器（需申请加入测试组）来体验该版本。",
+                "结论表明，Godot 4.8 dev 2 在提升开发者日常工作流效率（如检查器交互、场景运行）和工程化协作能力（如版本控制文本对比）方面取得了实质性进展。这些改进体现了引擎对开发者实际痛点的敏锐捕捉与快速响应。",
+                "然而，必须明确该版本的适用边界。作为一个开发快照（pre-release piece of software），它本质上是不稳定的。尽管引擎维护者尽力确保预览版的稳定性，但仍可能存在未修复的已知问题或引发项目回归。因此，官方严格建议开发者在测试时频繁备份，或使用 Git 等版本控制系统来保护项目，以防数据损坏或丢失。目前该版本虽未引入新的已知问题，但测试者仍需通过 GitHub issue tracker 密切关注并报告任何回归缺陷。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Godot 4.8 dev 2 包含 93 位贡献者提交的 197 项修复，构建基于 commit 7220d456d。",
+            "检查器（Inspector）现在会自动展开新创建的资源，优化了日常编辑体验。",
+            "支持直接从文件系统的上下文菜单中运行场景，简化了测试流程。",
+            "Object 变体在序列化时属性间增加了换行符，大幅改善了版本控制中的 diff 和 merge 体验。",
+            "核心性能与渲染得到优化，包括加速子节点移除、更新 Jolt Physics 至 5.6.0 等。",
+            "作为预发布版本，官方强烈建议测试时使用版本控制系统或频繁备份以防数据丢失。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "检查器自动展开资源 (GH-99725)",
+              "basis": "source"
+            },
+            {
+              "text": "从文件系统上下文菜单直接播放场景 (GH-111941)",
+              "basis": "source"
+            },
+            {
+              "text": "Object 变体写入时在属性之间添加换行符 \\n (GH-92102)",
+              "basis": "source"
+            },
+            {
+              "text": "构建基于 commit 7220d456d，包含 197 项修复",
+              "basis": "source"
+            },
+            {
+              "text": "更新第三方物理引擎 Jolt Physics 至 5.6.0 (GH-121260)",
+              "basis": "source"
+            },
+            {
+              "text": "确保主线程唯一性并避免不必要释放 (GH-121161)",
+              "basis": "source"
+            },
+            {
+              "text": "着色器编译器浮点常量格式化具有确定性 (GH-120968)",
+              "basis": "source"
+            },
+            {
+              "text": "Android 编辑器预发布版本需申请加入测试组获取",
+              "basis": "source"
+            },
+            {
+              "text": "Object 属性换行使得 Git 等文本合并工具能逐行解析差异，避免被当作二进制处理",
+              "basis": "inference"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在 Godot 4.8 dev 2 开发快照中进行项目测试与版本控制集成",
+              "steps": [
+                "1. 下载标准版或 .NET 版 Godot 4.8 dev 2 构建。",
+                "2. 在测试前，确保项目已提交至 Git 等版本控制系统。",
+                "3. 利用新的 Object 换行特性，在修改资源后使用 Git diff 检查属性变化。",
+                "4. 通过文件系统右键菜单直接运行场景进行快速测试。",
+                "5. 若发现回归缺陷，在 GitHub issue tracker 中搜索并提交 bug 报告。"
+              ],
+              "tools": [
+                "Godot 4.8 dev 2",
+                "Git",
+                "GitHub Issue Tracker"
+              ],
+              "verification": [
+                "检查 Git diff 是否能清晰显示 Object 资源的属性级变更。",
+                "验证从文件系统右键菜单运行场景是否成功。",
+                "确认检查器中新创建的资源是否自动展开。"
+              ]
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-28T08:58:56.529Z",
+        "model": "qwen3.7-plus"
+      }
+    ],
+    "art": [
+      {
+        "id": "7b649b8bd33448ac72755b24",
+        "title": "Lospec Pixel Art Scaler Revamp + Pixel Art Rotator",
+        "url": "https://lospec.com/articles/lospec-pixel-art-scaler-revamp-pixel-art-rotator",
+        "summary": "Our popular Pixel Art Scaler tool has been upgraded so that it works purely in your client, so it no longer has to go to our server. Not only will this be faster for you, it will also reduce the strain on our server so everything else will process faster. The UI should now also be a little easier to use. If you don't like this change, the older version is still available. Theres also a new feature where you can pick from various pixel art scaling algorithms for upscaling your art. None of these are perfect, and wont be as good as scaling things up by hand, but they can be interesting to see, and might be a good starting point for other things. In addition there's also a new tool called the Pixel Art Rotator, which is very similar, just for rotation instead of scaling. This uses algorithms that work better than just typical pixel rotation, which can have very noisy and messy results. If y",
+        "publishedAt": "2026-07-03T16:25:58.958Z",
+        "sourceId": "lospec-articles",
+        "sourceName": "Lospec Articles",
+        "sourceSite": "https://lospec.com/articles/",
+        "lane": "art",
+        "accent": "#3f7f69",
+        "topic": "像素美术",
+        "score": 80,
+        "readMinutes": 3,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 80,
+        "bodyHash": "7bda9fbd98077d0817295478",
+        "extraction": {
+          "method": "readability",
+          "length": 1150,
+          "originalLength": 1150,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Lospec 像素画缩放与旋转工具更新分析",
+        "analysis": {
+          "listSummary": "Lospec 更新了像素画缩放和旋转工具。缩放工具改为纯客户端运行，提升速度并减轻服务器压力，同时新增多种放大算法。新增的旋转工具采用优化算法，解决了传统像素旋转产生的噪点问题。文章指出自动缩放算法虽不完美且不及手工缩放，但可作为创作起点。适合像素画创作者了解新工具特性及适用场景。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "Lospec 对其广受欢迎的像素画缩放工具（Pixel Art Scaler）进行了重大升级，并推出了一款全新的像素画旋转工具（Pixel Art Rotator）。",
+                "在更新前，传统的像素旋转操作往往会产生嘈杂且混乱的视觉结果，而原有的缩放工具依赖服务器处理，存在性能瓶颈与网络延迟。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "缩放工具被重构为纯客户端运行，消除了服务器往返延迟，从而提升了处理速度并降低了服务器负载。同时，工具引入了多种像素画放大算法供用户选择，并优化了用户界面。",
+                "新增的旋转工具则采用了专门优化的算法，以替代容易产生噪点的常规像素旋转方法。作者客观指出，这些自动算法并非完美，无法达到手工缩放的质量，但可作为二次创作的起点。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "结论表明，客户端渲染和专用算法显著提升了工具的处理效率和输出质量，解决了传统旋转的噪点痛点。",
+                "然而，其适用边界在于：自动缩放算法存在固有局限，不能完全替代精细的手工像素画缩放操作。此外，旧版缩放工具仍被保留，以满足不同用户的偏好，且作者开放了算法反馈渠道以持续迭代。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "像素画缩放工具已迁移至纯客户端运行，提升处理速度并减轻服务器压力。",
+            "新增多种像素画放大算法，虽不完美但可作为创作起点。",
+            "推出全新的像素画旋转工具，采用优化算法解决传统旋转的噪点问题。",
+            "自动缩放效果无法替代手工缩放，旧版工具仍保留供用户选择。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Pixel Art Scaler 工具改为纯客户端运行（works purely in your client）",
+              "basis": "source"
+            },
+            {
+              "text": "提供多种像素画缩放算法（various pixel art scaling algorithms）用于放大",
+              "basis": "source"
+            },
+            {
+              "text": "Pixel Art Rotator 使用优于典型像素旋转的算法，避免嘈杂和混乱的结果",
+              "basis": "source"
+            },
+            {
+              "text": "自动缩放算法不如手工缩放效果好",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在像素画创作中需要快速预览放大或旋转效果，并以此为基础进行手工精修时",
+              "steps": [
+                "1. 访问 Lospec 工具页面选择新版 Scaler 或 Rotator",
+                "2. 上传原始像素画图像",
+                "3. 在客户端选择所需的缩放算法或旋转参数",
+                "4. 导出结果并导入图像编辑软件作为手工精修的参考底稿"
+              ],
+              "tools": [
+                "Lospec Pixel Art Scaler",
+                "Lospec Pixel Art Rotator",
+                "图像编辑软件（如 Aseprite 或 Photoshop）"
+              ],
+              "verification": [
+                "对比自动处理结果与手工处理结果的边缘清晰度",
+                "检查旋转后图像是否消除了传统算法的噪点和混乱像素"
+              ]
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-28T08:59:40.255Z",
+        "model": "qwen3.7-plus"
+      },
+      {
+        "id": "3f15c705a77ae010",
+        "title": "Aseprite v1.3.16 & v1.3.17-beta1",
+        "url": "https://blog.aseprite.org/2025/12/11/aseprite-v1316/",
+        "summary": "Hi asepriters! Today we’re releasing Aseprite v1.3.16 as the new stable version. It includes all the new features from the previous v1.3.16-betas and a lot of bug fixes. On the other hand, in the Steam beta channel you’ll find the new Aseprite v1.3.17-beta1 with new features. In this release we’re featuring erema.pixel ! What’s new in Aseprite v1.3.17-beta1 New option to paint/select rounded rectangles #2184 You can change the corner radius in real-time pressing the C key: Moving the selection in Tiled Mode now works correctly #1457 Now mouse buttons (even X1 / X2) can be associated to commands / tools / drag values #598 #1793 Other changes that you can find in the release notes : Avoid confusing UX creating new keyframes for slices #5125 #2284 Avoid confusion with Slice selection search field #5484 t/27705 Don’t modify the sprite when we just click/select slices #5578 Lua API: Added Dia",
+        "publishedAt": "2025-12-11T00:00:00.000Z",
+        "sourceId": "aseprite",
+        "sourceName": "Aseprite Blog",
+        "sourceSite": "https://blog.aseprite.org/",
+        "lane": "art",
+        "accent": "#7d4db3",
+        "topic": "像素美术",
+        "score": 64,
+        "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
+        "readMinutes": 5,
+        "category": "update",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 63,
+        "bodyHash": "048ded6c07b5a548a8814a8c",
+        "extraction": {
+          "method": "readability",
+          "length": 3181,
+          "originalLength": 3181,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Aseprite v1.3.16 稳定版与 v1.3.17-beta1 测试版发布解析",
+        "analysis": {
+          "listSummary": "本文解析了 Aseprite v1.3.16 稳定版与 v1.3.17-beta1 测试版的更新内容。稳定版整合了前期特性并修复大量崩溃与 UI 缺陷，新增快捷键搜索与独立图层命令；测试版则引入圆角矩形实时调整、平铺模式选区修复及鼠标侧键自定义。适合像素画创作者评估升级价值，特别是需要优化快捷键与鼠标工作流的用户。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "Aseprite 官方发布了 v1.3.16 稳定版和 v1.3.17-beta1 测试版。稳定版整合了前期测试版的所有新功能并修复了大量已知缺陷，测试版则进一步引入了圆角矩形绘制、鼠标侧键自定义等交互新特性。此次双版本并行发布，旨在提升像素画创作效率与软件整体稳定性，同时满足不同用户群体对于生产环境稳定性与新功能尝鲜的差异化需求。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章通过详尽的版本更新日志，分类说明了两个版本的具体改进。v1.3.17-beta1 侧重于核心交互增强，包括圆角矩形半径实时调整、平铺模式下选区移动修复及鼠标侧键映射；v1.3.16 则侧重于系统级优化与底层缺陷修复，涵盖快捷键搜索、Windows 文件关联、Linux 双击阈值调整，以及大量针对 UI 组件、Lua API 和特定绘图工具的崩溃修复。作者通过引用具体的 Issue 编号，清晰论证了各项改动的来源与针对性。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文提供了大量具体的 Issue 编号（如 #2184, #5465 等）作为功能更新与缺陷修复的直接证据。结论表明，v1.3.16 是追求稳定性的首选，而 v1.3.17-beta1 适合愿意尝试新交互特性的 Steam 渠道用户。适用边界在于：测试版可能仍存在未暴露的未知问题，不建议用于关键生产项目；此外，部分系统级优化（如 Windows 文件关联、Linux X11 双击阈值）具有严格的操作系统特定性，跨平台用户体验存在客观差异。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "v1.3.16 为最新稳定版，整合了前期 beta 功能并修复大量崩溃与 UI 缺陷。",
+            "v1.3.17-beta1 新增圆角矩形绘制与选择功能，支持按 C 键实时调整圆角半径。",
+            "测试版支持将鼠标侧键（X1/X2）关联至命令、工具或拖动值，提升操作效率。",
+            "稳定版新增按快捷键搜索命令功能，以及可绑定快捷键的“Solo Layer”命令。",
+            "Lua API 升级至版本 38，优化了事务（transaction）中的撤销步骤生成逻辑。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "绘制或选择圆角矩形时，按 C 键可实时改变圆角半径",
+              "basis": "source"
+            },
+            {
+              "text": "鼠标按钮（包括 X1/X2）可关联到命令、工具或拖动值",
+              "basis": "source"
+            },
+            {
+              "text": "Lua API 更新至版本 38，事务外属性更改不生成撤销步骤，事务内图层标志更改生成撤销步骤",
+              "basis": "source"
+            },
+            {
+              "text": "Windows 下可将任意文件关联至运行中的 Aseprite 实例并自定义资源管理器缩略图",
+              "basis": "source"
+            },
+            {
+              "text": "Linux X11 环境下增加了双击检测的移动阈值以防止误触",
+              "basis": "inference"
+            },
+            {
+              "text": "平铺模式（Tiled Mode）下移动选区的坐标计算或渲染逻辑已修复以正确工作",
+              "basis": "inference"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在团队中推广 Aseprite 新版本及自定义工作流",
+              "steps": [
+                "评估 v1.3.16 稳定性后全员升级至稳定版",
+                "利用新增的快捷键搜索和 Solo Layer 快捷键优化图层管理",
+                "配置鼠标侧键映射以加速常用工具切换",
+                "编写 Lua 脚本时注意 API 版本 38 的事务撤销逻辑变更"
+              ],
+              "tools": [
+                "Aseprite v1.3.16/v1.3.17-beta1",
+                "Steam 客户端（用于获取 beta 版）"
+              ],
+              "verification": [
+                "测试圆角矩形 C 键调整是否流畅",
+                "验证鼠标侧键绑定是否生效",
+                "检查 Lua 脚本在事务内外的撤销行为是否符合预期"
+              ]
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-28T09:01:12.846Z",
+        "model": "qwen3.7-plus"
+      }
+    ]
   },
   "sources": [
     {
@@ -803,7 +1700,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 151,
+      "latencyMs": 149,
       "itemCount": 35
     },
     {
@@ -820,7 +1717,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 90,
+      "latencyMs": 138,
       "itemCount": 10
     },
     {
@@ -837,7 +1734,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 827,
+      "latencyMs": 568,
       "itemCount": 31
     },
     {
@@ -854,7 +1751,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 935,
+      "latencyMs": 886,
       "itemCount": 10
     },
     {
@@ -871,7 +1768,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 108,
+      "latencyMs": 102,
       "itemCount": 35
     },
     {
@@ -888,7 +1785,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 215,
+      "latencyMs": 122,
       "itemCount": 35
     },
     {
@@ -905,7 +1802,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 811,
+      "latencyMs": 139,
       "itemCount": 35
     },
     {
@@ -922,7 +1819,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 194,
+      "latencyMs": 153,
       "itemCount": 30
     },
     {
@@ -939,7 +1836,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 270,
+      "latencyMs": 164,
       "itemCount": 35
     },
     {
@@ -956,7 +1853,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 843,
+      "latencyMs": 600,
       "itemCount": 20
     },
     {
@@ -973,7 +1870,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 499,
+      "latencyMs": 389,
       "itemCount": 35
     },
     {
@@ -990,7 +1887,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 437,
+      "latencyMs": 346,
       "itemCount": 15
     },
     {
@@ -1007,7 +1904,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1594,
+      "latencyMs": 978,
       "itemCount": 15
     },
     {
@@ -1024,7 +1921,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 19942,
+      "latencyMs": 18765,
       "itemCount": 35
     },
     {
@@ -1041,8 +1938,30 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 744,
+      "latencyMs": 470,
       "itemCount": 35
+    },
+    {
+      "id": "lospec-articles",
+      "name": "Lospec Articles",
+      "enabled": true,
+      "site": "https://lospec.com/articles/",
+      "format": "html",
+      "itemSelector": "article",
+      "titleSelector": "h2 a",
+      "summarySelector": "p",
+      "dateSelector": "time",
+      "lane": "art",
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "authority": 5,
+      "weight": 1.1,
+      "dailyLimit": 1,
+      "accent": "#3f7f69",
+      "ok": true,
+      "latencyMs": 846,
+      "itemCount": 4
     },
     {
       "id": "aseprite",
@@ -1058,7 +1977,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 859,
+      "latencyMs": 942,
       "itemCount": 10
     }
   ],
@@ -1070,7 +1989,12 @@
       "e956820dbee58f81",
       "5f29a0c28f903cc7",
       "fad0400da1b2be07",
-      "5cf2105afd9249d5"
+      "5cf2105afd9249d5",
+      "abe2f1f83a34b4d2",
+      "dc21b90615df56a5",
+      "a593cff299a339e0",
+      "7b649b8bd33448ac72755b24",
+      "3f15c705a77ae010"
     ],
     "processedManualUrls": []
   },
@@ -1079,10 +2003,10 @@
       "selection": "qwen3.7-flash",
       "analysis": "qwen3.7-plus"
     },
-    "calls": 3,
-    "rejectedCount": 388,
+    "calls": 7,
+    "rejectedCount": 397,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-07-28T05:36:47.192Z"
+  "previousGeneratedAt": "2026-07-28T08:08:12.276Z"
 }
