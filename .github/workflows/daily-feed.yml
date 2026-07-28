@@ -84,7 +84,7 @@ jobs:
         run: |
           cd "$GITHUB_WORKSPACE/content-store"
           git switch --orphan content
-          git rm -rf .
+          git rm -rf --ignore-unmatch .
           mkdir -p data
           if [ -d "$GITHUB_WORKSPACE/public/data" ]; then
             cp -a "$GITHUB_WORKSPACE/public/data/." data/

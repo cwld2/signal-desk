@@ -196,6 +196,7 @@ test("workflow persists only content branch and supports config/force triggers",
   assert.match(workflow, /force-rebuild-today/);
   assert.match(workflow, /Checkout existing content branch/);
   assert.match(workflow, /path: content-store/);
+  assert.match(workflow, /git rm -rf --ignore-unmatch \./);
   assert.doesNotMatch(workflow, /git worktree/);
   assert.match(workflow, /git push origin HEAD:content/);
   assert.doesNotMatch(workflow, /git add public\/data/);
