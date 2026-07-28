@@ -2,7 +2,7 @@ const crypto = require("node:crypto");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const { Readability } = require("@mozilla/readability");
-const { JSDOM } = require("jsdom");
+const { JSDOM, VirtualConsole } = require("jsdom");
 const { parseFeed } = require("../src/feed");
 
 const ROOT = path.join(__dirname, "..");
@@ -60,7 +60,9 @@ async function fetchText(url, { accept = "*/*", timeout = 20000 } = {}) {
 }
 
 function extractReadableArticle(html, url, maximumCharacters = 30000) {
-  const dom = new JSDOM(html, { url });
+  const virtualConsole = new VirtualConsole();
+  virtualConsole.on("jsdomError", () => {});
+  const dom = new JSDOM(html, { url, virtualConsole });
   try {
     const parsed = new Readability(dom.window.document, { charThreshold: 200 }).parse();
     const text = String(parsed?.textContent || "").replace(/\s+/g, " ").trim();
@@ -257,6 +259,14 @@ function selectionCandidates(candidates) {
   return groups.flatMap(([, predicate, limit]) => candidates.filter(predicate).slice(0, limit));
 }
 
+function candidateBodyPool(candidates, sunday) {
+  const practice = candidates.filter((item) => item.lane === "ai" && item.slot === "practice").slice(0, 12);
+  const update = candidates.filter((item) => item.lane === "ai" && item.slot === "update").slice(0, 8);
+  const game = sunday ? candidates.filter((item) => item.lane === "game").slice(0, 8) : [];
+  const art = sunday ? candidates.filter((item) => item.lane === "art").slice(0, 5) : [];
+  return deduplicate([...practice, ...update, ...game, ...art]);
+}
+
 function selectionPrompt(candidates, editorial, sunday) {
   const excerptLength = editorial.quality.selectionExcerptCharacters;
   const compact = selectionCandidates(candidates).map((item) => ({
@@ -304,6 +314,8 @@ class BailianClient {
     this.analysisModel = process.env.DASHSCOPE_ANALYSIS_MODEL || editorial.models.analysis;
     this.temperature = Number(editorial.models.temperature ?? 0.1);
     this.maximumCalls = Number(editorial.models.maximumCalls || 10);
+    this.selectionTimeoutMs = Number(editorial.models.selectionTimeoutMs || 150000);
+    this.analysisTimeoutMs = Number(editorial.models.analysisTimeoutMs || 300000);
     this.calls = 0;
     if (!this.apiKey) throw new BailianError("缺少 DASHSCOPE_API_KEY，已停止发布", "auth");
   }
@@ -313,6 +325,8 @@ class BailianClient {
     for (let attempt = 0; attempt < 2; attempt += 1) {
       if (this.calls >= this.maximumCalls) throw new BailianError(`百炼调用达到每次任务上限 ${this.maximumCalls}`, "budget");
       this.calls += 1;
+      const timeoutMs = model === this.analysisModel ? this.analysisTimeoutMs : this.selectionTimeoutMs;
+      console.log(`百炼调用 ${this.calls}/${this.maximumCalls}：${model}，第 ${attempt + 1} 次尝试，超时 ${Math.round(timeoutMs / 1000)} 秒`);
       try {
         const response = await fetch(`${this.baseUrl}/chat/completions`, {
           method: "POST",
@@ -327,7 +341,7 @@ class BailianClient {
             max_tokens: 8192,
             stream: false
           }),
-          signal: AbortSignal.timeout(90000)
+          signal: AbortSignal.timeout(timeoutMs)
         });
         if (!response.ok) {
           const detail = (await response.text()).slice(0, 500);
@@ -337,7 +351,8 @@ class BailianClient {
         const payload = await response.json();
         return validator(parseModelJson(payload.choices?.[0]?.message?.content));
       } catch (error) {
-        lastError = error instanceof BailianError ? error : new BailianError(error.message, "format");
+        const kind = error?.name === "TimeoutError" ? "network" : "format";
+        lastError = error instanceof BailianError ? error : new BailianError(`${model} 调用失败：${error.message}`, kind);
         if (["auth", "quota", "model", "budget"].includes(lastError.kind)) throw lastError;
       }
     }
@@ -745,7 +760,8 @@ async function main() {
     const feedItems = deduplicate(sourceResults.flatMap((result) => result.items)).filter((item) => force || !seenIds.has(item.id));
     const filtered = prefilterCandidates(feedItems, editorial);
     runReport.rejected.push(...filtered.rejected);
-    const hydrated = await hydrateBodies(filtered.eligible, editorial);
+    const bodyPool = candidateBodyPool(filtered.eligible, sunday);
+    const hydrated = await hydrateBodies(bodyPool, editorial);
     runReport.rejected.push(...hydrated.rejected);
     candidates = deduplicate(hydrated.candidates);
     selected = await chooseItems(candidates, sunday, editorial, client, runReport);
@@ -791,6 +807,7 @@ module.exports = {
   ageDays,
   analysisLengthTarget,
   canReuseAnalysis,
+  candidateBodyPool,
   candidateScore,
   currentDateParts,
   deduplicate,

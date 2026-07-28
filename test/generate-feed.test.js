@@ -8,6 +8,7 @@ const editorial = require("../config/editorial.json");
 const {
   analysisLengthTarget,
   canReuseAnalysis,
+  candidateBodyPool,
   deduplicate,
   extractReadableArticle,
   isSundayInShanghai,
@@ -69,6 +70,20 @@ test("Sunday adds at most two game articles and one art article", () => {
   const selected = localSelect(candidates, true, editorial);
   assert.equal(selected.game.length, 2);
   assert.equal(selected.art.length, 1);
+});
+
+test("weekday body pool excludes weekly lanes and caps AI candidates", () => {
+  const candidates = [
+    ...Array.from({ length: 20 }, (_, index) => fixture(`p-${index}`)),
+    ...Array.from({ length: 12 }, (_, index) => fixture(`u-${index}`, { slot: "update" })),
+    fixture("game", { lane: "game" }),
+    fixture("art", { lane: "art" })
+  ];
+  const weekday = candidateBodyPool(candidates, false);
+  assert.equal(weekday.filter((item) => item.slot === "practice").length, 12);
+  assert.equal(weekday.filter((item) => item.slot === "update").length, 8);
+  assert.equal(weekday.some((item) => item.lane === "game" || item.lane === "art"), false);
+  assert.equal(candidateBodyPool(candidates, true).some((item) => item.lane === "game"), true);
 });
 
 test("uses 180-day practice and 14-day update windows", () => {

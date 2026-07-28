@@ -37,13 +37,15 @@
     "minimumBodyCharacters": 500,
     "maximumBodyCharacters": 30000,
     "candidateFetchPerSource": 4,
-    "selectionExcerptCharacters": 2600
+    "selectionExcerptCharacters": 1800
   },
   "models": {
     "selection": "qwen3.7-flash",
     "analysis": "qwen3.7-plus",
     "temperature": 0.1,
-    "maximumCalls": 10
+    "maximumCalls": 10,
+    "selectionTimeoutMs": 150000,
+    "analysisTimeoutMs": 300000
   },
   "analysis": {
     "listSummaryCharacters": [120, 180],
