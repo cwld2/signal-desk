@@ -3,7 +3,20 @@ name: Daily Signal Desk
 on:
   schedule:
     - cron: "0 0 * * *"
+  push:
+    branches: [main]
+    paths:
+      - "config/**"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "生成模式"
+        required: true
+        default: normal
+        type: choice
+        options:
+          - normal
+          - force-rebuild-today
 
 permissions:
   contents: write
@@ -21,38 +34,85 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
+      - name: Checkout application
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Require Bailian secret
         env:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
         run: test -n "$DASHSCOPE_API_KEY"
 
+      - name: Prepare content branch worktree
+        shell: bash
+        run: |
+          if git ls-remote --exit-code --heads origin content >/dev/null 2>&1; then
+            git fetch origin content
+            git worktree add --detach "$RUNNER_TEMP/signal-content" origin/content
+          else
+            git worktree add --detach "$RUNNER_TEMP/signal-content"
+            cd "$RUNNER_TEMP/signal-content"
+            git switch --orphan content
+            git rm -rf .
+            mkdir -p data
+            if [ -d "$GITHUB_WORKSPACE/public/data" ]; then
+              cp -a "$GITHUB_WORKSPACE/public/data/." data/
+            fi
+          fi
+          mkdir -p "$RUNNER_TEMP/signal-content/data/archive"
+
       - name: Generate daily feed
         env:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
           DASHSCOPE_BASE_URL: ${{ vars.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1' }}
           DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'qwen3.7-flash' }}
-          DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'qwen3.7-flash' }}
+          DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'qwen3.7-plus' }}
+          SIGNAL_DATA_DIR: ${{ runner.temp }}/signal-content/data
+          SIGNAL_FORCE_REBUILD: ${{ (github.event_name == 'push' || inputs.mode == 'force-rebuild-today') && '1' || '0' }}
+          SIGNAL_RESELECT: ${{ github.event_name == 'push' && '1' || '0' }}
         run: npm run generate
 
-      - name: Validate
-        run: npm test && npm run check
+      - name: Validate code and data
+        env:
+          SIGNAL_DATA_DIR: ${{ runner.temp }}/signal-content/data
+        run: npm test && npm run check && node scripts/validate-feed.js
 
-      - name: Persist generated feed
+      - name: Persist generated content branch
+        shell: bash
         run: |
+          cd "$RUNNER_TEMP/signal-content"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/data
+          git add data
           if ! git diff --cached --quiet; then
-            git commit -m "chore: update daily signal feed"
-            git push
+            git commit -m "content: update $(date -u +%F) signal feed"
+            git push origin HEAD:content
+          fi
+
+      - name: Assemble static site
+        shell: bash
+        run: |
+          mkdir -p site
+          cp -a public/. site/
+          rm -rf site/data
+          cp -a "$RUNNER_TEMP/signal-content/data" site/data
+
+      - name: Verify published artifact has no secrets
+        shell: bash
+        run: |
+          if grep -R -E "DASHSCOPE_API_KEY|sk-[A-Za-z0-9_-]{16,}" site; then
+            echo "Potential secret found in Pages artifact" >&2
+            exit 1
           fi
 
       - name: Configure Pages
@@ -63,7 +123,7 @@ jobs:
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: public
+          path: site
 
       - name: Deploy Pages
         id: deployment

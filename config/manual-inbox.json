@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "instructions": "在 entries 中加入公开文章 URL。已成功发布的 URL 会通过 content 分支历史记录自动去重；失败项会留待下次处理。",
+  "entries": []
+}

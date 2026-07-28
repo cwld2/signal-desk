@@ -1,5 +1,6 @@
 dist/
 data/cache.json
 node_modules/
+.npm-cache/
 .env
 .env.*

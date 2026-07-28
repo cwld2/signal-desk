@@ -37,6 +37,23 @@ function compactSummary(value, length = 150) {
   return text.length > length ? `${text.slice(0, length).trim()}…` : text;
 }
 
+function articleTitle(item) {
+  return item.displayTitle || item.title || "未命名文章";
+}
+
+function listSummary(item) {
+  return item.analysis?.listSummary || item.analysis?.summary || item.summary;
+}
+
+function learningPreview(item) {
+  if (Array.isArray(item.analysis?.engineeringPractice) && item.analysis.engineeringPractice[0]?.scenario) {
+    return `可实践场景：${item.analysis.engineeringPractice[0].scenario}`;
+  }
+  if (Array.isArray(item.analysis?.learningValue)) return item.analysis.learningValue.join(" ");
+  if (Array.isArray(item.analysis?.keyPoints)) return item.analysis.keyPoints[0] || item.learningNote || "阅读原文并验证关键结论";
+  return item.learningNote || "阅读原文并验证关键结论";
+}
+
 function allItems() {
   if (!state.digest) return [];
   return state.digest.items || [...(state.digest.lanes?.ai || []), ...(state.digest.lanes?.game || []), ...(state.digest.lanes?.art || [])];
@@ -74,9 +91,9 @@ function card(item) {
   const fallback = item.analysisStatus === "rss-fallback" ? " · 基于摘要" : "";
   return `<article class="story-card ${state.read.has(item.id) ? "read" : ""}">
     <div class="article-meta">${meta(item)}<span class="score">${item.score || 0}</span></div>
-    <h3><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.title)}</a></h3>
-    <p>${escapeHtml(compactSummary(item.analysis?.summary || item.summary))}</p>
-    <p><strong>学习价值：</strong>${escapeHtml(compactSummary((item.analysis?.learningValue || [item.learningNote || "阅读原文并尝试验证"]).join(" "), 180))}${fallback}</p>
+    <h3><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(articleTitle(item))}</a></h3>
+    <p>${escapeHtml(compactSummary(listSummary(item)))}</p>
+    <p><strong>学习价值：</strong>${escapeHtml(compactSummary(learningPreview(item), 180))}${fallback}</p>
     ${actionButtons(item, true)}
   </article>`;
 }
@@ -93,13 +110,13 @@ function renderToday() {
   const lead = study[0];
   $("#leadStory").innerHTML = `<div class="lead-copy">
     <div class="article-meta">${meta(lead)}</div>
-    <h2>${escapeHtml(lead.title)}</h2>
-    <p>${escapeHtml(compactSummary(lead.analysis?.summary || lead.summary, 260))}</p>
+    <h2>${escapeHtml(articleTitle(lead))}</h2>
+    <p>${escapeHtml(compactSummary(listSummary(lead), 260))}</p>
     ${actionButtons(lead, true)}
-  </div><aside class="lead-side"><div><div class="score-ring">${lead.score || 0}</div><p><strong>学习价值</strong><br>${escapeHtml(compactSummary((lead.analysis?.learningValue || [lead.learningNote || ""]).join(" "), 150))}</p></div><div class="eyebrow">QUALITY SCORE · 100</div></aside>`;
+  </div><aside class="lead-side"><div><div class="score-ring">${lead.score || lead.candidateScore || 0}</div><p><strong>学习价值</strong><br>${escapeHtml(compactSummary(learningPreview(lead), 150))}</p></div><div class="eyebrow">QUALITY SCORE · 100</div></aside>`;
   $("#studyList").innerHTML = study.slice(1).map((item, index) => `<article class="article-row ${state.read.has(item.id) ? "read" : ""}">
     <div class="article-number">0${index + 2}</div>
-    <div class="article-body"><h3><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.title)}</a></h3><div class="article-meta">${meta(item)}</div><div class="article-note">${escapeHtml(compactSummary(item.analysis?.summary || item.summary, 180))}</div></div>
+    <div class="article-body"><h3><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(articleTitle(item))}</a></h3><div class="article-meta">${meta(item)}</div><div class="article-note">${escapeHtml(compactSummary(listSummary(item), 180))}</div></div>
     <div class="topic-label">${escapeHtml(item.topic || item.lane || "AI")}</div>
     <div class="row-actions"><button class="read-toggle ${state.read.has(item.id) ? "active" : ""}" data-read="${escapeHtml(item.id)}" title="标为已读">✓</button><button class="save-toggle ${state.saved.has(item.id) ? "active" : ""}" data-save="${escapeHtml(item.id)}" title="稍后阅读">☆</button></div>
   </article>`).join("");
@@ -167,14 +184,36 @@ function openAnalysis(id) {
   const item = findArticle(id);
   if (!item?.analysis) return;
   const dialog = $("#analysisDialog");
-  $("#analysisTitle").textContent = item.title;
+  $("#analysisTitle").textContent = articleTitle(item);
   $("#analysisMeta").innerHTML = `${meta(item)}${item.analysisStatus === "rss-fallback" ? "<span class=\"analysis-warning\">基于 RSS 摘要</span>" : ""}`;
-  $("#analysisContent").innerHTML = [
-    ["列表简介", item.analysis.summary],
-    ["核心要点", item.analysis.keyPoints],
-    ["技术细节", item.analysis.technicalDetails],
-    ["学习价值", item.analysis.learningValue]
-  ].map(([title, value]) => `<section class="analysis-section"><h3>${title}</h3>${Array.isArray(value) ? `<ul>${value.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>` : `<p>${escapeHtml(value)}</p>`}</section>`).join("");
+  if (item.schemaVersion === 2 || Array.isArray(item.analysis.fullAnalysis)) {
+    const fullAnalysis = (item.analysis.fullAnalysis || []).map((section) => `<div class="analysis-subsection"><h4>${escapeHtml(section.heading)}</h4>${(section.paragraphs || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div>`).join("");
+    const details = (item.analysis.technicalDetails || []).map((detail) => {
+      const structured = detail && typeof detail === "object";
+      const basis = structured && detail.basis === "inference" ? "AI 推断" : "原文事实";
+      const text = structured ? detail.text : detail;
+      return `<li><span class="basis-tag ${basis === "AI 推断" ? "inference" : "source"}">${basis}</span>${escapeHtml(text)}</li>`;
+    }).join("");
+    const practices = (item.analysis.engineeringPractice || []).map((practice) => `<article class="practice-block">
+      <h4>${escapeHtml(practice.scenario)}</h4>
+      <div><strong>步骤</strong><ol>${(practice.steps || []).map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol></div>
+      <div><strong>工具</strong><p>${escapeHtml((practice.tools || []).join("、"))}</p></div>
+      <div><strong>验证</strong><ul>${(practice.verification || []).map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ul></div>
+    </article>`).join("");
+    $("#analysisContent").innerHTML = `
+      <section class="analysis-section"><h3>列表简介</h3><p>${escapeHtml(item.analysis.listSummary || item.summary)}</p></section>
+      <section class="analysis-section full-analysis"><h3>全文分析</h3>${fullAnalysis}</section>
+      <section class="analysis-section"><h3>核心要点</h3><ul>${(item.analysis.keyPoints || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul></section>
+      <section class="analysis-section"><h3>技术细节</h3><ul class="detail-list">${details}</ul></section>
+      <section class="analysis-section"><div class="section-title-row"><h3>类似工程实践</h3><span>AI 延伸建议</span></div>${practices}</section>`;
+  } else {
+    $("#analysisContent").innerHTML = [
+      ["列表简介", item.analysis.summary],
+      ["核心要点", item.analysis.keyPoints],
+      ["技术细节", item.analysis.technicalDetails],
+      ["学习价值", item.analysis.learningValue]
+    ].map(([title, value]) => `<section class="analysis-section"><h3>${title}</h3>${Array.isArray(value) ? `<ul>${value.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>` : `<p>${escapeHtml(value)}</p>`}</section>`).join("");
+  }
   $("#analysisSource").href = item.url;
   dialog.showModal();
 }

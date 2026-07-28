@@ -1,45 +1,172 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
+const os = require("node:os");
 const path = require("node:path");
+const { spawnSync } = require("node:child_process");
+const editorial = require("../config/editorial.json");
 const {
-  articleBody,
+  analysisLengthTarget,
   canReuseAnalysis,
   deduplicate,
+  extractReadableArticle,
   isSundayInShanghai,
   localSelect,
+  normalizeAnalysis,
+  normalizeSelection,
   parseModelJson,
-  reuseEditionSelection
+  prefilterCandidates,
+  selectPendingManualEntries,
+  shouldSkipEdition
 } = require("../scripts/generate-feed");
 
-function fixture(id, lane, sourceId, score = 80) {
+function fixture(id, { lane = "ai", sourceId = id, slot = "practice", category = slot, publishedAt = "2026-07-28T00:00:00.000Z" } = {}) {
   return {
     id,
     lane,
     sourceId,
     sourceName: sourceId,
-    title: `Technical guide ${id}`,
+    sourceDailyLimit: 1,
+    sourceWeight: 1.1,
+    slot,
+    category,
+    title: `Implementation guide ${id}`,
     url: `https://example.com/${id}`,
-    summary: "A practical implementation guide with code and measured results.",
-    publishedAt: new Date().toISOString(),
-    score
+    summary: "A practical implementation tutorial with code, API details and measured results.",
+    publishedAt,
+    score: 85,
+    candidateScore: 85
   };
 }
 
-test("selects at most three AI articles and Sunday extras", () => {
-  const items = [
-    ...Array.from({ length: 7 }, (_, index) => fixture(`ai-${index}`, "ai", `ai-source-${index}`)),
-    ...Array.from({ length: 5 }, (_, index) => fixture(`game-${index}`, "game", `game-source-${index}`)),
-    ...Array.from({ length: 3 }, (_, index) => fixture(`art-${index}`, "art", `art-source-${index}`))
+test("enforces 2 practice + 1 update and one article per source", () => {
+  const candidates = [
+    fixture("p1", { sourceId: "same" }),
+    fixture("p2", { sourceId: "same" }),
+    fixture("p3", { sourceId: "other" }),
+    fixture("u1", { sourceId: "updates", slot: "update" }),
+    fixture("u2", { sourceId: "updates-2", slot: "update" })
   ];
-  const weekday = localSelect(items, false);
-  assert.equal(weekday.ai.length, 3);
-  assert.equal(weekday.game.length, 0);
-  assert.equal(weekday.art.length, 0);
-  const sunday = localSelect(items, true);
-  assert.equal(sunday.ai.length, 3);
-  assert.equal(sunday.game.length, 2);
-  assert.equal(sunday.art.length, 1);
+  const selected = localSelect(candidates, false, editorial);
+  assert.deepEqual(selected.practice.map((item) => item.id), ["p1", "p3"]);
+  assert.deepEqual(selected.update.map((item) => item.id), ["u1"]);
+  assert.equal(new Set([...selected.practice, ...selected.update].map((item) => item.sourceId)).size, 3);
+});
+
+test("does not fill a quota when quality candidates are insufficient", () => {
+  const selected = localSelect([fixture("only-one")], false, editorial);
+  assert.equal(selected.practice.length, 1);
+  assert.equal(selected.update.length, 0);
+});
+
+test("Sunday adds at most two game articles and one art article", () => {
+  const candidates = [
+    fixture("p1"), fixture("p2"), fixture("u1", { slot: "update" }),
+    fixture("g1", { lane: "game" }), fixture("g2", { lane: "game" }), fixture("g3", { lane: "game" }),
+    fixture("a1", { lane: "art" }), fixture("a2", { lane: "art" })
+  ];
+  const selected = localSelect(candidates, true, editorial);
+  assert.equal(selected.game.length, 2);
+  assert.equal(selected.art.length, 1);
+});
+
+test("uses 180-day practice and 14-day update windows", () => {
+  const settings = JSON.parse(JSON.stringify(editorial));
+  settings.quality.minimumCandidateScore = 0;
+  const now = new Date("2026-07-28T00:00:00.000Z");
+  const items = [
+    fixture("practice-ok", { publishedAt: "2026-01-30T00:00:00.000Z" }),
+    fixture("practice-old", { publishedAt: "2026-01-28T00:00:00.000Z" }),
+    fixture("update-ok", { slot: "update", publishedAt: "2026-07-15T00:00:00.000Z" }),
+    fixture("update-old", { slot: "update", publishedAt: "2026-07-13T00:00:00.000Z" })
+  ];
+  const result = prefilterCandidates(items, settings, now);
+  assert.deepEqual(result.eligible.map((item) => item.id).sort(), ["practice-ok", "update-ok"]);
+  assert.match(result.rejected.find((item) => item.id === "practice-old").reason, /180/);
+  assert.match(result.rejected.find((item) => item.id === "update-old").reason, /14/);
+});
+
+test("Readability extracts article content and rejects page chrome", () => {
+  const useful = Array.from({ length: 80 }, (_, index) => `<p>Step ${index}: useful implementation details and measured results.</p>`).join("");
+  const html = `<html><head><title>Guide</title></head><body><nav>Navigation</nav><article><h1>Practical Guide</h1>${useful}<script>secret()</script></article><footer>Footer</footer></body></html>`;
+  const result = extractReadableArticle(html, "https://example.com/guide", 30000);
+  assert.ok(result.length > 500);
+  assert.equal(result.method, "readability");
+  assert.equal(result.trusted, true);
+  assert.match(result.text, /useful implementation details/);
+  assert.doesNotMatch(result.text, /Navigation|Footer|secret/);
+});
+
+test("Readability marks a login-wall sized page as untrusted", () => {
+  const result = extractReadableArticle("<main><h1>Sign in</h1><p>Please sign in to continue.</p></main>", "https://example.com/private", 30000);
+  assert.equal(result.trusted, false);
+  assert.ok(result.length < editorial.quality.minimumBodyCharacters);
+});
+
+test("manual inbox takes at most two unprocessed URLs by priority", () => {
+  const entries = [
+    { url: "https://example.com/a", priority: 1, addedAt: "2026-07-20" },
+    { url: "https://example.com/b", priority: 5, addedAt: "2026-07-21" },
+    { url: "https://example.com/c", priority: 3, addedAt: "2026-07-22" },
+    { url: "https://example.com/d", priority: 9, addedAt: "2026-07-23" }
+  ];
+  const selected = selectPendingManualEntries(entries, new Set(["https://example.com/d"]), 2);
+  assert.deepEqual(selected.map((entry) => entry.url), ["https://example.com/b", "https://example.com/c"]);
+});
+
+test("analysis length target scales and never exceeds 3000 characters", () => {
+  assert.deepEqual(analysisLengthTarget(3000, editorial), { tier: "short", min: 600, max: 1000 });
+  assert.deepEqual(analysisLengthTarget(7000, editorial), { tier: "medium", min: 1200, max: 2000 });
+  assert.deepEqual(analysisLengthTarget(18000, editorial), { tier: "long", min: 2200, max: 3000 });
+});
+
+test("v2 analysis requires source/inference labels and engineering verification", () => {
+  const raw = {
+    displayTitle: "一个准确的中文技术标题",
+    listSummary: "这是一段用于验证列表简介长度和结构的中文文字。".repeat(6),
+    fullAnalysis: [
+      { heading: "背景与问题", paragraphs: ["背景"] },
+      { heading: "方法与论证", paragraphs: ["方法"] },
+      { heading: "证据、结论与边界", paragraphs: ["边界"] }
+    ],
+    keyPoints: ["一", "二", "三"],
+    technicalDetails: [{ text: "原文给出的 API", basis: "source" }, { text: "建议增加缓存", basis: "inference" }],
+    engineeringPractice: [{ scenario: "最小项目", steps: ["实现"], tools: ["Node.js"], verification: ["运行测试"] }]
+  };
+  const normalized = normalizeAnalysis(raw);
+  assert.deepEqual(normalized.technicalDetails.map((detail) => detail.basis), ["source", "inference"]);
+  assert.throws(() => normalizeAnalysis({ ...raw, technicalDetails: [{ text: "未标注", basis: "guess" }] }), /source 或 inference/);
+});
+
+test("selection JSON requires all quota arrays", () => {
+  assert.deepEqual(normalizeSelection({ practiceIds: [], updateIds: [], gameIds: [], artIds: [], reasons: {} }).practiceIds, []);
+  assert.throws(() => normalizeSelection({ practiceIds: [] }), /updateIds/);
+});
+
+test("parses fenced Bailian JSON and rejects malformed output", () => {
+  assert.deepEqual(parseModelJson("```json\n{\"practiceIds\":[\"a\"]}\n```"), { practiceIds: ["a"] });
+  assert.throws(() => parseModelJson("not json"), /未返回 JSON/);
+});
+
+test("deduplicates URL, title and body hashes", () => {
+  const first = { ...fixture("one"), bodyHash: "same-body" };
+  const urlDuplicate = { ...fixture("two"), url: `${first.url}/` };
+  const bodyDuplicate = { ...fixture("three"), bodyHash: "same-body" };
+  assert.equal(deduplicate([first, urlDuplicate, bodyDuplicate]).length, 1);
+});
+
+test("reuses analysis only for unchanged v2 body and respects force mode", () => {
+  const item = { ...fixture("reuse"), bodyHash: "same-body" };
+  const previous = { ...item, schemaVersion: 2, analysis: { listSummary: "done" }, analysisStatus: "complete" };
+  assert.equal(canReuseAnalysis(previous, item), true);
+  assert.equal(canReuseAnalysis(previous, item, true), false);
+  assert.equal(canReuseAnalysis(previous, { ...item, bodyHash: "changed" }), false);
+});
+
+test("same-day normal mode skips calls while force mode rebuilds", () => {
+  const previous = { edition: { date: "2026-07-28" } };
+  assert.equal(shouldSkipEdition(previous, "2026-07-28", false), true);
+  assert.equal(shouldSkipEdition(previous, "2026-07-28", true), false);
 });
 
 test("detects Sunday using Asia/Shanghai instead of UTC", () => {
@@ -47,50 +174,31 @@ test("detects Sunday using Asia/Shanghai instead of UTC", () => {
   assert.equal(isSundayInShanghai(new Date("2026-08-02T16:30:00.000Z")), false);
 });
 
-test("extracts readable article text and removes page chrome", () => {
-  const html = `<html><body><nav>Navigation</nav><article><h1>Title</h1><p>Useful implementation details.</p><script>secret()</script></article><footer>Footer</footer></body></html>`;
-  const body = articleBody(html);
-  assert.match(body, /Useful implementation details/);
-  assert.doesNotMatch(body, /Navigation|Footer|secret/);
+test("missing Bailian key exits before overwriting previous data", () => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), "signal-desk-test-"));
+  const original = JSON.stringify({ edition: { date: "2000-01-01" }, marker: "keep-me" }, null, 2);
+  fs.writeFileSync(path.join(temp, "feed.json"), original);
+  const env = { ...process.env, SIGNAL_DATA_DIR: temp };
+  delete env.DASHSCOPE_API_KEY;
+  const result = spawnSync(process.execPath, [path.join(__dirname, "..", "scripts", "generate-feed.js")], { env, encoding: "utf8" });
+  assert.notEqual(result.status, 0);
+  assert.equal(fs.readFileSync(path.join(temp, "feed.json"), "utf8"), original);
 });
 
-test("parses fenced Bailian JSON and rejects malformed output", () => {
-  assert.deepEqual(parseModelJson("```json\n{\"aiIds\":[\"a\"]}\n```"), { aiIds: ["a"] });
-  assert.throws(() => parseModelJson("not json"), /did not return JSON/);
+test("workflow persists only content branch and supports config/force triggers", () => {
+  const workflow = fs.readFileSync(path.join(__dirname, "..", ".github", "workflows", "daily-feed.yml"), "utf8");
+  assert.match(workflow, /paths:\s*\n\s*- "config\/\*\*"/);
+  assert.match(workflow, /force-rebuild-today/);
+  assert.match(workflow, /git push origin HEAD:content/);
+  assert.doesNotMatch(workflow, /git add public\/data/);
 });
 
-test("deduplicates normalized URLs and titles", () => {
-  const first = fixture("one", "ai", "source-a");
-  const duplicate = { ...fixture("two", "ai", "source-b"), url: `${first.url}/`, title: first.title.toUpperCase() };
-  assert.equal(deduplicate([first, duplicate]).length, 1);
-});
-
-test("reuses a completed analysis only when the article content hash is unchanged", () => {
-  const item = { ...fixture("reuse", "ai", "source"), contentHash: "same-body" };
-  const previous = { ...item, analysis: { summary: "done" }, analysisStatus: "complete" };
-  assert.equal(canReuseAnalysis(previous, item), true);
-  assert.equal(canReuseAnalysis(previous, { ...item, contentHash: "changed-body" }), false);
-});
-
-test("reuses the same dated edition during deployment retries", () => {
-  const article = fixture("same-day", "ai", "source");
-  const previous = { edition: { date: "2026-07-28" }, lanes: { ai: [article], game: [], art: [] } };
-  assert.equal(reuseEditionSelection(previous, "2026-07-28").ai[0].id, article.id);
-  assert.equal(reuseEditionSelection(previous, "2026-07-29"), null);
-});
-
-test("static site reads generated JSON and contains no embedded Bailian key", () => {
+test("static UI contains v2 renderer and v1 fallback without an API key", () => {
   const root = path.join(__dirname, "..", "public");
   const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
-  const feed = JSON.parse(fs.readFileSync(path.join(root, "data", "feed.json"), "utf8"));
-  const archiveIndex = JSON.parse(fs.readFileSync(path.join(root, "data", "archive", "index.json"), "utf8"));
+  assert.match(app, /analysis\.fullAnalysis/);
+  assert.match(app, /item\.analysis\.learningValue/);
+  assert.match(app, /AI 延伸建议/);
   assert.match(app, /\.\/data\/feed\.json/);
-  assert.doesNotMatch(app, /\/api\/feed/);
-  assert.equal(feed.timezone, "Asia/Shanghai");
-  assert.ok(Array.isArray(archiveIndex.entries));
-  const artifact = fs.readdirSync(root, { recursive: true, withFileTypes: true })
-    .filter((entry) => entry.isFile())
-    .map((entry) => fs.readFileSync(path.join(entry.parentPath || entry.path, entry.name), "utf8"))
-    .join("\n");
-  assert.doesNotMatch(artifact, /DASHSCOPE_API_KEY\s*=/);
+  assert.doesNotMatch(app, /DASHSCOPE_API_KEY|\/api\/feed/);
 });

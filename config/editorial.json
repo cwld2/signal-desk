@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "timezone": "Asia/Shanghai",
+  "interestTopics": [
+    "AI 辅助学习、知识整理与反馈",
+    "Agent、编程自动化与工具调用",
+    "AI 辅助 Unity 和 Godot 游戏制作",
+    "本地模型、API、RAG、评测与可复现工作流",
+    "像素画、动画、场景地图与资产生产流程"
+  ],
+  "excludeTopics": [
+    "融资与商业估值",
+    "只有口号没有技术细节的产品宣传",
+    "泛政策、公关稿与未提供证据的观点",
+    "重复新闻和纯转载"
+  ],
+  "automaticQuotas": {
+    "practice": 2,
+    "update": 1
+  },
+  "sundayQuotas": {
+    "game": 2,
+    "art": 1
+  },
+  "manualDailyLimit": 2,
+  "sourceDailyLimit": 1,
+  "dateWindowsDays": {
+    "practice": 180,
+    "update": 14,
+    "research": 14,
+    "opinion": 180,
+    "game": 3650,
+    "art": 3650
+  },
+  "quality": {
+    "minimumCandidateScore": 58,
+    "minimumBodyCharacters": 500,
+    "maximumBodyCharacters": 30000,
+    "candidateFetchPerSource": 4,
+    "selectionExcerptCharacters": 2600
+  },
+  "models": {
+    "selection": "qwen3.7-flash",
+    "analysis": "qwen3.7-plus",
+    "temperature": 0.1,
+    "maximumCalls": 10
+  },
+  "analysis": {
+    "listSummaryCharacters": [120, 180],
+    "shortBodyCharacters": 4000,
+    "mediumBodyCharacters": 10000,
+    "shortTargetCharacters": [600, 1000],
+    "mediumTargetCharacters": [1200, 2000],
+    "longTargetCharacters": [2200, 3000]
+  }
+}

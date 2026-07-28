@@ -1,235 +1,510 @@
 const crypto = require("node:crypto");
 const fs = require("node:fs/promises");
 const path = require("node:path");
-const sources = require("../sources");
+const { Readability } = require("@mozilla/readability");
+const { JSDOM } = require("jsdom");
 const { parseFeed } = require("../src/feed");
 
 const ROOT = path.join(__dirname, "..");
-const OUTPUT_FILE = path.join(ROOT, "public", "data", "feed.json");
-const ARCHIVE_DIR = path.join(ROOT, "public", "data", "archive");
+const CONFIG_DIR = path.join(ROOT, "config");
+const DATA_DIR = path.resolve(process.env.SIGNAL_DATA_DIR || path.join(ROOT, "public", "data"));
+const OUTPUT_FILE = path.join(DATA_DIR, "feed.json");
+const ARCHIVE_DIR = path.join(DATA_DIR, "archive");
 const ARCHIVE_INDEX_FILE = path.join(ARCHIVE_DIR, "index.json");
-const LEGACY_CACHE_FILE = path.join(ROOT, "data", "cache.json");
 const TIME_ZONE = "Asia/Shanghai";
-const MAX_AI = 3;
-const MAX_GAME = 2;
-const MAX_ART = 1;
-const MAX_BODY_CHARS = 18000;
-const DEFAULT_SELECTION_MODEL = process.env.DASHSCOPE_SELECTION_MODEL || "qwen3.7-flash";
-const DEFAULT_ANALYSIS_MODEL = process.env.DASHSCOPE_ANALYSIS_MODEL || "qwen3.7-flash";
-const DASHSCOPE_BASE_URL = (process.env.DASHSCOPE_BASE_URL || "https://dashscope.aliyuncs.com/compatible-mode/v1").replace(/\/$/, "");
+const DEFAULT_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1";
+
+const PRACTICE_WORDS = /tutorial|guide|how to|cookbook|code|implementation|workflow|benchmark|evaluation|api|rag|agent|tool use|local model|godot|unity|shader|animation|pixel|sprite|教程|实践|实现|评测|工作流|本地模型|像素|动画/i;
+const UPDATE_WORDS = /release|version|update|available|launch|model|api|security|breaking change|发布|版本|更新|模型|接口|安全/i;
+const PROMO_WORDS = /funding|investment|partnership|customer story|economic opportunity|revolutionary|game.?changing|must.?see|融资|投资|合作伙伴|客户故事|颠覆性|重磅来袭/i;
 
 function hash(value) {
-  return crypto.createHash("sha1").update(value).digest("hex").slice(0, 20);
+  return crypto.createHash("sha256").update(String(value || "")).digest("hex").slice(0, 24);
 }
 
-function decodeEntities(value = "") {
-  const named = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
-  return value.replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (match, entity) => {
-    if (entity[0] === "#") {
-      const radix = entity[1]?.toLowerCase() === "x" ? 16 : 10;
-      const number = parseInt(entity.slice(radix === 16 ? 2 : 1), radix);
-      return Number.isFinite(number) ? String.fromCodePoint(number) : match;
-    }
-    return named[entity.toLowerCase()] ?? match;
-  });
+async function readJson(file, fallback = null) {
+  try {
+    return JSON.parse(await fs.readFile(file, "utf8"));
+  } catch {
+    return fallback;
+  }
 }
 
-function cleanText(value = "") {
-  return decodeEntities(value)
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
-    .replace(/<script[\s\S]*?<\/script>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style>/gi, " ")
-    .replace(/<noscript[\s\S]*?<\/noscript>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+async function loadConfig() {
+  const [sourceFile, editorial, inbox] = await Promise.all([
+    readJson(path.join(CONFIG_DIR, "sources.json")),
+    readJson(path.join(CONFIG_DIR, "editorial.json")),
+    readJson(path.join(CONFIG_DIR, "manual-inbox.json"))
+  ]);
+  if (!Array.isArray(sourceFile?.sources) || !editorial || !Array.isArray(inbox?.entries)) {
+    throw new Error("配置文件无效：请检查 config/sources.json、editorial.json 和 manual-inbox.json");
+  }
+  return {
+    sources: sourceFile.sources.filter((source) => source.enabled),
+    editorial,
+    manualEntries: inbox.entries.filter((entry) => entry?.url)
+  };
 }
 
-function articleBody(html = "") {
-  const withoutNoise = html
-    .replace(/<(script|style|noscript|nav|footer|header|form|aside)[^>]*>[\s\S]*?<\/\1>/gi, " ");
-  const candidates = [
-    withoutNoise.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)?.[1],
-    withoutNoise.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1],
-    withoutNoise.match(/<div[^>]+(?:class|id)=["'][^"']*(?:article|post|entry|content|body)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i)?.[1],
-    withoutNoise
-  ].filter(Boolean);
-  const best = candidates.map(cleanText).sort((a, b) => b.length - a.length)[0] || "";
-  return best.slice(0, MAX_BODY_CHARS);
-}
-
-async function readJson(file) {
-  try { return JSON.parse(await fs.readFile(file, "utf8")); } catch { return null; }
-}
-
-async function fetchText(url, { accept = "*/*", timeout = 18000 } = {}) {
+async function fetchText(url, { accept = "*/*", timeout = 20000 } = {}) {
   const response = await fetch(url, {
     redirect: "follow",
     headers: {
-      "user-agent": "SignalDesk/2.0 (+daily static learning digest)",
+      "user-agent": "SignalDesk/3.0 (+https://github.com/cwld2/signal-desk; daily learning digest)",
       accept
     },
     signal: AbortSignal.timeout(timeout)
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return response.text();
+  return { text: await response.text(), finalUrl: response.url, contentType: response.headers.get("content-type") || "" };
+}
+
+function extractReadableArticle(html, url, maximumCharacters = 30000) {
+  const dom = new JSDOM(html, { url });
+  try {
+    const parsed = new Readability(dom.window.document, { charThreshold: 200 }).parse();
+    const text = String(parsed?.textContent || "").replace(/\s+/g, " ").trim();
+    return {
+      title: String(parsed?.title || "").trim(),
+      byline: String(parsed?.byline || "").trim(),
+      text: text.slice(0, maximumCharacters),
+      originalLength: text.length,
+      length: Math.min(text.length, maximumCharacters),
+      method: "readability",
+      trusted: text.length >= 500
+    };
+  } finally {
+    dom.window.close();
+  }
+}
+
+async function fetchArticle(item, editorial) {
+  try {
+    const result = await fetchText(item.url, { accept: "text/html,application/xhtml+xml;q=0.9" });
+    if (!/html/i.test(result.contentType) && !/<(?:html|article|main)\b/i.test(result.text)) {
+      throw new Error("响应不是 HTML 正文");
+    }
+    const extraction = extractReadableArticle(result.text, result.finalUrl || item.url, editorial.quality.maximumBodyCharacters);
+    if (extraction.length < editorial.quality.minimumBodyCharacters) {
+      throw new Error(`正文过短（${extraction.length} 字符）`);
+    }
+    return { ok: true, extraction, finalUrl: result.finalUrl || item.url };
+  } catch (error) {
+    return { ok: false, error: error.message };
+  }
 }
 
 async function fetchSource(source) {
   const started = Date.now();
   try {
-    const xml = await fetchText(source.url, { accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.2" });
-    const items = parseFeed(xml, source).map((item) => ({
+    const result = await fetchText(source.url, {
+      accept: "application/rss+xml,application/atom+xml,application/xml,text/xml;q=0.9,*/*;q=0.2"
+    });
+    const items = parseFeed(result.text, source).map((item) => ({
       ...item,
-      sourceUrl: source.url,
-      contentHash: hash(`${item.url}|${item.title}|${item.summary}`)
+      category: source.category,
+      slot: source.slot || source.category,
+      language: source.language,
+      sourceWeight: Number(source.weight || 1),
+      sourceDailyLimit: Number(source.dailyLimit || 1)
     }));
-    if (!items.length) throw new Error("No feed items parsed");
-    return { source: { ...source, url: undefined }, items, ok: true, latencyMs: Date.now() - started };
+    if (!items.length) throw new Error("订阅源没有可解析文章");
+    return { source: publicSource(source), items, ok: true, latencyMs: Date.now() - started };
   } catch (error) {
-    return { source: { ...source, url: undefined }, items: [], ok: false, latencyMs: Date.now() - started, error: error.message };
+    return { source: publicSource(source), items: [], ok: false, latencyMs: Date.now() - started, error: error.message };
   }
+}
+
+function publicSource(source) {
+  const { url, ...safe } = source;
+  return safe;
+}
+
+function normalizeUrl(value) {
+  try {
+    const url = new URL(value);
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "ref"].forEach((key) => url.searchParams.delete(key));
+    url.hash = "";
+    return url.toString().replace(/\/$/, "").toLowerCase();
+  } catch {
+    return String(value || "").trim().toLowerCase();
+  }
+}
+
+function normalizeTitle(value) {
+  return String(value || "").toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, " ").trim();
 }
 
 function deduplicate(items) {
   const urls = new Set();
   const titles = new Set();
+  const hashes = new Set();
   return items.filter((item) => {
-    const url = item.url.toLowerCase().replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
-    const title = item.title.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, " ").trim();
-    if (urls.has(url) || titles.has(title)) return false;
-    urls.add(url); titles.add(title);
+    const url = normalizeUrl(item.url);
+    const title = normalizeTitle(item.title);
+    const content = item.bodyHash || item.contentHash || hash(`${title}|${item.summary || ""}`);
+    if (!url || !title || urls.has(url) || titles.has(title) || hashes.has(content)) return false;
+    urls.add(url);
+    titles.add(title);
+    hashes.add(content);
     return true;
   });
 }
 
-function localScore(item) {
-  const ageHours = Math.max(0, (Date.now() - Date.parse(item.publishedAt || 0)) / 36e5);
-  let score = Number(item.score || 0) + Math.max(0, 24 - Math.log2(ageHours + 2) * 4);
-  if (/tutorial|guide|how to|documentation|implementation|code|workflow|technique|build/i.test(`${item.title} ${item.summary}`)) score += 12;
-  if (/announcement|introducing|launch|now available|pricing|event/i.test(item.title)) score -= 8;
-  if (/revolutionary|game.?changing|mind.?blowing|must.?see|ultimate/i.test(item.title)) score -= 15;
+function ageDays(item, now = new Date()) {
+  const published = Date.parse(item.publishedAt || "");
+  return Number.isFinite(published) ? Math.max(0, (now.getTime() - published) / 86400000) : Number.POSITIVE_INFINITY;
+}
+
+function dateWindowFor(item, editorial) {
+  if (item.lane === "game") return editorial.dateWindowsDays.game;
+  if (item.lane === "art") return editorial.dateWindowsDays.art;
+  return editorial.dateWindowsDays[item.category] ?? editorial.dateWindowsDays[item.slot] ?? 14;
+}
+
+function candidateScore(item, editorial, now = new Date()) {
+  const text = `${item.title} ${item.summary}`;
+  const age = ageDays(item, now);
+  let score = Number(item.score || 0) * 0.42 + Number(item.sourceWeight || 1) * 22;
+  score += Math.max(0, 18 - Math.log2(age + 1) * 3);
+  if (PRACTICE_WORDS.test(text)) score += item.slot === "practice" ? 16 : 6;
+  if (UPDATE_WORDS.test(text)) score += item.slot === "update" ? 9 : 2;
+  if (PROMO_WORDS.test(text)) score -= 30;
+  for (const topic of editorial.interestTopics || []) {
+    const terms = topic.split(/[、，与和]/).map((term) => term.trim()).filter((term) => term.length >= 2);
+    if (terms.some((term) => text.toLowerCase().includes(term.toLowerCase()))) score += 4;
+  }
   return Math.round(Math.max(0, Math.min(100, score)));
 }
 
-function candidatesForLane(items, lane) {
-  const maxAgeDays = lane === "ai" ? 7 : 60;
-  const candidates = items.filter((item) => {
-    if (item.lane !== lane) return false;
-    if (!item.publishedAt) return true;
-    const published = Date.parse(item.publishedAt || 0);
-    return !Number.isFinite(published) || Date.now() - published <= maxAgeDays * 86400000;
-  }).map((item) => ({ ...item, candidateScore: localScore(item) }));
-  candidates.sort((a, b) => b.candidateScore - a.candidateScore || Date.parse(b.publishedAt || 0) - Date.parse(a.publishedAt || 0));
-  return candidates.slice(0, 12);
+function prefilterCandidates(items, editorial, now = new Date()) {
+  const rejected = [];
+  const perSource = new Map();
+  const eligible = [];
+  for (const item of items) {
+    const windowDays = dateWindowFor(item, editorial);
+    const score = candidateScore(item, editorial, now);
+    let reason = null;
+    if (ageDays(item, now) > windowDays) reason = `超过 ${windowDays} 天时间窗口`;
+    else if (PROMO_WORDS.test(`${item.title} ${item.summary}`) && item.slot === "practice") reason = "宣传性内容不能占实践名额";
+    else if (score < editorial.quality.minimumCandidateScore) reason = `本地相关度 ${score} 低于门槛`;
+    if (reason) {
+      rejected.push(rejection(item, reason, score));
+      continue;
+    }
+    const used = perSource.get(item.sourceId) || 0;
+    if (used >= editorial.quality.candidateFetchPerSource) {
+      rejected.push(rejection(item, "超过单来源正文候选抓取上限", score));
+      continue;
+    }
+    perSource.set(item.sourceId, used + 1);
+    eligible.push({ ...item, candidateScore: score });
+  }
+  eligible.sort((a, b) => b.candidateScore - a.candidateScore || Date.parse(b.publishedAt || 0) - Date.parse(a.publishedAt || 0));
+  return { eligible, rejected };
 }
 
-function localSelect(items, isSunday) {
-  const pick = (lane, count) => {
-    const pool = candidatesForLane(items, lane);
-    const result = [];
-    const sourcesUsed = new Set();
-    for (const item of pool) {
-      if (result.length >= count) break;
-      if (!sourcesUsed.has(item.sourceId) || result.length >= count - 1) {
-        result.push(item); sourcesUsed.add(item.sourceId);
+function rejection(item, reason, score = item.candidateScore) {
+  return { id: item.id, title: item.title, sourceName: item.sourceName, lane: item.lane, category: item.category, score, reason };
+}
+
+async function mapLimit(values, limit, mapper) {
+  const output = new Array(values.length);
+  let cursor = 0;
+  async function worker() {
+    while (cursor < values.length) {
+      const index = cursor++;
+      output[index] = await mapper(values[index], index);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, values.length) }, worker));
+  return output;
+}
+
+async function hydrateBodies(items, editorial) {
+  const rejected = [];
+  const results = await mapLimit(items, 5, async (item) => {
+    const bodyResult = await fetchArticle(item, editorial);
+    if (!bodyResult.ok) {
+      rejected.push(rejection(item, `正文提取失败：${bodyResult.error}`));
+      return null;
+    }
+    const extraction = bodyResult.extraction;
+    return {
+      ...item,
+      url: bodyResult.finalUrl,
+      body: extraction.text,
+      bodyHash: hash(extraction.text),
+      extraction: {
+        method: extraction.method,
+        length: extraction.length,
+        originalLength: extraction.originalLength,
+        trusted: extraction.trusted
+      },
+      readMinutes: Math.max(3, Math.min(30, Math.round(extraction.length / 700)))
+    };
+  });
+  return { candidates: results.filter(Boolean), rejected };
+}
+
+function selectionCandidates(candidates) {
+  const groups = [
+    ["ai-practice", (item) => item.lane === "ai" && item.slot === "practice", 12],
+    ["ai-update", (item) => item.lane === "ai" && item.slot === "update", 8],
+    ["game", (item) => item.lane === "game", 8],
+    ["art", (item) => item.lane === "art", 5]
+  ];
+  return groups.flatMap(([, predicate, limit]) => candidates.filter(predicate).slice(0, limit));
+}
+
+function selectionPrompt(candidates, editorial, sunday) {
+  const excerptLength = editorial.quality.selectionExcerptCharacters;
+  const compact = selectionCandidates(candidates).map((item) => ({
+    id: item.id,
+    lane: item.lane,
+    category: item.category,
+    slot: item.slot,
+    title: item.title,
+    source: item.sourceName,
+    publishedAt: item.publishedAt,
+    localScore: item.candidateScore,
+    rssSummary: item.summary.slice(0, 500),
+    bodyExcerpt: item.body.slice(0, excerptLength)
+  }));
+  return `你是“信号台”的技术内容主编。请依据标题、摘要和已提取正文片段筛选真正可实践、可信、有明确技术信息的文章。
+
+读者兴趣：${editorial.interestTopics.join("；")}
+排除内容：${editorial.excludeTopics.join("；")}
+硬规则：
+1. AI 自动内容最多 2 篇 practice 和 1 篇 update；宁缺毋滥。
+2. 同一来源最多 1 篇。
+3. practice 必须含机制、代码、实验、步骤、评测或可复现工作流，纯观点不能入选。
+4. update 必须是会影响实际使用的重要模型、API、版本、安全或兼容性变化，普通公关稿不能入选。
+5. 今天${sunday ? "是周日，另选最多 2 篇 game 和 1 篇 art" : "不是周日，不选 game/art"}。
+
+只返回 JSON：
+{"practiceIds":["id"],"updateIds":["id"],"gameIds":["id"],"artIds":["id"],"reasons":{"id":"简短入选或淘汰理由"}}
+
+候选：${JSON.stringify(compact)}`;
+}
+
+class BailianError extends Error {
+  constructor(message, kind = "model") {
+    super(message);
+    this.name = "BailianError";
+    this.kind = kind;
+  }
+}
+
+class BailianClient {
+  constructor(editorial) {
+    this.apiKey = process.env.DASHSCOPE_API_KEY;
+    this.baseUrl = (process.env.DASHSCOPE_BASE_URL || DEFAULT_BASE_URL).replace(/\/$/, "");
+    this.selectionModel = process.env.DASHSCOPE_SELECTION_MODEL || editorial.models.selection;
+    this.analysisModel = process.env.DASHSCOPE_ANALYSIS_MODEL || editorial.models.analysis;
+    this.temperature = Number(editorial.models.temperature ?? 0.1);
+    this.maximumCalls = Number(editorial.models.maximumCalls || 10);
+    this.calls = 0;
+    if (!this.apiKey) throw new BailianError("缺少 DASHSCOPE_API_KEY，已停止发布", "auth");
+  }
+
+  async json(prompt, model, validator = (value) => value) {
+    let lastError;
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      if (this.calls >= this.maximumCalls) throw new BailianError(`百炼调用达到每次任务上限 ${this.maximumCalls}`, "budget");
+      this.calls += 1;
+      try {
+        const response = await fetch(`${this.baseUrl}/chat/completions`, {
+          method: "POST",
+          headers: { "content-type": "application/json", authorization: `Bearer ${this.apiKey}` },
+          body: JSON.stringify({
+            model,
+            messages: [
+              { role: "system", content: "你是严谨的中文技术编辑。只输出有效 JSON，不使用 Markdown，不编造原文没有提供的事实。" },
+              { role: "user", content: prompt }
+            ],
+            temperature: this.temperature,
+            max_tokens: 8192,
+            stream: false
+          }),
+          signal: AbortSignal.timeout(90000)
+        });
+        if (!response.ok) {
+          const detail = (await response.text()).slice(0, 500);
+          const kind = response.status === 401 || response.status === 403 ? "auth" : response.status === 429 ? "quota" : response.status === 400 || response.status === 404 ? "model" : "network";
+          throw new BailianError(`百炼 HTTP ${response.status}: ${detail}`, kind);
+        }
+        const payload = await response.json();
+        return validator(parseModelJson(payload.choices?.[0]?.message?.content));
+      } catch (error) {
+        lastError = error instanceof BailianError ? error : new BailianError(error.message, "format");
+        if (["auth", "quota", "model", "budget"].includes(lastError.kind)) throw lastError;
       }
     }
-    return result;
-  };
-  return {
-    ai: pick("ai", MAX_AI),
-    game: isSunday ? pick("game", MAX_GAME) : [],
-    art: isSunday ? pick("art", MAX_ART) : []
-  };
-}
-
-function selectionPrompt(items, isSunday) {
-  const candidates = ["ai", ...(isSunday ? ["game", "art"] : [])]
-    .flatMap((lane) => candidatesForLane(items, lane).map((item) => ({
-      id: item.id,
-      lane: item.lane,
-      title: item.title,
-      source: item.sourceName,
-      publishedAt: item.publishedAt,
-      summary: item.summary.slice(0, 700),
-      score: item.candidateScore
-    })));
-  return `你是一个克制的学习资讯编辑。请从候选文章中选出真正有技术含量、可学习、不过度宣传的内容。优先选择有实现细节、教程、实验、工程经验或底层原理的文章；避免纯产品发布、营销、公关和重复报道。需要保证来源尽量多样。\n\n今天是否为周日：${isSunday ? "是" : "否"}\nAI 最多选 3 篇${isSunday ? "，游戏开发最多 2 篇，美术最多 1 篇" : ""}。只返回 JSON，不要 Markdown：\n{"aiIds":["..."],"gameIds":["..."],"artIds":["..."]}\n\n候选：${JSON.stringify(candidates)}`;
-}
-
-function analysisPrompt(item, body) {
-  return `你是面向中文初学者和实践者的技术编辑。请基于文章资料生成严谨、克制的学习分析。不要编造文章未提到的事实；不确定时明确写“文章未说明”。只返回 JSON，不要 Markdown。\n\nJSON 格式：{"summary":"列表简介","keyPoints":["核心要点"],"technicalDetails":["技术细节"],"learningValue":["学习价值"]}\n要求：summary 为 80-140 字；keyPoints 2-5 条；technicalDetails 2-6 条，解释机制、流程、工具或限制；learningValue 2-4 条，说明读者可以学到什么以及如何验证。\n\n标题：${item.title}\n来源：${item.sourceName}\nRSS 摘要：${item.summary}\n正文（可能不完整）：${body || "正文抓取失败，请仅依据 RSS 摘要并明确说明限制。"}`;
+    throw lastError || new BailianError("百炼未返回可用 JSON", "format");
+  }
 }
 
 function parseModelJson(raw) {
   const text = String(raw || "").replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
   const start = text.indexOf("{");
   const end = text.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("Bailian did not return JSON");
-  return JSON.parse(text.slice(start, end + 1));
-}
-
-async function callBailian(prompt, model) {
-  const apiKey = process.env.DASHSCOPE_API_KEY;
-  if (!apiKey) return null;
-  const endpoint = `${DASHSCOPE_BASE_URL}/chat/completions`;
-  for (let attempt = 0; attempt < 2; attempt += 1) {
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
-        body: JSON.stringify({
-          model,
-          messages: [
-            { role: "system", content: "你是严谨的中文技术编辑，只输出用户要求的 JSON。" },
-            { role: "user", content: prompt }
-          ],
-          temperature: 0.2,
-          stream: false
-        }),
-        signal: AbortSignal.timeout(60000)
-      });
-      if (!response.ok) {
-        const detail = (await response.text()).slice(0, 300);
-        throw new Error(`Bailian HTTP ${response.status}: ${detail}`);
-      }
-      const payload = await response.json();
-      const raw = payload.choices?.[0]?.message?.content;
-      return parseModelJson(raw);
-    } catch (error) {
-      if (attempt === 1) throw error;
-    }
+  if (start < 0 || end <= start) throw new BailianError("百炼未返回 JSON", "format");
+  try {
+    return JSON.parse(text.slice(start, end + 1));
+  } catch (error) {
+    throw new BailianError(`百炼 JSON 格式错误：${error.message}`, "format");
   }
-  return null;
 }
 
-function normalizeList(value, fallback) {
-  if (Array.isArray(value)) {
-    const normalized = value.map((entry) => String(entry).trim()).filter(Boolean).slice(0, 8);
-    return normalized.length ? normalized : fallback;
+function enforceQuota(candidates, ids, predicate, limit, usedSources = new Set(), sourceLimit = 1) {
+  const byId = new Map(candidates.map((item) => [item.id, item]));
+  const sourceCounts = new Map([...usedSources].map((sourceId) => [sourceId, sourceLimit]));
+  const selected = [];
+  for (const id of Array.isArray(ids) ? ids : []) {
+    const item = byId.get(id);
+    if (!item || !predicate(item) || selected.some((entry) => entry.id === item.id)) continue;
+    if ((sourceCounts.get(item.sourceId) || 0) >= Math.min(sourceLimit, item.sourceDailyLimit || sourceLimit)) continue;
+    selected.push(item);
+    sourceCounts.set(item.sourceId, (sourceCounts.get(item.sourceId) || 0) + 1);
+    usedSources.add(item.sourceId);
+    if (selected.length >= limit) break;
   }
-  return fallback;
+  return selected;
 }
 
-function fallbackAnalysis(item, reason = "未调用阿里云百炼") {
+function localSelect(candidates, sunday, editorial = require("../config/editorial.json")) {
+  const used = new Set();
+  const take = (predicate, limit) => enforceQuota(candidates, candidates.filter(predicate).map((item) => item.id), predicate, limit, used, editorial.sourceDailyLimit);
+  const practice = take((item) => item.lane === "ai" && item.slot === "practice", editorial.automaticQuotas.practice);
+  const update = take((item) => item.lane === "ai" && item.slot === "update", editorial.automaticQuotas.update);
+  const game = sunday ? take((item) => item.lane === "game", editorial.sundayQuotas.game) : [];
+  const art = sunday ? take((item) => item.lane === "art", editorial.sundayQuotas.art) : [];
+  return { practice, update, game, art };
+}
+
+async function chooseItems(candidates, sunday, editorial, client, runReport) {
+  const choice = await client.json(selectionPrompt(candidates, editorial, sunday), client.selectionModel, normalizeSelection);
+  const used = new Set();
+  const sourceLimit = editorial.sourceDailyLimit;
+  const practice = enforceQuota(candidates, choice.practiceIds, (item) => item.lane === "ai" && item.slot === "practice", editorial.automaticQuotas.practice, used, sourceLimit);
+  const update = enforceQuota(candidates, choice.updateIds, (item) => item.lane === "ai" && item.slot === "update", editorial.automaticQuotas.update, used, sourceLimit);
+  const game = sunday ? enforceQuota(candidates, choice.gameIds, (item) => item.lane === "game", editorial.sundayQuotas.game, used, sourceLimit) : [];
+  const art = sunday ? enforceQuota(candidates, choice.artIds, (item) => item.lane === "art", editorial.sundayQuotas.art, used, sourceLimit) : [];
+  runReport.selectionReasons = choice.reasons && typeof choice.reasons === "object" ? choice.reasons : {};
+  const selectedIds = new Set([...practice, ...update, ...game, ...art].map((item) => item.id));
+  for (const item of selectionCandidates(candidates)) {
+    if (!selectedIds.has(item.id)) runReport.rejected.push(rejection(item, runReport.selectionReasons[item.id] || "百炼未入选"));
+  }
+  return { practice, update, game, art };
+}
+
+function normalizeSelection(value) {
+  if (!value || typeof value !== "object") throw new BailianError("筛选 JSON 不是对象", "format");
+  const normalized = {};
+  for (const key of ["practiceIds", "updateIds", "gameIds", "artIds"]) {
+    if (!Array.isArray(value[key])) throw new BailianError(`筛选 JSON 缺少 ${key}`, "format");
+    normalized[key] = value[key].map((id) => String(id)).filter(Boolean);
+  }
+  normalized.reasons = value.reasons && typeof value.reasons === "object" ? value.reasons : {};
+  return normalized;
+}
+
+function analysisLengthTarget(bodyLength, editorial) {
+  const settings = editorial.analysis;
+  if (bodyLength <= settings.shortBodyCharacters) return { tier: "short", min: settings.shortTargetCharacters[0], max: settings.shortTargetCharacters[1] };
+  if (bodyLength <= settings.mediumBodyCharacters) return { tier: "medium", min: settings.mediumTargetCharacters[0], max: settings.mediumTargetCharacters[1] };
+  return { tier: "long", min: settings.longTargetCharacters[0], max: settings.longTargetCharacters[1] };
+}
+
+function analysisPrompt(item, editorial) {
+  const target = analysisLengthTarget(item.extraction.length, editorial);
+  return `请基于下面的原文生成中文结构化学习分析。不得把常识或你的建议写成作者结论；原文没有说明的内容必须标为 AI 推断。
+
+输出 JSON 结构：
+{
+  "displayTitle":"准确自然的中文标题",
+  "listSummary":"120-180 字，只帮助读者判断是否值得阅读",
+  "fullAnalysis":[{"heading":"背景与问题","paragraphs":["段落"]},{"heading":"方法与论证","paragraphs":["段落"]},{"heading":"证据、结论与边界","paragraphs":["段落"]}],
+  "keyPoints":["3-6 条，避免复述全文分析"],
+  "technicalDetails":[{"text":"明确的机制、API、版本、数据或步骤","basis":"source 或 inference"}],
+  "engineeringPractice":[{"scenario":"适用场景","steps":["实施步骤"],"tools":["工具"],"verification":["验证方法"]}]
+}
+
+全文分析总长度目标约 ${target.min}-${target.max} 个中文字符，覆盖问题背景、文章方法、论证过程、原文证据、结论与适用边界。技术细节必须逐条标注 source（原文事实）或 inference（AI 推断）。engineeringPractice 是延伸建议，不得冒充作者观点。
+
+原标题：${item.title}
+来源：${item.sourceName}
+发布日期：${item.publishedAt || "未知"}
+RSS 摘要：${item.summary}
+正文（Readability 提取，${item.extraction.length} 字符）：
+${item.body}`;
+}
+
+function stringList(value, minimum = 1, maximum = 8) {
+  const list = Array.isArray(value) ? value.map((entry) => String(entry || "").trim()).filter(Boolean).slice(0, maximum) : [];
+  if (list.length < minimum) throw new BailianError("分析 JSON 缺少必要列表项", "format");
+  return list;
+}
+
+function normalizeAnalysis(raw) {
+  const listSummary = String(raw?.listSummary || "").trim();
+  const displayTitle = String(raw?.displayTitle || "").trim();
+  if (!displayTitle || listSummary.length < 80 || listSummary.length > 240) throw new BailianError("中文标题或列表简介长度不合要求", "format");
+  const fullAnalysis = (Array.isArray(raw.fullAnalysis) ? raw.fullAnalysis : []).map((section) => ({
+    heading: String(section?.heading || "").trim(),
+    paragraphs: stringList(section?.paragraphs, 1, 8)
+  })).filter((section) => section.heading);
+  if (fullAnalysis.length < 3) throw new BailianError("全文分析区块不足", "format");
+  const technicalDetails = (Array.isArray(raw.technicalDetails) ? raw.technicalDetails : []).map((detail) => {
+    if (!detail || !["source", "inference"].includes(detail.basis)) throw new BailianError("技术细节必须标注 source 或 inference", "format");
+    return { text: String(detail.text || "").trim(), basis: detail.basis };
+  }).filter((detail) => detail.text).slice(0, 10);
+  if (!technicalDetails.length) throw new BailianError("技术细节为空", "format");
+  const engineeringPractice = (Array.isArray(raw.engineeringPractice) ? raw.engineeringPractice : []).map((practice) => ({
+    scenario: String(practice?.scenario || "").trim(),
+    steps: stringList(practice?.steps, 1, 8),
+    tools: stringList(practice?.tools, 1, 8),
+    verification: stringList(practice?.verification, 1, 8)
+  })).filter((practice) => practice.scenario).slice(0, 4);
+  if (!engineeringPractice.length) throw new BailianError("类似工程实践为空", "format");
   return {
-    summary: item.summary || "原文未提供可用摘要，建议直接阅读原文。",
-    keyPoints: ["本文未完成 AI 深度分析。", "请以原文内容和作者提供的证据为准。"],
-    technicalDetails: [reason, "正文可能受访问限制或来源摘要长度影响。"],
-    learningValue: ["先确认文章的适用场景，再尝试复现其中的关键步骤。", "将结论与自己的项目或学习目标对照。"]
+    listSummary,
+    fullAnalysis,
+    keyPoints: stringList(raw.keyPoints, 3, 6),
+    technicalDetails,
+    engineeringPractice
   };
 }
 
-async function getBody(item) {
-  try {
-    const html = await fetchText(item.url, { accept: "text/html,application/xhtml+xml" });
-    const body = articleBody(html);
-    if (body.length < 240) throw new Error("正文过短或需要登录");
-    return body;
-  } catch (error) {
-    return { error: error.message, text: "" };
+function previousItems(previous) {
+  if (!previous) return [];
+  return Array.isArray(previous.items) ? previous.items : Object.values(previous.lanes || {}).flat();
+}
+
+function canReuseAnalysis(previous, item, force = false) {
+  return Boolean(!force && previous?.analysisStatus === "complete" && previous?.analysis && previous.bodyHash === item.bodyHash);
+}
+
+async function analyzeItem(item, previousById, client, editorial, force = false) {
+  const previous = previousById.get(item.id);
+  if (canReuseAnalysis(previous, item, force) && previous.schemaVersion === 2) {
+    return { ...publicItem(item), displayTitle: previous.displayTitle, analysis: previous.analysis, analysisStatus: "complete", analyzedAt: previous.analyzedAt, model: previous.model };
   }
+  const result = await client.json(analysisPrompt(item, editorial), client.analysisModel, (raw) => ({ raw, analysis: normalizeAnalysis(raw) }));
+  return {
+    ...publicItem(item),
+    displayTitle: String(result.raw.displayTitle).trim(),
+    analysis: result.analysis,
+    analysisStatus: "complete",
+    analyzedAt: new Date().toISOString(),
+    model: client.analysisModel
+  };
+}
+
+function publicItem(item) {
+  const { body, sourceWeight, sourceDailyLimit, ...safe } = item;
+  return { ...safe, schemaVersion: 2 };
 }
 
 function currentDateParts(date = new Date()) {
@@ -241,100 +516,137 @@ function isSundayInShanghai(date = new Date()) {
   return currentDateParts(date).weekday === "Sun";
 }
 
-function previousItems(previous) {
-  if (!previous) return [];
-  return previous.items || Object.values(previous.lanes || {}).flat();
+function editionDate(date = new Date()) {
+  const parts = currentDateParts(date);
+  return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-function reuseEditionSelection(previous, date) {
-  if (previous?.edition?.date !== date) return null;
-  return {
-    ai: [...(previous.lanes?.ai || [])],
-    game: [...(previous.lanes?.game || [])],
-    art: [...(previous.lanes?.art || [])]
-  };
+function shouldSkipEdition(previous, date, force = false) {
+  return Boolean(previous?.edition?.date === date && !force);
 }
 
-async function chooseItems(items, isSunday) {
-  const local = localSelect(items, isSunday);
-  const selected = { ai: local.ai, game: local.game, art: local.art };
-  if (!items.length || !process.env.DASHSCOPE_API_KEY) return selected;
-  try {
-    const choice = await callBailian(selectionPrompt(items, isSunday), DEFAULT_SELECTION_MODEL);
-    const byId = new Map(items.map((item) => [item.id, item]));
-    const take = (ids, lane, limit) => (Array.isArray(ids) ? ids : []).map((id) => byId.get(id)).filter((item) => item?.lane === lane).slice(0, limit);
-    selected.ai = take(choice.aiIds, "ai", MAX_AI);
-    selected.game = isSunday ? take(choice.gameIds, "game", MAX_GAME) : [];
-    selected.art = isSunday ? take(choice.artIds, "art", MAX_ART) : [];
-    if (!selected.ai.length) selected.ai = local.ai;
-    if (isSunday && !selected.game.length) selected.game = local.game;
-    if (isSunday && !selected.art.length) selected.art = local.art;
-  } catch (error) {
-    console.warn(`Bailian selection fallback: ${error.message}`);
-  }
-  return selected;
+function selectPendingManualEntries(entries, processedUrls, limit) {
+  return entries
+    .filter((entry) => !processedUrls.has(normalizeUrl(entry.url)))
+    .sort((a, b) => Number(b.priority || 0) - Number(a.priority || 0) || String(a.addedAt || "").localeCompare(String(b.addedAt || "")))
+    .slice(0, limit);
 }
 
-function canReuseAnalysis(previous, item) {
-  return Boolean(previous?.analysis && previous.contentHash === item.contentHash && previous.analysisStatus === "complete");
-}
-
-async function enrichItem(item, previousById) {
-  const previous = previousById.get(item.id);
-  const bodyResult = await getBody(item);
-  const body = typeof bodyResult === "string" ? bodyResult : "";
-  const enrichedItem = { ...item, contentHash: hash(body || item.summary || `${item.url}|${item.title}`) };
-  if (canReuseAnalysis(previous, enrichedItem)) {
-    return { ...enrichedItem, analysis: previous.analysis, analysisStatus: previous.analysisStatus, analyzedAt: previous.analyzedAt, model: previous.model };
-  }
-  if (!body || !process.env.DASHSCOPE_API_KEY) {
-    return { ...enrichedItem, analysis: fallbackAnalysis(item, bodyResult?.error || "DASHSCOPE_API_KEY 未配置"), analysisStatus: "rss-fallback", analyzedAt: new Date().toISOString(), model: null };
-  }
-  try {
-    const result = await callBailian(analysisPrompt(item, body), DEFAULT_ANALYSIS_MODEL);
-    const analysis = {
-      summary: String(result?.summary || item.summary).trim(),
-      keyPoints: normalizeList(result?.keyPoints, fallbackAnalysis(item).keyPoints),
-      technicalDetails: normalizeList(result?.technicalDetails, fallbackAnalysis(item).technicalDetails),
-      learningValue: normalizeList(result?.learningValue, fallbackAnalysis(item).learningValue)
+async function manualCandidates(entries, processedUrls, editorial, runReport, sources = []) {
+  const pending = selectPendingManualEntries(entries, processedUrls, editorial.manualDailyLimit);
+  const candidates = [];
+  for (const entry of pending) {
+    const lane = ["ai", "game", "art"].includes(entry.lane) ? entry.lane : "ai";
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(entry.url);
+      if (!["http:", "https:"].includes(parsedUrl.protocol)) throw new Error("只支持 HTTP(S)");
+    } catch (error) {
+      runReport.rejected.push({ title: entry.note || entry.url, sourceName: "手动候选", lane, reason: `URL 无效，保留等待修正：${error.message}` });
+      continue;
+    }
+    const hostname = parsedUrl.hostname.replace(/^www\./, "");
+    const configuredSource = sources.find((source) => {
+      try {
+        return [source.site, source.url].filter(Boolean).some((value) => new URL(value).hostname.replace(/^www\./, "") === hostname);
+      } catch {
+        return false;
+      }
+    });
+    const base = {
+      id: hash(`manual|${normalizeUrl(entry.url)}`),
+      title: entry.note || entry.url,
+      url: entry.url,
+      summary: entry.note || "手动候选",
+      publishedAt: entry.addedAt || null,
+      sourceId: configuredSource?.id || `manual-${hostname}`,
+      sourceName: configuredSource?.name || hostname,
+      sourceSite: parsedUrl.origin,
+      lane,
+      category: entry.category || "practice",
+      slot: entry.category === "update" ? "update" : "practice",
+      language: entry.language || "unknown",
+      accent: configuredSource?.accent || "#2f6f62",
+      candidateScore: 100,
+      manual: true,
+      manualNote: entry.note || ""
     };
-    return { ...enrichedItem, summary: analysis.summary, analysis, analysisStatus: "complete", analyzedAt: new Date().toISOString(), model: DEFAULT_ANALYSIS_MODEL };
-  } catch (error) {
-    console.warn(`Bailian analysis fallback for ${item.id}: ${error.message}`);
-    return { ...enrichedItem, analysis: fallbackAnalysis(item, error.message), analysisStatus: "rss-fallback", analyzedAt: new Date().toISOString(), model: DEFAULT_ANALYSIS_MODEL };
+    const bodyResult = await fetchArticle(base, editorial);
+    if (!bodyResult.ok) {
+      runReport.rejected.push(rejection(base, `手动候选正文失败，保留等待下次：${bodyResult.error}`));
+      continue;
+    }
+    const extraction = bodyResult.extraction;
+    candidates.push({
+      ...base,
+      title: extraction.title || base.title,
+      url: bodyResult.finalUrl,
+      body: extraction.text,
+      bodyHash: hash(extraction.text),
+      extraction: { method: extraction.method, length: extraction.length, originalLength: extraction.originalLength, trusted: extraction.trusted },
+      readMinutes: Math.max(3, Math.min(30, Math.round(extraction.length / 700)))
+    });
   }
+  return candidates;
 }
 
-function buildOutput(allItems, selected, results, sourceResults, previous) {
-  const selectedIds = new Set([...selected.ai, ...selected.game, ...selected.art].map((item) => item.id));
-  const selectedResults = results.filter((item) => selectedIds.has(item.id));
-  const byLane = (lane) => selectedResults.filter((item) => item.lane === lane);
-  const date = currentDateParts();
-  const seenIds = [...new Set([
-    ...(previous?.history?.seenIds || []),
-    ...previousItems(previous).map((item) => item.id),
-    ...selectedResults.map((item) => item.id)
-  ])].slice(-1000);
+function buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date, sunday, client }) {
+  const priorWeekly = sunday ? { game: [], art: [] } : {
+    game: (previous?.lanes?.game || []).filter((item) => !item.manual),
+    art: (previous?.lanes?.art || []).filter((item) => !item.manual)
+  };
+  const automaticAiIds = new Set([...selected.practice, ...selected.update].map((item) => item.id));
+  const sundayIds = new Set([...selected.game, ...selected.art].map((item) => item.id));
+  const manualIds = new Set(selected.manual.map((item) => item.id));
+  const ai = analyzed.filter((item) => automaticAiIds.has(item.id) || (manualIds.has(item.id) && item.lane === "ai"));
+  const game = [...priorWeekly.game, ...analyzed.filter((item) => sundayIds.has(item.id) && item.lane === "game"), ...analyzed.filter((item) => manualIds.has(item.id) && item.lane === "game")];
+  const art = [...priorWeekly.art, ...analyzed.filter((item) => sundayIds.has(item.id) && item.lane === "art"), ...analyzed.filter((item) => manualIds.has(item.id) && item.lane === "art")];
+  const items = deduplicate([...ai, ...game, ...art]);
+  const oldSeen = previous?.history?.seenIds || [];
+  const oldManual = previous?.history?.processedManualUrls || [];
+  const publishedManualUrls = selected.manual.filter((entry) => items.some((item) => item.id === entry.id)).map((entry) => normalizeUrl(entry.url));
   return {
+    schemaVersion: 2,
     generatedAt: new Date().toISOString(),
     timezone: TIME_ZONE,
     schedule: "Daily 08:00 Asia/Shanghai",
-    edition: { date: `${date.year}-${date.month}-${date.day}`, isSunday: date.weekday === "Sun" },
-    stats: { candidates: allItems.length, selected: selectedResults.length, ai: byLane("ai").length, game: byLane("game").length, art: byLane("art").length, studyMinutes: 30 },
-    items: selectedResults,
-    study: byLane("ai"),
-    lanes: { ai: byLane("ai"), game: byLane("game"), art: byLane("art") },
-    sources: sourceResults.map(({ source, ok, latencyMs, error, items }) => ({ ...source, ok, latencyMs, error, itemCount: items.length })),
-    history: { seenIds },
+    edition: { date, isSunday: sunday },
+    stats: {
+      candidates: candidates.length,
+      selected: items.length,
+      ai: ai.length,
+      practice: selected.practice.length,
+      update: selected.update.length,
+      manual: selected.manual.length,
+      game: game.length,
+      art: art.length,
+      studyMinutes: 30,
+      bailianCalls: client.calls
+    },
+    items,
+    study: ai,
+    lanes: { ai, game, art },
+    sources: sourceResults.map(({ source, ok, latencyMs, error, items: sourceItems }) => ({ ...source, ok, latencyMs, error, itemCount: sourceItems.length })),
+    history: {
+      seenIds: [...new Set([...oldSeen, ...previousItems(previous).map((item) => item.id), ...items.map((item) => item.id)])].slice(-5000),
+      processedManualUrls: [...new Set([...oldManual, ...publishedManualUrls])].slice(-2000)
+    },
+    run: {
+      models: { selection: client.selectionModel, analysis: client.analysisModel },
+      calls: client.calls,
+      rejectedCount: runReport.rejected.length,
+      sourceFailureCount: sourceResults.filter((result) => !result.ok).length
+    },
     stale: false,
     previousGeneratedAt: previous?.generatedAt || null
   };
 }
 
-async function writeArchive(output) {
+async function writeOutput(output) {
   await fs.mkdir(ARCHIVE_DIR, { recursive: true });
-  const date = output.edition.date;
-  const edition = {
+  const archiveFile = path.join(ARCHIVE_DIR, `${output.edition.date}.json`);
+  const archive = {
+    schemaVersion: 2,
     generatedAt: output.generatedAt,
     timezone: output.timezone,
     edition: output.edition,
@@ -343,46 +655,150 @@ async function writeArchive(output) {
     study: output.study,
     lanes: output.lanes
   };
-  await fs.writeFile(path.join(ARCHIVE_DIR, `${date}.json`), JSON.stringify(edition, null, 2), "utf8");
-  const currentIndex = await readJson(ARCHIVE_INDEX_FILE);
-  const entries = Array.isArray(currentIndex?.entries) ? currentIndex.entries.filter((entry) => entry.date !== date) : [];
-  entries.push({ date, generatedAt: output.generatedAt, counts: { ai: output.stats.ai, game: output.stats.game, art: output.stats.art } });
+  const currentIndex = await readJson(ARCHIVE_INDEX_FILE, { entries: [] });
+  const entries = (Array.isArray(currentIndex?.entries) ? currentIndex.entries : []).filter((entry) => entry.date !== output.edition.date);
+  entries.push({
+    date: output.edition.date,
+    generatedAt: output.generatedAt,
+    schemaVersion: 2,
+    counts: { ai: output.stats.ai, game: output.stats.game, art: output.stats.art, manual: output.stats.manual }
+  });
   entries.sort((a, b) => b.date.localeCompare(a.date));
-  await fs.writeFile(ARCHIVE_INDEX_FILE, JSON.stringify({ updatedAt: output.generatedAt, entries }, null, 2), "utf8");
+  const temporary = `${OUTPUT_FILE}.tmp`;
+  await fs.writeFile(temporary, JSON.stringify(output, null, 2), "utf8");
+  await fs.writeFile(`${archiveFile}.tmp`, JSON.stringify(archive, null, 2), "utf8");
+  await fs.writeFile(`${ARCHIVE_INDEX_FILE}.tmp`, JSON.stringify({ updatedAt: output.generatedAt, entries }, null, 2), "utf8");
+  await fs.rename(`${archiveFile}.tmp`, archiveFile);
+  await fs.rename(`${ARCHIVE_INDEX_FILE}.tmp`, ARCHIVE_INDEX_FILE);
+  await fs.rename(temporary, OUTPUT_FILE);
+}
+
+async function writeRunSummary(report, client, sourceResults, selected = null) {
+  const file = process.env.GITHUB_STEP_SUMMARY || process.env.SIGNAL_RUN_SUMMARY_FILE;
+  if (!file) return;
+  const selectedItems = selected ? [...selected.practice, ...selected.update, ...selected.game, ...selected.art, ...selected.manual] : [];
+  const lines = [
+    "## 信号台生成摘要",
+    "",
+    `- 模型：筛选 \`${client.selectionModel}\`，分析 \`${client.analysisModel}\``,
+    `- 百炼调用：${client.calls} / ${client.maximumCalls}`,
+    `- 入选：${selectedItems.length} 篇；淘汰记录：${report.rejected.length} 条`,
+    `- 来源失败：${sourceResults.filter((result) => !result.ok).length} / ${sourceResults.length}`,
+    "",
+    "### 入选文章",
+    "",
+    ...(selectedItems.length ? selectedItems.map((item) => `- [${item.title}](${item.url}) · ${item.sourceName} · ${item.manual ? "手动" : item.slot || item.lane} · 正文 ${item.extraction?.length || 0} 字`) : ["- 本次没有达到门槛的文章"]),
+    "",
+    "### 淘汰与失败（最多 30 条）",
+    "",
+    ...report.rejected.slice(0, 30).map((item) => `- ${item.sourceName || "未知来源"} / ${item.title}: ${item.reason}`),
+    "",
+    "### 来源失败",
+    "",
+    ...sourceResults.filter((result) => !result.ok).map((result) => `- ${result.source.name}: ${result.error}`)
+  ];
+  await fs.appendFile(file, `${lines.join("\n")}\n`, "utf8");
 }
 
 async function main() {
-  const previous = await readJson(OUTPUT_FILE) || await readJson(LEGACY_CACHE_FILE);
-  const sourceResults = await Promise.all(sources.map(fetchSource));
-  const healthy = sourceResults.filter((result) => result.ok).length;
-  if (!healthy) {
-    if (!previous) throw new Error("All sources failed and no previous feed exists");
-    await fs.mkdir(path.dirname(OUTPUT_FILE), { recursive: true });
-    await fs.writeFile(OUTPUT_FILE, JSON.stringify({ ...previous, stale: true, generatedAt: previous.generatedAt }, null, 2), "utf8");
-    console.warn("All sources failed; retained previous feed");
+  const { sources, editorial, manualEntries } = await loadConfig();
+  const previous = await readJson(OUTPUT_FILE);
+  const today = editionDate();
+  const force = process.env.SIGNAL_FORCE_REBUILD === "1";
+  const reselect = process.env.SIGNAL_RESELECT === "1";
+  if (shouldSkipEdition(previous, today, force)) {
+    console.log(`今日 ${today} 已成功生成；正常模式不重复调用百炼。`);
     return;
   }
-  const allItems = deduplicate(sourceResults.flatMap((result) => result.items));
+
+  const client = new BailianClient(editorial);
+  const runReport = { rejected: [], selectionReasons: {} };
+  const sourceResults = await Promise.all(sources.map(fetchSource));
+  if (!sourceResults.some((result) => result.ok)) throw new Error("所有订阅源抓取失败，保留上次网站");
+
   const sunday = isSundayInShanghai();
-  const date = currentDateParts();
-  const editionDate = `${date.year}-${date.month}-${date.day}`;
-  const seenIds = new Set([...(previous?.history?.seenIds || []), ...previousItems(previous).map((item) => item.id)]);
-  const unseenItems = allItems.filter((item) => !seenIds.has(item.id));
-  const selected = reuseEditionSelection(previous, editionDate) || await chooseItems(unseenItems, sunday);
-  if (!sunday && previous?.edition?.date !== editionDate) {
-    selected.game = (previous?.lanes?.game || []).slice(0, MAX_GAME);
-    selected.art = (previous?.lanes?.art || []).slice(0, MAX_ART);
+  const rebuildExisting = Boolean(previous?.edition?.date === today && force && !reselect);
+  let candidates;
+  let selected;
+  if (rebuildExisting) {
+    const currentItems = previousItems(previous);
+    const hydrated = await hydrateBodies(currentItems, editorial);
+    runReport.rejected.push(...hydrated.rejected);
+    if (hydrated.candidates.length !== currentItems.length) {
+      throw new Error("强制重做时有已发布文章无法重新提取正文，已保留上次网站");
+    }
+    candidates = deduplicate(hydrated.candidates);
+    selected = {
+      practice: candidates.filter((item) => !item.manual && item.lane === "ai" && item.slot === "practice"),
+      update: candidates.filter((item) => !item.manual && item.lane === "ai" && item.slot === "update"),
+      game: candidates.filter((item) => !item.manual && item.lane === "game"),
+      art: candidates.filter((item) => !item.manual && item.lane === "art"),
+      manual: candidates.filter((item) => item.manual)
+    };
+    runReport.selectionReasons = Object.fromEntries(candidates.map((item) => [item.id, "强制重做当天既有文章"]));
+  } else {
+    const seenIds = new Set([...(previous?.history?.seenIds || []), ...previousItems(previous).map((item) => item.id)]);
+    const feedItems = deduplicate(sourceResults.flatMap((result) => result.items)).filter((item) => force || !seenIds.has(item.id));
+    const filtered = prefilterCandidates(feedItems, editorial);
+    runReport.rejected.push(...filtered.rejected);
+    const hydrated = await hydrateBodies(filtered.eligible, editorial);
+    runReport.rejected.push(...hydrated.rejected);
+    candidates = deduplicate(hydrated.candidates);
+    selected = await chooseItems(candidates, sunday, editorial, client, runReport);
+
+    const processedManual = new Set(previous?.history?.processedManualUrls || []);
+    selected.manual = await manualCandidates(manualEntries, processedManual, editorial, runReport, sources);
+    const usedSources = new Set([...selected.practice, ...selected.update, ...selected.game, ...selected.art].map((item) => item.sourceId));
+    selected.manual = selected.manual.filter((item) => {
+      if (usedSources.has(item.sourceId)) {
+        runReport.rejected.push(rejection(item, "同一来源每天最多一篇，手动候选保留等待下次"));
+        return false;
+      }
+      usedSources.add(item.sourceId);
+      return true;
+    });
   }
+
   const previousById = new Map(previousItems(previous).map((item) => [item.id, item]));
-  const results = [];
-  for (const item of [...selected.ai, ...selected.game, ...selected.art]) results.push(await enrichItem(item, previousById));
-  const output = buildOutput(allItems, selected, results, sourceResults, previous);
-  await fs.mkdir(path.dirname(OUTPUT_FILE), { recursive: true });
-  await fs.writeFile(OUTPUT_FILE, JSON.stringify(output, null, 2), "utf8");
-  await writeArchive(output);
-  console.log(`Generated ${OUTPUT_FILE}: ${output.stats.selected} selected (${output.stats.ai} AI, ${output.stats.game} game, ${output.stats.art} art)`);
+  const toAnalyze = [...selected.practice, ...selected.update, ...selected.game, ...selected.art, ...selected.manual];
+  const analyzed = [];
+  for (const item of toAnalyze) analyzed.push(await analyzeItem(item, previousById, client, editorial, force));
+
+  const output = buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date: today, sunday, client });
+  await writeOutput(output);
+  await writeRunSummary(runReport, client, sourceResults, selected);
+  console.log(`生成 ${today} 简报：自动 AI ${output.stats.practice}+${output.stats.update}，手动 ${output.stats.manual}，游戏 ${output.stats.game}，美术 ${output.stats.art}，百炼调用 ${client.calls} 次。`);
 }
 
-if (require.main === module) main().catch((error) => { console.error(error); process.exitCode = 1; });
+if (require.main === module) {
+  main().catch(async (error) => {
+    console.error(`生成失败，未覆盖上次网站：${error.message}`);
+    const summaryFile = process.env.GITHUB_STEP_SUMMARY || process.env.SIGNAL_RUN_SUMMARY_FILE;
+    if (summaryFile) {
+      await fs.appendFile(summaryFile, `## 信号台生成失败\n\n- 原因：${String(error.message).replace(/\r?\n/g, " ")}\n- 发布结果：已停止，content 分支和线上网站保持上一版。\n`, "utf8").catch(() => {});
+    }
+    process.exitCode = 1;
+  });
+}
 
-module.exports = { articleBody, canReuseAnalysis, currentDateParts, deduplicate, fallbackAnalysis, isSundayInShanghai, localSelect, normalizeList, parseModelJson, reuseEditionSelection };
+module.exports = {
+  BailianClient,
+  BailianError,
+  ageDays,
+  analysisLengthTarget,
+  canReuseAnalysis,
+  candidateScore,
+  currentDateParts,
+  deduplicate,
+  enforceQuota,
+  extractReadableArticle,
+  isSundayInShanghai,
+  localSelect,
+  normalizeAnalysis,
+  normalizeSelection,
+  normalizeUrl,
+  parseModelJson,
+  prefilterCandidates,
+  selectPendingManualEntries,
+  shouldSkipEdition
+};

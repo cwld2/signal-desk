@@ -233,7 +233,7 @@ a { color: inherit; }
 }
 
 .analysis-button:hover { background: #eef4ff; }
-.analysis-dialog { width: min(760px, calc(100vw - 2rem)); max-height: min(86vh, 900px); border: 0; border-radius: 22px; padding: 0; color: var(--ink, #172033); background: var(--paper, #fff); box-shadow: 0 24px 80px rgba(16, 24, 40, 0.22); }
+.analysis-dialog { width: min(860px, calc(100vw - 2rem)); max-height: min(90vh, 960px); border: 0; border-radius: 4px; padding: 0; color: var(--ink, #172033); background: var(--paper, #fff); box-shadow: 0 24px 80px rgba(16, 24, 40, 0.22); }
 .analysis-dialog::backdrop { background: rgba(15, 23, 42, 0.46); }
 .analysis-dialog .dialog-head { padding: 1.25rem 1.35rem 1rem; border-bottom: 1px solid var(--line, #d9e0e8); }
 .analysis-dialog #analysisContent { padding: 0.4rem 1.35rem 1.2rem; overflow: auto; }
@@ -242,6 +242,19 @@ a { color: inherit; }
 .analysis-section h3 { margin: 0 0 0.55rem; font-size: 1rem; }
 .analysis-section p { margin: 0; line-height: 1.75; white-space: pre-wrap; }
 .analysis-section ul { margin: 0; padding-left: 1.25rem; line-height: 1.75; }
+.analysis-subsection { margin-top: 1rem; }
+.analysis-subsection h4, .practice-block h4 { margin: 0 0 .45rem; font-size: .94rem; }
+.analysis-subsection p + p { margin-top: .75rem; }
+.detail-list { list-style: none; padding-left: 0 !important; }
+.detail-list li { margin-bottom: .65rem; }
+.basis-tag { display: inline-block; min-width: 58px; margin-right: .55rem; padding: 2px 6px; border: 1px solid #a8c4b5; color: var(--green); font-size: .68rem; font-weight: 700; text-align: center; vertical-align: .08rem; }
+.basis-tag.inference { border-color: #d8b285; color: #925516; }
+.section-title-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.section-title-row span { color: #925516; font-size: .72rem; font-weight: 700; }
+.practice-block { margin-top: .85rem; padding: 1rem; border-left: 3px solid var(--amber); background: #f7f4ed; }
+.practice-block div { margin-top: .65rem; }
+.practice-block strong { display: block; margin-bottom: .25rem; font-size: .76rem; }
+.practice-block p, .practice-block ol, .practice-block ul { margin: 0; }
 .analysis-warning { color: #a15c00; font-size: 0.78rem; }
 .analysis-source { display: inline-block; margin: 0 1.35rem 1.35rem; }
 .archive-picker { display: grid; gap: 0.35rem; min-width: 180px; color: #667085; font-size: 0.78rem; }
