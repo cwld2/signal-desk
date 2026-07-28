@@ -29,16 +29,17 @@ jobs:
         with:
           node-version: 24
 
-      - name: Require Gemini secret
+      - name: Require Bailian secret
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: test -n "$GEMINI_API_KEY"
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+        run: test -n "$DASHSCOPE_API_KEY"
 
       - name: Generate daily feed
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_SELECTION_MODEL: ${{ vars.GEMINI_SELECTION_MODEL || 'gemini-3.1-flash-lite' }}
-          GEMINI_ANALYSIS_MODEL: ${{ vars.GEMINI_ANALYSIS_MODEL || 'gemini-3.1-flash-lite' }}
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+          DASHSCOPE_BASE_URL: ${{ vars.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1' }}
+          DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'qwen3.7-flash' }}
+          DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'qwen3.7-flash' }}
         run: npm run generate
 
       - name: Validate

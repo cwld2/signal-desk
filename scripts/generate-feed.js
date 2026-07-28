@@ -14,8 +14,9 @@ const MAX_AI = 3;
 const MAX_GAME = 2;
 const MAX_ART = 1;
 const MAX_BODY_CHARS = 18000;
-const DEFAULT_SELECTION_MODEL = process.env.GEMINI_SELECTION_MODEL || "gemini-3.1-flash-lite";
-const DEFAULT_ANALYSIS_MODEL = process.env.GEMINI_ANALYSIS_MODEL || "gemini-3.1-flash-lite";
+const DEFAULT_SELECTION_MODEL = process.env.DASHSCOPE_SELECTION_MODEL || "qwen3.7-flash";
+const DEFAULT_ANALYSIS_MODEL = process.env.DASHSCOPE_ANALYSIS_MODEL || "qwen3.7-flash";
+const DASHSCOPE_BASE_URL = (process.env.DASHSCOPE_BASE_URL || "https://dashscope.aliyuncs.com/compatible-mode/v1").replace(/\/$/, "");
 
 function hash(value) {
   return crypto.createHash("sha1").update(value).digest("hex").slice(0, 20);
@@ -165,28 +166,36 @@ function parseModelJson(raw) {
   const text = String(raw || "").replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
   const start = text.indexOf("{");
   const end = text.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("Gemini did not return JSON");
+  if (start < 0 || end <= start) throw new Error("Bailian did not return JSON");
   return JSON.parse(text.slice(start, end + 1));
 }
 
-async function callGemini(prompt, model) {
-  const apiKey = process.env.GEMINI_API_KEY;
+async function callBailian(prompt, model) {
+  const apiKey = process.env.DASHSCOPE_API_KEY;
   if (!apiKey) return null;
-  const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  const endpoint = `${DASHSCOPE_BASE_URL}/chat/completions`;
   for (let attempt = 0; attempt < 2; attempt += 1) {
     try {
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
         body: JSON.stringify({
-          contents: [{ role: "user", parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.2, responseMimeType: "application/json" }
+          model,
+          messages: [
+            { role: "system", content: "你是严谨的中文技术编辑，只输出用户要求的 JSON。" },
+            { role: "user", content: prompt }
+          ],
+          temperature: 0.2,
+          stream: false
         }),
         signal: AbortSignal.timeout(60000)
       });
-      if (!response.ok) throw new Error(`Gemini HTTP ${response.status}`);
+      if (!response.ok) {
+        const detail = (await response.text()).slice(0, 300);
+        throw new Error(`Bailian HTTP ${response.status}: ${detail}`);
+      }
       const payload = await response.json();
-      const raw = payload.candidates?.[0]?.content?.parts?.map((part) => part.text || "").join("");
+      const raw = payload.choices?.[0]?.message?.content;
       return parseModelJson(raw);
     } catch (error) {
       if (attempt === 1) throw error;
@@ -203,7 +212,7 @@ function normalizeList(value, fallback) {
   return fallback;
 }
 
-function fallbackAnalysis(item, reason = "未调用 Gemini") {
+function fallbackAnalysis(item, reason = "未调用阿里云百炼") {
   return {
     summary: item.summary || "原文未提供可用摘要，建议直接阅读原文。",
     keyPoints: ["本文未完成 AI 深度分析。", "请以原文内容和作者提供的证据为准。"],
@@ -240,9 +249,9 @@ function previousItems(previous) {
 async function chooseItems(items, isSunday) {
   const local = localSelect(items, isSunday);
   const selected = { ai: local.ai, game: local.game, art: local.art };
-  if (!items.length || !process.env.GEMINI_API_KEY) return selected;
+  if (!items.length || !process.env.DASHSCOPE_API_KEY) return selected;
   try {
-    const choice = await callGemini(selectionPrompt(items, isSunday), DEFAULT_SELECTION_MODEL);
+    const choice = await callBailian(selectionPrompt(items, isSunday), DEFAULT_SELECTION_MODEL);
     const byId = new Map(items.map((item) => [item.id, item]));
     const take = (ids, lane, limit) => (Array.isArray(ids) ? ids : []).map((id) => byId.get(id)).filter((item) => item?.lane === lane).slice(0, limit);
     selected.ai = take(choice.aiIds, "ai", MAX_AI);
@@ -252,7 +261,7 @@ async function chooseItems(items, isSunday) {
     if (isSunday && !selected.game.length) selected.game = local.game;
     if (isSunday && !selected.art.length) selected.art = local.art;
   } catch (error) {
-    console.warn(`Gemini selection fallback: ${error.message}`);
+    console.warn(`Bailian selection fallback: ${error.message}`);
   }
   return selected;
 }
@@ -269,11 +278,11 @@ async function enrichItem(item, previousById) {
   if (canReuseAnalysis(previous, enrichedItem)) {
     return { ...enrichedItem, analysis: previous.analysis, analysisStatus: previous.analysisStatus, analyzedAt: previous.analyzedAt, model: previous.model };
   }
-  if (!body || !process.env.GEMINI_API_KEY) {
-    return { ...enrichedItem, analysis: fallbackAnalysis(item, bodyResult?.error || "GEMINI_API_KEY 未配置"), analysisStatus: "rss-fallback", analyzedAt: new Date().toISOString(), model: null };
+  if (!body || !process.env.DASHSCOPE_API_KEY) {
+    return { ...enrichedItem, analysis: fallbackAnalysis(item, bodyResult?.error || "DASHSCOPE_API_KEY 未配置"), analysisStatus: "rss-fallback", analyzedAt: new Date().toISOString(), model: null };
   }
   try {
-    const result = await callGemini(analysisPrompt(item, body), DEFAULT_ANALYSIS_MODEL);
+    const result = await callBailian(analysisPrompt(item, body), DEFAULT_ANALYSIS_MODEL);
     const analysis = {
       summary: String(result?.summary || item.summary).trim(),
       keyPoints: normalizeList(result?.keyPoints, fallbackAnalysis(item).keyPoints),
@@ -282,7 +291,7 @@ async function enrichItem(item, previousById) {
     };
     return { ...enrichedItem, summary: analysis.summary, analysis, analysisStatus: "complete", analyzedAt: new Date().toISOString(), model: DEFAULT_ANALYSIS_MODEL };
   } catch (error) {
-    console.warn(`Gemini analysis fallback for ${item.id}: ${error.message}`);
+    console.warn(`Bailian analysis fallback for ${item.id}: ${error.message}`);
     return { ...enrichedItem, analysis: fallbackAnalysis(item, error.message), analysisStatus: "rss-fallback", analyzedAt: new Date().toISOString(), model: DEFAULT_ANALYSIS_MODEL };
   }
 }

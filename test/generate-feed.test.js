@@ -53,7 +53,7 @@ test("extracts readable article text and removes page chrome", () => {
   assert.doesNotMatch(body, /Navigation|Footer|secret/);
 });
 
-test("parses fenced Gemini JSON and rejects malformed output", () => {
+test("parses fenced Bailian JSON and rejects malformed output", () => {
   assert.deepEqual(parseModelJson("```json\n{\"aiIds\":[\"a\"]}\n```"), { aiIds: ["a"] });
   assert.throws(() => parseModelJson("not json"), /did not return JSON/);
 });
@@ -71,7 +71,7 @@ test("reuses a completed analysis only when the article content hash is unchange
   assert.equal(canReuseAnalysis(previous, { ...item, contentHash: "changed-body" }), false);
 });
 
-test("static site reads generated JSON and contains no embedded Gemini key", () => {
+test("static site reads generated JSON and contains no embedded Bailian key", () => {
   const root = path.join(__dirname, "..", "public");
   const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
   const feed = JSON.parse(fs.readFileSync(path.join(root, "data", "feed.json"), "utf8"));
@@ -84,5 +84,5 @@ test("static site reads generated JSON and contains no embedded Gemini key", () 
     .filter((entry) => entry.isFile())
     .map((entry) => fs.readFileSync(path.join(entry.parentPath || entry.path, entry.name), "utf8"))
     .join("\n");
-  assert.doesNotMatch(artifact, /GEMINI_API_KEY\s*=/);
+  assert.doesNotMatch(artifact, /DASHSCOPE_API_KEY\s*=/);
 });
