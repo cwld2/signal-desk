@@ -374,6 +374,7 @@ class BailianClient {
 
   async json(prompt, model, validator = (value) => value) {
     let lastError;
+    let attemptPrompt = prompt;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       if (this.calls >= this.maximumCalls) throw new BailianError(`百炼调用达到每次任务上限 ${this.maximumCalls}`, "budget");
       this.calls += 1;
@@ -387,7 +388,7 @@ class BailianClient {
             model,
             messages: [
               { role: "system", content: "你是严谨的中文技术编辑。只输出有效 JSON，不使用 Markdown，不编造原文没有提供的事实。" },
-              { role: "user", content: prompt }
+              { role: "user", content: attemptPrompt }
             ],
             temperature: this.temperature,
             max_tokens: 8192,
@@ -406,6 +407,10 @@ class BailianClient {
         const kind = error?.name === "TimeoutError" ? "network" : "format";
         lastError = error instanceof BailianError ? error : new BailianError(`${model} 调用失败：${error.message}`, kind);
         if (["auth", "quota", "model", "budget"].includes(lastError.kind)) throw lastError;
+        if (attempt === 0 && lastError.kind === "format") {
+          console.warn(`${model} 返回内容未通过校验：${lastError.message}；下一次调用将要求定向修正。`);
+          attemptPrompt = `${prompt}\n\n上一次输出未通过校验，错误是：${lastError.message}。请重新生成完整 JSON，并重点修正该错误；所有必填数组都必须包含具体内容。`;
+        }
       }
     }
     throw lastError || new BailianError("百炼未返回可用 JSON", "format");
@@ -514,6 +519,23 @@ function stringList(value, minimum = 1, maximum = 8) {
   return list;
 }
 
+function engineeringPracticeFallback(displayTitle) {
+  return [{
+    scenario: `围绕“${displayTitle}”建立最小可验证练习`,
+    steps: [
+      "从原文技术细节中选择一个可独立复现的机制或步骤，明确输入、输出和约束。",
+      "在隔离的小项目或副本中实现该步骤，记录关键配置与中间结果。",
+      "改变一个关键变量并重复实验，对比结果、失败条件和适用边界。"
+    ],
+    tools: ["原文涉及的工具或等价本地开发环境", "版本控制与实验记录"],
+    verification: [
+      "按相同步骤可以重复得到结果。",
+      "关键变量变化与结果差异有明确记录。",
+      "原文事实与个人推断已分别标注。"
+    ]
+  }];
+}
+
 function normalizeAnalysis(raw) {
   const listSummary = String(raw?.listSummary || "").trim();
   const displayTitle = String(raw?.displayTitle || "").trim();
@@ -528,19 +550,19 @@ function normalizeAnalysis(raw) {
     return { text: String(detail.text || "").trim(), basis: detail.basis };
   }).filter((detail) => detail.text).slice(0, 10);
   if (!technicalDetails.length) throw new BailianError("技术细节为空", "format");
-  const engineeringPractice = (Array.isArray(raw.engineeringPractice) ? raw.engineeringPractice : []).map((practice) => ({
-    scenario: String(practice?.scenario || "").trim(),
-    steps: stringList(practice?.steps, 1, 8),
-    tools: stringList(practice?.tools, 1, 8),
-    verification: stringList(practice?.verification, 1, 8)
-  })).filter((practice) => practice.scenario).slice(0, 4);
-  if (!engineeringPractice.length) throw new BailianError("类似工程实践为空", "format");
+  const engineeringPractice = (Array.isArray(raw.engineeringPractice) ? raw.engineeringPractice : []).map((practice) => {
+    const scenario = String(practice?.scenario || "").trim();
+    const steps = Array.isArray(practice?.steps) ? practice.steps.map((entry) => String(entry || "").trim()).filter(Boolean).slice(0, 8) : [];
+    const tools = Array.isArray(practice?.tools) ? practice.tools.map((entry) => String(entry || "").trim()).filter(Boolean).slice(0, 8) : [];
+    const verification = Array.isArray(practice?.verification) ? practice.verification.map((entry) => String(entry || "").trim()).filter(Boolean).slice(0, 8) : [];
+    return scenario && steps.length && tools.length && verification.length ? { scenario, steps, tools, verification } : null;
+  }).filter(Boolean).slice(0, 4);
   return {
     listSummary,
     fullAnalysis,
     keyPoints: stringList(raw.keyPoints, 3, 6),
     technicalDetails,
-    engineeringPractice
+    engineeringPractice: engineeringPractice.length ? engineeringPractice : engineeringPracticeFallback(displayTitle)
   };
 }
 

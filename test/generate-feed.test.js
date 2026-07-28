@@ -175,6 +175,11 @@ test("v2 analysis requires source/inference labels and engineering verification"
   const normalized = normalizeAnalysis(raw);
   assert.deepEqual(normalized.technicalDetails.map((detail) => detail.basis), ["source", "inference"]);
   assert.throws(() => normalizeAnalysis({ ...raw, technicalDetails: [{ text: "未标注", basis: "guess" }] }), /source 或 inference/);
+  const repaired = normalizeAnalysis({ ...raw, engineeringPractice: [] });
+  assert.equal(repaired.engineeringPractice.length, 1);
+  assert.match(repaired.engineeringPractice[0].scenario, /一个准确的中文技术标题/);
+  assert.ok(repaired.engineeringPractice[0].steps.length >= 3);
+  assert.ok(repaired.engineeringPractice[0].verification.length >= 3);
 });
 
 test("selection JSON requires all quota arrays", () => {
@@ -230,6 +235,8 @@ test("missing Bailian key exits before overwriting previous data", () => {
 test("workflow persists only content branch and supports config/force triggers", () => {
   const workflow = fs.readFileSync(path.join(__dirname, "..", ".github", "workflows", "daily-feed.yml"), "utf8");
   assert.match(workflow, /paths:\s*\n\s*- "config\/\*\*"/);
+  assert.match(workflow, /"scripts\/\*\*"/);
+  assert.match(workflow, /"public\/\*\*"/);
   assert.match(workflow, /\.github\/workflows\/daily-feed\.yml/);
   assert.match(workflow, /force-rebuild-today/);
   assert.match(workflow, /force-weekly-now/);
