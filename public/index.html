@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="面向 AI 学习、游戏开发与像素美术的安静资讯台">
+  <title>信号台 · AI 学习简报</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <a class="brand" href="#today" aria-label="信号台首页">
+        <span class="brand-mark">S</span>
+        <span><strong>信号台</strong><small>Signal Desk</small></span>
+      </a>
+
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="today"><span class="nav-icon">⌁</span><span>今日学习</span><span class="nav-count" id="todayCount">5</span></button>
+        <button class="nav-item" data-view="ai"><span class="nav-icon">◫</span><span>AI 动态</span></button>
+        <button class="nav-item" data-view="game"><span class="nav-icon">◇</span><span>游戏开发</span></button>
+        <button class="nav-item" data-view="art"><span class="nav-icon">▦</span><span>像素美术</span></button>
+        <button class="nav-item" data-view="saved"><span class="nav-icon">☆</span><span>稍后阅读</span><span class="nav-count" id="savedCount">0</span></button>
+        <button class="nav-item" data-view="archive"><span class="nav-icon">◷</span><span>历史简报</span><span class="nav-count" id="archiveCount">0</span></button>
+      </nav>
+
+      <div class="sidebar-spacer"></div>
+      <section class="source-health" aria-labelledby="healthTitle">
+        <div class="eyebrow" id="healthTitle">SOURCE HEALTH</div>
+        <div class="health-line"><span class="status-dot"></span><strong id="healthValue">正在连接</strong></div>
+        <button class="text-button" id="showSources">查看全部来源</button>
+      </section>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menuButton" aria-label="打开菜单">☰</button>
+        <div class="date-block"><span id="weekday">星期二</span><strong id="dateText">7月28日</strong></div>
+        <div class="top-actions">
+          <div class="freshness"><span class="status-dot"></span><span id="freshnessText">准备更新</span></div>
+          <button class="icon-button" id="refreshButton" title="刷新订阅源" aria-label="刷新订阅源">↻</button>
+          <button class="focus-button" id="focusButton"><span>▶</span> 开始 30 分钟</button>
+        </div>
+      </header>
+
+      <div class="content" id="content">
+        <section class="view active" data-page="today">
+          <div class="page-heading">
+            <div><div class="eyebrow">DAILY LEARNING BRIEF</div><h1>今天，只看这些</h1><p>从可靠来源中筛选，按学习价值排序。读完即止。</p></div>
+            <div class="time-budget"><span id="studyMinutes">30</span><small>分钟学习量</small></div>
+          </div>
+
+          <section class="lead-story skeleton-area" id="leadStory" aria-live="polite"></section>
+
+          <div class="section-header"><div><h2>今日队列</h2><p>概念、实践与边界保持平衡</p></div><div class="progress-copy"><span id="readProgress">0 / 5</span> 已读</div></div>
+          <div class="article-list skeleton-area" id="studyList"></div>
+
+          <section class="reflection-strip">
+            <div class="reflection-index">01</div>
+            <div><div class="eyebrow">TODAY'S QUESTION</div><h2>这项技术解决的是能力问题，还是只是节省了操作时间？</h2></div>
+          </section>
+        </section>
+
+        <section class="view" data-page="ai">
+          <div class="page-heading"><div><div class="eyebrow">AI SIGNALS</div><h1>AI 动态</h1><p>研究、Agent、开发实践与社会影响，不追逐热榜。</p></div></div>
+          <div class="filter-row" id="aiFilters"></div>
+          <div class="card-grid skeleton-area" id="aiGrid"></div>
+        </section>
+
+        <section class="view" data-page="game">
+          <div class="page-heading"><div><div class="eyebrow">WEEKLY CRAFT</div><h1>游戏开发周刊</h1><p>跨引擎理解设计与底层，再落到 Unity 和 Godot。</p></div><div class="week-badge" id="weekBadge">W31</div></div>
+          <section class="curriculum-band">
+            <div><span>本周主题</span><strong>从状态与反馈理解游戏系统</strong></div>
+            <div class="curriculum-steps"><span class="done">设计</span><span class="active">原理</span><span>实现</span><span>复盘</span></div>
+          </section>
+          <div class="card-grid skeleton-area" id="gameGrid"></div>
+        </section>
+
+        <section class="view" data-page="art">
+          <div class="page-heading"><div><div class="eyebrow">PIXEL PRACTICE</div><h1>像素美术</h1><p>让 AI 负责探索，让像素规范和人工判断负责收尾。</p></div></div>
+          <section class="art-workflow" aria-label="像素美术工作流">
+            <div><span>01</span><strong>Gemini</strong><small>概念与构图</small></div><i>→</i><div><span>02</span><strong>专用工具</strong><small>候选与变体</small></div><i>→</i><div><span>03</span><strong>Aseprite</strong><small>色板与动画清理</small></div><i>→</i><div><span>04</span><strong>引擎</strong><small>实机验证</small></div>
+          </section>
+          <div class="weekly-challenge"><div class="pixel-swatch" aria-hidden="true"></div><div><div class="eyebrow">WEEKLY CONSTRAINT</div><h2>16×16 · 四种颜色 · 四帧待机</h2><p>限制越清楚，越容易看出轮廓、节奏和色彩是否真正成立。</p></div></div>
+          <div class="card-grid skeleton-area" id="artGrid"></div>
+        </section>
+
+        <section class="view" data-page="archive">
+          <div class="page-heading">
+            <div><div class="eyebrow">DAILY ARCHIVE</div><h1>历史简报</h1><p>按日期查看已经生成的精选文章和全文分析。</p></div>
+            <label class="archive-picker">日期<select id="archiveSelect" aria-label="选择历史简报日期"></select></label>
+          </div>
+          <div class="archive-status" id="archiveStatus">正在读取历史日期…</div>
+          <div class="card-grid" id="archiveGrid"></div>
+        </section>
+
+        <section class="view" data-page="saved">
+          <div class="page-heading"><div><div class="eyebrow">READ LATER</div><h1>稍后阅读</h1><p>这里不是囤积箱。每周清空一次，只留下真正要实践的内容。</p></div></div>
+          <div class="card-grid" id="savedGrid"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog class="source-dialog" id="sourceDialog">
+    <div class="dialog-head"><div><div class="eyebrow">SOURCE STATUS</div><h2>订阅源状态</h2></div><button class="icon-button" id="closeSources" aria-label="关闭">×</button></div>
+    <div id="sourceList"></div>
+  </dialog>
+
+  <dialog class="analysis-dialog" id="analysisDialog">
+    <div class="dialog-head">
+      <div><div class="eyebrow">ARTICLE ANALYSIS</div><h2 id="analysisTitle">全文分析</h2><div class="article-meta" id="analysisMeta"></div></div>
+      <button class="icon-button" id="closeAnalysis" aria-label="关闭">×</button>
+    </div>
+    <div id="analysisContent"></div>
+    <a class="action-link analysis-source" id="analysisSource" href="#" target="_blank" rel="noopener noreferrer">查看原文 →</a>
+  </dialog>
+
+  <div class="focus-overlay" id="focusOverlay" hidden>
+    <button class="icon-button focus-close" id="closeFocus" aria-label="退出专注模式">×</button>
+    <div class="focus-inner">
+      <div class="eyebrow">FOCUS SESSION</div>
+      <div class="timer" id="timer">30:00</div>
+      <p id="focusPrompt">先阅读第一篇，再用一句话写下它真正解决的问题。</p>
+      <div class="focus-controls"><button id="timerToggle">开始</button><button id="timerReset">重置</button></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: signal-desk
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    autoDeploy: true

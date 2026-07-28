@@ -1,0 +1,30 @@
+{
+  "generatedAt": null,
+  "timezone": "Asia/Shanghai",
+  "schedule": "Daily 08:00 Asia/Shanghai",
+  "edition": {
+    "date": null,
+    "isSunday": false
+  },
+  "stats": {
+    "candidates": 0,
+    "selected": 0,
+    "ai": 0,
+    "game": 0,
+    "art": 0,
+    "studyMinutes": 30
+  },
+  "items": [],
+  "study": [],
+  "lanes": {
+    "ai": [],
+    "game": [],
+    "art": []
+  },
+  "sources": [],
+  "history": {
+    "seenIds": []
+  },
+  "stale": false,
+  "previousGeneratedAt": null
+}

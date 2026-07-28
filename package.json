@@ -1,0 +1,16 @@
+{
+  "name": "ai-signal-desk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A calm AI, game development, and pixel art learning feed.",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check src/feed.js && node --check scripts/generate-feed.js && node --check public/app.js",
+    "generate": "node scripts/generate-feed.js",
+    "test": "node --test",
+    "package:win": "node scripts/build-portable.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
