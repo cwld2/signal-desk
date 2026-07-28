@@ -14,6 +14,7 @@ const {
   isWeeklyEditionInShanghai,
   localSelect,
   normalizeAnalysis,
+  normalizeAnnotations,
   normalizeSelection,
   parseHtmlListing,
   parseModelJson,
@@ -22,6 +23,13 @@ const {
   shouldRebuildExistingEdition,
   shouldSkipEdition
 } = require("../scripts/generate-feed");
+const {
+  bingSearchUrl,
+  buildAnnotationSegments,
+  buildCalendarDays,
+  compareMonths,
+  shiftMonth
+} = require("../public/render-utils");
 
 function fixture(id, { lane = "ai", sourceId = id, slot = "practice", category = slot, publishedAt = "2026-07-28T00:00:00.000Z" } = {}) {
   return {
@@ -182,6 +190,61 @@ test("v2 analysis requires source/inference labels and engineering verification"
   assert.ok(repaired.engineeringPractice[0].verification.length >= 3);
 });
 
+test("analysis annotations are optional, filtered and never fail publication", () => {
+  const fullAnalysis = [{ heading: "方法", paragraphs: ["NOOA 使用面向对象代理，并通过引用传递共享状态。"] }];
+  const technicalDetails = [{ text: "NOOA 提供对象 API。", basis: "source" }];
+  const normalized = normalizeAnnotations({
+    emphasis: ["面向对象代理", "不存在的重点", "面向对象代理"],
+    searchTerms: [
+      { term: "NOOA", query: "NVIDIA NOOA Agent framework" },
+      { term: "引用传递", query: "https://unsafe.example/" },
+      { term: "不存在", query: "ignored" }
+    ]
+  }, fullAnalysis, technicalDetails);
+  assert.deepEqual(normalized.emphasis, ["面向对象代理"]);
+  assert.deepEqual(normalized.searchTerms, [{ term: "NOOA", query: "NVIDIA NOOA Agent framework" }]);
+  assert.equal(normalizeAnnotations(null, fullAnalysis, technicalDetails), undefined);
+  assert.equal(normalizeAnnotations({ emphasis: ["不存在"] }, fullAnalysis, technicalDetails), undefined);
+});
+
+test("annotation segments prefer longest phrases and combine links with emphasis", () => {
+  const text = "引用传递与 NOOA <script>alert(1)</script>";
+  const annotations = {
+    emphasis: ["NOOA", "引用传递"],
+    searchTerms: [
+      { term: "引用", query: "reference" },
+      { term: "引用传递", query: "pass by reference" },
+      { term: "NOOA", query: "NVIDIA NOOA Agent framework" }
+    ]
+  };
+  const segments = buildAnnotationSegments(text, annotations);
+  assert.equal(segments.map((segment) => segment.text).join(""), text);
+  assert.deepEqual(segments.find((segment) => segment.text === "引用传递"), { text: "引用传递", emphasis: true, query: "pass by reference" });
+  assert.deepEqual(segments.find((segment) => segment.text === "NOOA"), { text: "NOOA", emphasis: true, query: "NVIDIA NOOA Agent framework" });
+  assert.ok(segments.some((segment) => segment.text.includes("<script>")));
+  assert.equal(bingSearchUrl("NVIDIA NOOA 框架"), "https://www.bing.com/search?q=NVIDIA%20NOOA%20%E6%A1%86%E6%9E%B6");
+  assert.deepEqual(buildAnnotationSegments("旧归档纯文本", null), [{ text: "旧归档纯文本", emphasis: false, query: null }]);
+});
+
+test("calendar is Monday-first, fixed to six weeks and handles leap years", () => {
+  const days = buildCalendarDays(2024, 1, [
+    { date: "2024-02-01", counts: { ai: 2, game: 1, art: 0 } },
+    { date: "2024-02-29", counts: { ai: 0, game: 0, art: 1 } }
+  ]);
+  assert.equal(days.length, 42);
+  assert.equal(days[0].date, "2024-01-29");
+  assert.equal(days[6].date, "2024-02-04");
+  assert.equal(days.at(-1).date, "2024-03-10");
+  assert.equal(days.find((day) => day.date === "2024-02-01").total, 3);
+  assert.deepEqual(days.find((day) => day.date === "2024-02-29").counts, { ai: 0, game: 0, art: 1 });
+
+  const mondayStart = buildCalendarDays(2026, 5, []);
+  assert.equal(mondayStart[0].date, "2026-06-01");
+  assert.equal(mondayStart.every((day) => !day.hasArchive), true);
+  assert.equal(compareMonths({ year: 2026, monthIndex: 5 }, { year: 2026, monthIndex: 6 }), -1);
+  assert.deepEqual(shiftMonth({ year: 2026, monthIndex: 11 }, 1), { year: 2027, monthIndex: 0 });
+});
+
 test("selection JSON requires all quota arrays", () => {
   assert.deepEqual(normalizeSelection({ practiceIds: [], updateIds: [], gameIds: [], artIds: [], reasons: {} }).practiceIds, []);
   assert.throws(() => normalizeSelection({ practiceIds: [] }), /updateIds/);
@@ -253,9 +316,15 @@ test("workflow persists only content branch and supports config/force triggers",
 test("static UI contains v2 renderer and v1 fallback without an API key", () => {
   const root = path.join(__dirname, "..", "public");
   const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
+  const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
   assert.match(app, /analysis\.fullAnalysis/);
   assert.match(app, /item\.analysis\.learningValue/);
   assert.match(app, /AI 延伸建议/);
   assert.match(app, /\.\/data\/feed\.json/);
+  assert.match(app, /buildAnnotationSegments/);
+  assert.match(app, /createTextNode/);
+  assert.match(html, /id="calendarGrid"/);
+  assert.doesNotMatch(html, /archiveSelect|leadStory/);
+  assert.doesNotMatch(app, /QUALITY SCORE|score-ring|leadStory/);
   assert.doesNotMatch(app, /DASHSCOPE_API_KEY|\/api\/feed/);
 });

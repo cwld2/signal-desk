@@ -50,10 +50,8 @@
             <div class="time-budget"><span id="studyMinutes">30</span><small>分钟学习量</small></div>
           </div>
 
-          <section class="lead-story skeleton-area" id="leadStory" aria-live="polite"></section>
-
           <div class="section-header"><div><h2>今日队列</h2><p>概念、实践与边界保持平衡</p></div><div class="progress-copy"><span id="readProgress">0 / 5</span> 已读</div></div>
-          <div class="article-list skeleton-area" id="studyList"></div>
+          <div class="article-list skeleton-area" id="studyList" aria-live="polite"></div>
 
           <section class="reflection-strip">
             <div class="reflection-index">01</div>
@@ -88,8 +86,17 @@
         <section class="view" data-page="archive">
           <div class="page-heading">
             <div><div class="eyebrow">DAILY ARCHIVE</div><h1>历史简报</h1><p>按日期查看已经生成的精选文章和全文分析。</p></div>
-            <label class="archive-picker">日期<select id="archiveSelect" aria-label="选择历史简报日期"></select></label>
           </div>
+          <section class="archive-calendar" aria-label="历史简报月历">
+            <div class="calendar-toolbar">
+              <button class="icon-button" id="previousMonth" aria-label="上个月" title="上个月">‹</button>
+              <h2 id="calendarMonth" aria-live="polite"></h2>
+              <button class="icon-button" id="nextMonth" aria-label="下个月" title="下个月">›</button>
+            </div>
+            <div class="calendar-weekdays" aria-hidden="true"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="calendar-legend"><span><i class="lane-dot ai"></i>AI</span><span><i class="lane-dot game"></i>游戏开发</span><span><i class="lane-dot art"></i>像素美术</span></div>
+          </section>
           <div class="archive-status" id="archiveStatus">正在读取历史日期…</div>
           <div class="card-grid" id="archiveGrid"></div>
         </section>
@@ -127,6 +134,7 @@
   </div>
 
   <div class="toast" id="toast" role="status"></div>
+  <script src="./render-utils.js" defer></script>
   <script src="./app.js" defer></script>
 </body>
 </html>

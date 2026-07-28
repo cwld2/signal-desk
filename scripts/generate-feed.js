@@ -500,10 +500,11 @@ function analysisPrompt(item, editorial) {
   "fullAnalysis":[{"heading":"背景与问题","paragraphs":["段落"]},{"heading":"方法与论证","paragraphs":["段落"]},{"heading":"证据、结论与边界","paragraphs":["段落"]}],
   "keyPoints":["3-6 条，避免复述全文分析"],
   "technicalDetails":[{"text":"明确的机制、API、版本、数据或步骤","basis":"source 或 inference"}],
-  "engineeringPractice":[{"scenario":"适用场景","steps":["实施步骤"],"tools":["工具"],"verification":["验证方法"]}]
+  "engineeringPractice":[{"scenario":"适用场景","steps":["实施步骤"],"tools":["工具"],"verification":["验证方法"]}],
+  "annotations":{"emphasis":["全文分析中值得加粗的重点短语，3-8 个"],"searchTerms":[{"term":"全文分析或技术细节中的专业术语，3-10 个","query":"适合必应搜索的关键词，不要 URL"}]}
 }
 
-全文分析总长度目标约 ${target.min}-${target.max} 个中文字符，覆盖问题背景、文章方法、论证过程、原文证据、结论与适用边界。技术细节必须逐条标注 source（原文事实）或 inference（AI 推断）。engineeringPractice 是延伸建议，不得冒充作者观点。
+全文分析总长度目标约 ${target.min}-${target.max} 个中文字符，覆盖问题背景、文章方法、论证过程、原文证据、结论与适用边界。技术细节必须逐条标注 source（原文事实）或 inference（AI 推断）。engineeringPractice 是延伸建议，不得冒充作者观点。annotations 只列出逐字出现在对应正文中的短语；query 只写搜索词，不得写 URL。
 
 原标题：${item.title}
 来源：${item.sourceName}
@@ -536,6 +537,36 @@ function engineeringPracticeFallback(displayTitle) {
   }];
 }
 
+function normalizeAnnotations(value, fullAnalysis, technicalDetails) {
+  if (!value || typeof value !== "object") return undefined;
+  const fullText = fullAnalysis.flatMap((section) => section.paragraphs).join("\n");
+  const searchableText = `${fullText}\n${technicalDetails.map((detail) => detail.text).join("\n")}`;
+  const includes = (haystack, needle) => haystack.toLocaleLowerCase().includes(needle.toLocaleLowerCase());
+  const emphasis = [];
+  const emphasisSeen = new Set();
+  for (const entry of Array.isArray(value.emphasis) ? value.emphasis : []) {
+    const term = String(entry || "").trim();
+    const key = term.toLocaleLowerCase();
+    if (term.length < 2 || term.length > 80 || emphasisSeen.has(key) || !includes(fullText, term)) continue;
+    emphasisSeen.add(key);
+    emphasis.push(term);
+    if (emphasis.length === 8) break;
+  }
+  const searchTerms = [];
+  const searchSeen = new Set();
+  for (const entry of Array.isArray(value.searchTerms) ? value.searchTerms : []) {
+    if (!entry || typeof entry !== "object") continue;
+    const term = String(entry.term || "").trim();
+    const query = String(entry.query || "").trim();
+    const key = term.toLocaleLowerCase();
+    if (term.length < 2 || term.length > 80 || !query || query.length > 200 || /https?:\/\//i.test(query) || searchSeen.has(key) || !includes(searchableText, term)) continue;
+    searchSeen.add(key);
+    searchTerms.push({ term, query });
+    if (searchTerms.length === 10) break;
+  }
+  return emphasis.length || searchTerms.length ? { emphasis, searchTerms } : undefined;
+}
+
 function normalizeAnalysis(raw) {
   const listSummary = String(raw?.listSummary || "").trim();
   const displayTitle = String(raw?.displayTitle || "").trim();
@@ -557,13 +588,15 @@ function normalizeAnalysis(raw) {
     const verification = Array.isArray(practice?.verification) ? practice.verification.map((entry) => String(entry || "").trim()).filter(Boolean).slice(0, 8) : [];
     return scenario && steps.length && tools.length && verification.length ? { scenario, steps, tools, verification } : null;
   }).filter(Boolean).slice(0, 4);
-  return {
+  const normalized = {
     listSummary,
     fullAnalysis,
     keyPoints: stringList(raw.keyPoints, 3, 6),
     technicalDetails,
     engineeringPractice: engineeringPractice.length ? engineeringPractice : engineeringPracticeFallback(displayTitle)
   };
+  const annotations = normalizeAnnotations(raw.annotations, fullAnalysis, technicalDetails);
+  return annotations ? { ...normalized, annotations } : normalized;
 }
 
 function previousItems(previous) {
@@ -578,13 +611,15 @@ function canReuseAnalysis(previous, item, force = false) {
 async function analyzeItem(item, previousById, client, editorial, force = false) {
   const previous = previousById.get(item.id);
   if (canReuseAnalysis(previous, item, force) && previous.schemaVersion === 2) {
-    return { ...publicItem(item), displayTitle: previous.displayTitle, analysis: previous.analysis, analysisStatus: "complete", analyzedAt: previous.analyzedAt, model: previous.model };
+    return { ...publicItem(item), displayTitle: previous.displayTitle, analysis: previous.analysis, ...(previous.annotations ? { annotations: previous.annotations } : {}), analysisStatus: "complete", analyzedAt: previous.analyzedAt, model: previous.model };
   }
   const result = await client.json(analysisPrompt(item, editorial), client.analysisModel, (raw) => ({ raw, analysis: normalizeAnalysis(raw) }));
+  const { annotations, ...analysis } = result.analysis;
   return {
     ...publicItem(item),
     displayTitle: String(result.raw.displayTitle).trim(),
-    analysis: result.analysis,
+    analysis,
+    ...(annotations ? { annotations } : {}),
     analysisStatus: "complete",
     analyzedAt: new Date().toISOString(),
     model: client.analysisModel
@@ -893,6 +928,7 @@ module.exports = {
   isWeeklyEditionInShanghai,
   localSelect,
   normalizeAnalysis,
+  normalizeAnnotations,
   normalizeSelection,
   normalizeUrl,
   parseModelJson,

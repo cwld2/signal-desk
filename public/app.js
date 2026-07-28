@@ -2,6 +2,8 @@ const state = {
   digest: null,
   archiveIndex: [],
   archiveDigest: null,
+  selectedArchiveDate: null,
+  archiveMonth: null,
   view: "today",
   topic: "全部",
   saved: new Set(JSON.parse(localStorage.getItem("signalDeskSaved") || "[]")),
@@ -12,6 +14,7 @@ const state = {
 };
 
 const DATA_URL = "./data/feed.json";
+const RenderUtils = window.SignalDeskRenderUtils;
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
@@ -103,22 +106,20 @@ function renderToday() {
   $("#todayCount").textContent = study.length;
   $("#studyMinutes").textContent = state.digest.stats?.studyMinutes || 30;
   if (!study.length) {
-    $("#leadStory").innerHTML = `<div class="empty-state"><strong>今天暂时没有精选内容</strong>可以先复习之前的笔记。</div>`;
-    $("#studyList").innerHTML = "";
+    $("#studyList").innerHTML = `<div class="empty-state"><strong>今天暂时没有精选内容</strong>可以先复习之前的笔记。</div>`;
+    updateReadProgress();
     return;
   }
-  const lead = study[0];
-  $("#leadStory").innerHTML = `<div class="lead-copy">
-    <div class="article-meta">${meta(lead)}</div>
-    <h2>${escapeHtml(articleTitle(lead))}</h2>
-    <p>${escapeHtml(compactSummary(listSummary(lead), 260))}</p>
-    ${actionButtons(lead, true)}
-  </div><aside class="lead-side"><div><div class="score-ring">${lead.score || lead.candidateScore || 0}</div><p><strong>学习价值</strong><br>${escapeHtml(compactSummary(learningPreview(lead), 150))}</p></div><div class="eyebrow">QUALITY SCORE · 100</div></aside>`;
-  $("#studyList").innerHTML = study.slice(1).map((item, index) => `<article class="article-row ${state.read.has(item.id) ? "read" : ""}">
-    <div class="article-number">0${index + 2}</div>
-    <div class="article-body"><h3><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(articleTitle(item))}</a></h3><div class="article-meta">${meta(item)}</div><div class="article-note">${escapeHtml(compactSummary(listSummary(item), 180))}</div></div>
-    <div class="topic-label">${escapeHtml(item.topic || item.lane || "AI")}</div>
-    <div class="row-actions"><button class="read-toggle ${state.read.has(item.id) ? "active" : ""}" data-read="${escapeHtml(item.id)}" title="标为已读">✓</button><button class="save-toggle ${state.saved.has(item.id) ? "active" : ""}" data-save="${escapeHtml(item.id)}" title="稍后阅读">☆</button></div>
+  $("#studyList").innerHTML = study.map((item, index) => `<article class="article-row ${state.read.has(item.id) ? "read" : ""}">
+    <div class="article-number">${String(index + 1).padStart(2, "0")}</div>
+    <div class="article-body">
+      <div class="article-meta">${meta(item)}</div>
+      <h3><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(articleTitle(item))}</a></h3>
+      <p class="article-note">${escapeHtml(compactSummary(listSummary(item), 260))}</p>
+      <p class="learning-line"><strong>学习价值</strong>${escapeHtml(compactSummary(learningPreview(item), 180))}</p>
+      <span class="topic-label">${escapeHtml(item.topic || item.lane || "AI")}</span>
+    </div>
+    ${actionButtons(item, true)}
   </article>`).join("");
   updateReadProgress();
 }
@@ -150,9 +151,40 @@ function renderSources() {
   $("#healthValue").textContent = `${(state.digest.sources || []).filter((source) => source.ok).length} / ${(state.digest.sources || []).length} 正常`;
 }
 
+function renderCalendar() {
+  const grid = $("#calendarGrid");
+  const month = state.archiveMonth;
+  if (!grid || !month) return;
+  const days = RenderUtils.buildCalendarDays(month.year, month.monthIndex, state.archiveIndex);
+  const today = new Date();
+  const todayKey = RenderUtils.dateKey(today.getFullYear(), today.getMonth(), today.getDate());
+  $("#calendarMonth").textContent = `${month.year}年${month.monthIndex + 1}月`;
+  grid.innerHTML = days.map((day) => {
+    const classes = ["calendar-day"];
+    if (!day.inMonth) classes.push("outside");
+    if (day.date === todayKey) classes.push("today");
+    if (day.date === state.selectedArchiveDate) classes.push("selected");
+    const dots = ["ai", "game", "art"].filter((lane) => day.counts[lane] > 0)
+      .map((lane) => `<i class="lane-dot ${lane}"></i>`).join("");
+    const label = day.hasArchive ? `${day.date}，共 ${day.total} 篇简报` : `${day.date}，无简报`;
+    return `<button class="${classes.join(" ")}" data-archive-date="${day.hasArchive ? day.date : ""}" ${day.hasArchive ? "" : "disabled"} aria-label="${label}" ${day.date === state.selectedArchiveDate ? "aria-pressed=\"true\"" : ""}>
+      <span class="calendar-date">${day.day}</span>
+      ${day.hasArchive ? `<span class="calendar-count">${day.total} 篇</span><span class="calendar-dots">${dots}</span>` : ""}
+    </button>`;
+  }).join("");
+
+  const validDates = state.archiveIndex.map((entry) => RenderUtils.parseDateKey(entry.date)).filter(Boolean);
+  const earliest = validDates.at(-1);
+  const latest = validDates[0];
+  $("#previousMonth").disabled = !earliest || RenderUtils.compareMonths(month, earliest) <= 0;
+  $("#nextMonth").disabled = !latest || RenderUtils.compareMonths(month, latest) >= 0;
+  $$('[data-archive-date]', grid).forEach((button) => button.addEventListener("click", () => loadArchive(button.dataset.archiveDate)));
+}
+
 function renderArchive() {
   const grid = $("#archiveGrid");
   if (!grid) return;
+  renderCalendar();
   if (!state.archiveIndex.length) {
     $("#archiveStatus").textContent = "还没有历史简报，首次定时任务完成后会自动生成。";
     grid.innerHTML = "";
@@ -163,7 +195,7 @@ function renderArchive() {
     grid.innerHTML = "";
     return;
   }
-  const date = state.archiveDigest.edition?.date || $("#archiveSelect").value;
+  const date = state.archiveDigest.edition?.date || state.selectedArchiveDate;
   const counts = state.archiveDigest.stats || {};
   $("#archiveStatus").textContent = `${date} · AI ${counts.ai || 0} 篇 · 游戏 ${counts.game || 0} 篇 · 美术 ${counts.art || 0} 篇`;
   grid.innerHTML = (state.archiveDigest.items || []).map(card).join("") || empty("这一天没有新的精选文章");
@@ -180,6 +212,41 @@ function renderAll() {
   $("#freshnessText").textContent = state.digest.stale ? "显示上次成功更新的数据" : `最后更新 ${formatAgo(state.digest.generatedAt)}`;
 }
 
+function element(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = String(text || "");
+  return node;
+}
+
+function appendAnnotatedText(parent, text, annotations, options = {}) {
+  const segments = RenderUtils.buildAnnotationSegments(text, annotations, options);
+  for (const segment of segments) {
+    let content = document.createTextNode(segment.text);
+    if (segment.emphasis) {
+      const strong = document.createElement("strong");
+      strong.append(content);
+      content = strong;
+    }
+    if (segment.query) {
+      const link = element("a", "term-link");
+      link.href = RenderUtils.bingSearchUrl(segment.query);
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.title = `搜索：${segment.query}`;
+      link.append(content);
+      content = link;
+    }
+    parent.append(content);
+  }
+}
+
+function analysisSection(title) {
+  const section = element("section", "analysis-section");
+  section.append(element("h3", "", title));
+  return section;
+}
+
 function openAnalysis(id) {
   const item = findArticle(id);
   if (!item?.analysis) return;
@@ -187,25 +254,71 @@ function openAnalysis(id) {
   $("#analysisTitle").textContent = articleTitle(item);
   $("#analysisMeta").innerHTML = `${meta(item)}${item.analysisStatus === "rss-fallback" ? "<span class=\"analysis-warning\">基于 RSS 摘要</span>" : ""}`;
   if (item.schemaVersion === 2 || Array.isArray(item.analysis.fullAnalysis)) {
-    const fullAnalysis = (item.analysis.fullAnalysis || []).map((section) => `<div class="analysis-subsection"><h4>${escapeHtml(section.heading)}</h4>${(section.paragraphs || []).map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div>`).join("");
-    const details = (item.analysis.technicalDetails || []).map((detail) => {
+    const annotations = item.annotations || item.analysis.annotations || {};
+    const content = $("#analysisContent");
+    content.replaceChildren();
+
+    const summary = analysisSection("列表简介");
+    summary.append(element("p", "", item.analysis.listSummary || item.summary));
+    content.append(summary);
+
+    const full = analysisSection("全文分析");
+    full.classList.add("full-analysis");
+    for (const sourceSection of item.analysis.fullAnalysis || []) {
+      const subsection = element("div", "analysis-subsection");
+      subsection.append(element("h4", "", sourceSection.heading));
+      for (const paragraph of sourceSection.paragraphs || []) {
+        const node = document.createElement("p");
+        appendAnnotatedText(node, paragraph, annotations, { emphasis: true, search: true });
+        subsection.append(node);
+      }
+      full.append(subsection);
+    }
+    content.append(full);
+
+    const points = analysisSection("核心要点");
+    const pointsList = document.createElement("ul");
+    for (const line of item.analysis.keyPoints || []) pointsList.append(element("li", "", line));
+    points.append(pointsList);
+    content.append(points);
+
+    const details = analysisSection("技术细节");
+    const detailList = element("ul", "detail-list");
+    for (const detail of item.analysis.technicalDetails || []) {
       const structured = detail && typeof detail === "object";
-      const basis = structured && detail.basis === "inference" ? "AI 推断" : "原文事实";
-      const text = structured ? detail.text : detail;
-      return `<li><span class="basis-tag ${basis === "AI 推断" ? "inference" : "source"}">${basis}</span>${escapeHtml(text)}</li>`;
-    }).join("");
-    const practices = (item.analysis.engineeringPractice || []).map((practice) => `<article class="practice-block">
-      <h4>${escapeHtml(practice.scenario)}</h4>
-      <div><strong>步骤</strong><ol>${(practice.steps || []).map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol></div>
-      <div><strong>工具</strong><p>${escapeHtml((practice.tools || []).join("、"))}</p></div>
-      <div><strong>验证</strong><ul>${(practice.verification || []).map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ul></div>
-    </article>`).join("");
-    $("#analysisContent").innerHTML = `
-      <section class="analysis-section"><h3>列表简介</h3><p>${escapeHtml(item.analysis.listSummary || item.summary)}</p></section>
-      <section class="analysis-section full-analysis"><h3>全文分析</h3>${fullAnalysis}</section>
-      <section class="analysis-section"><h3>核心要点</h3><ul>${(item.analysis.keyPoints || []).map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul></section>
-      <section class="analysis-section"><h3>技术细节</h3><ul class="detail-list">${details}</ul></section>
-      <section class="analysis-section"><div class="section-title-row"><h3>类似工程实践</h3><span>AI 延伸建议</span></div>${practices}</section>`;
+      const inferred = structured && detail.basis === "inference";
+      const row = document.createElement("li");
+      row.append(element("span", `basis-tag ${inferred ? "inference" : "source"}`, inferred ? "AI 推断" : "原文事实"));
+      appendAnnotatedText(row, structured ? detail.text : detail, annotations, { emphasis: false, search: true });
+      detailList.append(row);
+    }
+    details.append(detailList);
+    content.append(details);
+
+    const practices = analysisSection("");
+    practices.firstChild.remove();
+    const practiceTitle = element("div", "section-title-row");
+    practiceTitle.append(element("h3", "", "类似工程实践"), element("span", "", "AI 延伸建议"));
+    practices.append(practiceTitle);
+    for (const practice of item.analysis.engineeringPractice || []) {
+      const block = element("article", "practice-block");
+      block.append(element("h4", "", practice.scenario));
+      const steps = element("div");
+      steps.append(element("strong", "", "步骤"));
+      const ordered = document.createElement("ol");
+      for (const step of practice.steps || []) ordered.append(element("li", "", step));
+      steps.append(ordered);
+      const tools = element("div");
+      tools.append(element("strong", "", "工具"), element("p", "", (practice.tools || []).join("、")));
+      const verification = element("div");
+      verification.append(element("strong", "", "验证"));
+      const checks = document.createElement("ul");
+      for (const step of practice.verification || []) checks.append(element("li", "", step));
+      verification.append(checks);
+      block.append(steps, tools, verification);
+      practices.append(block);
+    }
+    content.append(practices);
   } else {
     $("#analysisContent").innerHTML = [
       ["列表简介", item.analysis.summary],
@@ -265,12 +378,16 @@ async function loadFeed(force = false) {
   } catch (error) {
     $("#freshnessText").textContent = "简报读取失败";
     if (state.digest) toast("暂时无法读取更新，已保留当前内容");
-    else $("#leadStory").innerHTML = `<div class="empty-state"><strong>无法加载简报</strong>${escapeHtml(error.message)}</div>`;
+    else $("#studyList").innerHTML = `<div class="empty-state"><strong>无法加载简报</strong>${escapeHtml(error.message)}</div>`;
   } finally { state.feedLoading = false; $("#refreshButton").disabled = false; }
 }
 
 async function loadArchive(date) {
   if (!date) return;
+  const parsed = RenderUtils.parseDateKey(date);
+  if (!parsed) return;
+  state.selectedArchiveDate = parsed.date;
+  state.archiveMonth = { year: parsed.year, monthIndex: parsed.monthIndex };
   state.archiveDigest = null;
   renderArchive();
   try {
@@ -288,11 +405,17 @@ async function loadArchiveIndex() {
     const response = await fetch(`./data/archive/index.json?v=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
-    state.archiveIndex = Array.isArray(payload.entries) ? payload.entries : [];
+    state.archiveIndex = (Array.isArray(payload.entries) ? payload.entries : [])
+      .filter((entry) => RenderUtils.parseDateKey(entry?.date))
+      .sort((left, right) => right.date.localeCompare(left.date));
     $("#archiveCount").textContent = state.archiveIndex.length;
-    const select = $("#archiveSelect");
-    select.innerHTML = state.archiveIndex.map((entry) => `<option value="${escapeHtml(entry.date)}">${escapeHtml(entry.date)}</option>`).join("");
-    if (state.archiveIndex.length) await loadArchive(state.archiveIndex[0].date);
+    if (state.archiveIndex.length) {
+      const latest = RenderUtils.parseDateKey(state.archiveIndex[0].date);
+      state.archiveMonth = { year: latest.year, monthIndex: latest.monthIndex };
+      state.selectedArchiveDate = latest.date;
+      renderCalendar();
+      await loadArchive(latest.date);
+    }
     else renderArchive();
   } catch (error) {
     $("#archiveStatus").textContent = `历史索引读取失败：${error.message}`;
@@ -309,7 +432,8 @@ function setupStaticUI() {
   $("#showSources").addEventListener("click", () => $("#sourceDialog").showModal());
   $("#closeSources").addEventListener("click", () => $("#sourceDialog").close());
   $("#closeAnalysis").addEventListener("click", () => $("#analysisDialog").close());
-  $("#archiveSelect").addEventListener("change", (event) => loadArchive(event.target.value));
+  $("#previousMonth").addEventListener("click", () => { state.archiveMonth = RenderUtils.shiftMonth(state.archiveMonth, -1); renderCalendar(); });
+  $("#nextMonth").addEventListener("click", () => { state.archiveMonth = RenderUtils.shiftMonth(state.archiveMonth, 1); renderCalendar(); });
   $("#focusButton").addEventListener("click", () => { $("#focusOverlay").hidden = false; });
   $("#closeFocus").addEventListener("click", () => { $("#focusOverlay").hidden = true; });
   $("#timerToggle").addEventListener("click", toggleTimer);
