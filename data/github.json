@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T07:56:07.141Z",
+  "timezone": "Asia/Shanghai",
+  "schedule": "Tuesday 04:25 Asia/Shanghai",
+  "weekStart": "2026-07-27",
+  "model": "qwen3.7-flash",
+  "calls": 1,
+  "items": [
+    {
+      "id": "earendil-works/pi",
+      "fullName": "earendil-works/pi",
+      "name": "pi",
+      "url": "https://github.com/earendil-works/pi",
+      "description": "AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI",
+      "language": "TypeScript",
+      "stars": 79986,
+      "forks": 9847,
+      "weeklyStars": 5244,
+      "topics": [],
+      "summary": "Pi 是一个开源的 AI Agent 工具集，提供统一的 LLM API、智能体运行核心、终端交互界面及交互式编程代理 CLI。它支持多模型接入，内置状态管理与工具调用能力，并可通过容器化或沙箱实现安全隔离，适合开发者快速构建和调试本地 AI 编程工作流。",
+      "whyRecommended": "契合读者对 Agent 架构与编程自动化的兴趣。项目不仅提供开箱即用的多模型统一接口，还详细展示了智能体循环、状态管理及权限隔离的工程实践，配合完整的包结构说明，极具实际学习与二次开发价值。",
+      "firstLook": "优先查看 packages 目录下的 agent core 与 coding agent 文档，验证其工具调用机制与沙箱隔离方案的实现细节；同时阅读 CONTRIBUTING.md 了解贡献规范与项目边界。"
+    },
+    {
+      "id": "bojieli/ai-agent-book",
+      "fullName": "bojieli/ai-agent-book",
+      "name": "ai-agent-book",
+      "url": "https://github.com/bojieli/ai-agent-book",
+      "description": "《深入理解 AI Agent：设计原理与工程实践》（李博杰 著）开源主仓库：全书正文、编译版 PDF 与按章配套代码",
+      "language": "Python",
+      "stars": 25447,
+      "forks": 2631,
+      "weeklyStars": 10637,
+      "topics": [],
+      "summary": "《深入理解 AI Agent》开源教程，围绕“LLM+上下文+工具”核心公式展开十章内容，涵盖基础原理、上下文工程、记忆与 RAG、工具协议、编码代理及评估体系。全书配套 93 个实验代码，支持多语言在线阅读与离线 PDF 下载。",
+      "whyRecommended": "完美匹配 AI 学习与 Agent 研究需求。项目将理论推导与工程实战紧密结合，提供大量可独立运行的配套实验，帮助读者从原理到生产环境完整掌握智能体设计与评测方法，学习路径清晰且资料完备。",
+      "firstLook": "首先浏览 book/ 目录下的章节源码与 EPUB 构建说明，确认配套实验的运行依赖与环境配置要求；接着查阅第 6 章关于 Agent 评估的指标定义，验证其评测框架的可复现性。"
+    }
+  ]
+}
