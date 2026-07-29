@@ -23,6 +23,32 @@
     "game": 2,
     "art": 2
   },
+  "githubWeekly": {
+    "weekday": "Tue",
+    "time": "04:25",
+    "limit": 2,
+    "candidateLimit": 18,
+    "readmeLimit": 10,
+    "interestKeywords": [
+      "AI learning",
+      "agent",
+      "coding automation",
+      "RAG",
+      "local model",
+      "evaluation",
+      "Unity",
+      "Godot",
+      "pixel art",
+      "animation",
+      "game development"
+    ],
+    "excludeKeywords": [
+      "cryptocurrency",
+      "airdrop",
+      "investment",
+      "awesome list mirror"
+    ]
+  },
   "manualDailyLimit": 2,
   "sourceDailyLimit": 1,
   "dateWindowsDays": {
@@ -49,6 +75,7 @@
     "analysisTimeoutMs": 300000
   },
   "analysis": {
+    "readerProfile": "懂基本电脑与编程概念，但可能第一次接触本文主题的入门学习者",
     "listSummaryCharacters": [120, 180],
     "shortBodyCharacters": 4000,
     "mediumBodyCharacters": 10000,

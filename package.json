@@ -5,8 +5,9 @@
   "description": "A calm AI, game development, and pixel art learning feed.",
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check src/feed.js && node --check scripts/generate-feed.js && node --check scripts/validate-feed.js && node --check public/render-utils.js && node --check public/app.js",
+    "check": "node --check server.js && node --check src/feed.js && node --check scripts/generate-feed.js && node --check scripts/generate-github-trending.js && node --check scripts/validate-feed.js && node --check scripts/validate-github-feed.js && node --check public/render-utils.js && node --check public/app.js",
     "generate": "node scripts/generate-feed.js",
+    "generate:github": "node scripts/generate-github-trending.js",
     "test": "node --test",
     "package:win": "node scripts/build-portable.js"
   },

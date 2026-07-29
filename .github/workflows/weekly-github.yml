@@ -1,30 +1,16 @@
-name: Daily Signal Desk
+name: Weekly GitHub Radar
 
 on:
   schedule:
-    # 05:38 Asia/Shanghai (21:38 UTC on the previous day).
-    - cron: "38 21 * * *"
-  push:
-    branches: [main]
-    paths:
-      - "config/**"
-      - "public/**"
-      - "scripts/**"
-      - "src/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/daily-feed.yml"
+    # Tuesday 04:25 Asia/Shanghai (Monday 20:25 UTC).
+    - cron: "25 20 * * 1"
   workflow_dispatch:
     inputs:
-      mode:
-        description: "生成模式"
+      force:
+        description: "强制重做本周推荐"
         required: true
-        default: normal
-        type: choice
-        options:
-          - normal
-          - force-rebuild-today
-          - force-weekly-now
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -96,24 +82,22 @@ jobs:
           if [ -d "$GITHUB_WORKSPACE/public/data" ]; then
             cp -a "$GITHUB_WORKSPACE/public/data/." data/
           fi
-          mkdir -p data/archive
+          mkdir -p data/archive data/github/archive
 
-      - name: Generate daily feed
+      - name: Generate weekly GitHub recommendations
         env:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
           DASHSCOPE_BASE_URL: ${{ vars.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1' }}
           DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'qwen3.7-flash' }}
-          DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'qwen3.7-plus' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SIGNAL_DATA_DIR: ${{ github.workspace }}/content-store/data
-          SIGNAL_FORCE_REBUILD: ${{ (inputs.mode == 'force-rebuild-today' || inputs.mode == 'force-weekly-now') && '1' || '0' }}
-          SIGNAL_RESELECT: ${{ inputs.mode == 'force-weekly-now' && '1' || '0' }}
-          SIGNAL_FORCE_WEEKLY: ${{ (inputs.mode == 'force-weekly-now' || contains(github.event.head_commit.message, '[weekly-now]')) && '1' || '0' }}
-        run: npm run generate
+          SIGNAL_GITHUB_FORCE: ${{ (github.event_name == 'workflow_dispatch' && inputs.force) && '1' || '0' }}
+        run: npm run generate:github
 
-      - name: Validate code and data
+      - name: Validate code and GitHub data
         env:
           SIGNAL_DATA_DIR: ${{ github.workspace }}/content-store/data
-        run: npm test && npm run check && node scripts/validate-feed.js
+        run: npm test && npm run check && node scripts/validate-github-feed.js
 
       - name: Persist generated content branch
         shell: bash
@@ -121,9 +105,9 @@ jobs:
           cd "$GITHUB_WORKSPACE/content-store"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data
+          git add data/github.json data/github
           if ! git diff --cached --quiet; then
-            git commit -m "content: update $(date -u +%F) signal feed"
+            git commit -m "content: update GitHub radar $(date -u +%F)"
             git push origin HEAD:content
           fi
 
@@ -138,7 +122,7 @@ jobs:
       - name: Verify published artifact has no secrets
         shell: bash
         run: |
-          if grep -R -E "DASHSCOPE_API_KEY|sk-[A-Za-z0-9_-]{16,}" site; then
+          if grep -R -E "DASHSCOPE_API_KEY|GITHUB_TOKEN|sk-[A-Za-z0-9_-]{16,}" site; then
             echo "Potential secret found in Pages artifact" >&2
             exit 1
           fi

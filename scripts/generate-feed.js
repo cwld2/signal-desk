@@ -350,6 +350,11 @@ function selectionPrompt(candidates, editorial, weeklyEdition) {
 候选：${JSON.stringify(compact)}`;
 }
 
+const DEFAULT_SYSTEM_PROMPT = "你是严谨的中文技术编辑。只输出有效 JSON，不使用 Markdown，不编造原文没有提供的事实。";
+const ANALYSIS_SYSTEM_PROMPT = `你是一名擅长向入门学习者解释复杂技术的中文技术编辑。
+你的目标不是展示术语，而是帮助读者真正理解文章。
+保持技术准确，只输出有效 JSON，不使用 Markdown，不编造原文没有提供的事实。`;
+
 class BailianError extends Error {
   constructor(message, kind = "model") {
     super(message);
@@ -372,7 +377,7 @@ class BailianClient {
     if (!this.apiKey) throw new BailianError("缺少 DASHSCOPE_API_KEY，已停止发布", "auth");
   }
 
-  async json(prompt, model, validator = (value) => value) {
+  async json(prompt, model, validator = (value) => value, { systemPrompt = DEFAULT_SYSTEM_PROMPT } = {}) {
     let lastError;
     let attemptPrompt = prompt;
     for (let attempt = 0; attempt < 2; attempt += 1) {
@@ -387,7 +392,7 @@ class BailianClient {
           body: JSON.stringify({
             model,
             messages: [
-              { role: "system", content: "你是严谨的中文技术编辑。只输出有效 JSON，不使用 Markdown，不编造原文没有提供的事实。" },
+              { role: "system", content: systemPrompt },
               { role: "user", content: attemptPrompt }
             ],
             temperature: this.temperature,
@@ -491,20 +496,42 @@ function analysisLengthTarget(bodyLength, editorial) {
 
 function analysisPrompt(item, editorial) {
   const target = analysisLengthTarget(item.extraction.length, editorial);
-  return `请基于下面的原文生成中文结构化学习分析。不得把常识或你的建议写成作者结论；原文没有说明的内容必须标为 AI 推断。
+  const readerProfile = editorial.analysis.readerProfile || "懂基本电脑与编程概念，但可能第一次接触本文主题的入门学习者";
+  return `请基于下面的原文生成中文结构化学习分析。
+
+目标读者：${readerProfile}。
+
+写作要求：
+1. 先解释“这是什么、解决什么问题、为什么值得关心”，再讲实现细节。
+2. 使用自然、简洁的中文短句，一句话只表达一个主要意思。
+3. 专业术语首次出现时立即用一句白话解释，例如：“向量数据库（简单说，就是专门按语义相似度查找内容的数据库）”。
+4. 抽象机制应配一个与 AI 学习、编程、Unity、Godot 或内容制作相关的具体场景。
+5. 类比只在准确且有帮助时使用，并明确它只是帮助理解，不能代替原文事实。
+6. 避免“赋能、范式、底座、抓手、闭环、生态位”等报告腔；原文必须使用时要解释。
+7. 保留 API、模型、版本、数据和参数的准确名称，不为了通俗而省略关键条件。
+8. 明确区分原文事实、作者判断和 AI 延伸建议。不得把常识或你的建议写成作者结论；原文没有说明的内容必须标为 AI 推断。
+9. 不假设读者已经知道缩写；首次出现时写出全称或解释用途。
+10. 不重复同一结论，不用空泛总结凑字数。
 
 输出 JSON 结构：
 {
   "displayTitle":"准确自然的中文标题",
-  "listSummary":"120-180 字，只帮助读者判断是否值得阅读",
-  "fullAnalysis":[{"heading":"背景与问题","paragraphs":["段落"]},{"heading":"方法与论证","paragraphs":["段落"]},{"heading":"证据、结论与边界","paragraphs":["段落"]}],
-  "keyPoints":["3-6 条，避免复述全文分析"],
-  "technicalDetails":[{"text":"明确的机制、API、版本、数据或步骤","basis":"source 或 inference"}],
-  "engineeringPractice":[{"scenario":"适用场景","steps":["实施步骤"],"tools":["工具"],"verification":["验证方法"]}],
+  "listSummary":"120-180 字，回答文章讲什么、对读者有什么用、是否值得读",
+  "fullAnalysis":[{"heading":"背景与问题","paragraphs":["每个区块先给一句白话结论，再解释原因、过程和边界"]},{"heading":"方法与论证","paragraphs":["段落"]},{"heading":"证据、结论与边界","paragraphs":["段落"]}],
+  "keyPoints":["3-6 条，每条都能独立理解，不照抄或复述全文分析"],
+  "technicalDetails":[{"text":"按‘它是什么 → 怎么工作 → 为什么重要’解释明确的机制、API、版本、数据或步骤","basis":"source 或 inference"}],
+  "engineeringPractice":[{"scenario":"适用场景","steps":["可直接执行的动作"],"tools":["工具"],"verification":["可观察的验证结果"]}],
   "annotations":{"emphasis":["全文分析中值得加粗的重点短语，3-8 个"],"searchTerms":[{"term":"全文分析或技术细节中的专业术语，3-10 个","query":"适合必应搜索的关键词，不要 URL"}]}
 }
 
-全文分析总长度目标约 ${target.min}-${target.max} 个中文字符，覆盖问题背景、文章方法、论证过程、原文证据、结论与适用边界。技术细节必须逐条标注 source（原文事实）或 inference（AI 推断）。engineeringPractice 是延伸建议，不得冒充作者观点。annotations 只列出逐字出现在对应正文中的短语；query 只写搜索词，不得写 URL。
+字段目标：
+- listSummary：让读者快速知道“讲什么、对我有什么用、是否值得读”。
+- fullAnalysis：每个区块先给一句白话结论，再解释原因、过程和边界。
+- keyPoints：每条都能独立理解，不照抄全文。
+- technicalDetails：采用“它是什么 → 怎么工作 → 为什么重要”的表达。
+- engineeringPractice：步骤使用可直接执行的动作，并给出可观察的验证结果。
+
+全文分析总长度目标约 ${target.min}-${target.max} 个中文字符，覆盖问题背景、文章方法、论证过程、原文证据、结论与适用边界。技术细节必须逐条标注 source（原文事实）或 inference（AI 推断）。engineeringPractice 是 AI 延伸建议，不得冒充作者观点。annotations 只列出逐字出现在对应正文中的短语；query 只写搜索词，不得写 URL。
 
 原标题：${item.title}
 来源：${item.sourceName}
@@ -613,7 +640,12 @@ async function analyzeItem(item, previousById, client, editorial, force = false)
   if (canReuseAnalysis(previous, item, force) && previous.schemaVersion === 2) {
     return { ...publicItem(item), displayTitle: previous.displayTitle, analysis: previous.analysis, ...(previous.annotations ? { annotations: previous.annotations } : {}), analysisStatus: "complete", analyzedAt: previous.analyzedAt, model: previous.model };
   }
-  const result = await client.json(analysisPrompt(item, editorial), client.analysisModel, (raw) => ({ raw, analysis: normalizeAnalysis(raw) }));
+  const result = await client.json(
+    analysisPrompt(item, editorial),
+    client.analysisModel,
+    (raw) => ({ raw, analysis: normalizeAnalysis(raw) }),
+    { systemPrompt: ANALYSIS_SYSTEM_PROMPT }
+  );
   const { annotations, ...analysis } = result.analysis;
   return {
     ...publicItem(item),
@@ -939,10 +971,13 @@ if (require.main === module) {
 }
 
 module.exports = {
+  ANALYSIS_SYSTEM_PROMPT,
   BailianClient,
   BailianError,
+  DEFAULT_SYSTEM_PROMPT,
   ageDays,
   analysisLengthTarget,
+  analysisPrompt,
   buildOutput,
   canReuseAnalysis,
   candidateBodyPool,

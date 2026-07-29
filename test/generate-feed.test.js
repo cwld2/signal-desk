@@ -6,7 +6,10 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 const editorial = require("../config/editorial.json");
 const {
+  ANALYSIS_SYSTEM_PROMPT,
+  DEFAULT_SYSTEM_PROMPT,
   analysisLengthTarget,
+  analysisPrompt,
   buildOutput,
   canReuseAnalysis,
   candidateBodyPool,
@@ -189,6 +192,35 @@ test("v2 analysis requires source/inference labels and engineering verification"
   assert.match(repaired.engineeringPractice[0].scenario, /一个准确的中文技术标题/);
   assert.ok(repaired.engineeringPractice[0].steps.length >= 3);
   assert.ok(repaired.engineeringPractice[0].verification.length >= 3);
+});
+
+test("analysis prompt explains technical articles for the configured beginner reader", () => {
+  const makeArticle = (lane) => ({
+    ...fixture(`prompt-${lane}`, { lane }),
+    extraction: { length: 7000 },
+    body: "A detailed article body about an API, its mechanism, constraints and measured results."
+  });
+  for (const lane of ["ai", "game", "art"]) {
+    const prompt = analysisPrompt(makeArticle(lane), editorial);
+    assert.match(prompt, new RegExp(editorial.analysis.readerProfile));
+    assert.match(prompt, /一句话只表达一个主要意思/);
+    assert.match(prompt, /专业术语首次出现时立即用一句白话解释/);
+    assert.match(prompt, /AI 学习、编程、Unity、Godot 或内容制作/);
+    assert.match(prompt, /赋能、范式、底座、抓手、闭环、生态位/);
+    assert.match(prompt, /原文事实、作者判断和 AI 延伸建议/);
+    assert.match(prompt, /API、模型、版本、数据和参数/);
+    assert.match(prompt, /它是什么 → 怎么工作 → 为什么重要/);
+    assert.match(prompt, /可观察的验证结果/);
+    assert.match(prompt, /全文分析总长度目标约 1200-2000/);
+  }
+});
+
+test("selection and analysis use distinct system prompts", () => {
+  assert.equal(DEFAULT_SYSTEM_PROMPT, "你是严谨的中文技术编辑。只输出有效 JSON，不使用 Markdown，不编造原文没有提供的事实。");
+  assert.match(ANALYSIS_SYSTEM_PROMPT, /擅长向入门学习者解释复杂技术/);
+  assert.match(ANALYSIS_SYSTEM_PROMPT, /帮助读者真正理解文章/);
+  assert.match(ANALYSIS_SYSTEM_PROMPT, /保持技术准确/);
+  assert.notEqual(ANALYSIS_SYSTEM_PROMPT, DEFAULT_SYSTEM_PROMPT);
 });
 
 test("analysis annotations are optional, filtered and never fail publication", () => {
@@ -399,6 +431,10 @@ test("workflow persists only content branch and supports config/force triggers",
   assert.match(workflow, /force-weekly-now/);
   assert.match(workflow, /cron: "38 21 \* \* \*"/);
   assert.match(workflow, /SIGNAL_FORCE_WEEKLY/);
+  assert.match(workflow, /SIGNAL_FORCE_REBUILD: \$\{\{ \(inputs\.mode == 'force-rebuild-today' \|\| inputs\.mode == 'force-weekly-now'\)/);
+  assert.match(workflow, /SIGNAL_RESELECT: \$\{\{ inputs\.mode == 'force-weekly-now'/);
+  assert.doesNotMatch(workflow, /SIGNAL_FORCE_REBUILD:[^\n]*github\.event_name == 'push'/);
+  assert.doesNotMatch(workflow, /SIGNAL_RESELECT:[^\n]*github\.event_name == 'push'/);
   assert.match(workflow, /\[weekly-now\]/);
   assert.match(workflow, /Checkout existing content branch/);
   assert.match(workflow, /path: content-store/);

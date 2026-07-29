@@ -119,6 +119,29 @@ a { color: inherit; }
 .story-card .story-actions { margin-top: auto; }
 .score { margin-left: auto; color: var(--green); font-family: Georgia, serif; font-size: 18px; }
 .week-badge { width: 76px; height: 76px; display: grid; place-items: center; border: 1px solid var(--ink); font-family: Georgia, serif; font-size: 21px; }
+.github-status { margin: 28px 0 12px; color: var(--muted); font-size: 12px; }
+.github-grid { min-height: 340px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--ink); }
+.github-card { min-width: 0; padding: 28px; display: flex; flex-direction: column; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.42); }
+.github-card:nth-child(2n) { border-right: 0; }
+.github-card-head { display: flex; justify-content: space-between; gap: 18px; color: var(--muted); font-size: 11px; }
+.github-rank { color: var(--amber); font-family: Georgia, serif; font-size: 16px; }
+.github-path { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.github-card h2 { margin: 20px 0 10px; font-family: Georgia, "SimSun", serif; font-size: 25px; line-height: 1.25; font-weight: 500; overflow-wrap: anywhere; }
+.github-card h2 a { text-decoration: none; }
+.github-card h2 a:hover { color: var(--green); }
+.github-summary { min-height: 3.8em; margin: 0 0 20px; color: var(--muted); font-size: 13px; line-height: 1.65; }
+.github-facts { margin: 0 0 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--line); }
+.github-facts div { min-width: 0; padding: 12px 8px; border-right: 1px solid var(--line); }
+.github-facts div:last-child { border-right: 0; }
+.github-facts dt { color: var(--muted); font-size: 10px; }
+.github-facts dd { margin: 4px 0 0; overflow: hidden; font-size: 13px; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
+.github-note { margin-bottom: 14px; }
+.github-note strong { display: block; margin-bottom: 5px; color: var(--green); font-size: 11px; }
+.github-note.try strong { color: #925516; }
+.github-note p { margin: 0; color: #47534c; font-size: 12px; line-height: 1.65; }
+.github-topics { display: flex; flex-wrap: wrap; gap: 5px; margin: 2px 0 20px; }
+.github-topics span { padding: 4px 7px; border: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+.github-link { align-self: flex-start; margin-top: auto; }
 .curriculum-band { margin: 30px 0; padding: 22px 26px; display: flex; justify-content: space-between; align-items: center; gap: 28px; background: #e7ece7; border-left: 4px solid var(--green); }
 .curriculum-band div > span, .curriculum-band div > strong { display: block; }
 .curriculum-band div > span { color: var(--muted); font-size: 10px; }
@@ -209,6 +232,9 @@ a { color: inherit; }
   .article-row > .story-actions { grid-column: 2; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
   .learning-line { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
   .card-grid { grid-template-columns: 1fr; }
+  .github-grid { grid-template-columns: 1fr; }
+  .github-card { padding: 22px 18px; border-right: 0; }
+  .github-summary { min-height: 0; }
   .story-card, .story-card:nth-child(3n) { border-right: 0; }
   .curriculum-band { align-items: flex-start; flex-direction: column; }
   .curriculum-steps { width: 100%; }

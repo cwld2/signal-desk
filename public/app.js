@@ -1,5 +1,6 @@
 const state = {
   digest: null,
+  githubDigest: null,
   archiveIndex: [],
   archiveDigest: null,
   selectedArchiveDate: null,
@@ -14,6 +15,7 @@ const state = {
 };
 
 const DATA_URL = "./data/feed.json";
+const GITHUB_DATA_URL = "./data/github.json";
 const RenderUtils = window.SignalDeskRenderUtils;
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -137,6 +139,39 @@ function renderGrids() {
   renderSaved();
 }
 
+function githubNumber(value) {
+  const number = Math.max(0, Number(value) || 0);
+  return number >= 1000 ? `${(number / 1000).toFixed(number >= 10000 ? 0 : 1)}k` : String(number);
+}
+
+function githubCard(item, index) {
+  const topics = (Array.isArray(item.topics) ? item.topics : []).slice(0, 4);
+  return `<article class="github-card">
+    <div class="github-card-head"><span class="github-rank">${String(index + 1).padStart(2, "0")}</span><span class="github-path">${escapeHtml(item.fullName || item.name)}</span></div>
+    <h2><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.name || item.fullName)}</a></h2>
+    <p class="github-summary">${escapeHtml(item.summary || item.description || "暂无项目简介")}</p>
+    <dl class="github-facts">
+      <div><dt>语言</dt><dd>${escapeHtml(item.language || "未标注")}</dd></div>
+      <div><dt>Stars</dt><dd>${githubNumber(item.stars)}</dd></div>
+      <div><dt>本周</dt><dd>${item.weeklyStars ? `+${githubNumber(item.weeklyStars)}` : "趋势入选"}</dd></div>
+    </dl>
+    <section class="github-note"><strong>为什么推荐</strong><p>${escapeHtml(item.whyRecommended)}</p></section>
+    <section class="github-note try"><strong>先看这里</strong><p>${escapeHtml(item.firstLook)}</p></section>
+    ${topics.length ? `<div class="github-topics">${topics.map((topic) => `<span>${escapeHtml(topic)}</span>`).join("")}</div>` : ""}
+    <a class="action-link github-link" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">查看仓库 →</a>
+  </article>`;
+}
+
+function renderGithub() {
+  const items = state.githubDigest?.items || [];
+  $("#githubCount").textContent = items.length;
+  $("#githubGrid").innerHTML = items.map(githubCard).join("") || `<div class="empty-state"><strong>本周推荐尚未生成</strong>周二更新完成后会显示两个项目。</div>`;
+  if (!state.githubDigest) return;
+  const weekStart = state.githubDigest.weekStart || "";
+  $("#githubWeekBadge").textContent = weekStart ? weekStart.slice(5).replace("-", "/") : "--";
+  $("#githubStatus").textContent = `${weekStart || "本周"} 起 · ${items.length} 个项目 · ${formatAgo(state.githubDigest.generatedAt)}`;
+}
+
 function empty(message) {
   return `<div class="empty-state"><strong>${escapeHtml(message)}</strong>下一次定时更新后再来看看。</div>`;
 }
@@ -223,7 +258,7 @@ function updateReadProgress() {
 }
 
 function renderAll() {
-  renderToday(); renderFilters(); renderGrids(); renderSources(); renderArchive(); persist(); bindDynamicActions();
+  renderToday(); renderFilters(); renderGrids(); renderGithub(); renderSources(); renderArchive(); persist(); bindDynamicActions();
   $("#freshnessText").textContent = state.digest.stale ? "显示上次成功更新的数据" : `最后更新 ${formatAgo(state.digest.generatedAt)}`;
 }
 
@@ -397,6 +432,18 @@ async function loadFeed(force = false) {
   } finally { state.feedLoading = false; $("#refreshButton").disabled = false; }
 }
 
+async function loadGithubFeed() {
+  try {
+    const response = await fetch(`${GITHUB_DATA_URL}?v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    state.githubDigest = await response.json();
+    renderGithub();
+  } catch (error) {
+    $("#githubStatus").textContent = "本周推荐暂时无法读取";
+    renderGithub();
+  }
+}
+
 async function loadArchive(date) {
   if (!date) return;
   const parsed = RenderUtils.parseDateKey(date);
@@ -460,3 +507,4 @@ function setupStaticUI() {
 setupStaticUI();
 loadFeed();
 loadArchiveIndex();
+loadGithubFeed();
