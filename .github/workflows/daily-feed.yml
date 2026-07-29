@@ -2,7 +2,8 @@ name: Daily Signal Desk
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    # Temporary schedule test: 09:55 Asia/Shanghai (01:55 UTC).
+    - cron: "55 1 * * *"
   push:
     branches: [main]
     paths:
