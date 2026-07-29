@@ -151,6 +151,21 @@ function renderSources() {
   $("#healthValue").textContent = `${(state.digest.sources || []).filter((source) => source.ok).length} / ${(state.digest.sources || []).length} 正常`;
 }
 
+function archiveCounts(digest) {
+  if (Array.isArray(digest?.editionItems)) return digest.stats || {};
+  const unique = new Map();
+  for (const item of digest?.items || []) {
+    const key = item.id || item.url || `${item.lane}|${articleTitle(item)}`;
+    if (!unique.has(key)) unique.set(key, item);
+  }
+  const items = [...unique.values()];
+  return {
+    ai: Math.min(3, items.filter((item) => item.lane === "ai").length),
+    game: Math.min(2, items.filter((item) => item.lane === "game").length),
+    art: Math.min(2, items.filter((item) => item.lane === "art").length)
+  };
+}
+
 function renderCalendar() {
   const grid = $("#calendarGrid");
   const month = state.archiveMonth;
@@ -196,7 +211,7 @@ function renderArchive() {
     return;
   }
   const date = state.archiveDigest.edition?.date || state.selectedArchiveDate;
-  const counts = state.archiveDigest.stats || {};
+  const counts = archiveCounts(state.archiveDigest);
   $("#archiveStatus").textContent = `${date} · AI ${counts.ai || 0} 篇 · 游戏 ${counts.game || 0} 篇 · 美术 ${counts.art || 0} 篇`;
   grid.innerHTML = (state.archiveDigest.items || []).map(card).join("") || empty("这一天没有新的精选文章");
 }

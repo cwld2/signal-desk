@@ -636,7 +636,7 @@ function currentDateParts(date = new Date()) {
   return Object.fromEntries(parts.filter((part) => part.type !== "literal").map((part) => [part.type, part.value]));
 }
 
-function isWeeklyEditionInShanghai(date = new Date(), weekday = "Mon") {
+function isWeeklyEditionInShanghai(date = new Date(), weekday = "Sun") {
   return currentDateParts(date).weekday === weekday;
 }
 
@@ -718,18 +718,28 @@ async function manualCandidates(entries, processedUrls, editorial, runReport, so
   return candidates;
 }
 
-function buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date, weeklyEdition, weeklyReason, client }) {
-  const priorWeekly = weeklyEdition ? { game: [], art: [] } : {
-    game: (previous?.lanes?.game || []).filter((item) => !item.manual),
-    art: (previous?.lanes?.art || []).filter((item) => !item.manual)
+function buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date, weeklyEdition, weeklyReason, rebuildExisting = false, client }) {
+  const priorWeekly = weeklyEdition || rebuildExisting ? { game: [], art: [] } : {
+    game: deduplicate((previous?.lanes?.game || []).filter((item) => !item.manual)),
+    art: deduplicate((previous?.lanes?.art || []).filter((item) => !item.manual))
   };
   const automaticAiIds = new Set([...selected.practice, ...selected.update].map((item) => item.id));
   const weeklyIds = new Set([...selected.game, ...selected.art].map((item) => item.id));
   const manualIds = new Set(selected.manual.map((item) => item.id));
-  const ai = analyzed.filter((item) => automaticAiIds.has(item.id) || (manualIds.has(item.id) && item.lane === "ai"));
-  const game = [...priorWeekly.game, ...analyzed.filter((item) => weeklyIds.has(item.id) && item.lane === "game"), ...analyzed.filter((item) => manualIds.has(item.id) && item.lane === "game")];
-  const art = [...priorWeekly.art, ...analyzed.filter((item) => weeklyIds.has(item.id) && item.lane === "art"), ...analyzed.filter((item) => manualIds.has(item.id) && item.lane === "art")];
+  const ai = deduplicate(analyzed.filter((item) => automaticAiIds.has(item.id) || (manualIds.has(item.id) && item.lane === "ai")));
+  const analyzedGame = deduplicate(analyzed.filter((item) => (weeklyIds.has(item.id) || manualIds.has(item.id)) && item.lane === "game"));
+  const analyzedArt = deduplicate(analyzed.filter((item) => (weeklyIds.has(item.id) || manualIds.has(item.id)) && item.lane === "art"));
+  const game = deduplicate([...priorWeekly.game, ...analyzedGame]);
+  const art = deduplicate([...priorWeekly.art, ...analyzedArt]);
   const items = deduplicate([...ai, ...game, ...art]);
+  const previousEditionIds = new Set((previous?.editionItems || []).map((item) => item.id));
+  const belongsToRebuiltEdition = (item) => previousEditionIds.size
+    ? previousEditionIds.has(item.id)
+    : Boolean(previous?.edition?.isWeeklyEdition || item.manual);
+  const editionGame = rebuildExisting ? analyzedGame.filter(belongsToRebuiltEdition) : analyzedGame;
+  const editionArt = rebuildExisting ? analyzedArt.filter(belongsToRebuiltEdition) : analyzedArt;
+  const editionItems = deduplicate([...ai, ...editionGame, ...editionArt]);
+  const editionLanes = { ai, game: editionGame, art: editionArt };
   const oldSeen = previous?.history?.seenIds || [];
   const oldManual = previous?.history?.processedManualUrls || [];
   const publishedManualUrls = selected.manual.filter((entry) => items.some((item) => item.id === entry.id)).map((entry) => normalizeUrl(entry.url));
@@ -737,23 +747,27 @@ function buildOutput({ candidates, selected, analyzed, previous, sourceResults, 
     schemaVersion: 2,
     generatedAt: new Date().toISOString(),
     timezone: TIME_ZONE,
-    schedule: "Daily 08:00 Asia/Shanghai",
+    schedule: "Daily 05:38 Asia/Shanghai",
     edition: { date, isWeeklyEdition: weeklyEdition, weeklyReason },
     stats: {
       candidates: candidates.length,
-      selected: items.length,
+      selected: editionItems.length,
       ai: ai.length,
       practice: selected.practice.length,
       update: selected.update.length,
       manual: selected.manual.length,
-      game: game.length,
-      art: art.length,
+      game: editionGame.length,
+      art: editionArt.length,
+      currentGame: game.length,
+      currentArt: art.length,
       studyMinutes: 30,
       bailianCalls: client.calls
     },
     items,
+    editionItems,
     study: ai,
     lanes: { ai, game, art },
+    editionLanes,
     sources: sourceResults.map(({ source, ok, latencyMs, error, items: sourceItems }) => ({ ...source, ok, latencyMs, error, itemCount: sourceItems.length })),
     history: {
       seenIds: [...new Set([...oldSeen, ...previousItems(previous).map((item) => item.id), ...items.map((item) => item.id)])].slice(-5000),
@@ -779,12 +793,23 @@ async function writeOutput(output) {
     timezone: output.timezone,
     edition: output.edition,
     stats: output.stats,
-    items: output.items,
+    items: output.editionItems,
+    editionItems: output.editionItems,
     study: output.study,
-    lanes: output.lanes
+    lanes: output.editionLanes
   };
   const currentIndex = await readJson(ARCHIVE_INDEX_FILE, { entries: [] });
-  const entries = (Array.isArray(currentIndex?.entries) ? currentIndex.entries : []).filter((entry) => entry.date !== output.edition.date);
+  const entries = (Array.isArray(currentIndex?.entries) ? currentIndex.entries : [])
+    .filter((entry) => entry.date !== output.edition.date)
+    .map((entry) => ({
+      ...entry,
+      counts: {
+        ...entry.counts,
+        ai: Math.min(3, Math.max(0, Number(entry.counts?.ai) || 0)),
+        game: Math.min(2, Math.max(0, Number(entry.counts?.game) || 0)),
+        art: Math.min(2, Math.max(0, Number(entry.counts?.art) || 0))
+      }
+    }));
   entries.push({
     date: output.edition.date,
     generatedAt: output.generatedAt,
@@ -847,7 +872,7 @@ async function main() {
   const forceWeekly = process.env.SIGNAL_FORCE_WEEKLY === "1";
   const scheduledWeekly = isWeeklyEditionInShanghai(new Date(), editorial.weeklyQuotas.weekday);
   const weeklyEdition = scheduledWeekly || forceWeekly;
-  const weeklyReason = forceWeekly && !scheduledWeekly ? "manual" : scheduledWeekly ? "monday" : null;
+  const weeklyReason = forceWeekly && !scheduledWeekly ? "manual" : scheduledWeekly ? String(editorial.weeklyQuotas.weekday || "weekly").toLowerCase() : null;
   const rebuildExisting = shouldRebuildExistingEdition(previous, today, force, reselect);
   let candidates;
   let selected;
@@ -896,7 +921,7 @@ async function main() {
   const analyzed = [];
   for (const item of toAnalyze) analyzed.push(await analyzeItem(item, previousById, client, editorial, force));
 
-  const output = buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date: today, weeklyEdition, weeklyReason, client });
+  const output = buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date: today, weeklyEdition, weeklyReason, rebuildExisting, client });
   await writeOutput(output);
   await writeRunSummary(runReport, client, sourceResults, selected);
   console.log(`生成 ${today} 简报：自动 AI ${output.stats.practice}+${output.stats.update}，手动 ${output.stats.manual}，游戏 ${output.stats.game}，美术 ${output.stats.art}，百炼调用 ${client.calls} 次。`);
@@ -918,6 +943,7 @@ module.exports = {
   BailianError,
   ageDays,
   analysisLengthTarget,
+  buildOutput,
   canReuseAnalysis,
   candidateBodyPool,
   candidateScore,

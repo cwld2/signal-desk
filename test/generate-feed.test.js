@@ -7,6 +7,7 @@ const { spawnSync } = require("node:child_process");
 const editorial = require("../config/editorial.json");
 const {
   analysisLengthTarget,
+  buildOutput,
   canReuseAnalysis,
   candidateBodyPool,
   deduplicate,
@@ -279,9 +280,75 @@ test("same-day normal mode skips calls while force mode rebuilds", () => {
   assert.equal(shouldRebuildExistingEdition({ ...previous, schemaVersion: 2 }, "2026-07-28", true, true), false);
 });
 
-test("detects Monday weekly edition using Asia/Shanghai instead of UTC", () => {
-  assert.equal(isWeeklyEditionInShanghai(new Date("2026-08-02T16:30:00.000Z"), editorial.weeklyQuotas.weekday), true);
-  assert.equal(isWeeklyEditionInShanghai(new Date("2026-08-03T16:30:00.000Z"), editorial.weeklyQuotas.weekday), false);
+test("detects Sunday weekly edition using Asia/Shanghai instead of UTC", () => {
+  assert.equal(isWeeklyEditionInShanghai(new Date("2026-08-01T21:38:00.000Z"), editorial.weeklyQuotas.weekday), true);
+  assert.equal(isWeeklyEditionInShanghai(new Date("2026-08-02T21:38:00.000Z"), editorial.weeklyQuotas.weekday), false);
+});
+
+test("weekday archive contains only three new AI items while current weekly lanes stay available", () => {
+  const ai = [fixture("p1"), fixture("p2"), fixture("u1", { slot: "update" })];
+  const oldGame = fixture("old-game", { lane: "game" });
+  const oldArt = fixture("old-art", { lane: "art" });
+  const output = buildOutput({
+    candidates: ai,
+    selected: { practice: ai.slice(0, 2), update: ai.slice(2), game: [], art: [], manual: [] },
+    analyzed: ai,
+    previous: { lanes: { game: [oldGame, oldGame], art: [oldArt, oldArt] }, history: {} },
+    sourceResults: [],
+    runReport: { rejected: [] },
+    date: "2026-07-29",
+    weeklyEdition: false,
+    weeklyReason: null,
+    client: { calls: 0, selectionModel: "flash", analysisModel: "plus" }
+  });
+  assert.equal(output.items.length, 5);
+  assert.equal(output.lanes.game.length, 1);
+  assert.equal(output.lanes.art.length, 1);
+  assert.equal(output.editionItems.length, 3);
+  assert.deepEqual({ ai: output.stats.ai, game: output.stats.game, art: output.stats.art, selected: output.stats.selected }, { ai: 3, game: 0, art: 0, selected: 3 });
+});
+
+test("Sunday archive contains 3 AI, 2 game and 2 art items", () => {
+  const ai = [fixture("p1"), fixture("p2"), fixture("u1", { slot: "update" })];
+  const game = [fixture("g1", { lane: "game" }), fixture("g2", { lane: "game" })];
+  const art = [fixture("a1", { lane: "art" }), fixture("a2", { lane: "art" })];
+  const output = buildOutput({
+    candidates: [...ai, ...game, ...art],
+    selected: { practice: ai.slice(0, 2), update: ai.slice(2), game, art, manual: [] },
+    analyzed: [...ai, ...game, ...art],
+    previous: { lanes: { game: [fixture("old-g", { lane: "game" })], art: [fixture("old-a", { lane: "art" })] }, history: {} },
+    sourceResults: [],
+    runReport: { rejected: [] },
+    date: "2026-08-02",
+    weeklyEdition: true,
+    weeklyReason: "sun",
+    client: { calls: 7, selectionModel: "flash", analysisModel: "plus" }
+  });
+  assert.equal(output.editionItems.length, 7);
+  assert.deepEqual({ ai: output.stats.ai, game: output.stats.game, art: output.stats.art, selected: output.stats.selected }, { ai: 3, game: 2, art: 2, selected: 7 });
+});
+
+test("same-day rebuild replaces retained weekly lanes without counting them as new", () => {
+  const ai = [fixture("p1"), fixture("p2"), fixture("u1", { slot: "update" })];
+  const game = [fixture("g1", { lane: "game" }), fixture("g2", { lane: "game" })];
+  const art = [fixture("a1", { lane: "art" }), fixture("a2", { lane: "art" })];
+  const output = buildOutput({
+    candidates: [...ai, ...game, ...art],
+    selected: { practice: ai.slice(0, 2), update: ai.slice(2), game, art, manual: [] },
+    analyzed: [...ai, ...game, ...art],
+    previous: { edition: { date: "2026-07-29", isWeeklyEdition: false }, lanes: { game: [...game, ...game], art: [...art, ...art] }, history: {} },
+    sourceResults: [],
+    runReport: { rejected: [] },
+    date: "2026-07-29",
+    weeklyEdition: false,
+    weeklyReason: null,
+    rebuildExisting: true,
+    client: { calls: 7, selectionModel: "flash", analysisModel: "plus" }
+  });
+  assert.equal(output.lanes.game.length, 2);
+  assert.equal(output.lanes.art.length, 2);
+  assert.equal(output.editionItems.length, 3);
+  assert.deepEqual({ game: output.stats.game, art: output.stats.art, selected: output.stats.selected }, { game: 0, art: 0, selected: 3 });
 });
 
 test("missing Bailian key exits before overwriting previous data", () => {
@@ -295,6 +362,33 @@ test("missing Bailian key exits before overwriting previous data", () => {
   assert.equal(fs.readFileSync(path.join(temp, "feed.json"), "utf8"), original);
 });
 
+test("static validator rejects duplicate weekly lanes and accepts 3+2+2 edition counts", () => {
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), "signal-desk-validation-"));
+  fs.mkdirSync(path.join(temp, "archive"));
+  const ai = [fixture("p1"), fixture("p2"), fixture("u1", { slot: "update" })];
+  const game = [fixture("g1", { lane: "game" }), fixture("g2", { lane: "game" })];
+  const art = [fixture("a1", { lane: "art" }), fixture("a2", { lane: "art" })];
+  const editionItems = [...ai, ...game, ...art];
+  const feed = {
+    schemaVersion: 2,
+    edition: { date: "2026-08-02", isWeeklyEdition: true },
+    stats: { selected: 7, ai: 3, game: 2, art: 2 },
+    items: editionItems,
+    editionItems,
+    lanes: { ai, game, art }
+  };
+  fs.writeFileSync(path.join(temp, "feed.json"), JSON.stringify(feed));
+  fs.writeFileSync(path.join(temp, "archive", "index.json"), JSON.stringify({ entries: [{ date: "2026-08-02", counts: { ai: 3, game: 2, art: 2 } }] }));
+  const script = path.join(__dirname, "..", "scripts", "validate-feed.js");
+  const valid = spawnSync(process.execPath, [script], { env: { ...process.env, SIGNAL_DATA_DIR: temp }, encoding: "utf8" });
+  assert.equal(valid.status, 0, valid.stderr);
+
+  fs.writeFileSync(path.join(temp, "feed.json"), JSON.stringify({ ...feed, lanes: { ...feed.lanes, art: [art[0], art[0]] } }));
+  const invalid = spawnSync(process.execPath, [script], { env: { ...process.env, SIGNAL_DATA_DIR: temp }, encoding: "utf8" });
+  assert.notEqual(invalid.status, 0);
+  assert.match(invalid.stderr, /art 栏目包含重复文章/);
+});
+
 test("workflow persists only content branch and supports config/force triggers", () => {
   const workflow = fs.readFileSync(path.join(__dirname, "..", ".github", "workflows", "daily-feed.yml"), "utf8");
   assert.match(workflow, /paths:\s*\n\s*- "config\/\*\*"/);
@@ -303,6 +397,7 @@ test("workflow persists only content branch and supports config/force triggers",
   assert.match(workflow, /\.github\/workflows\/daily-feed\.yml/);
   assert.match(workflow, /force-rebuild-today/);
   assert.match(workflow, /force-weekly-now/);
+  assert.match(workflow, /cron: "38 21 \* \* \*"/);
   assert.match(workflow, /SIGNAL_FORCE_WEEKLY/);
   assert.match(workflow, /\[weekly-now\]/);
   assert.match(workflow, /Checkout existing content branch/);
