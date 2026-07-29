@@ -205,7 +205,7 @@ function githubSelectionPrompt(candidates, settings) {
     localScore: item.localScore,
     readmeExcerpt: item.readmeExcerpt || ""
   }));
-  return `你是“信号台”的 GitHub 项目编辑。请从候选中选择恰好 ${settings.limit} 个本周最值得实际打开和验证的仓库。
+  return `你是“畅神妙妙屋”的 GitHub 项目编辑。请从候选中选择恰好 ${settings.limit} 个本周最值得实际打开和验证的仓库。
 
 读者兴趣：${settings.interestKeywords.join("、")}
 排除方向：${settings.excludeKeywords.join("、")}

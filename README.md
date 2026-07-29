@@ -1,4 +1,4 @@
-# 信号台 Signal Desk
+# 畅神妙妙屋
 
 面向 AI 学习、游戏开发和像素美术的静态学习简报。GitHub Actions 每天抓取、筛选并分析文章，GitHub Pages 只展示已经生成的 JSON。访客不需要 API Key，打开页面也不会产生新的百炼调用。
 
@@ -38,13 +38,13 @@
 
 ## GitHub Actions 与内容分支
 
-工作流 `Daily Signal Desk` 支持三种手动模式：
+工作流 `畅神妙妙屋 · 每日简报` 支持三种手动模式：
 
 - `normal`：当天已有成功简报时不重复调用百炼。
 - `force-rebuild-today`：保留当天已选文章，重新提取正文并重做分析。
 - `force-weekly-now`：立即重新筛选当天内容，并额外生成 2 篇游戏开发和 2 篇像素美术周更。
 
-工作流 `Weekly GitHub Radar` 每周二 04:25 自动运行，也支持手动强制刷新本周推荐。它使用 GitHub 官方趋势与 Search API 获取候选，并只调用一次筛选模型生成中文推荐说明。
+工作流 `畅神妙妙屋 · GitHub 热门` 每周二 04:25 自动运行，也支持手动强制刷新本周推荐。它使用 GitHub 官方趋势与 Search API 获取候选，并只调用一次筛选模型生成中文推荐说明。
 
 生成数据由机器人维护在 `content` 分支：
 

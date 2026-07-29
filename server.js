@@ -56,7 +56,7 @@ const server = http.createServer(async (request, response) => {
 });
 
 server.listen(PORT, HOST, () => {
-  console.log(`Signal Desk is running at http://${HOST}:${PORT}`);
+  console.log(`畅神妙妙屋正在运行：http://${HOST}:${PORT}`);
   getDigest().catch((error) => console.error("Initial feed refresh failed:", error.message));
 });
 

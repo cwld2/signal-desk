@@ -151,6 +151,8 @@ test("static UI exposes an independent GitHub weekly column", () => {
   const app = fs.readFileSync(path.join(root, "app.js"), "utf8");
   assert.match(html, /data-view="github"/);
   assert.match(html, /id="githubGrid"/);
+  assert.match(html, /畅神妙妙屋/);
+  assert.doesNotMatch(html, /信号台|Signal Desk/);
   assert.match(app, /\.\/data\/github\.json/);
   assert.match(app, /whyRecommended/);
   assert.match(app, /firstLook/);

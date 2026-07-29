@@ -333,7 +333,7 @@ function selectionPrompt(candidates, editorial, weeklyEdition) {
     rssSummary: item.summary.slice(0, 500),
     bodyExcerpt: item.body.slice(0, excerptLength)
   }));
-  return `你是“信号台”的技术内容主编。请依据标题、摘要和已提取正文片段筛选真正可实践、可信、有明确技术信息的文章。
+  return `你是“畅神妙妙屋”的技术内容主编。请依据标题、摘要和已提取正文片段筛选真正可实践、可信、有明确技术信息的文章。
 
 读者兴趣：${editorial.interestTopics.join("；")}
 排除内容：${editorial.excludeTopics.join("；")}
@@ -863,7 +863,7 @@ async function writeRunSummary(report, client, sourceResults, selected = null) {
   if (!file) return;
   const selectedItems = selected ? [...selected.practice, ...selected.update, ...selected.game, ...selected.art, ...selected.manual] : [];
   const lines = [
-    "## 信号台生成摘要",
+    "## 畅神妙妙屋生成摘要",
     "",
     `- 模型：筛选 \`${client.selectionModel}\`，分析 \`${client.analysisModel}\``,
     `- 百炼调用：${client.calls} / ${client.maximumCalls}`,
@@ -964,7 +964,7 @@ if (require.main === module) {
     console.error(`生成失败，未覆盖上次网站：${error.message}`);
     const summaryFile = process.env.GITHUB_STEP_SUMMARY || process.env.SIGNAL_RUN_SUMMARY_FILE;
     if (summaryFile) {
-      await fs.appendFile(summaryFile, `## 信号台生成失败\n\n- 原因：${String(error.message).replace(/\r?\n/g, " ")}\n- 发布结果：已停止，content 分支和线上网站保持上一版。\n`, "utf8").catch(() => {});
+      await fs.appendFile(summaryFile, `## 畅神妙妙屋生成失败\n\n- 原因：${String(error.message).replace(/\r?\n/g, " ")}\n- 发布结果：已停止，content 分支和线上网站保持上一版。\n`, "utf8").catch(() => {});
     }
     process.exitCode = 1;
   });
