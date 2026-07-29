@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-29T02:04:03.427Z",
+  "generatedAt": "2026-07-29T02:23:34.287Z",
   "timezone": "Asia/Shanghai",
-  "schedule": "Daily 08:00 Asia/Shanghai",
+  "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
     "date": "2026-07-29",
     "isWeeklyEdition": false,
@@ -10,13 +10,15 @@
   },
   "stats": {
     "candidates": 17,
-    "selected": 7,
+    "selected": 3,
     "ai": 3,
     "practice": 2,
     "update": 1,
     "manual": 0,
-    "game": 4,
-    "art": 4,
+    "game": 0,
+    "art": 0,
+    "currentGame": 2,
+    "currentArt": 2,
     "studyMinutes": 30,
     "bailianCalls": 4
   },
@@ -39,7 +41,7 @@
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 92,
+      "candidateScore": 91,
       "bodyHash": "0db13679ba8c18b1a288f305",
       "extraction": {
         "method": "readability",
@@ -48,89 +50,83 @@
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LFM2.5-Encoder：面向CPU的长上下文快速推理通用编码器",
+      "displayTitle": "LFM2.5-Encoders：面向CPU的长上下文快速推理通用编码器",
       "analysis": {
-        "listSummary": "本文介绍Liquid AI发布的LFM2.5-Encoder-230M和350M通用编码器。它们基于LFM2架构，支持8192 token上下文，在GLUE等测试中媲美更大模型，且在CPU上处理长文本时速度远超ModernBERT。文章解析了双向注意力机制与两阶段训练方法，并提供运行与微调代码，适合需低成本、高吞吐量长文本处理的开发者阅读。",
+        "listSummary": "本文介绍 Liquid AI 发布的 LFM2.5-Encoder-230M 和 350M 通用编码器。模型基于 LFM2 架构，支持 8192 token 上下文，在多项基准测试中媲美更大模型。其核心优势在于 CPU 长文本推理速度，比 ModernBERT-base 快约 3.7 倍。文章详述了双向改造方法、两阶段训练策略、性能基准及 API 调用，适合需在 CPU 环境低成本处理长文本分类、路由和检测任务的开发者。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "现代NLP生产应用（如分类器、意图路由、安全过滤器）通常需要全天候运行，且处理的输入文本越来越长。这些任务通常在CPU上执行，对成本和延迟有严格要求，且需要处理日益增长的长文本输入。此前，BERT确立了此类模型的基础，近期ModernBERT进一步提升了其准确性、速度和上下文长度。然而，随着输入长度的增加，现有模型的推理成本仍会显著上升。",
-              "此外，虽然Liquid AI此前发布了用于多语言搜索的LFM2.5-Retrievers，但搜索只是编码器能实现的众多功能之一。为了支持分类、token级任务等更广泛的用途，Liquid AI在LFM2架构的基础上，开发了成本随输入增长而缓慢增加的通用编码器模型，以解决长上下文下推理成本高昂的问题。"
+              "现代 NLP 生产应用（如分类器、意图路由、安全过滤器）通常需要全天候运行，且输入文本越来越长，这些任务大多在 CPU 上执行以控制硬件成本。现有的 BERT 和 ModernBERT 等模型在长上下文下的推理成本会随输入长度增加而显著上升，导致处理长文档时延迟不可接受。此前 Liquid AI 发布了专注于多语言搜索的 LFM2.5-Retrievers，但搜索只是编码器赋能的众多功能之一，这也是作者选择构建通用模型而非直接复用检索器的原因。为了满足更广泛的通用任务需求，并在长输入下保持成本缓慢增长，作者需要构建一个通用的、在 CPU 上具备长上下文快速推理能力的编码器模型，以替代昂贵的生成式大模型，从而在普通硬件上实现文档级任务的实时处理。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "LFM2.5-Encoder模型从LFM2解码器骨干网络（230M和350M参数）初始化，并通过几项关键修改将其转化为双向编码器。首先，采用双向注意力掩码，使每个token能够同时看到两侧的上下文。其次，使用非因果短卷积，通过对称填充使卷积混合两侧邻居信息。最后，在训练时掩码30%的token进行掩码语言建模。",
-              "训练分为两个阶段：第一阶段在大型网络语料库上进行1024 token上下文的短上下文掩码语言建模，以获取通用语言能力；第二阶段将上下文扩展至8192 token，在完整数据混合集上训练，以增强事实、法律和多语言能力。作者通过在GLUE、SuperGLUE和多语言分类等17个任务上对14个模型进行全量微调，并报告5个随机种子的平均分，论证了模型的有效性。",
-              "在工程实现上，模型可通过Hugging Face的transformers库直接加载，支持掩码token预测，也允许开发者附加自定义头部进行下游任务微调。若GPU支持，还可使用Flash Attention 2以获得最高效率。此外，作者还构建了多个基于CPU的演示应用，包括零样本提示路由、零样本策略检查、拼写检查、PII检测以及掩码扩散文本生成，以验证其在实际场景中的多功能性。"
+              "作者从 LFM2 解码器骨干（230M 和 350M 参数）初始化，通过三项关键改造将其转为双向编码器：采用双向注意力掩码使每个 token 能看到两侧上下文；使用对称填充的非因果短卷积混合两侧邻居信息；在训练时掩码 30% 的 token 进行掩码语言建模。训练分为两阶段：首先在 1024 token 上下文的大型 Web 语料库上训练通用语言能力，随后在完整数据混合集上进行长上下文适应，将上下文扩展至 8192 token，以增强事实、法律和多语言能力。",
+              "在论证方面，作者通过 14 个模型在 17 个任务（GLUE、SuperGLUE 等）上的全参数微调结果证明其质量，所有分数均基于 5 个保留种子的平均值以确保稳定性。同时对比了 CPU 和 GPU 上的推理吞吐量，验证了其在长上下文下的速度优势。此外，作者还构建了多个演示应用，如零样本提示路由、策略检查、拼写检查、PII 检测以及掩码扩散文本生成，直观展示了模型在实际场景中的泛化能力与执行效率。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "基准测试结果显示，LFM2.5-Encoder-350M在14个模型中排名第四，仅次于三个更大的模型（包括一个近10倍大小的3.5B模型）。230M版本击败了ModernBERT-base和所有EuroBERT模型。在推理速度方面，两者在CPU上的优势最为显著。在8192 token长度下，ModernBERT-base单次前向传播需要超过1.5分钟，而LFM2.5-Encoder-230M仅需约28秒，速度提升约3.7倍。在GPU上，当输入超过2K token时，LFM2.5-Encoder也展现出速度优势。",
-              "结论表明，对于需要持续运行且要求低成本和高吞吐量的长文本理解任务，微调后的编码器比生成式LLM更小、更快、更便宜，且能直接在现有CPU上运行。对于长文本处理，开发者可以在笔记本电脑的CPU上在30秒内扫描或分类完整的合同、成绩单或长支持线程，这极大拓展了边缘设备上的长文本处理能力。",
-              "其适用边界在于，该模型专为高吞吐量理解任务（如分类、路由、提取、评分）设计，而非自回归生成任务；若追求极致准确率且硬件资源充足，可选择350M版本，若硬件受限或需更高吞吐量则选择230M版本。"
+              "证据表明，LFM2.5-Encoder-350M 在 14 个模型中排名第四，超越了参数量近 10 倍的 3.5B 模型；230M 版本击败了 ModernBERT-base 和所有 EuroBERT 模型。在 CPU 推理速度上，处理 8192 token 时，ModernBERT-base 的前向传播耗时超过 90 秒，而 LFM2.5-Encoder-230M 仅需约 28 秒，速度提升约 3.7 倍，且吞吐量随长度增加下降平缓。这意味着开发者可以在笔记本 CPU 上于 30 秒内扫描完整合同或长支持工单。在 Apple GPU 上，2K token 以上时 LFM2.5 也取得领先。",
+              "结论是，LFM2.5-Encoders 能够在不牺牲质量的前提下，在现有 CPU 硬件上廉价且快速地处理文档级任务。对于开发者而言，350M 版本适合对准确率要求极高的场景，而 230M 版本则更适合硬件受限或需要极高吞吐量的环境。边界在于，该模型主要适用于高吞吐量的理解任务，对于需要自回归生成的任务仍需使用生成式 LLM；在极短输入（1K token 以下）的特定 GPU 环境下，ModernBERT 仍具速度优势；且模型需开发者自行附加任务头微调，并非开箱即用的端到端工具。"
             ]
           }
         ],
         "keyPoints": [
-          "LFM2.5-Encoder-230M和350M是支持8192 token上下文的通用双向编码器。",
-          "模型通过双向注意力掩码、非因果短卷积和30%掩码语言建模从LFM2解码器转化而来。",
-          "在CPU上处理8192 token长文本时，230M版本比ModernBERT-base快约3.7倍。",
-          "训练分为1024 token短上下文通用能力阶段和8192 token长上下文适应阶段。",
-          "适用于分类、意图路由、PII检测等高吞吐量、低成本的长文本理解任务。"
+          "LFM2.5-Encoders (230M/350M) 是支持 8192 token 上下文的通用双向编码器。",
+          "模型由 LFM2 因果解码器改造而来，引入双向注意力、对称短卷积和 30% 掩码语言建模。",
+          "在 CPU 处理 8192 token 长文本时，推理速度比 ModernBERT-base 快约 3.7 倍。",
+          "采用两阶段训练：先进行 1024 token 短上下文通用预训练，再扩展至 8192 token 长上下文适应。",
+          "适用于意图路由、策略检查、PII 检测等需要全天候在 CPU 上低成本运行的高吞吐量理解任务。"
         ],
         "technicalDetails": [
           {
-            "text": "模型参数量分别为230M和350M，最大上下文长度为8,192 tokens。",
+            "text": "模型参数量分为 230M 和 350M 两个版本，支持最大 8192 token 的上下文长度。",
             "basis": "source"
           },
           {
-            "text": "训练时掩码30%的tokens进行掩码语言建模（Masked language modeling）。",
+            "text": "通过双向注意力掩码、对称填充的非因果短卷积以及 30% 掩码比例的语言建模目标，将因果解码器转换为双向编码器。",
             "basis": "source"
           },
           {
-            "text": "第一阶段训练上下文长度为1,024 tokens，第二阶段扩展至8,192 tokens。",
+            "text": "在 CPU 上处理 8192 token 输入时，LFM2.5-Encoder-230M 的前向传播耗时约 28 秒，而 ModernBERT-base 耗时超过 90 秒。",
             "basis": "source"
           },
           {
-            "text": "在8,192 tokens长度下，LFM2.5-Encoder-230M在CPU上的推理时间约为28秒，ModernBERT-base超过1.5分钟。",
+            "text": "使用 Hugging Face transformers 库加载模型时，需设置 trust_remote_code=True 以支持自定义代码。",
             "basis": "source"
           },
           {
-            "text": "使用transformers库加载模型时，需设置trust_remote_code=True。",
+            "text": "在支持 Flash Attention 2 的 GPU 环境下，可通过 pip install flash-attn 安装并启用以获得最高推理效率。",
             "basis": "source"
           },
           {
-            "text": "若GPU支持，可安装flash-attn库以启用Flash Attention 2提升效率。",
-            "basis": "source"
-          },
-          {
-            "text": "在Apple GPU上，ModernBERT-base在约1K tokens以下时速度领先，LFM2.5-Encoder在约2K tokens时取得领先。",
+            "text": "对于下游任务，需使用 AutoModel 加载编码器主体，并自行附加分类、token 分类或回归等任务头进行微调。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在纯CPU环境下对长文本（如合同、法律文档、长对话记录）进行高吞吐量的分类、信息提取或PII检测。",
+            "scenario": "在资源受限的 CPU 服务器上部署长文本合规性检查或 PII 脱敏服务。",
             "steps": [
-              "1. 使用pip安装或更新transformers库。",
-              "2. 通过AutoModel或AutoModelForMaskedLM加载LFM2.5-Encoder模型，并设置trust_remote_code=True。",
-              "3. 根据具体任务（如分类或token分类）在模型主体上附加自定义的神经网络头部。",
-              "4. 使用长文本数据集对模型进行全量微调，以适应特定领域的上下文。"
+              "1. 使用 AutoModel 加载 LFM2.5-Encoder-230M 基础权重",
+              "2. 在模型顶部添加针对特定合规规则或 PII 实体的线性分类头",
+              "3. 使用长文本数据集进行全参数微调，设置最大序列长度为 8192",
+              "4. 导出为 ONNX 或 TensorRT 格式以进一步优化 CPU 推理延迟"
             ],
             "tools": [
               "Hugging Face Transformers",
               "PyTorch",
-              "Flash Attention 2 (可选，用于GPU加速)"
+              "ONNX Runtime",
+              "Optimum"
             ],
             "verification": [
-              "1. 在CPU环境下测量不同序列长度（如1K, 4K, 8K）的推理延迟，验证长文本下的吞吐量优势。",
-              "2. 在目标任务的验证集上评估微调后模型的准确率或F1分数。",
-              "3. 对比ModernBERT-base在相同硬件和输入长度下的推理时间。"
+              "对比微调前后在验证集上的 F1 分数和准确率",
+              "使用基准测试工具测量单条 8192 token 文本在目标 CPU 上的推理延迟",
+              "进行压力测试验证高并发下的 CPU 吞吐量和内存占用"
             ]
           }
         ]
@@ -140,9 +136,9 @@
           "双向注意力掩码",
           "非因果短卷积",
           "掩码语言建模",
-          "通用语言能力",
-          "高吞吐量理解任务",
-          "推理成本仍会显著上升"
+          "长上下文适应",
+          "推理吞吐量",
+          "前向传播"
         ],
         "searchTerms": [
           {
@@ -163,12 +159,12 @@
           },
           {
             "term": "Flash Attention 2",
-            "query": "Flash Attention 2 transformers"
+            "query": "Flash Attention 2 transformers GPU"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T01:59:44.169Z",
+      "analyzedAt": "2026-07-29T02:19:17.002Z",
       "model": "qwen3.7-plus"
     },
     {
@@ -198,102 +194,99 @@
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "NVIDIA NOOA框架：通过六大Agent架构能力提升模型性能",
+      "displayTitle": "NVIDIA NOOA框架：通过六大Agent Harness能力提升模型性能",
       "analysis": {
-        "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出Agent架构设计对性能的影响不亚于模型本身。文章解析了将Agent抽象为单一Python类的核心机制，以及类型化输入输出、引用传递等六大架构能力。通过SWE-bench等基准测试数据，论证了该框架在提升准确率、降低Token消耗及优化记忆管理方面的优势，为构建高效可调试的AI Agent提供工程参考。",
+        "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出构建优秀AI Agent不仅依赖模型，更取决于外围Agent Harness架构。文章解析了将Agent抽象为单一Python类的设计，及类型化I/O、引用传递等六大能力。通过展示其在SWE-bench、ARC-AGI-3等测试中实现SOTA性能并大幅降低Token成本的证据，论证了该架构的有效性。适合关注大模型Agent工程化落地与架构设计的开发者阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建优秀的AI Agent不仅在于选择正确的底层模型，围绕模型的架构（Harness）同样关键。Harness决定了上下文如何渲染、动作如何执行、状态如何管理以及任务何时判定完成，这些因素对最终结果的影响不亚于模型本身。Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。",
-              "传统的Agent开发过程复杂，需要协调提示模板、工具模式、回调代码和工作流图等多个移动部件。这种碎片化的开发方式使得Agent难以像传统软件那样进行差异比对、代码审查、单元测试、追踪、版本控制和重构。为了解决这一工程痛点，NVIDIA Labs推出了Object-Oriented Agents (NOOA) 开源研究预览版。NOOA基于Agent架构决定性能上限的洞察，提供了一个包含Python框架、内存系统、能力测试和基准Agent的完整生态，旨在让社区能够复现、挑战并构建更高效的Agent系统。"
+              "构建卓越的人工智能代理（Agent）并非仅仅取决于选择正确的底层大语言模型。模型周围的Agent Harness架构，在决定最终结果方面发挥着同等重要的作用。Harness负责渲染上下文、执行动作、管理状态以及判定任务何时完成。研究表明，仅Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。",
+              "传统的Agent开发过程通常涉及协调多个移动部件，包括提示词模板、工具模式（tool schemas）、回调代码和工作流图。这种碎片化的开发方式增加了系统的复杂性，使得Agent难以像传统软件一样进行版本控制、代码审查和单元测试。为了解决这一问题，NVIDIA推出了NVIDIA NOOA框架。这是一个开源的研究预览版，旨在通过面向对象的方法简化Agent开发，使其回归传统的软件工程实践。NOOA提供了Python框架、内存系统、能力测试以及基准代理，并公开了代码、数据和评估方法，以便社区能够复现、挑战并在此基础上进行构建。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "NOOA的核心创新在于将Agent开发转化为传统软件开发。在NOOA中，Agent被抽象为一个单一的Python类。其方法代表能力，字段代表状态，文档字符串作为提示词，类型注解作为强制契约。例如，在SupportAgent类中，order_db是模型可见的引用传递状态；is_refund_eligible是具有普通方法体的确定性Python方法；而带有省略号方法体的classify和triage方法，则在运行时由LLM驱动的循环自动补全。这种设计使得人类和AI编码Agent可以使用现有的标准代码库工具来管理Agent。",
-              "在架构层面，NOOA识别出六大驱动Agent性能的模型面向接口能力：第一，类型化输入输出，Agent调用具有类型化参数和验证过的返回值，摒弃自由文本；第二，引用传递，模型操作实时Python对象，查看有界预览而非序列化转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的Python代码来执行动作；第四，可编程循环工程，编排循环是普通的Python代码，可由开发者和模型本身编写；第五，显式对象状态，持久化、类型化的状态存在于Agent对象上，而不仅仅是对话历史；第六，模型可调用的Harness API，上下文块和事件历史是模型可以检查和管理API。",
-              "在记忆管理方面，NOOA摒弃了自动后台摘要管道，采用由Agent主动管理的长期记忆子系统。Agent通过模型可调用工具刻意地写入、查询和纠正记录。记录带有类型、重要性和标签，并通过支持、矛盾和派生自等类型化关系连接成知识图谱。后台反思过程负责合并重复项、链接相关记录、提炼洞察并修剪无关信息。所有数据持久化在一个人类可读的SQLite文件中，支持多Agent共享存储并保留独立所有权。",
-              "在效率优化机制上，NOOA通过引用传递实现了显著的Token节约。工具结果成为直接在代码中组合的实时Python变量，避免了在上下文窗口中作为文本往返。模型仅看到类型化、有界的预览，完整值保留在执行环境中。这使得NOOA无需上下文压缩即可解决复杂任务，转录保持仅追加和缓存有效，预填充缓存命中率在整个任务中复合增长。"
+              "NOOA框架的核心创新在于将Agent简化为单一Python类。在这个设计中，类的方法代表其能力，字段代表其状态，文档字符串（docstrings）作为提示词，而类型注解则作为强制执行的契约。对于标准Python方法，如果其方法体为省略号（...），则在运行时由LLM驱动的循环来完成；而具有正常方法体的代码则作为普通的、确定性的Python代码运行。这种设计使得Agent开发变得与传统软件开发无异，可以被人类和AI编码代理使用现有工具进行差异比对、代码审查、单元测试、追踪、版本控制和重构。",
+              "该架构识别出六个驱动Agent性能的面向模型的接口理念：第一，类型化输入/输出，代理调用具有类型化的参数和经过验证的返回值，而非自由文本；第二，引用传递，模型操作实时的Python对象，查看有界的预览，而不是序列化的数据转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的Python代码来执行动作；第四，可编程循环工程，编排循环是普通的Python代码，可由开发者和模型本身编写；第五，显式对象状态，持久化、类型化的状态存在于代理对象上，而不仅仅是对话历史；第六，模型可调用的Harness API，上下文块和事件历史是模型可以检查和管理API。",
+              "在内存系统方面，NOOA包含一个长期记忆子系统。与自动后台摘要管道不同，内存是一个由代理通过模型可调用工具自主管理的存储区。代理在工作过程中有意地写入、查询和纠正记录，同时与当前回合相关的自发记忆会自动浮现到上下文中。记录携带类型、重要性和标签，并通过“支持”、“矛盾”和“派生自”等类型化关系连接成知识图谱，而非扁平的日志。后台反思过程通过合并重复项、链接相关记录、将情节提炼为洞察以及修剪不再相关的信息来整合存储。所有数据持久化在一个人类可读的SQLite文件中，团队可以使用标准实践进行检查、备份和审查。存储的记忆可以引用实时的代理状态，保持知识更新，且多个代理可以共享一个存储区同时保留独立的所有权。",
+              "在论证效率提升时，文章指出Harness工程不仅能提高准确性，还能提高效率。以SWE-bench Verified为例，NOOA使用GPT-5.5达到82.2%的准确率，仅需29次LLM调用和约110万Token。相比之下，对比Harness需要66次调用和220万Token才能达到78.2%。这种成本减半的机制主要归功于两点：首先，通过引用传递，工具结果成为直接在代码中组合的实时Python变量，而不是作为文本在上下文窗口中往返。模型看到的是类型化、有界的预览，完整值保留在执行环境中。其次，这一特性意味着NOOA在使用前沿模型解决SWE-Bench时不需要上下文压缩（context compaction）。中位数会话的提示词Token峰值仅为2.2万至7.2万，远低于20万至40万的窗口限制。由于工具结果通过引用传递而非序列化到上下文窗口，转录内容在整个会话期间保持仅追加和缓存有效，无需摘要过程，预填充缓存命中在整个任务中复合叠加。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "NOOA的六大能力在多个领域得到了基准测试的验证。在软件工程领域，SWE-bench Verified测试显示，NOOA使用GPT-5.5达到82.2%准确率，超越提交时79.2%的SOTA，使用Opus 4.6达到79.8%。其通用253行Agent无需特定基准提示，仅需29次LLM调用和约1.1M tokens，而对比Harness需要66次调用和2.2M tokens才能达到78.2%，实现了性能提升与成本减半。",
-              "在网络安全领域，CyberGym L1测试中，NOOA使用GPT-5.5解决了86.8%的任务。该测试在网络访问被阻断且无特定安全引导的情况下进行，并辅以基于规则的作弊检查，证明结果源于对代码本身的推理而非查找已披露漏洞。在漏洞发现工作流中，NOOA将确定性检查（如崩溃判定、漏洞匹配、重现验证）和模型推理结合在一个类型化对象中，确保发现仅在代码明确允许时被接受。",
-              "在通用推理领域，ARC-AGI-3测试要求Agent在未知网格游戏中通过行动发现规则。NOOA将包含六个专业Agent的DreamTeam架构精简为单一Agent和45行技能。Agent通过构建Python程序编码观察状态并预测下一状态，每回合进行反事实推理以修正模型。结果显示，GPT-5.5达到50.2%平均RHAE，世界建模技能提升8.5分，记忆子系统提升11.8分；GPT-5.6-sol达到85.1%，且每局游戏成本低于20美元。",
-              "在安全与部署边界方面，系统采用分层沙箱，包括进程内cell guard、OS权限降级、端到端匿名化和内核级沙箱，并配合NVIDIA OpenShell安全运行时部署。红队审计未发现规则泄露。NOOA被明确定位为开源实验表面，而非现有Harness的替代品，其技术文档公开，供任何项目采用、挑战或改进。"
+              "文章提供了跨多个领域的具体证据来支持其方法的有效性。在软件工程领域，NOOA在SWE-bench Verified上使用GPT-5.5达到82.2%，超越了提交时公布的SOTA（79.2%），使用Opus 4.6达到79.8%，且仅使用253行通用代理代码，无特定基准提示词。在网络安全领域，在CyberGym L1上，NOOA使用GPT-5.5解决了86.8%的任务，在阻断网络访问且无特定安全提示的情况下，超越了大多数领先的闭源系统。在通用推理领域，在ARC-AGI-3上，单一NOOA代理使用GPT-5.5达到50.2%的平均RHAE，使用GPT-5.6-sol达到85.1%，且每局成本低于20美元（分别为17.85美元和13.3美元），推进了该基准的分数-成本帕累托前沿。在ARC-AGI-3的测试中，世界建模技能贡献了8.5分的提升，内存子系统贡献了11.8分的提升。",
+              "在安全与部署边界方面，NOOA在ARC-AGI-3的测试中采用了分层沙箱机制，包括进程内cell guard、每次运行的OS权限降级、游戏身份的端到端匿名化以及内核强制的每cell沙箱。红队审计未发现任何规则泄露。对于生产部署，NOOA与NVIDIA OpenShell安全运行时配对。在漏洞发现应用中，NOOA将确定性检查和模型推理放在同一个类型化对象上，通过三个确定性门控（崩溃判定、漏洞匹配、重现检查）确保发现的准确性。",
+              "结论是，NOOA作为开源代理生态系统的研究预览，证明了通过优化Harness架构可以显著提升模型性能并降低成本。它提供了一个透明、类型化、可检查的代理框架。然而，其适用边界在于，NOOA目前被定位为一个开放的实验性表面（experimental surface），而非现有Harness的完全替代品。此外，部分顶尖基准测试结果（如ARC-AGI-3的85.1%）高度依赖于特定的前沿模型（如GPT-5.6-sol），其在较弱模型上的表现边界需进一步验证。"
             ]
           }
         ],
         "keyPoints": [
-          "Agent架构（Harness）设计对性能和成本的影响与底层模型同等重要，NOOA框架将其抽象为单一Python类以支持传统软件工程实践。",
-          "NOOA提出六大核心能力：类型化输入输出、引用传递、代码即动作、可编程循环工程、显式对象状态和模型可调用的Harness API。",
-          "通过引用传递机制，工具结果作为实时Python变量在代码中组合，避免了上下文窗口的文本序列化，大幅降低Token消耗并免除上下文压缩。",
-          "长期记忆子系统由Agent主动管理，记录通过类型化关系构建为知识图谱，并持久化在可检查的SQLite文件中。",
-          "在SWE-bench、CyberGym L1和ARC-AGI-3等基准测试中，NOOA均取得领先成绩，同时实现Token成本减半或单局成本低于20美元。"
+          "Agent外围架构（Harness）的设计与底层模型同等重要，能带来两位数的基准分数波动和显著的Token成本差异。",
+          "NOOA框架将Agent抽象为单一Python类，通过类型注解、文档字符串和引用传递，使Agent开发回归传统软件工程实践。",
+          "六大核心能力包括类型化输入输出、引用传递、代码即动作、可编程循环工程、显式对象状态和模型可调用的Harness API。",
+          "长期内存系统由Agent自主管理，采用知识图谱结构，所有数据持久化于单一人类可读的SQLite文件中。",
+          "借助引用传递机制，工具结果作为实时变量处理，NOOA无需上下文压缩即可将Token消耗降低约一半。"
         ],
         "technicalDetails": [
           {
-            "text": "NOOA将Agent定义为单一Python类，方法体为省略号(...)的标准方法在运行时由LLM驱动循环完成，普通方法体作为确定性Python运行。",
+            "text": "NOOA框架将Agent定义为单一Python类，方法体为省略号(...)的标准方法在运行时由LLM驱动循环完成。",
             "basis": "source"
           },
           {
-            "text": "六大架构能力包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
+            "text": "六大Harness能力包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
             "basis": "source"
           },
           {
-            "text": "长期记忆存储在单一人类可读的SQLite文件中，记录带有类型、重要性、标签，并通过supports, contradicts, derived-from等关系连接成知识图谱。",
+            "text": "在SWE-bench Verified上，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens。",
             "basis": "source"
           },
           {
-            "text": "在SWE-bench Verified上，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens，中位数会话峰值为22-72k prompt tokens。",
+            "text": "在ARC-AGI-3上，GPT-5.6-sol达到85.1% mean RHAE，单局成本约13.3美元，19/25游戏完全解决。",
             "basis": "source"
           },
           {
-            "text": "在ARC-AGI-3中，GPT-5.6-sol fleet达到85.1% mean RHAE，成本约$13.3/game，25个游戏中19个完全解决。",
+            "text": "内存系统使用SQLite存储，记录带有类型、重要性、标签及supports、contradicts等关系，形成知识图谱。",
             "basis": "source"
           },
           {
-            "text": "安全部署采用分层沙箱（in-process cell guard, per-run OS privilege drop, end-to-end anonymization, kernel-enforced per-cell sandbox）并配合NVIDIA OpenShell。",
+            "text": "安全部署采用分层沙箱，包括进程内cell guard、OS权限降级、端到端匿名化和内核强制沙箱，配合NVIDIA OpenShell运行时。",
             "basis": "source"
           },
           {
-            "text": "由于NOOA使用async def定义策略方法并使用type annotations作为强制契约，推断其运行环境需支持Python异步编程及运行时类型检查库。",
+            "text": "由于NOOA依赖Python对象引用传递，其底层执行环境必须支持安全的对象状态隔离，以防止LLM生成的代码意外修改全局状态。",
             "basis": "inference"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "将现有基于提示词和JSON工具的Agent系统重构为面向对象、代码即动作的架构，以降低Token成本并提高可调试性。",
+            "scenario": "构建需要复杂状态管理、长期记忆和严格确定性校验的代码生成或漏洞分析Agent。",
             "steps": [
-              "1. 梳理现有Agent的工具和状态，将其封装为单一Python类的字段（状态）和方法（能力）。",
-              "2. 将自由文本的输入输出重构为强类型的Pydantic或dataclass模型，确保输入输出契约。",
-              "3. 引入引用传递机制，将工具返回的大型数据实例化为内存对象，仅向LLM传递摘要或引用ID。",
-              "4. 将工作流编排逻辑从外部图引擎移入Python类的普通方法中，实现确定性控制流。",
-              "5. 使用SQLite或类似轻量级数据库替换现有的向量数据库，构建带有关系标签的本地知识图谱作为长期记忆。"
+              "1. 将Agent业务逻辑封装为Python类，使用类型注解定义输入输出契约。",
+              "2. 将确定性校验逻辑（如漏洞重现检查）实现为普通Python方法，将需要LLM推理的步骤实现为带省略号(...)的方法。",
+              "3. 引入SQLite作为长期记忆存储，设计包含关系（如支持、矛盾）的知识图谱Schema。",
+              "4. 配置分层沙箱环境，限制Agent执行时的OS权限和网络访问。"
             ],
             "tools": [
-              "Python 3.10+",
-              "Pydantic",
+              "Python",
               "SQLite",
-              "LangChain"
+              "NVIDIA OpenShell",
+              "标准代码审查与单元测试工具"
             ],
             "verification": [
-              "1. 对比重构前后的Token消耗量，验证引用传递是否显著减少了上下文窗口的文本序列化。",
-              "2. 运行现有的单元测试套件，验证确定性方法（普通方法体）的逻辑正确性。",
-              "3. 检查LLM生成的代码是否能正确调用类内方法并处理类型化返回值。",
-              "4. 审查SQLite文件，验证记忆记录的合并、链接和修剪逻辑是否符合预期。"
+              "1. 对确定性方法编写单元测试，确保校验逻辑的绝对正确。",
+              "2. 使用Trace工具检查LLM驱动循环的执行路径和状态变更。",
+              "3. 监控Token消耗和上下文窗口峰值，验证是否成功避免了上下文压缩。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "围绕模型的架构（Harness）",
-          "单一的Python类",
+          "模型周围的Agent Harness架构",
+          "单一Python类",
           "引用传递",
           "代码即动作",
           "上下文压缩",
@@ -301,25 +294,29 @@
         ],
         "searchTerms": [
           {
-            "term": "NOOA",
-            "query": "NVIDIA NOOA Object-Oriented Agents"
+            "term": "NVIDIA NOOA",
+            "query": "NVIDIA NOOA framework agent"
+          },
+          {
+            "term": "Agent Harness",
+            "query": "AI agent harness architecture"
           },
           {
             "term": "Pass by reference",
-            "query": "LLM agent pass by reference mechanism"
+            "query": "LLM agent pass by reference"
+          },
+          {
+            "term": "Context compaction",
+            "query": "LLM context compaction token cost"
           },
           {
             "term": "ARC-AGI-3",
-            "query": "ARC-AGI-3 benchmark RHAE"
-          },
-          {
-            "term": "CyberGym L1",
-            "query": "CyberGym L1 vulnerability benchmark"
+            "query": "ARC-AGI-3 benchmark agent"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T02:02:24.595Z",
+      "analyzedAt": "2026-07-29T02:21:56.581Z",
       "model": "qwen3.7-plus"
     },
     {
@@ -349,39 +346,44 @@
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Gemini API 托管代理更新：3.6 Flash 默认模型、环境钩子与成本控制",
+      "displayTitle": "Gemini API 托管代理更新：默认 3.6 Flash、环境钩子与成本控制",
       "analysis": {
-        "listSummary": "本文介绍 Gemini API 托管代理的最新更新。默认模型升级为 Gemini 3.6 Flash，并支持显式选择其他模型。新增环境钩子功能，允许在沙箱内拦截、检查或审计工具调用。此外，引入了预算控制、定时触发器、免费层级访问及环境 API，帮助开发者构建可靠、低成本且自动化的生产级代理工作流。适合关注 AI 代理工程化落地的开发者阅读。",
+        "listSummary": "本文介绍了 Gemini API 托管代理的最新更新。核心亮点包括默认升级至 Gemini 3.6 Flash 模型，并新增环境钩子功能，允许开发者在沙箱内对工具调用进行拦截、审计或自动格式化。此外，文章详细说明了预算控制、定时触发器、免费层访问以及环境 API 等新特性。适合需要构建可靠、生产级 AI 代理并关注成本控制与自动化工作流的开发者阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "随着 AI 代理从实验阶段走向生产环境，开发者面临沙箱内工具调用缺乏安全控制、多轮自主循环导致 Token 消耗失控、以及缺乏自动化调度等工程挑战。在早期的托管代理中，虽然已经引入了后台任务和远程 MCP 服务器集成，实现了单次 API 调用协调推理、代码执行、包安装和文件管理，但在真实开发环境中实现可靠、自主且成本可控的运行，仍需更细粒度的执行干预与资源管理能力。特别是当代理执行复杂任务时，如何防止其陷入死循环或消耗过多预算，以及如何在不中断沙箱环境的前提下对代理生成的代码或文件进行自动化质量检查，成为阻碍其大规模落地的核心痛点。"
+              "Google 持续迭代 Gemini API 中的托管代理（Managed Agents）功能，旨在帮助开发者构建可靠且适用于生产环境的 AI 代理。在之前的版本中，官方引入了后台任务和远程 MCP 服务器集成，使得单次 API 调用即可在隔离的云沙箱中协调推理、代码执行、包安装、文件管理和网络检索。",
+              "然而，随着代理自主执行多轮复杂任务，开发者面临着几个关键挑战：首先，缺乏对底层大语言模型的灵活选择与成本控制机制，复杂任务容易导致 Token 预算失控；其次，在远程沙箱环境中，开发者难以对代理的工具调用进行细粒度的安全拦截、代码质量检查或自动化审计，难以满足企业级合规要求；最后，缺乏原生的定时调度能力和沙箱生命周期管理 API，限制了代理在自动化工作流和持续集成场景中的长期稳定运行。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Google 通过多项新能力系统性地解决上述问题。首先，将默认模型升级为 Gemini 3.6 Flash，该模型在推理、编码和工具使用方面表现均衡，同时允许开发者通过 agent_config.model 显式指定模型，例如选择 Gemini 3.5 Flash-Lite 以降低延迟和成本。其次，引入环境钩子（Environment hooks），这是本次更新的核心机制。开发者可以在环境中添加 .agents/hooks.json 配置文件，定义在 pre_tool_execution 或 post_tool_execution 事件触发的自定义脚本或 HTTP 请求。钩子配置支持正则表达式匹配，能够精准拦截特定工具调用或全局捕获。论证中引用了 AI 原生投资银行 OffDeal 的实际案例，详细说明其如何利用 post_tool_execution 钩子在远程沙箱内触发自动化图像验证流水线，对代理生成的公司 Logo 进行像素级质量检查和 Gemini 视觉验证，从而解决了此前因沙箱隔离导致验证代码无处运行的难题。此外，针对资源管理，系统通过 max_total_tokens 参数实现预算控制，达到上限时安全暂停并保留环境状态；通过定时触发器绑定 cron 计划实现无人值守的自动化执行；并提供环境 API 以主动管理沙箱生命周期，避免等待默认的 7 天 TTL。"
+              "为解决上述问题，Google 推出了一系列新特性。在模型层面，antigravity-preview-05-2026 代理默认升级至 Gemini 3.6 Flash，同时支持通过 agent_config.model 显式指定 Gemini 3.5 Flash 或 Flash-Lite 以平衡性能与成本。",
+              "在安全与质量控制方面，引入了环境钩子（Environment hooks）机制。开发者只需在环境中添加 .agents/hooks.json 配置文件，即可在 pre_tool_execution 或 post_tool_execution 阶段执行自定义的 command 或 http 处理器。通过正则表达式匹配，可以精准拦截特定工具调用或对所有调用进行后置审计。",
+              "在成本与自动化控制方面，新增了 max_total_tokens 预算控制参数，防止任务 runaway；同时引入定时触发器（Scheduled triggers），将代理、环境、提示词和 Cron 计划绑定为持久化资源，实现无人值守运行。此外，Environments API 的发布使得开发者能够通过代码直接列出、检查和删除沙箱会话，优化资源清理。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文提供了具体的 JSON 配置示例和 TypeScript SDK 代码，证明了环境钩子支持正则表达式匹配、命令执行及 HTTP 外部端点调用，且具备超时控制机制。当钩子脚本返回拒绝决策时，工具调用会被跳过，拒绝原因会注入模型上下文。预算控制的证据在于，达到 Token 上限时交互返回 incomplete 状态，并支持通过传递 previous_interaction_id 和新的预算来恢复执行。结论是这些更新使托管代理转变为成本可控、可调度的自主工作者，无需外部编排即可在真实开发环境中运行。适用边界方面，环境钩子的执行依赖于沙箱内的运行环境，若脚本执行失败或超时，需遵循特定的失败处理语义；预算控制仅限制总 Token 消耗，不限制单次执行时间；定时触发器复用同一沙箱意味着文件状态会跨执行持久化，开发者需利用环境 API 主动清理沙箱以防止状态污染。"
+              "原文通过具体的代码示例和真实企业案例论证了新特性的有效性。例如，AI 原生投资银行 Offdeal 利用 post_tool_execution 钩子，在远程沙箱内自动触发图像验证流水线，对生成的公司 Logo 进行像素级质量检查和视觉验证，解决了此前验证代码无处运行的痛点。",
+              "结论表明，这些更新将托管代理转变为成本可控、可调度的自主工作者，无需外部编排即可在真实开发环境中运行。",
+              "然而，这些功能也存在明确的适用边界：预算控制达到上限时，任务会安全暂停并返回 incomplete 状态，必须通过传入 previous_interaction_id 并分配新预算才能继续执行；定时触发器在每次运行时复用同一沙箱，这意味着文件状态会跨执行持久化，开发者需注意上下文污染问题；此外，环境钩子的 command 类型受限于沙箱内的执行环境，需确保相关脚本和依赖已正确部署，且 http 类型需处理外部端点的网络延迟与失败语义。"
             ]
           }
         ],
         "keyPoints": [
-          "默认模型升级为 Gemini 3.6 Flash，支持通过配置显式切换至 3.5 Flash 或 Flash-Lite。",
-          "环境钩子允许在工具调用前后执行自定义脚本或 HTTP 请求，实现安全拦截与代码审计。",
-          "预算控制通过限制总 Token 数防止任务失控，达到上限时暂停并保留环境状态以便恢复。",
-          "定时触发器支持绑定 cron 计划，实现代理任务的自动化调度与沙箱状态持久化。",
-          "免费层级开放托管代理访问，环境 API 提供沙箱生命周期的主动管理能力。"
+          "Gemini API 托管代理默认模型已升级为 Gemini 3.6 Flash，并支持显式指定 3.5 Flash 或 3.5 Flash-Lite。",
+          "新增环境钩子（Environment hooks），支持在沙箱内通过正则匹配拦截或审计工具调用（pre/post_tool_execution）。",
+          "引入预算控制机制，通过 max_total_tokens 限制 Token 消耗，超限后任务暂停并保留环境状态。",
+          "支持定时触发器（Scheduled triggers），可绑定 Cron 计划实现代理任务的自动化周期执行。",
+          "提供 Environments API，允许开发者通过代码列出、检查和删除沙箱会话，优化资源清理。"
         ],
         "technicalDetails": [
           {
-            "text": "默认代理 antigravity-preview-05-2026 运行 Gemini 3.6 Flash，支持通过 agent_config.model 指定 gemini-3.5-flash-lite。",
+            "text": "默认模型为 gemini-3.6-flash，可通过 agent_config.model 指定 gemini-3.5-flash 或 gemini-3.5-flash-lite。",
             "basis": "source"
           },
           {
@@ -389,76 +391,78 @@
             "basis": "source"
           },
           {
-            "text": "钩子脚本返回 {\"decision\": \"deny\", \"reason\": \"...\"} 时，工具调用被跳过，拒绝原因传入模型上下文。",
+            "text": "钩子类型支持 command（执行本地命令）和 http（POST 到外部端点），command 类型可设置 timeout。",
             "basis": "source"
           },
           {
-            "text": "预算控制通过 agent_config.max_total_tokens 设置，达到限制时返回 status: \"incomplete\"，可通过 previous_interaction_id 恢复。",
+            "text": "预算控制通过 agent_config.max_total_tokens 设置，达到限制时返回 status: 'incomplete'，可通过 previous_interaction_id 继续。",
             "basis": "source"
           },
           {
-            "text": "定时触发器复用同一沙箱，文件状态跨执行持久化；环境 API 可用于清理沙箱，替代默认的 7 天 TTL。",
+            "text": "定时触发器将 agent、environment、prompt 和 cron schedule 绑定为持久化资源。",
             "basis": "source"
           },
           {
-            "text": "钩子支持 command 和 http 类型，http 类型可直接 POST 到外部端点，需配置 timeout 参数。",
+            "text": "Environments API 可用于管理沙箱会话，替代默认的 7 天 TTL 清理机制。",
             "basis": "source"
           },
           {
-            "text": "在沙箱内执行钩子脚本需要确保沙箱环境包含所需的运行时（如 python3），否则可能导致执行失败。",
-            "basis": "inference"
+            "text": "使用 npx skills add google-gemini/gemini-skills --skill gemini-interactions-api 可为 AI 编码助手添加 Interactions API 技能。",
+            "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在 CI/CD 流水线或自动化代码审查系统中集成 Gemini 托管代理，利用环境钩子实现代码生成后的自动化安全扫描与格式化。",
+            "scenario": "在 CI/CD 流水线或自动化代码审查中，使用 Gemini 托管代理进行依赖审计和代码格式化，并严格控制 Token 成本（此为延伸建议，非作者原文观点）。",
             "steps": [
-              "1. 在项目中创建 .agents/hooks.json 文件，配置 post_tool_execution 钩子。",
-              "2. 编写 Python 或 Node.js 脚本，用于解析代理生成的代码文件并执行 Lint 或安全漏洞扫描。",
-              "3. 将脚本路径配置到钩子的 command 字段中，并设置合理的 timeout。",
-              "4. 使用 max_total_tokens 限制单次代理任务的 Token 消耗，防止复杂代码库分析导致预算超支。",
-              "5. 通过 Environments API 在任务完成后主动删除沙箱，释放资源。"
+              "1. 配置 .agents/hooks.json，设置 post_tool_execution 钩子调用 auto_lint.py 进行代码风格检查。",
+              "2. 在创建 interaction 时，设置 agent_config.max_total_tokens 为合理阈值（如 10000）。",
+              "3. 编写重试逻辑，当 interaction 返回 status 为 incomplete 时，提取 previous_interaction_id 并分配新预算继续执行。",
+              "4. 任务完成后，调用 Environments API 删除沙箱以释放资源。"
             ],
             "tools": [
-              "Gemini Interactions API",
               "@google/genai SDK",
-              "Python/Node.js 自定义脚本",
-              "Environments API"
+              "Python 脚本 (gate.py/auto_lint.py)",
+              "Cron 调度器"
             ],
             "verification": [
-              "1. 检查代理生成的代码是否通过了钩子脚本的 Lint 检查，未通过则确认工具调用是否被正确拦截或记录。",
-              "2. 验证当 Token 消耗达到 max_total_tokens 时，API 是否正确返回 incomplete 状态。",
-              "3. 确认通过 previous_interaction_id 恢复任务后，代理能否从暂停点继续执行。"
+              "检查 interaction 输出是否包含预期的代码修改。",
+              "验证 Token 消耗是否未超过 max_total_tokens 限制。",
+              "确认沙箱在任务结束后被成功删除。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "环境钩子",
-          "预算控制",
-          "定时触发器",
-          "安全暂停",
-          "像素级质量检查",
-          "状态污染"
+          "Gemini 3.6 Flash",
+          "environment hooks",
+          "max_total_tokens",
+          "previous_interaction_id",
+          "Environments API",
+          "post_tool_execution"
         ],
         "searchTerms": [
           {
-            "term": "Environment hooks",
-            "query": "Gemini API environment hooks 配置"
-          },
-          {
             "term": "Gemini 3.6 Flash",
-            "query": "Gemini 3.6 Flash 模型能力"
+            "query": "Gemini 3.6 Flash model"
           },
           {
-            "term": "max_total_tokens",
-            "query": "Gemini API max_total_tokens 预算控制"
+            "term": "environment hooks",
+            "query": "Gemini API environment hooks"
+          },
+          {
+            "term": "Interactions API",
+            "query": "Gemini Interactions API"
+          },
+          {
+            "term": "Environments API",
+            "query": "Gemini Environments API"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T02:04:03.427Z",
+      "analyzedAt": "2026-07-29T02:23:34.286Z",
       "model": "qwen3.7-plus"
     },
     {
@@ -918,7 +922,7 @@
       "model": "qwen3.7-plus"
     }
   ],
-  "study": [
+  "editionItems": [
     {
       "id": "f15f29c5f3561ef5",
       "title": "LFM2.5-Encoders for Fast Long-Context Inference on CPU",
@@ -937,7 +941,7 @@
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 92,
+      "candidateScore": 91,
       "bodyHash": "0db13679ba8c18b1a288f305",
       "extraction": {
         "method": "readability",
@@ -946,89 +950,83 @@
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LFM2.5-Encoder：面向CPU的长上下文快速推理通用编码器",
+      "displayTitle": "LFM2.5-Encoders：面向CPU的长上下文快速推理通用编码器",
       "analysis": {
-        "listSummary": "本文介绍Liquid AI发布的LFM2.5-Encoder-230M和350M通用编码器。它们基于LFM2架构，支持8192 token上下文，在GLUE等测试中媲美更大模型，且在CPU上处理长文本时速度远超ModernBERT。文章解析了双向注意力机制与两阶段训练方法，并提供运行与微调代码，适合需低成本、高吞吐量长文本处理的开发者阅读。",
+        "listSummary": "本文介绍 Liquid AI 发布的 LFM2.5-Encoder-230M 和 350M 通用编码器。模型基于 LFM2 架构，支持 8192 token 上下文，在多项基准测试中媲美更大模型。其核心优势在于 CPU 长文本推理速度，比 ModernBERT-base 快约 3.7 倍。文章详述了双向改造方法、两阶段训练策略、性能基准及 API 调用，适合需在 CPU 环境低成本处理长文本分类、路由和检测任务的开发者。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "现代NLP生产应用（如分类器、意图路由、安全过滤器）通常需要全天候运行，且处理的输入文本越来越长。这些任务通常在CPU上执行，对成本和延迟有严格要求，且需要处理日益增长的长文本输入。此前，BERT确立了此类模型的基础，近期ModernBERT进一步提升了其准确性、速度和上下文长度。然而，随着输入长度的增加，现有模型的推理成本仍会显著上升。",
-              "此外，虽然Liquid AI此前发布了用于多语言搜索的LFM2.5-Retrievers，但搜索只是编码器能实现的众多功能之一。为了支持分类、token级任务等更广泛的用途，Liquid AI在LFM2架构的基础上，开发了成本随输入增长而缓慢增加的通用编码器模型，以解决长上下文下推理成本高昂的问题。"
+              "现代 NLP 生产应用（如分类器、意图路由、安全过滤器）通常需要全天候运行，且输入文本越来越长，这些任务大多在 CPU 上执行以控制硬件成本。现有的 BERT 和 ModernBERT 等模型在长上下文下的推理成本会随输入长度增加而显著上升，导致处理长文档时延迟不可接受。此前 Liquid AI 发布了专注于多语言搜索的 LFM2.5-Retrievers，但搜索只是编码器赋能的众多功能之一，这也是作者选择构建通用模型而非直接复用检索器的原因。为了满足更广泛的通用任务需求，并在长输入下保持成本缓慢增长，作者需要构建一个通用的、在 CPU 上具备长上下文快速推理能力的编码器模型，以替代昂贵的生成式大模型，从而在普通硬件上实现文档级任务的实时处理。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "LFM2.5-Encoder模型从LFM2解码器骨干网络（230M和350M参数）初始化，并通过几项关键修改将其转化为双向编码器。首先，采用双向注意力掩码，使每个token能够同时看到两侧的上下文。其次，使用非因果短卷积，通过对称填充使卷积混合两侧邻居信息。最后，在训练时掩码30%的token进行掩码语言建模。",
-              "训练分为两个阶段：第一阶段在大型网络语料库上进行1024 token上下文的短上下文掩码语言建模，以获取通用语言能力；第二阶段将上下文扩展至8192 token，在完整数据混合集上训练，以增强事实、法律和多语言能力。作者通过在GLUE、SuperGLUE和多语言分类等17个任务上对14个模型进行全量微调，并报告5个随机种子的平均分，论证了模型的有效性。",
-              "在工程实现上，模型可通过Hugging Face的transformers库直接加载，支持掩码token预测，也允许开发者附加自定义头部进行下游任务微调。若GPU支持，还可使用Flash Attention 2以获得最高效率。此外，作者还构建了多个基于CPU的演示应用，包括零样本提示路由、零样本策略检查、拼写检查、PII检测以及掩码扩散文本生成，以验证其在实际场景中的多功能性。"
+              "作者从 LFM2 解码器骨干（230M 和 350M 参数）初始化，通过三项关键改造将其转为双向编码器：采用双向注意力掩码使每个 token 能看到两侧上下文；使用对称填充的非因果短卷积混合两侧邻居信息；在训练时掩码 30% 的 token 进行掩码语言建模。训练分为两阶段：首先在 1024 token 上下文的大型 Web 语料库上训练通用语言能力，随后在完整数据混合集上进行长上下文适应，将上下文扩展至 8192 token，以增强事实、法律和多语言能力。",
+              "在论证方面，作者通过 14 个模型在 17 个任务（GLUE、SuperGLUE 等）上的全参数微调结果证明其质量，所有分数均基于 5 个保留种子的平均值以确保稳定性。同时对比了 CPU 和 GPU 上的推理吞吐量，验证了其在长上下文下的速度优势。此外，作者还构建了多个演示应用，如零样本提示路由、策略检查、拼写检查、PII 检测以及掩码扩散文本生成，直观展示了模型在实际场景中的泛化能力与执行效率。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "基准测试结果显示，LFM2.5-Encoder-350M在14个模型中排名第四，仅次于三个更大的模型（包括一个近10倍大小的3.5B模型）。230M版本击败了ModernBERT-base和所有EuroBERT模型。在推理速度方面，两者在CPU上的优势最为显著。在8192 token长度下，ModernBERT-base单次前向传播需要超过1.5分钟，而LFM2.5-Encoder-230M仅需约28秒，速度提升约3.7倍。在GPU上，当输入超过2K token时，LFM2.5-Encoder也展现出速度优势。",
-              "结论表明，对于需要持续运行且要求低成本和高吞吐量的长文本理解任务，微调后的编码器比生成式LLM更小、更快、更便宜，且能直接在现有CPU上运行。对于长文本处理，开发者可以在笔记本电脑的CPU上在30秒内扫描或分类完整的合同、成绩单或长支持线程，这极大拓展了边缘设备上的长文本处理能力。",
-              "其适用边界在于，该模型专为高吞吐量理解任务（如分类、路由、提取、评分）设计，而非自回归生成任务；若追求极致准确率且硬件资源充足，可选择350M版本，若硬件受限或需更高吞吐量则选择230M版本。"
+              "证据表明，LFM2.5-Encoder-350M 在 14 个模型中排名第四，超越了参数量近 10 倍的 3.5B 模型；230M 版本击败了 ModernBERT-base 和所有 EuroBERT 模型。在 CPU 推理速度上，处理 8192 token 时，ModernBERT-base 的前向传播耗时超过 90 秒，而 LFM2.5-Encoder-230M 仅需约 28 秒，速度提升约 3.7 倍，且吞吐量随长度增加下降平缓。这意味着开发者可以在笔记本 CPU 上于 30 秒内扫描完整合同或长支持工单。在 Apple GPU 上，2K token 以上时 LFM2.5 也取得领先。",
+              "结论是，LFM2.5-Encoders 能够在不牺牲质量的前提下，在现有 CPU 硬件上廉价且快速地处理文档级任务。对于开发者而言，350M 版本适合对准确率要求极高的场景，而 230M 版本则更适合硬件受限或需要极高吞吐量的环境。边界在于，该模型主要适用于高吞吐量的理解任务，对于需要自回归生成的任务仍需使用生成式 LLM；在极短输入（1K token 以下）的特定 GPU 环境下，ModernBERT 仍具速度优势；且模型需开发者自行附加任务头微调，并非开箱即用的端到端工具。"
             ]
           }
         ],
         "keyPoints": [
-          "LFM2.5-Encoder-230M和350M是支持8192 token上下文的通用双向编码器。",
-          "模型通过双向注意力掩码、非因果短卷积和30%掩码语言建模从LFM2解码器转化而来。",
-          "在CPU上处理8192 token长文本时，230M版本比ModernBERT-base快约3.7倍。",
-          "训练分为1024 token短上下文通用能力阶段和8192 token长上下文适应阶段。",
-          "适用于分类、意图路由、PII检测等高吞吐量、低成本的长文本理解任务。"
+          "LFM2.5-Encoders (230M/350M) 是支持 8192 token 上下文的通用双向编码器。",
+          "模型由 LFM2 因果解码器改造而来，引入双向注意力、对称短卷积和 30% 掩码语言建模。",
+          "在 CPU 处理 8192 token 长文本时，推理速度比 ModernBERT-base 快约 3.7 倍。",
+          "采用两阶段训练：先进行 1024 token 短上下文通用预训练，再扩展至 8192 token 长上下文适应。",
+          "适用于意图路由、策略检查、PII 检测等需要全天候在 CPU 上低成本运行的高吞吐量理解任务。"
         ],
         "technicalDetails": [
           {
-            "text": "模型参数量分别为230M和350M，最大上下文长度为8,192 tokens。",
+            "text": "模型参数量分为 230M 和 350M 两个版本，支持最大 8192 token 的上下文长度。",
             "basis": "source"
           },
           {
-            "text": "训练时掩码30%的tokens进行掩码语言建模（Masked language modeling）。",
+            "text": "通过双向注意力掩码、对称填充的非因果短卷积以及 30% 掩码比例的语言建模目标，将因果解码器转换为双向编码器。",
             "basis": "source"
           },
           {
-            "text": "第一阶段训练上下文长度为1,024 tokens，第二阶段扩展至8,192 tokens。",
+            "text": "在 CPU 上处理 8192 token 输入时，LFM2.5-Encoder-230M 的前向传播耗时约 28 秒，而 ModernBERT-base 耗时超过 90 秒。",
             "basis": "source"
           },
           {
-            "text": "在8,192 tokens长度下，LFM2.5-Encoder-230M在CPU上的推理时间约为28秒，ModernBERT-base超过1.5分钟。",
+            "text": "使用 Hugging Face transformers 库加载模型时，需设置 trust_remote_code=True 以支持自定义代码。",
             "basis": "source"
           },
           {
-            "text": "使用transformers库加载模型时，需设置trust_remote_code=True。",
+            "text": "在支持 Flash Attention 2 的 GPU 环境下，可通过 pip install flash-attn 安装并启用以获得最高推理效率。",
             "basis": "source"
           },
           {
-            "text": "若GPU支持，可安装flash-attn库以启用Flash Attention 2提升效率。",
-            "basis": "source"
-          },
-          {
-            "text": "在Apple GPU上，ModernBERT-base在约1K tokens以下时速度领先，LFM2.5-Encoder在约2K tokens时取得领先。",
+            "text": "对于下游任务，需使用 AutoModel 加载编码器主体，并自行附加分类、token 分类或回归等任务头进行微调。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在纯CPU环境下对长文本（如合同、法律文档、长对话记录）进行高吞吐量的分类、信息提取或PII检测。",
+            "scenario": "在资源受限的 CPU 服务器上部署长文本合规性检查或 PII 脱敏服务。",
             "steps": [
-              "1. 使用pip安装或更新transformers库。",
-              "2. 通过AutoModel或AutoModelForMaskedLM加载LFM2.5-Encoder模型，并设置trust_remote_code=True。",
-              "3. 根据具体任务（如分类或token分类）在模型主体上附加自定义的神经网络头部。",
-              "4. 使用长文本数据集对模型进行全量微调，以适应特定领域的上下文。"
+              "1. 使用 AutoModel 加载 LFM2.5-Encoder-230M 基础权重",
+              "2. 在模型顶部添加针对特定合规规则或 PII 实体的线性分类头",
+              "3. 使用长文本数据集进行全参数微调，设置最大序列长度为 8192",
+              "4. 导出为 ONNX 或 TensorRT 格式以进一步优化 CPU 推理延迟"
             ],
             "tools": [
               "Hugging Face Transformers",
               "PyTorch",
-              "Flash Attention 2 (可选，用于GPU加速)"
+              "ONNX Runtime",
+              "Optimum"
             ],
             "verification": [
-              "1. 在CPU环境下测量不同序列长度（如1K, 4K, 8K）的推理延迟，验证长文本下的吞吐量优势。",
-              "2. 在目标任务的验证集上评估微调后模型的准确率或F1分数。",
-              "3. 对比ModernBERT-base在相同硬件和输入长度下的推理时间。"
+              "对比微调前后在验证集上的 F1 分数和准确率",
+              "使用基准测试工具测量单条 8192 token 文本在目标 CPU 上的推理延迟",
+              "进行压力测试验证高并发下的 CPU 吞吐量和内存占用"
             ]
           }
         ]
@@ -1038,9 +1036,9 @@
           "双向注意力掩码",
           "非因果短卷积",
           "掩码语言建模",
-          "通用语言能力",
-          "高吞吐量理解任务",
-          "推理成本仍会显著上升"
+          "长上下文适应",
+          "推理吞吐量",
+          "前向传播"
         ],
         "searchTerms": [
           {
@@ -1061,12 +1059,12 @@
           },
           {
             "term": "Flash Attention 2",
-            "query": "Flash Attention 2 transformers"
+            "query": "Flash Attention 2 transformers GPU"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T01:59:44.169Z",
+      "analyzedAt": "2026-07-29T02:19:17.002Z",
       "model": "qwen3.7-plus"
     },
     {
@@ -1096,102 +1094,99 @@
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "NVIDIA NOOA框架：通过六大Agent架构能力提升模型性能",
+      "displayTitle": "NVIDIA NOOA框架：通过六大Agent Harness能力提升模型性能",
       "analysis": {
-        "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出Agent架构设计对性能的影响不亚于模型本身。文章解析了将Agent抽象为单一Python类的核心机制，以及类型化输入输出、引用传递等六大架构能力。通过SWE-bench等基准测试数据，论证了该框架在提升准确率、降低Token消耗及优化记忆管理方面的优势，为构建高效可调试的AI Agent提供工程参考。",
+        "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出构建优秀AI Agent不仅依赖模型，更取决于外围Agent Harness架构。文章解析了将Agent抽象为单一Python类的设计，及类型化I/O、引用传递等六大能力。通过展示其在SWE-bench、ARC-AGI-3等测试中实现SOTA性能并大幅降低Token成本的证据，论证了该架构的有效性。适合关注大模型Agent工程化落地与架构设计的开发者阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建优秀的AI Agent不仅在于选择正确的底层模型，围绕模型的架构（Harness）同样关键。Harness决定了上下文如何渲染、动作如何执行、状态如何管理以及任务何时判定完成，这些因素对最终结果的影响不亚于模型本身。Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。",
-              "传统的Agent开发过程复杂，需要协调提示模板、工具模式、回调代码和工作流图等多个移动部件。这种碎片化的开发方式使得Agent难以像传统软件那样进行差异比对、代码审查、单元测试、追踪、版本控制和重构。为了解决这一工程痛点，NVIDIA Labs推出了Object-Oriented Agents (NOOA) 开源研究预览版。NOOA基于Agent架构决定性能上限的洞察，提供了一个包含Python框架、内存系统、能力测试和基准Agent的完整生态，旨在让社区能够复现、挑战并构建更高效的Agent系统。"
+              "构建卓越的人工智能代理（Agent）并非仅仅取决于选择正确的底层大语言模型。模型周围的Agent Harness架构，在决定最终结果方面发挥着同等重要的作用。Harness负责渲染上下文、执行动作、管理状态以及判定任务何时完成。研究表明，仅Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。",
+              "传统的Agent开发过程通常涉及协调多个移动部件，包括提示词模板、工具模式（tool schemas）、回调代码和工作流图。这种碎片化的开发方式增加了系统的复杂性，使得Agent难以像传统软件一样进行版本控制、代码审查和单元测试。为了解决这一问题，NVIDIA推出了NVIDIA NOOA框架。这是一个开源的研究预览版，旨在通过面向对象的方法简化Agent开发，使其回归传统的软件工程实践。NOOA提供了Python框架、内存系统、能力测试以及基准代理，并公开了代码、数据和评估方法，以便社区能够复现、挑战并在此基础上进行构建。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "NOOA的核心创新在于将Agent开发转化为传统软件开发。在NOOA中，Agent被抽象为一个单一的Python类。其方法代表能力，字段代表状态，文档字符串作为提示词，类型注解作为强制契约。例如，在SupportAgent类中，order_db是模型可见的引用传递状态；is_refund_eligible是具有普通方法体的确定性Python方法；而带有省略号方法体的classify和triage方法，则在运行时由LLM驱动的循环自动补全。这种设计使得人类和AI编码Agent可以使用现有的标准代码库工具来管理Agent。",
-              "在架构层面，NOOA识别出六大驱动Agent性能的模型面向接口能力：第一，类型化输入输出，Agent调用具有类型化参数和验证过的返回值，摒弃自由文本；第二，引用传递，模型操作实时Python对象，查看有界预览而非序列化转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的Python代码来执行动作；第四，可编程循环工程，编排循环是普通的Python代码，可由开发者和模型本身编写；第五，显式对象状态，持久化、类型化的状态存在于Agent对象上，而不仅仅是对话历史；第六，模型可调用的Harness API，上下文块和事件历史是模型可以检查和管理API。",
-              "在记忆管理方面，NOOA摒弃了自动后台摘要管道，采用由Agent主动管理的长期记忆子系统。Agent通过模型可调用工具刻意地写入、查询和纠正记录。记录带有类型、重要性和标签，并通过支持、矛盾和派生自等类型化关系连接成知识图谱。后台反思过程负责合并重复项、链接相关记录、提炼洞察并修剪无关信息。所有数据持久化在一个人类可读的SQLite文件中，支持多Agent共享存储并保留独立所有权。",
-              "在效率优化机制上，NOOA通过引用传递实现了显著的Token节约。工具结果成为直接在代码中组合的实时Python变量，避免了在上下文窗口中作为文本往返。模型仅看到类型化、有界的预览，完整值保留在执行环境中。这使得NOOA无需上下文压缩即可解决复杂任务，转录保持仅追加和缓存有效，预填充缓存命中率在整个任务中复合增长。"
+              "NOOA框架的核心创新在于将Agent简化为单一Python类。在这个设计中，类的方法代表其能力，字段代表其状态，文档字符串（docstrings）作为提示词，而类型注解则作为强制执行的契约。对于标准Python方法，如果其方法体为省略号（...），则在运行时由LLM驱动的循环来完成；而具有正常方法体的代码则作为普通的、确定性的Python代码运行。这种设计使得Agent开发变得与传统软件开发无异，可以被人类和AI编码代理使用现有工具进行差异比对、代码审查、单元测试、追踪、版本控制和重构。",
+              "该架构识别出六个驱动Agent性能的面向模型的接口理念：第一，类型化输入/输出，代理调用具有类型化的参数和经过验证的返回值，而非自由文本；第二，引用传递，模型操作实时的Python对象，查看有界的预览，而不是序列化的数据转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的Python代码来执行动作；第四，可编程循环工程，编排循环是普通的Python代码，可由开发者和模型本身编写；第五，显式对象状态，持久化、类型化的状态存在于代理对象上，而不仅仅是对话历史；第六，模型可调用的Harness API，上下文块和事件历史是模型可以检查和管理API。",
+              "在内存系统方面，NOOA包含一个长期记忆子系统。与自动后台摘要管道不同，内存是一个由代理通过模型可调用工具自主管理的存储区。代理在工作过程中有意地写入、查询和纠正记录，同时与当前回合相关的自发记忆会自动浮现到上下文中。记录携带类型、重要性和标签，并通过“支持”、“矛盾”和“派生自”等类型化关系连接成知识图谱，而非扁平的日志。后台反思过程通过合并重复项、链接相关记录、将情节提炼为洞察以及修剪不再相关的信息来整合存储。所有数据持久化在一个人类可读的SQLite文件中，团队可以使用标准实践进行检查、备份和审查。存储的记忆可以引用实时的代理状态，保持知识更新，且多个代理可以共享一个存储区同时保留独立的所有权。",
+              "在论证效率提升时，文章指出Harness工程不仅能提高准确性，还能提高效率。以SWE-bench Verified为例，NOOA使用GPT-5.5达到82.2%的准确率，仅需29次LLM调用和约110万Token。相比之下，对比Harness需要66次调用和220万Token才能达到78.2%。这种成本减半的机制主要归功于两点：首先，通过引用传递，工具结果成为直接在代码中组合的实时Python变量，而不是作为文本在上下文窗口中往返。模型看到的是类型化、有界的预览，完整值保留在执行环境中。其次，这一特性意味着NOOA在使用前沿模型解决SWE-Bench时不需要上下文压缩（context compaction）。中位数会话的提示词Token峰值仅为2.2万至7.2万，远低于20万至40万的窗口限制。由于工具结果通过引用传递而非序列化到上下文窗口，转录内容在整个会话期间保持仅追加和缓存有效，无需摘要过程，预填充缓存命中在整个任务中复合叠加。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "NOOA的六大能力在多个领域得到了基准测试的验证。在软件工程领域，SWE-bench Verified测试显示，NOOA使用GPT-5.5达到82.2%准确率，超越提交时79.2%的SOTA，使用Opus 4.6达到79.8%。其通用253行Agent无需特定基准提示，仅需29次LLM调用和约1.1M tokens，而对比Harness需要66次调用和2.2M tokens才能达到78.2%，实现了性能提升与成本减半。",
-              "在网络安全领域，CyberGym L1测试中，NOOA使用GPT-5.5解决了86.8%的任务。该测试在网络访问被阻断且无特定安全引导的情况下进行，并辅以基于规则的作弊检查，证明结果源于对代码本身的推理而非查找已披露漏洞。在漏洞发现工作流中，NOOA将确定性检查（如崩溃判定、漏洞匹配、重现验证）和模型推理结合在一个类型化对象中，确保发现仅在代码明确允许时被接受。",
-              "在通用推理领域，ARC-AGI-3测试要求Agent在未知网格游戏中通过行动发现规则。NOOA将包含六个专业Agent的DreamTeam架构精简为单一Agent和45行技能。Agent通过构建Python程序编码观察状态并预测下一状态，每回合进行反事实推理以修正模型。结果显示，GPT-5.5达到50.2%平均RHAE，世界建模技能提升8.5分，记忆子系统提升11.8分；GPT-5.6-sol达到85.1%，且每局游戏成本低于20美元。",
-              "在安全与部署边界方面，系统采用分层沙箱，包括进程内cell guard、OS权限降级、端到端匿名化和内核级沙箱，并配合NVIDIA OpenShell安全运行时部署。红队审计未发现规则泄露。NOOA被明确定位为开源实验表面，而非现有Harness的替代品，其技术文档公开，供任何项目采用、挑战或改进。"
+              "文章提供了跨多个领域的具体证据来支持其方法的有效性。在软件工程领域，NOOA在SWE-bench Verified上使用GPT-5.5达到82.2%，超越了提交时公布的SOTA（79.2%），使用Opus 4.6达到79.8%，且仅使用253行通用代理代码，无特定基准提示词。在网络安全领域，在CyberGym L1上，NOOA使用GPT-5.5解决了86.8%的任务，在阻断网络访问且无特定安全提示的情况下，超越了大多数领先的闭源系统。在通用推理领域，在ARC-AGI-3上，单一NOOA代理使用GPT-5.5达到50.2%的平均RHAE，使用GPT-5.6-sol达到85.1%，且每局成本低于20美元（分别为17.85美元和13.3美元），推进了该基准的分数-成本帕累托前沿。在ARC-AGI-3的测试中，世界建模技能贡献了8.5分的提升，内存子系统贡献了11.8分的提升。",
+              "在安全与部署边界方面，NOOA在ARC-AGI-3的测试中采用了分层沙箱机制，包括进程内cell guard、每次运行的OS权限降级、游戏身份的端到端匿名化以及内核强制的每cell沙箱。红队审计未发现任何规则泄露。对于生产部署，NOOA与NVIDIA OpenShell安全运行时配对。在漏洞发现应用中，NOOA将确定性检查和模型推理放在同一个类型化对象上，通过三个确定性门控（崩溃判定、漏洞匹配、重现检查）确保发现的准确性。",
+              "结论是，NOOA作为开源代理生态系统的研究预览，证明了通过优化Harness架构可以显著提升模型性能并降低成本。它提供了一个透明、类型化、可检查的代理框架。然而，其适用边界在于，NOOA目前被定位为一个开放的实验性表面（experimental surface），而非现有Harness的完全替代品。此外，部分顶尖基准测试结果（如ARC-AGI-3的85.1%）高度依赖于特定的前沿模型（如GPT-5.6-sol），其在较弱模型上的表现边界需进一步验证。"
             ]
           }
         ],
         "keyPoints": [
-          "Agent架构（Harness）设计对性能和成本的影响与底层模型同等重要，NOOA框架将其抽象为单一Python类以支持传统软件工程实践。",
-          "NOOA提出六大核心能力：类型化输入输出、引用传递、代码即动作、可编程循环工程、显式对象状态和模型可调用的Harness API。",
-          "通过引用传递机制，工具结果作为实时Python变量在代码中组合，避免了上下文窗口的文本序列化，大幅降低Token消耗并免除上下文压缩。",
-          "长期记忆子系统由Agent主动管理，记录通过类型化关系构建为知识图谱，并持久化在可检查的SQLite文件中。",
-          "在SWE-bench、CyberGym L1和ARC-AGI-3等基准测试中，NOOA均取得领先成绩，同时实现Token成本减半或单局成本低于20美元。"
+          "Agent外围架构（Harness）的设计与底层模型同等重要，能带来两位数的基准分数波动和显著的Token成本差异。",
+          "NOOA框架将Agent抽象为单一Python类，通过类型注解、文档字符串和引用传递，使Agent开发回归传统软件工程实践。",
+          "六大核心能力包括类型化输入输出、引用传递、代码即动作、可编程循环工程、显式对象状态和模型可调用的Harness API。",
+          "长期内存系统由Agent自主管理，采用知识图谱结构，所有数据持久化于单一人类可读的SQLite文件中。",
+          "借助引用传递机制，工具结果作为实时变量处理，NOOA无需上下文压缩即可将Token消耗降低约一半。"
         ],
         "technicalDetails": [
           {
-            "text": "NOOA将Agent定义为单一Python类，方法体为省略号(...)的标准方法在运行时由LLM驱动循环完成，普通方法体作为确定性Python运行。",
+            "text": "NOOA框架将Agent定义为单一Python类，方法体为省略号(...)的标准方法在运行时由LLM驱动循环完成。",
             "basis": "source"
           },
           {
-            "text": "六大架构能力包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
+            "text": "六大Harness能力包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
             "basis": "source"
           },
           {
-            "text": "长期记忆存储在单一人类可读的SQLite文件中，记录带有类型、重要性、标签，并通过supports, contradicts, derived-from等关系连接成知识图谱。",
+            "text": "在SWE-bench Verified上，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens。",
             "basis": "source"
           },
           {
-            "text": "在SWE-bench Verified上，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens，中位数会话峰值为22-72k prompt tokens。",
+            "text": "在ARC-AGI-3上，GPT-5.6-sol达到85.1% mean RHAE，单局成本约13.3美元，19/25游戏完全解决。",
             "basis": "source"
           },
           {
-            "text": "在ARC-AGI-3中，GPT-5.6-sol fleet达到85.1% mean RHAE，成本约$13.3/game，25个游戏中19个完全解决。",
+            "text": "内存系统使用SQLite存储，记录带有类型、重要性、标签及supports、contradicts等关系，形成知识图谱。",
             "basis": "source"
           },
           {
-            "text": "安全部署采用分层沙箱（in-process cell guard, per-run OS privilege drop, end-to-end anonymization, kernel-enforced per-cell sandbox）并配合NVIDIA OpenShell。",
+            "text": "安全部署采用分层沙箱，包括进程内cell guard、OS权限降级、端到端匿名化和内核强制沙箱，配合NVIDIA OpenShell运行时。",
             "basis": "source"
           },
           {
-            "text": "由于NOOA使用async def定义策略方法并使用type annotations作为强制契约，推断其运行环境需支持Python异步编程及运行时类型检查库。",
+            "text": "由于NOOA依赖Python对象引用传递，其底层执行环境必须支持安全的对象状态隔离，以防止LLM生成的代码意外修改全局状态。",
             "basis": "inference"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "将现有基于提示词和JSON工具的Agent系统重构为面向对象、代码即动作的架构，以降低Token成本并提高可调试性。",
+            "scenario": "构建需要复杂状态管理、长期记忆和严格确定性校验的代码生成或漏洞分析Agent。",
             "steps": [
-              "1. 梳理现有Agent的工具和状态，将其封装为单一Python类的字段（状态）和方法（能力）。",
-              "2. 将自由文本的输入输出重构为强类型的Pydantic或dataclass模型，确保输入输出契约。",
-              "3. 引入引用传递机制，将工具返回的大型数据实例化为内存对象，仅向LLM传递摘要或引用ID。",
-              "4. 将工作流编排逻辑从外部图引擎移入Python类的普通方法中，实现确定性控制流。",
-              "5. 使用SQLite或类似轻量级数据库替换现有的向量数据库，构建带有关系标签的本地知识图谱作为长期记忆。"
+              "1. 将Agent业务逻辑封装为Python类，使用类型注解定义输入输出契约。",
+              "2. 将确定性校验逻辑（如漏洞重现检查）实现为普通Python方法，将需要LLM推理的步骤实现为带省略号(...)的方法。",
+              "3. 引入SQLite作为长期记忆存储，设计包含关系（如支持、矛盾）的知识图谱Schema。",
+              "4. 配置分层沙箱环境，限制Agent执行时的OS权限和网络访问。"
             ],
             "tools": [
-              "Python 3.10+",
-              "Pydantic",
+              "Python",
               "SQLite",
-              "LangChain"
+              "NVIDIA OpenShell",
+              "标准代码审查与单元测试工具"
             ],
             "verification": [
-              "1. 对比重构前后的Token消耗量，验证引用传递是否显著减少了上下文窗口的文本序列化。",
-              "2. 运行现有的单元测试套件，验证确定性方法（普通方法体）的逻辑正确性。",
-              "3. 检查LLM生成的代码是否能正确调用类内方法并处理类型化返回值。",
-              "4. 审查SQLite文件，验证记忆记录的合并、链接和修剪逻辑是否符合预期。"
+              "1. 对确定性方法编写单元测试，确保校验逻辑的绝对正确。",
+              "2. 使用Trace工具检查LLM驱动循环的执行路径和状态变更。",
+              "3. 监控Token消耗和上下文窗口峰值，验证是否成功避免了上下文压缩。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "围绕模型的架构（Harness）",
-          "单一的Python类",
+          "模型周围的Agent Harness架构",
+          "单一Python类",
           "引用传递",
           "代码即动作",
           "上下文压缩",
@@ -1199,25 +1194,29 @@
         ],
         "searchTerms": [
           {
-            "term": "NOOA",
-            "query": "NVIDIA NOOA Object-Oriented Agents"
+            "term": "NVIDIA NOOA",
+            "query": "NVIDIA NOOA framework agent"
+          },
+          {
+            "term": "Agent Harness",
+            "query": "AI agent harness architecture"
           },
           {
             "term": "Pass by reference",
-            "query": "LLM agent pass by reference mechanism"
+            "query": "LLM agent pass by reference"
+          },
+          {
+            "term": "Context compaction",
+            "query": "LLM context compaction token cost"
           },
           {
             "term": "ARC-AGI-3",
-            "query": "ARC-AGI-3 benchmark RHAE"
-          },
-          {
-            "term": "CyberGym L1",
-            "query": "CyberGym L1 vulnerability benchmark"
+            "query": "ARC-AGI-3 benchmark agent"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T02:02:24.595Z",
+      "analyzedAt": "2026-07-29T02:21:56.581Z",
       "model": "qwen3.7-plus"
     },
     {
@@ -1247,39 +1246,44 @@
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Gemini API 托管代理更新：3.6 Flash 默认模型、环境钩子与成本控制",
+      "displayTitle": "Gemini API 托管代理更新：默认 3.6 Flash、环境钩子与成本控制",
       "analysis": {
-        "listSummary": "本文介绍 Gemini API 托管代理的最新更新。默认模型升级为 Gemini 3.6 Flash，并支持显式选择其他模型。新增环境钩子功能，允许在沙箱内拦截、检查或审计工具调用。此外，引入了预算控制、定时触发器、免费层级访问及环境 API，帮助开发者构建可靠、低成本且自动化的生产级代理工作流。适合关注 AI 代理工程化落地的开发者阅读。",
+        "listSummary": "本文介绍了 Gemini API 托管代理的最新更新。核心亮点包括默认升级至 Gemini 3.6 Flash 模型，并新增环境钩子功能，允许开发者在沙箱内对工具调用进行拦截、审计或自动格式化。此外，文章详细说明了预算控制、定时触发器、免费层访问以及环境 API 等新特性。适合需要构建可靠、生产级 AI 代理并关注成本控制与自动化工作流的开发者阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "随着 AI 代理从实验阶段走向生产环境，开发者面临沙箱内工具调用缺乏安全控制、多轮自主循环导致 Token 消耗失控、以及缺乏自动化调度等工程挑战。在早期的托管代理中，虽然已经引入了后台任务和远程 MCP 服务器集成，实现了单次 API 调用协调推理、代码执行、包安装和文件管理，但在真实开发环境中实现可靠、自主且成本可控的运行，仍需更细粒度的执行干预与资源管理能力。特别是当代理执行复杂任务时，如何防止其陷入死循环或消耗过多预算，以及如何在不中断沙箱环境的前提下对代理生成的代码或文件进行自动化质量检查，成为阻碍其大规模落地的核心痛点。"
+              "Google 持续迭代 Gemini API 中的托管代理（Managed Agents）功能，旨在帮助开发者构建可靠且适用于生产环境的 AI 代理。在之前的版本中，官方引入了后台任务和远程 MCP 服务器集成，使得单次 API 调用即可在隔离的云沙箱中协调推理、代码执行、包安装、文件管理和网络检索。",
+              "然而，随着代理自主执行多轮复杂任务，开发者面临着几个关键挑战：首先，缺乏对底层大语言模型的灵活选择与成本控制机制，复杂任务容易导致 Token 预算失控；其次，在远程沙箱环境中，开发者难以对代理的工具调用进行细粒度的安全拦截、代码质量检查或自动化审计，难以满足企业级合规要求；最后，缺乏原生的定时调度能力和沙箱生命周期管理 API，限制了代理在自动化工作流和持续集成场景中的长期稳定运行。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Google 通过多项新能力系统性地解决上述问题。首先，将默认模型升级为 Gemini 3.6 Flash，该模型在推理、编码和工具使用方面表现均衡，同时允许开发者通过 agent_config.model 显式指定模型，例如选择 Gemini 3.5 Flash-Lite 以降低延迟和成本。其次，引入环境钩子（Environment hooks），这是本次更新的核心机制。开发者可以在环境中添加 .agents/hooks.json 配置文件，定义在 pre_tool_execution 或 post_tool_execution 事件触发的自定义脚本或 HTTP 请求。钩子配置支持正则表达式匹配，能够精准拦截特定工具调用或全局捕获。论证中引用了 AI 原生投资银行 OffDeal 的实际案例，详细说明其如何利用 post_tool_execution 钩子在远程沙箱内触发自动化图像验证流水线，对代理生成的公司 Logo 进行像素级质量检查和 Gemini 视觉验证，从而解决了此前因沙箱隔离导致验证代码无处运行的难题。此外，针对资源管理，系统通过 max_total_tokens 参数实现预算控制，达到上限时安全暂停并保留环境状态；通过定时触发器绑定 cron 计划实现无人值守的自动化执行；并提供环境 API 以主动管理沙箱生命周期，避免等待默认的 7 天 TTL。"
+              "为解决上述问题，Google 推出了一系列新特性。在模型层面，antigravity-preview-05-2026 代理默认升级至 Gemini 3.6 Flash，同时支持通过 agent_config.model 显式指定 Gemini 3.5 Flash 或 Flash-Lite 以平衡性能与成本。",
+              "在安全与质量控制方面，引入了环境钩子（Environment hooks）机制。开发者只需在环境中添加 .agents/hooks.json 配置文件，即可在 pre_tool_execution 或 post_tool_execution 阶段执行自定义的 command 或 http 处理器。通过正则表达式匹配，可以精准拦截特定工具调用或对所有调用进行后置审计。",
+              "在成本与自动化控制方面，新增了 max_total_tokens 预算控制参数，防止任务 runaway；同时引入定时触发器（Scheduled triggers），将代理、环境、提示词和 Cron 计划绑定为持久化资源，实现无人值守运行。此外，Environments API 的发布使得开发者能够通过代码直接列出、检查和删除沙箱会话，优化资源清理。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文提供了具体的 JSON 配置示例和 TypeScript SDK 代码，证明了环境钩子支持正则表达式匹配、命令执行及 HTTP 外部端点调用，且具备超时控制机制。当钩子脚本返回拒绝决策时，工具调用会被跳过，拒绝原因会注入模型上下文。预算控制的证据在于，达到 Token 上限时交互返回 incomplete 状态，并支持通过传递 previous_interaction_id 和新的预算来恢复执行。结论是这些更新使托管代理转变为成本可控、可调度的自主工作者，无需外部编排即可在真实开发环境中运行。适用边界方面，环境钩子的执行依赖于沙箱内的运行环境，若脚本执行失败或超时，需遵循特定的失败处理语义；预算控制仅限制总 Token 消耗，不限制单次执行时间；定时触发器复用同一沙箱意味着文件状态会跨执行持久化，开发者需利用环境 API 主动清理沙箱以防止状态污染。"
+              "原文通过具体的代码示例和真实企业案例论证了新特性的有效性。例如，AI 原生投资银行 Offdeal 利用 post_tool_execution 钩子，在远程沙箱内自动触发图像验证流水线，对生成的公司 Logo 进行像素级质量检查和视觉验证，解决了此前验证代码无处运行的痛点。",
+              "结论表明，这些更新将托管代理转变为成本可控、可调度的自主工作者，无需外部编排即可在真实开发环境中运行。",
+              "然而，这些功能也存在明确的适用边界：预算控制达到上限时，任务会安全暂停并返回 incomplete 状态，必须通过传入 previous_interaction_id 并分配新预算才能继续执行；定时触发器在每次运行时复用同一沙箱，这意味着文件状态会跨执行持久化，开发者需注意上下文污染问题；此外，环境钩子的 command 类型受限于沙箱内的执行环境，需确保相关脚本和依赖已正确部署，且 http 类型需处理外部端点的网络延迟与失败语义。"
             ]
           }
         ],
         "keyPoints": [
-          "默认模型升级为 Gemini 3.6 Flash，支持通过配置显式切换至 3.5 Flash 或 Flash-Lite。",
-          "环境钩子允许在工具调用前后执行自定义脚本或 HTTP 请求，实现安全拦截与代码审计。",
-          "预算控制通过限制总 Token 数防止任务失控，达到上限时暂停并保留环境状态以便恢复。",
-          "定时触发器支持绑定 cron 计划，实现代理任务的自动化调度与沙箱状态持久化。",
-          "免费层级开放托管代理访问，环境 API 提供沙箱生命周期的主动管理能力。"
+          "Gemini API 托管代理默认模型已升级为 Gemini 3.6 Flash，并支持显式指定 3.5 Flash 或 3.5 Flash-Lite。",
+          "新增环境钩子（Environment hooks），支持在沙箱内通过正则匹配拦截或审计工具调用（pre/post_tool_execution）。",
+          "引入预算控制机制，通过 max_total_tokens 限制 Token 消耗，超限后任务暂停并保留环境状态。",
+          "支持定时触发器（Scheduled triggers），可绑定 Cron 计划实现代理任务的自动化周期执行。",
+          "提供 Environments API，允许开发者通过代码列出、检查和删除沙箱会话，优化资源清理。"
         ],
         "technicalDetails": [
           {
-            "text": "默认代理 antigravity-preview-05-2026 运行 Gemini 3.6 Flash，支持通过 agent_config.model 指定 gemini-3.5-flash-lite。",
+            "text": "默认模型为 gemini-3.6-flash，可通过 agent_config.model 指定 gemini-3.5-flash 或 gemini-3.5-flash-lite。",
             "basis": "source"
           },
           {
@@ -1287,76 +1291,522 @@
             "basis": "source"
           },
           {
-            "text": "钩子脚本返回 {\"decision\": \"deny\", \"reason\": \"...\"} 时，工具调用被跳过，拒绝原因传入模型上下文。",
+            "text": "钩子类型支持 command（执行本地命令）和 http（POST 到外部端点），command 类型可设置 timeout。",
             "basis": "source"
           },
           {
-            "text": "预算控制通过 agent_config.max_total_tokens 设置，达到限制时返回 status: \"incomplete\"，可通过 previous_interaction_id 恢复。",
+            "text": "预算控制通过 agent_config.max_total_tokens 设置，达到限制时返回 status: 'incomplete'，可通过 previous_interaction_id 继续。",
             "basis": "source"
           },
           {
-            "text": "定时触发器复用同一沙箱，文件状态跨执行持久化；环境 API 可用于清理沙箱，替代默认的 7 天 TTL。",
+            "text": "定时触发器将 agent、environment、prompt 和 cron schedule 绑定为持久化资源。",
             "basis": "source"
           },
           {
-            "text": "钩子支持 command 和 http 类型，http 类型可直接 POST 到外部端点，需配置 timeout 参数。",
+            "text": "Environments API 可用于管理沙箱会话，替代默认的 7 天 TTL 清理机制。",
             "basis": "source"
           },
           {
-            "text": "在沙箱内执行钩子脚本需要确保沙箱环境包含所需的运行时（如 python3），否则可能导致执行失败。",
-            "basis": "inference"
+            "text": "使用 npx skills add google-gemini/gemini-skills --skill gemini-interactions-api 可为 AI 编码助手添加 Interactions API 技能。",
+            "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在 CI/CD 流水线或自动化代码审查系统中集成 Gemini 托管代理，利用环境钩子实现代码生成后的自动化安全扫描与格式化。",
+            "scenario": "在 CI/CD 流水线或自动化代码审查中，使用 Gemini 托管代理进行依赖审计和代码格式化，并严格控制 Token 成本（此为延伸建议，非作者原文观点）。",
             "steps": [
-              "1. 在项目中创建 .agents/hooks.json 文件，配置 post_tool_execution 钩子。",
-              "2. 编写 Python 或 Node.js 脚本，用于解析代理生成的代码文件并执行 Lint 或安全漏洞扫描。",
-              "3. 将脚本路径配置到钩子的 command 字段中，并设置合理的 timeout。",
-              "4. 使用 max_total_tokens 限制单次代理任务的 Token 消耗，防止复杂代码库分析导致预算超支。",
-              "5. 通过 Environments API 在任务完成后主动删除沙箱，释放资源。"
+              "1. 配置 .agents/hooks.json，设置 post_tool_execution 钩子调用 auto_lint.py 进行代码风格检查。",
+              "2. 在创建 interaction 时，设置 agent_config.max_total_tokens 为合理阈值（如 10000）。",
+              "3. 编写重试逻辑，当 interaction 返回 status 为 incomplete 时，提取 previous_interaction_id 并分配新预算继续执行。",
+              "4. 任务完成后，调用 Environments API 删除沙箱以释放资源。"
             ],
             "tools": [
-              "Gemini Interactions API",
               "@google/genai SDK",
-              "Python/Node.js 自定义脚本",
-              "Environments API"
+              "Python 脚本 (gate.py/auto_lint.py)",
+              "Cron 调度器"
             ],
             "verification": [
-              "1. 检查代理生成的代码是否通过了钩子脚本的 Lint 检查，未通过则确认工具调用是否被正确拦截或记录。",
-              "2. 验证当 Token 消耗达到 max_total_tokens 时，API 是否正确返回 incomplete 状态。",
-              "3. 确认通过 previous_interaction_id 恢复任务后，代理能否从暂停点继续执行。"
+              "检查 interaction 输出是否包含预期的代码修改。",
+              "验证 Token 消耗是否未超过 max_total_tokens 限制。",
+              "确认沙箱在任务结束后被成功删除。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "环境钩子",
-          "预算控制",
-          "定时触发器",
-          "安全暂停",
-          "像素级质量检查",
-          "状态污染"
+          "Gemini 3.6 Flash",
+          "environment hooks",
+          "max_total_tokens",
+          "previous_interaction_id",
+          "Environments API",
+          "post_tool_execution"
         ],
         "searchTerms": [
           {
-            "term": "Environment hooks",
-            "query": "Gemini API environment hooks 配置"
-          },
-          {
             "term": "Gemini 3.6 Flash",
-            "query": "Gemini 3.6 Flash 模型能力"
+            "query": "Gemini 3.6 Flash model"
           },
           {
-            "term": "max_total_tokens",
-            "query": "Gemini API max_total_tokens 预算控制"
+            "term": "environment hooks",
+            "query": "Gemini API environment hooks"
+          },
+          {
+            "term": "Interactions API",
+            "query": "Gemini Interactions API"
+          },
+          {
+            "term": "Environments API",
+            "query": "Gemini Environments API"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T02:04:03.427Z",
+      "analyzedAt": "2026-07-29T02:23:34.286Z",
+      "model": "qwen3.7-plus"
+    }
+  ],
+  "study": [
+    {
+      "id": "f15f29c5f3561ef5",
+      "title": "LFM2.5-Encoders for Fast Long-Context Inference on CPU",
+      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-encoders",
+      "summary": "",
+      "publishedAt": "2026-07-28T15:01:45.000Z",
+      "sourceId": "huggingface",
+      "sourceName": "Hugging Face Blog",
+      "sourceSite": "https://huggingface.co/blog",
+      "lane": "ai",
+      "accent": "#ff9d00",
+      "topic": "开发实践",
+      "score": 78,
+      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+      "readMinutes": 11,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "0db13679ba8c18b1a288f305",
+      "extraction": {
+        "method": "readability",
+        "length": 7653,
+        "originalLength": 7653,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "LFM2.5-Encoders：面向CPU的长上下文快速推理通用编码器",
+      "analysis": {
+        "listSummary": "本文介绍 Liquid AI 发布的 LFM2.5-Encoder-230M 和 350M 通用编码器。模型基于 LFM2 架构，支持 8192 token 上下文，在多项基准测试中媲美更大模型。其核心优势在于 CPU 长文本推理速度，比 ModernBERT-base 快约 3.7 倍。文章详述了双向改造方法、两阶段训练策略、性能基准及 API 调用，适合需在 CPU 环境低成本处理长文本分类、路由和检测任务的开发者。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "现代 NLP 生产应用（如分类器、意图路由、安全过滤器）通常需要全天候运行，且输入文本越来越长，这些任务大多在 CPU 上执行以控制硬件成本。现有的 BERT 和 ModernBERT 等模型在长上下文下的推理成本会随输入长度增加而显著上升，导致处理长文档时延迟不可接受。此前 Liquid AI 发布了专注于多语言搜索的 LFM2.5-Retrievers，但搜索只是编码器赋能的众多功能之一，这也是作者选择构建通用模型而非直接复用检索器的原因。为了满足更广泛的通用任务需求，并在长输入下保持成本缓慢增长，作者需要构建一个通用的、在 CPU 上具备长上下文快速推理能力的编码器模型，以替代昂贵的生成式大模型，从而在普通硬件上实现文档级任务的实时处理。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "作者从 LFM2 解码器骨干（230M 和 350M 参数）初始化，通过三项关键改造将其转为双向编码器：采用双向注意力掩码使每个 token 能看到两侧上下文；使用对称填充的非因果短卷积混合两侧邻居信息；在训练时掩码 30% 的 token 进行掩码语言建模。训练分为两阶段：首先在 1024 token 上下文的大型 Web 语料库上训练通用语言能力，随后在完整数据混合集上进行长上下文适应，将上下文扩展至 8192 token，以增强事实、法律和多语言能力。",
+              "在论证方面，作者通过 14 个模型在 17 个任务（GLUE、SuperGLUE 等）上的全参数微调结果证明其质量，所有分数均基于 5 个保留种子的平均值以确保稳定性。同时对比了 CPU 和 GPU 上的推理吞吐量，验证了其在长上下文下的速度优势。此外，作者还构建了多个演示应用，如零样本提示路由、策略检查、拼写检查、PII 检测以及掩码扩散文本生成，直观展示了模型在实际场景中的泛化能力与执行效率。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "证据表明，LFM2.5-Encoder-350M 在 14 个模型中排名第四，超越了参数量近 10 倍的 3.5B 模型；230M 版本击败了 ModernBERT-base 和所有 EuroBERT 模型。在 CPU 推理速度上，处理 8192 token 时，ModernBERT-base 的前向传播耗时超过 90 秒，而 LFM2.5-Encoder-230M 仅需约 28 秒，速度提升约 3.7 倍，且吞吐量随长度增加下降平缓。这意味着开发者可以在笔记本 CPU 上于 30 秒内扫描完整合同或长支持工单。在 Apple GPU 上，2K token 以上时 LFM2.5 也取得领先。",
+              "结论是，LFM2.5-Encoders 能够在不牺牲质量的前提下，在现有 CPU 硬件上廉价且快速地处理文档级任务。对于开发者而言，350M 版本适合对准确率要求极高的场景，而 230M 版本则更适合硬件受限或需要极高吞吐量的环境。边界在于，该模型主要适用于高吞吐量的理解任务，对于需要自回归生成的任务仍需使用生成式 LLM；在极短输入（1K token 以下）的特定 GPU 环境下，ModernBERT 仍具速度优势；且模型需开发者自行附加任务头微调，并非开箱即用的端到端工具。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "LFM2.5-Encoders (230M/350M) 是支持 8192 token 上下文的通用双向编码器。",
+          "模型由 LFM2 因果解码器改造而来，引入双向注意力、对称短卷积和 30% 掩码语言建模。",
+          "在 CPU 处理 8192 token 长文本时，推理速度比 ModernBERT-base 快约 3.7 倍。",
+          "采用两阶段训练：先进行 1024 token 短上下文通用预训练，再扩展至 8192 token 长上下文适应。",
+          "适用于意图路由、策略检查、PII 检测等需要全天候在 CPU 上低成本运行的高吞吐量理解任务。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "模型参数量分为 230M 和 350M 两个版本，支持最大 8192 token 的上下文长度。",
+            "basis": "source"
+          },
+          {
+            "text": "通过双向注意力掩码、对称填充的非因果短卷积以及 30% 掩码比例的语言建模目标，将因果解码器转换为双向编码器。",
+            "basis": "source"
+          },
+          {
+            "text": "在 CPU 上处理 8192 token 输入时，LFM2.5-Encoder-230M 的前向传播耗时约 28 秒，而 ModernBERT-base 耗时超过 90 秒。",
+            "basis": "source"
+          },
+          {
+            "text": "使用 Hugging Face transformers 库加载模型时，需设置 trust_remote_code=True 以支持自定义代码。",
+            "basis": "source"
+          },
+          {
+            "text": "在支持 Flash Attention 2 的 GPU 环境下，可通过 pip install flash-attn 安装并启用以获得最高推理效率。",
+            "basis": "source"
+          },
+          {
+            "text": "对于下游任务，需使用 AutoModel 加载编码器主体，并自行附加分类、token 分类或回归等任务头进行微调。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在资源受限的 CPU 服务器上部署长文本合规性检查或 PII 脱敏服务。",
+            "steps": [
+              "1. 使用 AutoModel 加载 LFM2.5-Encoder-230M 基础权重",
+              "2. 在模型顶部添加针对特定合规规则或 PII 实体的线性分类头",
+              "3. 使用长文本数据集进行全参数微调，设置最大序列长度为 8192",
+              "4. 导出为 ONNX 或 TensorRT 格式以进一步优化 CPU 推理延迟"
+            ],
+            "tools": [
+              "Hugging Face Transformers",
+              "PyTorch",
+              "ONNX Runtime",
+              "Optimum"
+            ],
+            "verification": [
+              "对比微调前后在验证集上的 F1 分数和准确率",
+              "使用基准测试工具测量单条 8192 token 文本在目标 CPU 上的推理延迟",
+              "进行压力测试验证高并发下的 CPU 吞吐量和内存占用"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "双向注意力掩码",
+          "非因果短卷积",
+          "掩码语言建模",
+          "长上下文适应",
+          "推理吞吐量",
+          "前向传播"
+        ],
+        "searchTerms": [
+          {
+            "term": "LFM2.5-Encoder",
+            "query": "LFM2.5-Encoder Liquid AI"
+          },
+          {
+            "term": "ModernBERT",
+            "query": "ModernBERT base long context inference"
+          },
+          {
+            "term": "双向注意力掩码",
+            "query": "bidirectional attention mask encoder"
+          },
+          {
+            "term": "掩码语言建模",
+            "query": "masked language modeling pre-training"
+          },
+          {
+            "term": "Flash Attention 2",
+            "query": "Flash Attention 2 transformers GPU"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-29T02:19:17.002Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "6a4d7adf06c505e0",
+      "title": "Six Agent Harness Capabilities for Higher Model Performance",
+      "url": "https://developer.nvidia.com/blog/six-agent-harness-capabilities-for-higher-model-performance/",
+      "summary": "Building a great AI agent isn’t just about choosing the right models. The harness is the architecture surrounding the model. How it renders context, executes...",
+      "publishedAt": "2026-07-27T09:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 71,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 16,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "34ba015ac0a78c6b2bea445b",
+      "extraction": {
+        "method": "readability",
+        "length": 11367,
+        "originalLength": 11367,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "NVIDIA NOOA框架：通过六大Agent Harness能力提升模型性能",
+      "analysis": {
+        "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出构建优秀AI Agent不仅依赖模型，更取决于外围Agent Harness架构。文章解析了将Agent抽象为单一Python类的设计，及类型化I/O、引用传递等六大能力。通过展示其在SWE-bench、ARC-AGI-3等测试中实现SOTA性能并大幅降低Token成本的证据，论证了该架构的有效性。适合关注大模型Agent工程化落地与架构设计的开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建卓越的人工智能代理（Agent）并非仅仅取决于选择正确的底层大语言模型。模型周围的Agent Harness架构，在决定最终结果方面发挥着同等重要的作用。Harness负责渲染上下文、执行动作、管理状态以及判定任务何时完成。研究表明，仅Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。",
+              "传统的Agent开发过程通常涉及协调多个移动部件，包括提示词模板、工具模式（tool schemas）、回调代码和工作流图。这种碎片化的开发方式增加了系统的复杂性，使得Agent难以像传统软件一样进行版本控制、代码审查和单元测试。为了解决这一问题，NVIDIA推出了NVIDIA NOOA框架。这是一个开源的研究预览版，旨在通过面向对象的方法简化Agent开发，使其回归传统的软件工程实践。NOOA提供了Python框架、内存系统、能力测试以及基准代理，并公开了代码、数据和评估方法，以便社区能够复现、挑战并在此基础上进行构建。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "NOOA框架的核心创新在于将Agent简化为单一Python类。在这个设计中，类的方法代表其能力，字段代表其状态，文档字符串（docstrings）作为提示词，而类型注解则作为强制执行的契约。对于标准Python方法，如果其方法体为省略号（...），则在运行时由LLM驱动的循环来完成；而具有正常方法体的代码则作为普通的、确定性的Python代码运行。这种设计使得Agent开发变得与传统软件开发无异，可以被人类和AI编码代理使用现有工具进行差异比对、代码审查、单元测试、追踪、版本控制和重构。",
+              "该架构识别出六个驱动Agent性能的面向模型的接口理念：第一，类型化输入/输出，代理调用具有类型化的参数和经过验证的返回值，而非自由文本；第二，引用传递，模型操作实时的Python对象，查看有界的预览，而不是序列化的数据转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的Python代码来执行动作；第四，可编程循环工程，编排循环是普通的Python代码，可由开发者和模型本身编写；第五，显式对象状态，持久化、类型化的状态存在于代理对象上，而不仅仅是对话历史；第六，模型可调用的Harness API，上下文块和事件历史是模型可以检查和管理API。",
+              "在内存系统方面，NOOA包含一个长期记忆子系统。与自动后台摘要管道不同，内存是一个由代理通过模型可调用工具自主管理的存储区。代理在工作过程中有意地写入、查询和纠正记录，同时与当前回合相关的自发记忆会自动浮现到上下文中。记录携带类型、重要性和标签，并通过“支持”、“矛盾”和“派生自”等类型化关系连接成知识图谱，而非扁平的日志。后台反思过程通过合并重复项、链接相关记录、将情节提炼为洞察以及修剪不再相关的信息来整合存储。所有数据持久化在一个人类可读的SQLite文件中，团队可以使用标准实践进行检查、备份和审查。存储的记忆可以引用实时的代理状态，保持知识更新，且多个代理可以共享一个存储区同时保留独立的所有权。",
+              "在论证效率提升时，文章指出Harness工程不仅能提高准确性，还能提高效率。以SWE-bench Verified为例，NOOA使用GPT-5.5达到82.2%的准确率，仅需29次LLM调用和约110万Token。相比之下，对比Harness需要66次调用和220万Token才能达到78.2%。这种成本减半的机制主要归功于两点：首先，通过引用传递，工具结果成为直接在代码中组合的实时Python变量，而不是作为文本在上下文窗口中往返。模型看到的是类型化、有界的预览，完整值保留在执行环境中。其次，这一特性意味着NOOA在使用前沿模型解决SWE-Bench时不需要上下文压缩（context compaction）。中位数会话的提示词Token峰值仅为2.2万至7.2万，远低于20万至40万的窗口限制。由于工具结果通过引用传递而非序列化到上下文窗口，转录内容在整个会话期间保持仅追加和缓存有效，无需摘要过程，预填充缓存命中在整个任务中复合叠加。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提供了跨多个领域的具体证据来支持其方法的有效性。在软件工程领域，NOOA在SWE-bench Verified上使用GPT-5.5达到82.2%，超越了提交时公布的SOTA（79.2%），使用Opus 4.6达到79.8%，且仅使用253行通用代理代码，无特定基准提示词。在网络安全领域，在CyberGym L1上，NOOA使用GPT-5.5解决了86.8%的任务，在阻断网络访问且无特定安全提示的情况下，超越了大多数领先的闭源系统。在通用推理领域，在ARC-AGI-3上，单一NOOA代理使用GPT-5.5达到50.2%的平均RHAE，使用GPT-5.6-sol达到85.1%，且每局成本低于20美元（分别为17.85美元和13.3美元），推进了该基准的分数-成本帕累托前沿。在ARC-AGI-3的测试中，世界建模技能贡献了8.5分的提升，内存子系统贡献了11.8分的提升。",
+              "在安全与部署边界方面，NOOA在ARC-AGI-3的测试中采用了分层沙箱机制，包括进程内cell guard、每次运行的OS权限降级、游戏身份的端到端匿名化以及内核强制的每cell沙箱。红队审计未发现任何规则泄露。对于生产部署，NOOA与NVIDIA OpenShell安全运行时配对。在漏洞发现应用中，NOOA将确定性检查和模型推理放在同一个类型化对象上，通过三个确定性门控（崩溃判定、漏洞匹配、重现检查）确保发现的准确性。",
+              "结论是，NOOA作为开源代理生态系统的研究预览，证明了通过优化Harness架构可以显著提升模型性能并降低成本。它提供了一个透明、类型化、可检查的代理框架。然而，其适用边界在于，NOOA目前被定位为一个开放的实验性表面（experimental surface），而非现有Harness的完全替代品。此外，部分顶尖基准测试结果（如ARC-AGI-3的85.1%）高度依赖于特定的前沿模型（如GPT-5.6-sol），其在较弱模型上的表现边界需进一步验证。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Agent外围架构（Harness）的设计与底层模型同等重要，能带来两位数的基准分数波动和显著的Token成本差异。",
+          "NOOA框架将Agent抽象为单一Python类，通过类型注解、文档字符串和引用传递，使Agent开发回归传统软件工程实践。",
+          "六大核心能力包括类型化输入输出、引用传递、代码即动作、可编程循环工程、显式对象状态和模型可调用的Harness API。",
+          "长期内存系统由Agent自主管理，采用知识图谱结构，所有数据持久化于单一人类可读的SQLite文件中。",
+          "借助引用传递机制，工具结果作为实时变量处理，NOOA无需上下文压缩即可将Token消耗降低约一半。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "NOOA框架将Agent定义为单一Python类，方法体为省略号(...)的标准方法在运行时由LLM驱动循环完成。",
+            "basis": "source"
+          },
+          {
+            "text": "六大Harness能力包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
+            "basis": "source"
+          },
+          {
+            "text": "在SWE-bench Verified上，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens。",
+            "basis": "source"
+          },
+          {
+            "text": "在ARC-AGI-3上，GPT-5.6-sol达到85.1% mean RHAE，单局成本约13.3美元，19/25游戏完全解决。",
+            "basis": "source"
+          },
+          {
+            "text": "内存系统使用SQLite存储，记录带有类型、重要性、标签及supports、contradicts等关系，形成知识图谱。",
+            "basis": "source"
+          },
+          {
+            "text": "安全部署采用分层沙箱，包括进程内cell guard、OS权限降级、端到端匿名化和内核强制沙箱，配合NVIDIA OpenShell运行时。",
+            "basis": "source"
+          },
+          {
+            "text": "由于NOOA依赖Python对象引用传递，其底层执行环境必须支持安全的对象状态隔离，以防止LLM生成的代码意外修改全局状态。",
+            "basis": "inference"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "构建需要复杂状态管理、长期记忆和严格确定性校验的代码生成或漏洞分析Agent。",
+            "steps": [
+              "1. 将Agent业务逻辑封装为Python类，使用类型注解定义输入输出契约。",
+              "2. 将确定性校验逻辑（如漏洞重现检查）实现为普通Python方法，将需要LLM推理的步骤实现为带省略号(...)的方法。",
+              "3. 引入SQLite作为长期记忆存储，设计包含关系（如支持、矛盾）的知识图谱Schema。",
+              "4. 配置分层沙箱环境，限制Agent执行时的OS权限和网络访问。"
+            ],
+            "tools": [
+              "Python",
+              "SQLite",
+              "NVIDIA OpenShell",
+              "标准代码审查与单元测试工具"
+            ],
+            "verification": [
+              "1. 对确定性方法编写单元测试，确保校验逻辑的绝对正确。",
+              "2. 使用Trace工具检查LLM驱动循环的执行路径和状态变更。",
+              "3. 监控Token消耗和上下文窗口峰值，验证是否成功避免了上下文压缩。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "模型周围的Agent Harness架构",
+          "单一Python类",
+          "引用传递",
+          "代码即动作",
+          "上下文压缩",
+          "分层沙箱"
+        ],
+        "searchTerms": [
+          {
+            "term": "NVIDIA NOOA",
+            "query": "NVIDIA NOOA framework agent"
+          },
+          {
+            "term": "Agent Harness",
+            "query": "AI agent harness architecture"
+          },
+          {
+            "term": "Pass by reference",
+            "query": "LLM agent pass by reference"
+          },
+          {
+            "term": "Context compaction",
+            "query": "LLM context compaction token cost"
+          },
+          {
+            "term": "ARC-AGI-3",
+            "query": "ARC-AGI-3 benchmark agent"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-29T02:21:56.581Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "65123164fe41bd47",
+      "title": "Gemini API Managed Agents: 3.6 Flash, hooks, and more",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api-3-6-flash-hooks/",
+      "summary": "We’re announcing even more new capabilities in Managed Agents in Gemini API so developers can build reliable, production-ready agents.",
+      "publishedAt": "2026-07-28T16:00:00.000Z",
+      "sourceId": "google-ai",
+      "sourceName": "Google AI",
+      "sourceSite": "https://blog.google/technology/ai/",
+      "lane": "ai",
+      "accent": "#4285f4",
+      "topic": "Agent 与自动化",
+      "score": 79,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 10,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "093ead1e192214101fc01111",
+      "extraction": {
+        "method": "readability",
+        "length": 6783,
+        "originalLength": 6783,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Gemini API 托管代理更新：默认 3.6 Flash、环境钩子与成本控制",
+      "analysis": {
+        "listSummary": "本文介绍了 Gemini API 托管代理的最新更新。核心亮点包括默认升级至 Gemini 3.6 Flash 模型，并新增环境钩子功能，允许开发者在沙箱内对工具调用进行拦截、审计或自动格式化。此外，文章详细说明了预算控制、定时触发器、免费层访问以及环境 API 等新特性。适合需要构建可靠、生产级 AI 代理并关注成本控制与自动化工作流的开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "Google 持续迭代 Gemini API 中的托管代理（Managed Agents）功能，旨在帮助开发者构建可靠且适用于生产环境的 AI 代理。在之前的版本中，官方引入了后台任务和远程 MCP 服务器集成，使得单次 API 调用即可在隔离的云沙箱中协调推理、代码执行、包安装、文件管理和网络检索。",
+              "然而，随着代理自主执行多轮复杂任务，开发者面临着几个关键挑战：首先，缺乏对底层大语言模型的灵活选择与成本控制机制，复杂任务容易导致 Token 预算失控；其次，在远程沙箱环境中，开发者难以对代理的工具调用进行细粒度的安全拦截、代码质量检查或自动化审计，难以满足企业级合规要求；最后，缺乏原生的定时调度能力和沙箱生命周期管理 API，限制了代理在自动化工作流和持续集成场景中的长期稳定运行。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "为解决上述问题，Google 推出了一系列新特性。在模型层面，antigravity-preview-05-2026 代理默认升级至 Gemini 3.6 Flash，同时支持通过 agent_config.model 显式指定 Gemini 3.5 Flash 或 Flash-Lite 以平衡性能与成本。",
+              "在安全与质量控制方面，引入了环境钩子（Environment hooks）机制。开发者只需在环境中添加 .agents/hooks.json 配置文件，即可在 pre_tool_execution 或 post_tool_execution 阶段执行自定义的 command 或 http 处理器。通过正则表达式匹配，可以精准拦截特定工具调用或对所有调用进行后置审计。",
+              "在成本与自动化控制方面，新增了 max_total_tokens 预算控制参数，防止任务 runaway；同时引入定时触发器（Scheduled triggers），将代理、环境、提示词和 Cron 计划绑定为持久化资源，实现无人值守运行。此外，Environments API 的发布使得开发者能够通过代码直接列出、检查和删除沙箱会话，优化资源清理。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文通过具体的代码示例和真实企业案例论证了新特性的有效性。例如，AI 原生投资银行 Offdeal 利用 post_tool_execution 钩子，在远程沙箱内自动触发图像验证流水线，对生成的公司 Logo 进行像素级质量检查和视觉验证，解决了此前验证代码无处运行的痛点。",
+              "结论表明，这些更新将托管代理转变为成本可控、可调度的自主工作者，无需外部编排即可在真实开发环境中运行。",
+              "然而，这些功能也存在明确的适用边界：预算控制达到上限时，任务会安全暂停并返回 incomplete 状态，必须通过传入 previous_interaction_id 并分配新预算才能继续执行；定时触发器在每次运行时复用同一沙箱，这意味着文件状态会跨执行持久化，开发者需注意上下文污染问题；此外，环境钩子的 command 类型受限于沙箱内的执行环境，需确保相关脚本和依赖已正确部署，且 http 类型需处理外部端点的网络延迟与失败语义。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Gemini API 托管代理默认模型已升级为 Gemini 3.6 Flash，并支持显式指定 3.5 Flash 或 3.5 Flash-Lite。",
+          "新增环境钩子（Environment hooks），支持在沙箱内通过正则匹配拦截或审计工具调用（pre/post_tool_execution）。",
+          "引入预算控制机制，通过 max_total_tokens 限制 Token 消耗，超限后任务暂停并保留环境状态。",
+          "支持定时触发器（Scheduled triggers），可绑定 Cron 计划实现代理任务的自动化周期执行。",
+          "提供 Environments API，允许开发者通过代码列出、检查和删除沙箱会话，优化资源清理。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "默认模型为 gemini-3.6-flash，可通过 agent_config.model 指定 gemini-3.5-flash 或 gemini-3.5-flash-lite。",
+            "basis": "source"
+          },
+          {
+            "text": "环境钩子通过 .agents/hooks.json 配置，支持 pre_tool_execution 和 post_tool_execution 事件，matcher 字段支持正则表达式。",
+            "basis": "source"
+          },
+          {
+            "text": "钩子类型支持 command（执行本地命令）和 http（POST 到外部端点），command 类型可设置 timeout。",
+            "basis": "source"
+          },
+          {
+            "text": "预算控制通过 agent_config.max_total_tokens 设置，达到限制时返回 status: 'incomplete'，可通过 previous_interaction_id 继续。",
+            "basis": "source"
+          },
+          {
+            "text": "定时触发器将 agent、environment、prompt 和 cron schedule 绑定为持久化资源。",
+            "basis": "source"
+          },
+          {
+            "text": "Environments API 可用于管理沙箱会话，替代默认的 7 天 TTL 清理机制。",
+            "basis": "source"
+          },
+          {
+            "text": "使用 npx skills add google-gemini/gemini-skills --skill gemini-interactions-api 可为 AI 编码助手添加 Interactions API 技能。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在 CI/CD 流水线或自动化代码审查中，使用 Gemini 托管代理进行依赖审计和代码格式化，并严格控制 Token 成本（此为延伸建议，非作者原文观点）。",
+            "steps": [
+              "1. 配置 .agents/hooks.json，设置 post_tool_execution 钩子调用 auto_lint.py 进行代码风格检查。",
+              "2. 在创建 interaction 时，设置 agent_config.max_total_tokens 为合理阈值（如 10000）。",
+              "3. 编写重试逻辑，当 interaction 返回 status 为 incomplete 时，提取 previous_interaction_id 并分配新预算继续执行。",
+              "4. 任务完成后，调用 Environments API 删除沙箱以释放资源。"
+            ],
+            "tools": [
+              "@google/genai SDK",
+              "Python 脚本 (gate.py/auto_lint.py)",
+              "Cron 调度器"
+            ],
+            "verification": [
+              "检查 interaction 输出是否包含预期的代码修改。",
+              "验证 Token 消耗是否未超过 max_total_tokens 限制。",
+              "确认沙箱在任务结束后被成功删除。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Gemini 3.6 Flash",
+          "environment hooks",
+          "max_total_tokens",
+          "previous_interaction_id",
+          "Environments API",
+          "post_tool_execution"
+        ],
+        "searchTerms": [
+          {
+            "term": "Gemini 3.6 Flash",
+            "query": "Gemini 3.6 Flash model"
+          },
+          {
+            "term": "environment hooks",
+            "query": "Gemini API environment hooks"
+          },
+          {
+            "term": "Interactions API",
+            "query": "Gemini Interactions API"
+          },
+          {
+            "term": "Environments API",
+            "query": "Gemini Environments API"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-29T02:23:34.286Z",
       "model": "qwen3.7-plus"
     }
   ],
@@ -1380,7 +1830,7 @@
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 92,
+        "candidateScore": 91,
         "bodyHash": "0db13679ba8c18b1a288f305",
         "extraction": {
           "method": "readability",
@@ -1389,89 +1839,83 @@
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LFM2.5-Encoder：面向CPU的长上下文快速推理通用编码器",
+        "displayTitle": "LFM2.5-Encoders：面向CPU的长上下文快速推理通用编码器",
         "analysis": {
-          "listSummary": "本文介绍Liquid AI发布的LFM2.5-Encoder-230M和350M通用编码器。它们基于LFM2架构，支持8192 token上下文，在GLUE等测试中媲美更大模型，且在CPU上处理长文本时速度远超ModernBERT。文章解析了双向注意力机制与两阶段训练方法，并提供运行与微调代码，适合需低成本、高吞吐量长文本处理的开发者阅读。",
+          "listSummary": "本文介绍 Liquid AI 发布的 LFM2.5-Encoder-230M 和 350M 通用编码器。模型基于 LFM2 架构，支持 8192 token 上下文，在多项基准测试中媲美更大模型。其核心优势在于 CPU 长文本推理速度，比 ModernBERT-base 快约 3.7 倍。文章详述了双向改造方法、两阶段训练策略、性能基准及 API 调用，适合需在 CPU 环境低成本处理长文本分类、路由和检测任务的开发者。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "现代NLP生产应用（如分类器、意图路由、安全过滤器）通常需要全天候运行，且处理的输入文本越来越长。这些任务通常在CPU上执行，对成本和延迟有严格要求，且需要处理日益增长的长文本输入。此前，BERT确立了此类模型的基础，近期ModernBERT进一步提升了其准确性、速度和上下文长度。然而，随着输入长度的增加，现有模型的推理成本仍会显著上升。",
-                "此外，虽然Liquid AI此前发布了用于多语言搜索的LFM2.5-Retrievers，但搜索只是编码器能实现的众多功能之一。为了支持分类、token级任务等更广泛的用途，Liquid AI在LFM2架构的基础上，开发了成本随输入增长而缓慢增加的通用编码器模型，以解决长上下文下推理成本高昂的问题。"
+                "现代 NLP 生产应用（如分类器、意图路由、安全过滤器）通常需要全天候运行，且输入文本越来越长，这些任务大多在 CPU 上执行以控制硬件成本。现有的 BERT 和 ModernBERT 等模型在长上下文下的推理成本会随输入长度增加而显著上升，导致处理长文档时延迟不可接受。此前 Liquid AI 发布了专注于多语言搜索的 LFM2.5-Retrievers，但搜索只是编码器赋能的众多功能之一，这也是作者选择构建通用模型而非直接复用检索器的原因。为了满足更广泛的通用任务需求，并在长输入下保持成本缓慢增长，作者需要构建一个通用的、在 CPU 上具备长上下文快速推理能力的编码器模型，以替代昂贵的生成式大模型，从而在普通硬件上实现文档级任务的实时处理。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "LFM2.5-Encoder模型从LFM2解码器骨干网络（230M和350M参数）初始化，并通过几项关键修改将其转化为双向编码器。首先，采用双向注意力掩码，使每个token能够同时看到两侧的上下文。其次，使用非因果短卷积，通过对称填充使卷积混合两侧邻居信息。最后，在训练时掩码30%的token进行掩码语言建模。",
-                "训练分为两个阶段：第一阶段在大型网络语料库上进行1024 token上下文的短上下文掩码语言建模，以获取通用语言能力；第二阶段将上下文扩展至8192 token，在完整数据混合集上训练，以增强事实、法律和多语言能力。作者通过在GLUE、SuperGLUE和多语言分类等17个任务上对14个模型进行全量微调，并报告5个随机种子的平均分，论证了模型的有效性。",
-                "在工程实现上，模型可通过Hugging Face的transformers库直接加载，支持掩码token预测，也允许开发者附加自定义头部进行下游任务微调。若GPU支持，还可使用Flash Attention 2以获得最高效率。此外，作者还构建了多个基于CPU的演示应用，包括零样本提示路由、零样本策略检查、拼写检查、PII检测以及掩码扩散文本生成，以验证其在实际场景中的多功能性。"
+                "作者从 LFM2 解码器骨干（230M 和 350M 参数）初始化，通过三项关键改造将其转为双向编码器：采用双向注意力掩码使每个 token 能看到两侧上下文；使用对称填充的非因果短卷积混合两侧邻居信息；在训练时掩码 30% 的 token 进行掩码语言建模。训练分为两阶段：首先在 1024 token 上下文的大型 Web 语料库上训练通用语言能力，随后在完整数据混合集上进行长上下文适应，将上下文扩展至 8192 token，以增强事实、法律和多语言能力。",
+                "在论证方面，作者通过 14 个模型在 17 个任务（GLUE、SuperGLUE 等）上的全参数微调结果证明其质量，所有分数均基于 5 个保留种子的平均值以确保稳定性。同时对比了 CPU 和 GPU 上的推理吞吐量，验证了其在长上下文下的速度优势。此外，作者还构建了多个演示应用，如零样本提示路由、策略检查、拼写检查、PII 检测以及掩码扩散文本生成，直观展示了模型在实际场景中的泛化能力与执行效率。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "基准测试结果显示，LFM2.5-Encoder-350M在14个模型中排名第四，仅次于三个更大的模型（包括一个近10倍大小的3.5B模型）。230M版本击败了ModernBERT-base和所有EuroBERT模型。在推理速度方面，两者在CPU上的优势最为显著。在8192 token长度下，ModernBERT-base单次前向传播需要超过1.5分钟，而LFM2.5-Encoder-230M仅需约28秒，速度提升约3.7倍。在GPU上，当输入超过2K token时，LFM2.5-Encoder也展现出速度优势。",
-                "结论表明，对于需要持续运行且要求低成本和高吞吐量的长文本理解任务，微调后的编码器比生成式LLM更小、更快、更便宜，且能直接在现有CPU上运行。对于长文本处理，开发者可以在笔记本电脑的CPU上在30秒内扫描或分类完整的合同、成绩单或长支持线程，这极大拓展了边缘设备上的长文本处理能力。",
-                "其适用边界在于，该模型专为高吞吐量理解任务（如分类、路由、提取、评分）设计，而非自回归生成任务；若追求极致准确率且硬件资源充足，可选择350M版本，若硬件受限或需更高吞吐量则选择230M版本。"
+                "证据表明，LFM2.5-Encoder-350M 在 14 个模型中排名第四，超越了参数量近 10 倍的 3.5B 模型；230M 版本击败了 ModernBERT-base 和所有 EuroBERT 模型。在 CPU 推理速度上，处理 8192 token 时，ModernBERT-base 的前向传播耗时超过 90 秒，而 LFM2.5-Encoder-230M 仅需约 28 秒，速度提升约 3.7 倍，且吞吐量随长度增加下降平缓。这意味着开发者可以在笔记本 CPU 上于 30 秒内扫描完整合同或长支持工单。在 Apple GPU 上，2K token 以上时 LFM2.5 也取得领先。",
+                "结论是，LFM2.5-Encoders 能够在不牺牲质量的前提下，在现有 CPU 硬件上廉价且快速地处理文档级任务。对于开发者而言，350M 版本适合对准确率要求极高的场景，而 230M 版本则更适合硬件受限或需要极高吞吐量的环境。边界在于，该模型主要适用于高吞吐量的理解任务，对于需要自回归生成的任务仍需使用生成式 LLM；在极短输入（1K token 以下）的特定 GPU 环境下，ModernBERT 仍具速度优势；且模型需开发者自行附加任务头微调，并非开箱即用的端到端工具。"
               ]
             }
           ],
           "keyPoints": [
-            "LFM2.5-Encoder-230M和350M是支持8192 token上下文的通用双向编码器。",
-            "模型通过双向注意力掩码、非因果短卷积和30%掩码语言建模从LFM2解码器转化而来。",
-            "在CPU上处理8192 token长文本时，230M版本比ModernBERT-base快约3.7倍。",
-            "训练分为1024 token短上下文通用能力阶段和8192 token长上下文适应阶段。",
-            "适用于分类、意图路由、PII检测等高吞吐量、低成本的长文本理解任务。"
+            "LFM2.5-Encoders (230M/350M) 是支持 8192 token 上下文的通用双向编码器。",
+            "模型由 LFM2 因果解码器改造而来，引入双向注意力、对称短卷积和 30% 掩码语言建模。",
+            "在 CPU 处理 8192 token 长文本时，推理速度比 ModernBERT-base 快约 3.7 倍。",
+            "采用两阶段训练：先进行 1024 token 短上下文通用预训练，再扩展至 8192 token 长上下文适应。",
+            "适用于意图路由、策略检查、PII 检测等需要全天候在 CPU 上低成本运行的高吞吐量理解任务。"
           ],
           "technicalDetails": [
             {
-              "text": "模型参数量分别为230M和350M，最大上下文长度为8,192 tokens。",
+              "text": "模型参数量分为 230M 和 350M 两个版本，支持最大 8192 token 的上下文长度。",
               "basis": "source"
             },
             {
-              "text": "训练时掩码30%的tokens进行掩码语言建模（Masked language modeling）。",
+              "text": "通过双向注意力掩码、对称填充的非因果短卷积以及 30% 掩码比例的语言建模目标，将因果解码器转换为双向编码器。",
               "basis": "source"
             },
             {
-              "text": "第一阶段训练上下文长度为1,024 tokens，第二阶段扩展至8,192 tokens。",
+              "text": "在 CPU 上处理 8192 token 输入时，LFM2.5-Encoder-230M 的前向传播耗时约 28 秒，而 ModernBERT-base 耗时超过 90 秒。",
               "basis": "source"
             },
             {
-              "text": "在8,192 tokens长度下，LFM2.5-Encoder-230M在CPU上的推理时间约为28秒，ModernBERT-base超过1.5分钟。",
+              "text": "使用 Hugging Face transformers 库加载模型时，需设置 trust_remote_code=True 以支持自定义代码。",
               "basis": "source"
             },
             {
-              "text": "使用transformers库加载模型时，需设置trust_remote_code=True。",
+              "text": "在支持 Flash Attention 2 的 GPU 环境下，可通过 pip install flash-attn 安装并启用以获得最高推理效率。",
               "basis": "source"
             },
             {
-              "text": "若GPU支持，可安装flash-attn库以启用Flash Attention 2提升效率。",
-              "basis": "source"
-            },
-            {
-              "text": "在Apple GPU上，ModernBERT-base在约1K tokens以下时速度领先，LFM2.5-Encoder在约2K tokens时取得领先。",
+              "text": "对于下游任务，需使用 AutoModel 加载编码器主体，并自行附加分类、token 分类或回归等任务头进行微调。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在纯CPU环境下对长文本（如合同、法律文档、长对话记录）进行高吞吐量的分类、信息提取或PII检测。",
+              "scenario": "在资源受限的 CPU 服务器上部署长文本合规性检查或 PII 脱敏服务。",
               "steps": [
-                "1. 使用pip安装或更新transformers库。",
-                "2. 通过AutoModel或AutoModelForMaskedLM加载LFM2.5-Encoder模型，并设置trust_remote_code=True。",
-                "3. 根据具体任务（如分类或token分类）在模型主体上附加自定义的神经网络头部。",
-                "4. 使用长文本数据集对模型进行全量微调，以适应特定领域的上下文。"
+                "1. 使用 AutoModel 加载 LFM2.5-Encoder-230M 基础权重",
+                "2. 在模型顶部添加针对特定合规规则或 PII 实体的线性分类头",
+                "3. 使用长文本数据集进行全参数微调，设置最大序列长度为 8192",
+                "4. 导出为 ONNX 或 TensorRT 格式以进一步优化 CPU 推理延迟"
               ],
               "tools": [
                 "Hugging Face Transformers",
                 "PyTorch",
-                "Flash Attention 2 (可选，用于GPU加速)"
+                "ONNX Runtime",
+                "Optimum"
               ],
               "verification": [
-                "1. 在CPU环境下测量不同序列长度（如1K, 4K, 8K）的推理延迟，验证长文本下的吞吐量优势。",
-                "2. 在目标任务的验证集上评估微调后模型的准确率或F1分数。",
-                "3. 对比ModernBERT-base在相同硬件和输入长度下的推理时间。"
+                "对比微调前后在验证集上的 F1 分数和准确率",
+                "使用基准测试工具测量单条 8192 token 文本在目标 CPU 上的推理延迟",
+                "进行压力测试验证高并发下的 CPU 吞吐量和内存占用"
               ]
             }
           ]
@@ -1481,9 +1925,9 @@
             "双向注意力掩码",
             "非因果短卷积",
             "掩码语言建模",
-            "通用语言能力",
-            "高吞吐量理解任务",
-            "推理成本仍会显著上升"
+            "长上下文适应",
+            "推理吞吐量",
+            "前向传播"
           ],
           "searchTerms": [
             {
@@ -1504,12 +1948,12 @@
             },
             {
               "term": "Flash Attention 2",
-              "query": "Flash Attention 2 transformers"
+              "query": "Flash Attention 2 transformers GPU"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T01:59:44.169Z",
+        "analyzedAt": "2026-07-29T02:19:17.002Z",
         "model": "qwen3.7-plus"
       },
       {
@@ -1539,102 +1983,99 @@
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "NVIDIA NOOA框架：通过六大Agent架构能力提升模型性能",
+        "displayTitle": "NVIDIA NOOA框架：通过六大Agent Harness能力提升模型性能",
         "analysis": {
-          "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出Agent架构设计对性能的影响不亚于模型本身。文章解析了将Agent抽象为单一Python类的核心机制，以及类型化输入输出、引用传递等六大架构能力。通过SWE-bench等基准测试数据，论证了该框架在提升准确率、降低Token消耗及优化记忆管理方面的优势，为构建高效可调试的AI Agent提供工程参考。",
+          "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出构建优秀AI Agent不仅依赖模型，更取决于外围Agent Harness架构。文章解析了将Agent抽象为单一Python类的设计，及类型化I/O、引用传递等六大能力。通过展示其在SWE-bench、ARC-AGI-3等测试中实现SOTA性能并大幅降低Token成本的证据，论证了该架构的有效性。适合关注大模型Agent工程化落地与架构设计的开发者阅读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "构建优秀的AI Agent不仅在于选择正确的底层模型，围绕模型的架构（Harness）同样关键。Harness决定了上下文如何渲染、动作如何执行、状态如何管理以及任务何时判定完成，这些因素对最终结果的影响不亚于模型本身。Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。",
-                "传统的Agent开发过程复杂，需要协调提示模板、工具模式、回调代码和工作流图等多个移动部件。这种碎片化的开发方式使得Agent难以像传统软件那样进行差异比对、代码审查、单元测试、追踪、版本控制和重构。为了解决这一工程痛点，NVIDIA Labs推出了Object-Oriented Agents (NOOA) 开源研究预览版。NOOA基于Agent架构决定性能上限的洞察，提供了一个包含Python框架、内存系统、能力测试和基准Agent的完整生态，旨在让社区能够复现、挑战并构建更高效的Agent系统。"
+                "构建卓越的人工智能代理（Agent）并非仅仅取决于选择正确的底层大语言模型。模型周围的Agent Harness架构，在决定最终结果方面发挥着同等重要的作用。Harness负责渲染上下文、执行动作、管理状态以及判定任务何时完成。研究表明，仅Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。",
+                "传统的Agent开发过程通常涉及协调多个移动部件，包括提示词模板、工具模式（tool schemas）、回调代码和工作流图。这种碎片化的开发方式增加了系统的复杂性，使得Agent难以像传统软件一样进行版本控制、代码审查和单元测试。为了解决这一问题，NVIDIA推出了NVIDIA NOOA框架。这是一个开源的研究预览版，旨在通过面向对象的方法简化Agent开发，使其回归传统的软件工程实践。NOOA提供了Python框架、内存系统、能力测试以及基准代理，并公开了代码、数据和评估方法，以便社区能够复现、挑战并在此基础上进行构建。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "NOOA的核心创新在于将Agent开发转化为传统软件开发。在NOOA中，Agent被抽象为一个单一的Python类。其方法代表能力，字段代表状态，文档字符串作为提示词，类型注解作为强制契约。例如，在SupportAgent类中，order_db是模型可见的引用传递状态；is_refund_eligible是具有普通方法体的确定性Python方法；而带有省略号方法体的classify和triage方法，则在运行时由LLM驱动的循环自动补全。这种设计使得人类和AI编码Agent可以使用现有的标准代码库工具来管理Agent。",
-                "在架构层面，NOOA识别出六大驱动Agent性能的模型面向接口能力：第一，类型化输入输出，Agent调用具有类型化参数和验证过的返回值，摒弃自由文本；第二，引用传递，模型操作实时Python对象，查看有界预览而非序列化转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的Python代码来执行动作；第四，可编程循环工程，编排循环是普通的Python代码，可由开发者和模型本身编写；第五，显式对象状态，持久化、类型化的状态存在于Agent对象上，而不仅仅是对话历史；第六，模型可调用的Harness API，上下文块和事件历史是模型可以检查和管理API。",
-                "在记忆管理方面，NOOA摒弃了自动后台摘要管道，采用由Agent主动管理的长期记忆子系统。Agent通过模型可调用工具刻意地写入、查询和纠正记录。记录带有类型、重要性和标签，并通过支持、矛盾和派生自等类型化关系连接成知识图谱。后台反思过程负责合并重复项、链接相关记录、提炼洞察并修剪无关信息。所有数据持久化在一个人类可读的SQLite文件中，支持多Agent共享存储并保留独立所有权。",
-                "在效率优化机制上，NOOA通过引用传递实现了显著的Token节约。工具结果成为直接在代码中组合的实时Python变量，避免了在上下文窗口中作为文本往返。模型仅看到类型化、有界的预览，完整值保留在执行环境中。这使得NOOA无需上下文压缩即可解决复杂任务，转录保持仅追加和缓存有效，预填充缓存命中率在整个任务中复合增长。"
+                "NOOA框架的核心创新在于将Agent简化为单一Python类。在这个设计中，类的方法代表其能力，字段代表其状态，文档字符串（docstrings）作为提示词，而类型注解则作为强制执行的契约。对于标准Python方法，如果其方法体为省略号（...），则在运行时由LLM驱动的循环来完成；而具有正常方法体的代码则作为普通的、确定性的Python代码运行。这种设计使得Agent开发变得与传统软件开发无异，可以被人类和AI编码代理使用现有工具进行差异比对、代码审查、单元测试、追踪、版本控制和重构。",
+                "该架构识别出六个驱动Agent性能的面向模型的接口理念：第一，类型化输入/输出，代理调用具有类型化的参数和经过验证的返回值，而非自由文本；第二，引用传递，模型操作实时的Python对象，查看有界的预览，而不是序列化的数据转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的Python代码来执行动作；第四，可编程循环工程，编排循环是普通的Python代码，可由开发者和模型本身编写；第五，显式对象状态，持久化、类型化的状态存在于代理对象上，而不仅仅是对话历史；第六，模型可调用的Harness API，上下文块和事件历史是模型可以检查和管理API。",
+                "在内存系统方面，NOOA包含一个长期记忆子系统。与自动后台摘要管道不同，内存是一个由代理通过模型可调用工具自主管理的存储区。代理在工作过程中有意地写入、查询和纠正记录，同时与当前回合相关的自发记忆会自动浮现到上下文中。记录携带类型、重要性和标签，并通过“支持”、“矛盾”和“派生自”等类型化关系连接成知识图谱，而非扁平的日志。后台反思过程通过合并重复项、链接相关记录、将情节提炼为洞察以及修剪不再相关的信息来整合存储。所有数据持久化在一个人类可读的SQLite文件中，团队可以使用标准实践进行检查、备份和审查。存储的记忆可以引用实时的代理状态，保持知识更新，且多个代理可以共享一个存储区同时保留独立的所有权。",
+                "在论证效率提升时，文章指出Harness工程不仅能提高准确性，还能提高效率。以SWE-bench Verified为例，NOOA使用GPT-5.5达到82.2%的准确率，仅需29次LLM调用和约110万Token。相比之下，对比Harness需要66次调用和220万Token才能达到78.2%。这种成本减半的机制主要归功于两点：首先，通过引用传递，工具结果成为直接在代码中组合的实时Python变量，而不是作为文本在上下文窗口中往返。模型看到的是类型化、有界的预览，完整值保留在执行环境中。其次，这一特性意味着NOOA在使用前沿模型解决SWE-Bench时不需要上下文压缩（context compaction）。中位数会话的提示词Token峰值仅为2.2万至7.2万，远低于20万至40万的窗口限制。由于工具结果通过引用传递而非序列化到上下文窗口，转录内容在整个会话期间保持仅追加和缓存有效，无需摘要过程，预填充缓存命中在整个任务中复合叠加。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "NOOA的六大能力在多个领域得到了基准测试的验证。在软件工程领域，SWE-bench Verified测试显示，NOOA使用GPT-5.5达到82.2%准确率，超越提交时79.2%的SOTA，使用Opus 4.6达到79.8%。其通用253行Agent无需特定基准提示，仅需29次LLM调用和约1.1M tokens，而对比Harness需要66次调用和2.2M tokens才能达到78.2%，实现了性能提升与成本减半。",
-                "在网络安全领域，CyberGym L1测试中，NOOA使用GPT-5.5解决了86.8%的任务。该测试在网络访问被阻断且无特定安全引导的情况下进行，并辅以基于规则的作弊检查，证明结果源于对代码本身的推理而非查找已披露漏洞。在漏洞发现工作流中，NOOA将确定性检查（如崩溃判定、漏洞匹配、重现验证）和模型推理结合在一个类型化对象中，确保发现仅在代码明确允许时被接受。",
-                "在通用推理领域，ARC-AGI-3测试要求Agent在未知网格游戏中通过行动发现规则。NOOA将包含六个专业Agent的DreamTeam架构精简为单一Agent和45行技能。Agent通过构建Python程序编码观察状态并预测下一状态，每回合进行反事实推理以修正模型。结果显示，GPT-5.5达到50.2%平均RHAE，世界建模技能提升8.5分，记忆子系统提升11.8分；GPT-5.6-sol达到85.1%，且每局游戏成本低于20美元。",
-                "在安全与部署边界方面，系统采用分层沙箱，包括进程内cell guard、OS权限降级、端到端匿名化和内核级沙箱，并配合NVIDIA OpenShell安全运行时部署。红队审计未发现规则泄露。NOOA被明确定位为开源实验表面，而非现有Harness的替代品，其技术文档公开，供任何项目采用、挑战或改进。"
+                "文章提供了跨多个领域的具体证据来支持其方法的有效性。在软件工程领域，NOOA在SWE-bench Verified上使用GPT-5.5达到82.2%，超越了提交时公布的SOTA（79.2%），使用Opus 4.6达到79.8%，且仅使用253行通用代理代码，无特定基准提示词。在网络安全领域，在CyberGym L1上，NOOA使用GPT-5.5解决了86.8%的任务，在阻断网络访问且无特定安全提示的情况下，超越了大多数领先的闭源系统。在通用推理领域，在ARC-AGI-3上，单一NOOA代理使用GPT-5.5达到50.2%的平均RHAE，使用GPT-5.6-sol达到85.1%，且每局成本低于20美元（分别为17.85美元和13.3美元），推进了该基准的分数-成本帕累托前沿。在ARC-AGI-3的测试中，世界建模技能贡献了8.5分的提升，内存子系统贡献了11.8分的提升。",
+                "在安全与部署边界方面，NOOA在ARC-AGI-3的测试中采用了分层沙箱机制，包括进程内cell guard、每次运行的OS权限降级、游戏身份的端到端匿名化以及内核强制的每cell沙箱。红队审计未发现任何规则泄露。对于生产部署，NOOA与NVIDIA OpenShell安全运行时配对。在漏洞发现应用中，NOOA将确定性检查和模型推理放在同一个类型化对象上，通过三个确定性门控（崩溃判定、漏洞匹配、重现检查）确保发现的准确性。",
+                "结论是，NOOA作为开源代理生态系统的研究预览，证明了通过优化Harness架构可以显著提升模型性能并降低成本。它提供了一个透明、类型化、可检查的代理框架。然而，其适用边界在于，NOOA目前被定位为一个开放的实验性表面（experimental surface），而非现有Harness的完全替代品。此外，部分顶尖基准测试结果（如ARC-AGI-3的85.1%）高度依赖于特定的前沿模型（如GPT-5.6-sol），其在较弱模型上的表现边界需进一步验证。"
               ]
             }
           ],
           "keyPoints": [
-            "Agent架构（Harness）设计对性能和成本的影响与底层模型同等重要，NOOA框架将其抽象为单一Python类以支持传统软件工程实践。",
-            "NOOA提出六大核心能力：类型化输入输出、引用传递、代码即动作、可编程循环工程、显式对象状态和模型可调用的Harness API。",
-            "通过引用传递机制，工具结果作为实时Python变量在代码中组合，避免了上下文窗口的文本序列化，大幅降低Token消耗并免除上下文压缩。",
-            "长期记忆子系统由Agent主动管理，记录通过类型化关系构建为知识图谱，并持久化在可检查的SQLite文件中。",
-            "在SWE-bench、CyberGym L1和ARC-AGI-3等基准测试中，NOOA均取得领先成绩，同时实现Token成本减半或单局成本低于20美元。"
+            "Agent外围架构（Harness）的设计与底层模型同等重要，能带来两位数的基准分数波动和显著的Token成本差异。",
+            "NOOA框架将Agent抽象为单一Python类，通过类型注解、文档字符串和引用传递，使Agent开发回归传统软件工程实践。",
+            "六大核心能力包括类型化输入输出、引用传递、代码即动作、可编程循环工程、显式对象状态和模型可调用的Harness API。",
+            "长期内存系统由Agent自主管理，采用知识图谱结构，所有数据持久化于单一人类可读的SQLite文件中。",
+            "借助引用传递机制，工具结果作为实时变量处理，NOOA无需上下文压缩即可将Token消耗降低约一半。"
           ],
           "technicalDetails": [
             {
-              "text": "NOOA将Agent定义为单一Python类，方法体为省略号(...)的标准方法在运行时由LLM驱动循环完成，普通方法体作为确定性Python运行。",
+              "text": "NOOA框架将Agent定义为单一Python类，方法体为省略号(...)的标准方法在运行时由LLM驱动循环完成。",
               "basis": "source"
             },
             {
-              "text": "六大架构能力包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
+              "text": "六大Harness能力包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
               "basis": "source"
             },
             {
-              "text": "长期记忆存储在单一人类可读的SQLite文件中，记录带有类型、重要性、标签，并通过supports, contradicts, derived-from等关系连接成知识图谱。",
+              "text": "在SWE-bench Verified上，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens。",
               "basis": "source"
             },
             {
-              "text": "在SWE-bench Verified上，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens，中位数会话峰值为22-72k prompt tokens。",
+              "text": "在ARC-AGI-3上，GPT-5.6-sol达到85.1% mean RHAE，单局成本约13.3美元，19/25游戏完全解决。",
               "basis": "source"
             },
             {
-              "text": "在ARC-AGI-3中，GPT-5.6-sol fleet达到85.1% mean RHAE，成本约$13.3/game，25个游戏中19个完全解决。",
+              "text": "内存系统使用SQLite存储，记录带有类型、重要性、标签及supports、contradicts等关系，形成知识图谱。",
               "basis": "source"
             },
             {
-              "text": "安全部署采用分层沙箱（in-process cell guard, per-run OS privilege drop, end-to-end anonymization, kernel-enforced per-cell sandbox）并配合NVIDIA OpenShell。",
+              "text": "安全部署采用分层沙箱，包括进程内cell guard、OS权限降级、端到端匿名化和内核强制沙箱，配合NVIDIA OpenShell运行时。",
               "basis": "source"
             },
             {
-              "text": "由于NOOA使用async def定义策略方法并使用type annotations作为强制契约，推断其运行环境需支持Python异步编程及运行时类型检查库。",
+              "text": "由于NOOA依赖Python对象引用传递，其底层执行环境必须支持安全的对象状态隔离，以防止LLM生成的代码意外修改全局状态。",
               "basis": "inference"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "将现有基于提示词和JSON工具的Agent系统重构为面向对象、代码即动作的架构，以降低Token成本并提高可调试性。",
+              "scenario": "构建需要复杂状态管理、长期记忆和严格确定性校验的代码生成或漏洞分析Agent。",
               "steps": [
-                "1. 梳理现有Agent的工具和状态，将其封装为单一Python类的字段（状态）和方法（能力）。",
-                "2. 将自由文本的输入输出重构为强类型的Pydantic或dataclass模型，确保输入输出契约。",
-                "3. 引入引用传递机制，将工具返回的大型数据实例化为内存对象，仅向LLM传递摘要或引用ID。",
-                "4. 将工作流编排逻辑从外部图引擎移入Python类的普通方法中，实现确定性控制流。",
-                "5. 使用SQLite或类似轻量级数据库替换现有的向量数据库，构建带有关系标签的本地知识图谱作为长期记忆。"
+                "1. 将Agent业务逻辑封装为Python类，使用类型注解定义输入输出契约。",
+                "2. 将确定性校验逻辑（如漏洞重现检查）实现为普通Python方法，将需要LLM推理的步骤实现为带省略号(...)的方法。",
+                "3. 引入SQLite作为长期记忆存储，设计包含关系（如支持、矛盾）的知识图谱Schema。",
+                "4. 配置分层沙箱环境，限制Agent执行时的OS权限和网络访问。"
               ],
               "tools": [
-                "Python 3.10+",
-                "Pydantic",
+                "Python",
                 "SQLite",
-                "LangChain"
+                "NVIDIA OpenShell",
+                "标准代码审查与单元测试工具"
               ],
               "verification": [
-                "1. 对比重构前后的Token消耗量，验证引用传递是否显著减少了上下文窗口的文本序列化。",
-                "2. 运行现有的单元测试套件，验证确定性方法（普通方法体）的逻辑正确性。",
-                "3. 检查LLM生成的代码是否能正确调用类内方法并处理类型化返回值。",
-                "4. 审查SQLite文件，验证记忆记录的合并、链接和修剪逻辑是否符合预期。"
+                "1. 对确定性方法编写单元测试，确保校验逻辑的绝对正确。",
+                "2. 使用Trace工具检查LLM驱动循环的执行路径和状态变更。",
+                "3. 监控Token消耗和上下文窗口峰值，验证是否成功避免了上下文压缩。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "围绕模型的架构（Harness）",
-            "单一的Python类",
+            "模型周围的Agent Harness架构",
+            "单一Python类",
             "引用传递",
             "代码即动作",
             "上下文压缩",
@@ -1642,25 +2083,29 @@
           ],
           "searchTerms": [
             {
-              "term": "NOOA",
-              "query": "NVIDIA NOOA Object-Oriented Agents"
+              "term": "NVIDIA NOOA",
+              "query": "NVIDIA NOOA framework agent"
+            },
+            {
+              "term": "Agent Harness",
+              "query": "AI agent harness architecture"
             },
             {
               "term": "Pass by reference",
-              "query": "LLM agent pass by reference mechanism"
+              "query": "LLM agent pass by reference"
+            },
+            {
+              "term": "Context compaction",
+              "query": "LLM context compaction token cost"
             },
             {
               "term": "ARC-AGI-3",
-              "query": "ARC-AGI-3 benchmark RHAE"
-            },
-            {
-              "term": "CyberGym L1",
-              "query": "CyberGym L1 vulnerability benchmark"
+              "query": "ARC-AGI-3 benchmark agent"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T02:02:24.595Z",
+        "analyzedAt": "2026-07-29T02:21:56.581Z",
         "model": "qwen3.7-plus"
       },
       {
@@ -1690,39 +2135,44 @@
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Gemini API 托管代理更新：3.6 Flash 默认模型、环境钩子与成本控制",
+        "displayTitle": "Gemini API 托管代理更新：默认 3.6 Flash、环境钩子与成本控制",
         "analysis": {
-          "listSummary": "本文介绍 Gemini API 托管代理的最新更新。默认模型升级为 Gemini 3.6 Flash，并支持显式选择其他模型。新增环境钩子功能，允许在沙箱内拦截、检查或审计工具调用。此外，引入了预算控制、定时触发器、免费层级访问及环境 API，帮助开发者构建可靠、低成本且自动化的生产级代理工作流。适合关注 AI 代理工程化落地的开发者阅读。",
+          "listSummary": "本文介绍了 Gemini API 托管代理的最新更新。核心亮点包括默认升级至 Gemini 3.6 Flash 模型，并新增环境钩子功能，允许开发者在沙箱内对工具调用进行拦截、审计或自动格式化。此外，文章详细说明了预算控制、定时触发器、免费层访问以及环境 API 等新特性。适合需要构建可靠、生产级 AI 代理并关注成本控制与自动化工作流的开发者阅读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "随着 AI 代理从实验阶段走向生产环境，开发者面临沙箱内工具调用缺乏安全控制、多轮自主循环导致 Token 消耗失控、以及缺乏自动化调度等工程挑战。在早期的托管代理中，虽然已经引入了后台任务和远程 MCP 服务器集成，实现了单次 API 调用协调推理、代码执行、包安装和文件管理，但在真实开发环境中实现可靠、自主且成本可控的运行，仍需更细粒度的执行干预与资源管理能力。特别是当代理执行复杂任务时，如何防止其陷入死循环或消耗过多预算，以及如何在不中断沙箱环境的前提下对代理生成的代码或文件进行自动化质量检查，成为阻碍其大规模落地的核心痛点。"
+                "Google 持续迭代 Gemini API 中的托管代理（Managed Agents）功能，旨在帮助开发者构建可靠且适用于生产环境的 AI 代理。在之前的版本中，官方引入了后台任务和远程 MCP 服务器集成，使得单次 API 调用即可在隔离的云沙箱中协调推理、代码执行、包安装、文件管理和网络检索。",
+                "然而，随着代理自主执行多轮复杂任务，开发者面临着几个关键挑战：首先，缺乏对底层大语言模型的灵活选择与成本控制机制，复杂任务容易导致 Token 预算失控；其次，在远程沙箱环境中，开发者难以对代理的工具调用进行细粒度的安全拦截、代码质量检查或自动化审计，难以满足企业级合规要求；最后，缺乏原生的定时调度能力和沙箱生命周期管理 API，限制了代理在自动化工作流和持续集成场景中的长期稳定运行。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "Google 通过多项新能力系统性地解决上述问题。首先，将默认模型升级为 Gemini 3.6 Flash，该模型在推理、编码和工具使用方面表现均衡，同时允许开发者通过 agent_config.model 显式指定模型，例如选择 Gemini 3.5 Flash-Lite 以降低延迟和成本。其次，引入环境钩子（Environment hooks），这是本次更新的核心机制。开发者可以在环境中添加 .agents/hooks.json 配置文件，定义在 pre_tool_execution 或 post_tool_execution 事件触发的自定义脚本或 HTTP 请求。钩子配置支持正则表达式匹配，能够精准拦截特定工具调用或全局捕获。论证中引用了 AI 原生投资银行 OffDeal 的实际案例，详细说明其如何利用 post_tool_execution 钩子在远程沙箱内触发自动化图像验证流水线，对代理生成的公司 Logo 进行像素级质量检查和 Gemini 视觉验证，从而解决了此前因沙箱隔离导致验证代码无处运行的难题。此外，针对资源管理，系统通过 max_total_tokens 参数实现预算控制，达到上限时安全暂停并保留环境状态；通过定时触发器绑定 cron 计划实现无人值守的自动化执行；并提供环境 API 以主动管理沙箱生命周期，避免等待默认的 7 天 TTL。"
+                "为解决上述问题，Google 推出了一系列新特性。在模型层面，antigravity-preview-05-2026 代理默认升级至 Gemini 3.6 Flash，同时支持通过 agent_config.model 显式指定 Gemini 3.5 Flash 或 Flash-Lite 以平衡性能与成本。",
+                "在安全与质量控制方面，引入了环境钩子（Environment hooks）机制。开发者只需在环境中添加 .agents/hooks.json 配置文件，即可在 pre_tool_execution 或 post_tool_execution 阶段执行自定义的 command 或 http 处理器。通过正则表达式匹配，可以精准拦截特定工具调用或对所有调用进行后置审计。",
+                "在成本与自动化控制方面，新增了 max_total_tokens 预算控制参数，防止任务 runaway；同时引入定时触发器（Scheduled triggers），将代理、环境、提示词和 Cron 计划绑定为持久化资源，实现无人值守运行。此外，Environments API 的发布使得开发者能够通过代码直接列出、检查和删除沙箱会话，优化资源清理。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文提供了具体的 JSON 配置示例和 TypeScript SDK 代码，证明了环境钩子支持正则表达式匹配、命令执行及 HTTP 外部端点调用，且具备超时控制机制。当钩子脚本返回拒绝决策时，工具调用会被跳过，拒绝原因会注入模型上下文。预算控制的证据在于，达到 Token 上限时交互返回 incomplete 状态，并支持通过传递 previous_interaction_id 和新的预算来恢复执行。结论是这些更新使托管代理转变为成本可控、可调度的自主工作者，无需外部编排即可在真实开发环境中运行。适用边界方面，环境钩子的执行依赖于沙箱内的运行环境，若脚本执行失败或超时，需遵循特定的失败处理语义；预算控制仅限制总 Token 消耗，不限制单次执行时间；定时触发器复用同一沙箱意味着文件状态会跨执行持久化，开发者需利用环境 API 主动清理沙箱以防止状态污染。"
+                "原文通过具体的代码示例和真实企业案例论证了新特性的有效性。例如，AI 原生投资银行 Offdeal 利用 post_tool_execution 钩子，在远程沙箱内自动触发图像验证流水线，对生成的公司 Logo 进行像素级质量检查和视觉验证，解决了此前验证代码无处运行的痛点。",
+                "结论表明，这些更新将托管代理转变为成本可控、可调度的自主工作者，无需外部编排即可在真实开发环境中运行。",
+                "然而，这些功能也存在明确的适用边界：预算控制达到上限时，任务会安全暂停并返回 incomplete 状态，必须通过传入 previous_interaction_id 并分配新预算才能继续执行；定时触发器在每次运行时复用同一沙箱，这意味着文件状态会跨执行持久化，开发者需注意上下文污染问题；此外，环境钩子的 command 类型受限于沙箱内的执行环境，需确保相关脚本和依赖已正确部署，且 http 类型需处理外部端点的网络延迟与失败语义。"
               ]
             }
           ],
           "keyPoints": [
-            "默认模型升级为 Gemini 3.6 Flash，支持通过配置显式切换至 3.5 Flash 或 Flash-Lite。",
-            "环境钩子允许在工具调用前后执行自定义脚本或 HTTP 请求，实现安全拦截与代码审计。",
-            "预算控制通过限制总 Token 数防止任务失控，达到上限时暂停并保留环境状态以便恢复。",
-            "定时触发器支持绑定 cron 计划，实现代理任务的自动化调度与沙箱状态持久化。",
-            "免费层级开放托管代理访问，环境 API 提供沙箱生命周期的主动管理能力。"
+            "Gemini API 托管代理默认模型已升级为 Gemini 3.6 Flash，并支持显式指定 3.5 Flash 或 3.5 Flash-Lite。",
+            "新增环境钩子（Environment hooks），支持在沙箱内通过正则匹配拦截或审计工具调用（pre/post_tool_execution）。",
+            "引入预算控制机制，通过 max_total_tokens 限制 Token 消耗，超限后任务暂停并保留环境状态。",
+            "支持定时触发器（Scheduled triggers），可绑定 Cron 计划实现代理任务的自动化周期执行。",
+            "提供 Environments API，允许开发者通过代码列出、检查和删除沙箱会话，优化资源清理。"
           ],
           "technicalDetails": [
             {
-              "text": "默认代理 antigravity-preview-05-2026 运行 Gemini 3.6 Flash，支持通过 agent_config.model 指定 gemini-3.5-flash-lite。",
+              "text": "默认模型为 gemini-3.6-flash，可通过 agent_config.model 指定 gemini-3.5-flash 或 gemini-3.5-flash-lite。",
               "basis": "source"
             },
             {
@@ -1730,76 +2180,78 @@
               "basis": "source"
             },
             {
-              "text": "钩子脚本返回 {\"decision\": \"deny\", \"reason\": \"...\"} 时，工具调用被跳过，拒绝原因传入模型上下文。",
+              "text": "钩子类型支持 command（执行本地命令）和 http（POST 到外部端点），command 类型可设置 timeout。",
               "basis": "source"
             },
             {
-              "text": "预算控制通过 agent_config.max_total_tokens 设置，达到限制时返回 status: \"incomplete\"，可通过 previous_interaction_id 恢复。",
+              "text": "预算控制通过 agent_config.max_total_tokens 设置，达到限制时返回 status: 'incomplete'，可通过 previous_interaction_id 继续。",
               "basis": "source"
             },
             {
-              "text": "定时触发器复用同一沙箱，文件状态跨执行持久化；环境 API 可用于清理沙箱，替代默认的 7 天 TTL。",
+              "text": "定时触发器将 agent、environment、prompt 和 cron schedule 绑定为持久化资源。",
               "basis": "source"
             },
             {
-              "text": "钩子支持 command 和 http 类型，http 类型可直接 POST 到外部端点，需配置 timeout 参数。",
+              "text": "Environments API 可用于管理沙箱会话，替代默认的 7 天 TTL 清理机制。",
               "basis": "source"
             },
             {
-              "text": "在沙箱内执行钩子脚本需要确保沙箱环境包含所需的运行时（如 python3），否则可能导致执行失败。",
-              "basis": "inference"
+              "text": "使用 npx skills add google-gemini/gemini-skills --skill gemini-interactions-api 可为 AI 编码助手添加 Interactions API 技能。",
+              "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在 CI/CD 流水线或自动化代码审查系统中集成 Gemini 托管代理，利用环境钩子实现代码生成后的自动化安全扫描与格式化。",
+              "scenario": "在 CI/CD 流水线或自动化代码审查中，使用 Gemini 托管代理进行依赖审计和代码格式化，并严格控制 Token 成本（此为延伸建议，非作者原文观点）。",
               "steps": [
-                "1. 在项目中创建 .agents/hooks.json 文件，配置 post_tool_execution 钩子。",
-                "2. 编写 Python 或 Node.js 脚本，用于解析代理生成的代码文件并执行 Lint 或安全漏洞扫描。",
-                "3. 将脚本路径配置到钩子的 command 字段中，并设置合理的 timeout。",
-                "4. 使用 max_total_tokens 限制单次代理任务的 Token 消耗，防止复杂代码库分析导致预算超支。",
-                "5. 通过 Environments API 在任务完成后主动删除沙箱，释放资源。"
+                "1. 配置 .agents/hooks.json，设置 post_tool_execution 钩子调用 auto_lint.py 进行代码风格检查。",
+                "2. 在创建 interaction 时，设置 agent_config.max_total_tokens 为合理阈值（如 10000）。",
+                "3. 编写重试逻辑，当 interaction 返回 status 为 incomplete 时，提取 previous_interaction_id 并分配新预算继续执行。",
+                "4. 任务完成后，调用 Environments API 删除沙箱以释放资源。"
               ],
               "tools": [
-                "Gemini Interactions API",
                 "@google/genai SDK",
-                "Python/Node.js 自定义脚本",
-                "Environments API"
+                "Python 脚本 (gate.py/auto_lint.py)",
+                "Cron 调度器"
               ],
               "verification": [
-                "1. 检查代理生成的代码是否通过了钩子脚本的 Lint 检查，未通过则确认工具调用是否被正确拦截或记录。",
-                "2. 验证当 Token 消耗达到 max_total_tokens 时，API 是否正确返回 incomplete 状态。",
-                "3. 确认通过 previous_interaction_id 恢复任务后，代理能否从暂停点继续执行。"
+                "检查 interaction 输出是否包含预期的代码修改。",
+                "验证 Token 消耗是否未超过 max_total_tokens 限制。",
+                "确认沙箱在任务结束后被成功删除。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "环境钩子",
-            "预算控制",
-            "定时触发器",
-            "安全暂停",
-            "像素级质量检查",
-            "状态污染"
+            "Gemini 3.6 Flash",
+            "environment hooks",
+            "max_total_tokens",
+            "previous_interaction_id",
+            "Environments API",
+            "post_tool_execution"
           ],
           "searchTerms": [
             {
-              "term": "Environment hooks",
-              "query": "Gemini API environment hooks 配置"
-            },
-            {
               "term": "Gemini 3.6 Flash",
-              "query": "Gemini 3.6 Flash 模型能力"
+              "query": "Gemini 3.6 Flash model"
             },
             {
-              "term": "max_total_tokens",
-              "query": "Gemini API max_total_tokens 预算控制"
+              "term": "environment hooks",
+              "query": "Gemini API environment hooks"
+            },
+            {
+              "term": "Interactions API",
+              "query": "Gemini Interactions API"
+            },
+            {
+              "term": "Environments API",
+              "query": "Gemini Environments API"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T02:04:03.427Z",
+        "analyzedAt": "2026-07-29T02:23:34.286Z",
         "model": "qwen3.7-plus"
       }
     ],
@@ -2050,286 +2502,6 @@
         "analysisStatus": "complete",
         "analyzedAt": "2026-07-28T08:58:56.529Z",
         "model": "qwen3.7-plus"
-      },
-      {
-        "id": "dc21b90615df56a5",
-        "title": "Meet the Unity CLI: manage Unity from your terminal",
-        "url": "https://unity.com/blog/meet-the-unity-cli",
-        "summary": "Install editors, automate CI, and drive a running Editor or dev build from the terminal. The Unity CLI and com.unity.pipeline package give scripts and AI agents a fast, structured way to operate Unity.",
-        "publishedAt": "2026-07-20T00:00:00.000Z",
-        "sourceId": "unity",
-        "sourceName": "Unity Blog",
-        "sourceSite": "https://blog.unity.com/",
-        "lane": "game",
-        "accent": "#222c37",
-        "topic": "Agent 与自动化",
-        "score": 73,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 16,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 82,
-        "bodyHash": "57bf85614973e8dcb5dfa913",
-        "extraction": {
-          "method": "readability",
-          "length": 11371,
-          "originalLength": 11371,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "Unity CLI 发布：在终端中管理 Unity 并赋能 AI 代理",
-        "analysis": {
-          "listSummary": "本文介绍全新发布的 Unity CLI 及实验性 com.unity.pipeline 包。Unity CLI 提供独立终端二进制文件，支持编辑器安装、模块管理和自动化 CI 流程。Pipeline 包允许通过本地 API 驱动运行中的编辑器或开发版 Player，并支持自定义命令。结合 eval 命令实时执行 C# 代码，这些工具为 AI 代理提供了观察、操作和验证项目的完整执行层，大幅提升自动化与 AI 辅助开发效率。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "随着软件开发模式的演进，越来越多的开发工作转移到了终端环境中，包括脚本编写、持续集成（CI）以及日益增多的 AI 代理操作。在这一趋势下，Unity 引擎传统的图形界面工作流在自动化和机器交互方面暴露出明显的瓶颈。首先，旧版 Unity Hub 的无头模式（headless path）启动速度缓慢，当脚本或 AI 代理在单次作业中需要进行数十次调用时，这种延迟会显著累积，严重拖慢自动化流水线的整体效率。",
-                "其次，尽管当前的 AI 编码助手在生成代码和内容方面表现出色，但它们在处理代码周边的环境交互时仍面临巨大挑战。AI 助手通常可以生成游戏逻辑脚本，但无法自主运行项目、观察运行时错误并进行自我修正。这种“只能建议，无法验证”的状态使得 AI 在复杂工程中的价值大打折扣。传统的“修改-检查”工作流要求开发者经历编辑、重编译和重新启动的循环，即使是最快的情况也需要数秒时间。这种缓慢的反馈循环使得 AI 代理难以在 Unity 环境中实现高效的自主迭代，限制了 AI 辅助开发在实际工程中的深度应用。终端环境对机器友好的要求与 Unity 传统面向人类交互的 UI 设计存在本质冲突，亟需一种全新的底层执行架构来弥合这一鸿沟。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "为了解决上述问题，Unity 推出了一套分层递进的终端化与自动化解决方案。第一层是全新的 Unity CLI，它作为一个单一、独立且原生的二进制文件发布，无需安装任何额外依赖，安装后自动配置环境变量。CLI 涵盖了编辑器、模块、项目和认证的全生命周期管理，其核心设计理念是深度融入自动化环境。它支持输出结构化的 JSON 和 TSV 格式数据，将错误信息导向标准错误流，并将结果导向标准输出流，同时遵循严格的退出码契约（0 代表成功，1 代表错误，130 代表取消）。此外，CLI 支持非交互式安装和服务账户认证，完美适配无头构建代理的需求，并通过 unity doctor 命令诊断环境、凭证和配置问题。",
-                "第二层是实验性的 com.unity.pipeline 包，它将运行中的 Unity 编辑器或开发版 Player 转化为可编程的自动化目标。开发者只需在项目的静态方法上添加 [CliCommand] 和 [CliArg] 属性，该包便会自动发现并将其注册为 CLI 命令。这种设计使得编辑器具备了自描述能力，AI 代理可以在运行时动态发现可用操作，而无需依赖硬编码的指令列表。这种自描述特性与新兴的代理标准（如函数调用模型或 MCP 服务器）天然契合，使得项目特定的操作能够轻松映射为代理可调用的工具。",
-                "第三层是 unity command eval 命令，它利用 Roslyn 编译器在编辑器的主线程上实时编译并执行任意 C# 表达式。这一机制提供了一个实时的读取-求值-输出循环（REPL）环境，使得代理能够以毫秒级的速度查询或修改引擎状态，完全绕过了项目级的重编译和域重载过程。作者论证，这三层工具的结合不仅大幅提升了 CI 流水线的执行效率，更重要的是，它们为 AI 代理提供了结构化的输入输出接口和自描述的命令空间。CLI 提供模型可理解的干净数据，Pipeline 提供动态发现的操作空间，eval 提供触及引擎底层的能力。三者结合使代理能够独立完成“观察实时项目、执行操作、验证结果”的完整闭环，从而将 Unity 转变为一个 AI 代理可以真正开展工作的环境。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "原文提供了丰富的代码和命令示例来支撑其方法论。例如，通过 curl 或 irm 脚本安装 CLI，使用 unity install 命令非交互式安装特定版本及模块，以及通过 C# 属性定义自定义命令的代码片段。此外，文章通过一个 25 秒的演示视频展示了 AI 代理接收自然语言 bug 报告后，使用 eval 检查场景、重新启用碰撞体并验证修复的完整过程，直观证明了该方案在无需人工复制粘贴控制台输出的情况下的有效性。",
-                "基于这些证据，文章得出结论：Unity CLI 和 Pipeline 包共同构成了 Unity AI 产品的底层执行面（execution surface）。Unity 官方的 AI 工具（如编辑器内助手套件）负责推理和决策，而 CLI 和 Pipeline 负责快速、本地且受令牌保护的执行。这一执行面不仅服务于 Unity 自身的 AI 工具，也对任何第三方代理或自定义脚本开放，Unity AI 只是该执行面的消费者之一，而非替代品。",
-                "然而，作者在文中也明确界定了该方案的适用边界与安全限制。首先，com.unity.pipeline 包目前仍处于实验阶段，其 API 和功能预期会进一步演进。其次，针对 Player 运行时的 API 仅限本地回环地址（localhost）访问，默认处于关闭状态，且明确强调仅适用于开发和 QA 构建，绝不能用于生产环境。最后，由于 eval 命令能够访问项目所能调用的任何引擎或编辑器 API，其能力边界等同于 Unity 引擎本身，存在潜在的安全风险，因此该功能被严格限制在安全令牌（security token）的保护之下，防止未授权的代码执行。这些边界条件确保了在赋予 AI 代理强大能力的同时，维持了工程环境的安全性与稳定性。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "Unity CLI 是独立的终端二进制文件，支持编辑器安装、模块管理及自动化 CI 流程，启动速度优于旧版 Hub headless 模式。",
-            "实验性的 com.unity.pipeline 包允许通过本地 API 驱动运行中的 Editor 或开发版 Player，支持使用属性暴露自定义命令。",
-            "unity command eval 利用 Roslyn 在运行中的实例内实时执行 C# 代码，无需重编译或域重载，提供毫秒级反馈。",
-            "结构化 JSON 输出、标准退出码和 Editor 的自描述能力，使 AI 代理能够自主完成观察、操作和验证的闭环。",
-            "CLI 和 Pipeline 构成 Unity AI 的底层执行面，Unity AI 负责推理，而该执行面对所有第三方代理和脚本开放。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "Unity CLI 是一个独立的 unity 二进制文件，无需安装依赖，安装后会自动添加到 PATH 中。",
-              "basis": "source"
-            },
-            {
-              "text": "CLI 支持 JSON 和 TSV 格式的结构化输出，退出码遵循 0（成功）、1（错误）、130（取消）的契约。",
-              "basis": "source"
-            },
-            {
-              "text": "com.unity.pipeline 包通过 [CliCommand] 和 [CliArg] 属性自动发现并注册项目中的静态方法为 CLI 命令。",
-              "basis": "source"
-            },
-            {
-              "text": "unity command eval 使用 Roslyn 编译器在 Editor 的主线程上编译并运行 C# 表达式。",
-              "basis": "source"
-            },
-            {
-              "text": "Player 运行时 API 仅限本地访问（localhost-only），默认关闭，且必须通过安全令牌（security token）进行访问控制。",
-              "basis": "source"
-            },
-            {
-              "text": "在 CI 环境中使用服务账户认证时，环境变量中需要预先配置好相应的凭证信息，以避免交互式登录提示。",
-              "basis": "inference"
-            },
-            {
-              "text": "由于 eval 命令可以访问项目能调用的任何引擎或编辑器 API，其能力边界等同于 Unity 引擎本身的 API 边界。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在 CI/CD 流水线中自动化构建与测试 Unity 项目",
-              "steps": [
-                "1. 在构建节点使用脚本安装 Unity CLI 并配置服务账户环境变量进行认证。",
-                "2. 使用 unity install 命令非交互式安装所需版本的 Unity 编辑器及特定构建模块。",
-                "3. 在项目中引入 com.unity.pipeline 包，并通过 [CliCommand] 暴露自定义的测试触发或资源检查命令。",
-                "4. 在 CI 脚本中调用 unity command 执行暴露的命令，并解析其 JSON 格式输出以判断构建状态。"
-              ],
-              "tools": [
-                "Unity CLI",
-                "com.unity.pipeline",
-                "Bash/PowerShell 脚本",
-                "CI/CD 平台 (如 GitHub Actions, Jenkins)"
-              ],
-              "verification": [
-                "检查 CI 日志中 CLI 命令的退出码是否为 0。",
-                "验证 JSON 输出是否包含预期的构建结果或测试报告字段。",
-                "确认无头环境下未出现任何需要人工干预的 UI 弹窗或登录提示。"
-              ]
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-28T10:13:33.575Z",
-        "model": "qwen3.7-plus",
-        "annotations": {
-          "emphasis": [
-            "execution surface"
-          ],
-          "searchTerms": [
-            {
-              "term": "Unity CLI",
-              "query": "Unity CLI terminal automation"
-            },
-            {
-              "term": "com.unity.pipeline",
-              "query": "com.unity.pipeline package Unity"
-            },
-            {
-              "term": "unity command eval",
-              "query": "unity command eval C# Roslyn"
-            }
-          ]
-        }
-      },
-      {
-        "id": "a593cff299a339e0",
-        "title": "Dev snapshot: Godot 4.8 dev 2",
-        "url": "https://godotengine.org/article/dev-snapshot-godot-4-8-dev-2/",
-        "summary": "Happy GodotCon Boston for those who celebrate! While many key contributors are already at this event as we speak, that doesn’t mean that development snapshots are slowing down anytime soon. We hope anyone that couldn’t make it to the event this year looks forward to further coverage and highlights in the near future, as you enjoy Godot 4.8 dev 2 in the meantime! Please consider supporting the project financially , if you are able. Godot is maintained by the efforts of volunteers and a small team of paid contributors. Your donations go towards sponsoring their work and ensuring they can dedicate their undivided attention to the needs of the project. Jump to the Downloads section , and give it a spin right now, or continue reading to learn more about improvements in this release. You can also try the Web editor , the XR editor , or the Android editor for this release. If you are interested",
-        "publishedAt": "2026-07-21T12:00:00.000Z",
-        "sourceId": "godot",
-        "sourceName": "Godot Engine",
-        "sourceSite": "https://godotengine.org/blog/",
-        "lane": "game",
-        "accent": "#478cbf",
-        "topic": "AI 辅助学习",
-        "score": 64,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 9,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 82,
-        "bodyHash": "782d53098b07800638e8f9a2",
-        "extraction": {
-          "method": "readability",
-          "length": 6113,
-          "originalLength": 6113,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "Godot 4.8 dev 2 开发快照发布说明",
-        "analysis": {
-          "listSummary": "本文介绍 Godot 4.8 dev 2 开发快照的更新内容。此次更新包含多项编辑器与核心改进，如检查器自动展开资源、支持从文件系统直接播放场景，以及优化 Object 属性换行以改善版本控制差异对比。此外，还涉及 3D 自由视角惯性、资产商店排序、Jolt Physics 5.6.0 升级等 197 项修复。适合关注 Godot 引擎最新进展及准备测试新特性的开发者阅读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "Godot 引擎在 GodotCon Boston 举办期间继续推进开发，发布了 4.8 dev 2 开发快照。Godot 作为一个由志愿者和少数带薪贡献者维护的非营利开源项目，其开发进度依赖于社区的财务支持。尽管核心贡献者正在参加活动，开发快照的发布并未放缓，体现了项目持续迭代的决心。在之前的版本中，检查器在初始化资源时不会自动展开，这成为了用户体验上的一个盲区，增加了开发者在调试和查看资源属性时的操作步骤。同时，从文件系统播放场景需要额外的步骤，不够直观。",
-                "在版本控制方面，Object 数据被打包在单行中，导致文本差异对比和合并工具难以解析。这种设计使得版本控制的优势大打折扣，开发者在查看 Object 数据变更时，几乎无法通过肉眼或常规工具快速定位具体修改了哪个属性， effectively 使得合并工具必须将其视为二进制文件来处理。随着项目规模扩大，资源文件的冲突解决成为团队协作的重大挑战，单行存储设计严重干扰了版本控制工具的语义化差异分析。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "针对编辑器体验的痛点，开发者通过 GH-99725 实现了检查器中自动展开创建的资源的功能，消除了这一体验盲区。同时，通过 GH-111941，允许直接从文件系统的上下文菜单播放场景，简化了工作流。针对版本控制的痛点，Robert Wallis 主导了 GH-92102，在 Object 变体的属性之间写入换行符（\\n），使数据分行显示。这一机制让 diff 和 merge 工具能够像处理普通文本一样处理 Object 数据，极大提升了团队协作时的代码审查效率。",
-                "除了上述核心改进，本次快照在多个子系统进行了精细化打磨。在 2D 和 3D 编辑方面，增加了场景绘制 2D 的详细说明，并默认重新启用了 3D 编辑器的自由视角惯性，提升了空间导航的流畅度。在核心层面，确保了主线程的唯一性并避免了不必要的释放，同时加速了移除多个子节点的操作，提升了运行时和编辑器性能。在导出和渲染方面，保证了着色器编译器浮点常量格式化的确定性，避免了跨平台构建时的潜在差异，并在 WorldEnvironment 天空反射中引入了非体积雾，优化了渲染效果。输入系统默认在新项目中忽略未聚焦窗口的游戏手柄，防止了后台输入干扰。此外，第三方物理库也升级到了 Jolt Physics 5.6.0。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "原文证据表明，本次更新由 93 名贡献者完成，构建于 commit 7220d456d，且当前没有引入新的已知问题。结论是 Godot 4.8 dev 2 在编辑器工作流和版本控制友好度上取得了实质性进展，显著提升了开发者的日常体验。",
-                "边界在于，这仍是一个预发布软件，官方明确建议用户频繁备份或使用 Git 等版本控制系统以防数据损坏或丢失。此外，构建版本分为 Standard build（包含 GDScript 和 GDExtension 支持）和 .NET build（标记为 mono，包含 C# 支持），开发者需根据项目需求选择正确的构建版本。对于 Android 编辑器，还需要申请加入测试组才能获取预发布构建。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "Godot 4.8 dev 2 检查器新增自动展开创建的资源的功能。",
-            "支持直接从文件系统上下文菜单播放场景。",
-            "Object 变体的属性之间写入换行符，显著改善版本控制的 diff/merge 体验。",
-            "第三方物理引擎 Jolt Physics 5.6.0 升级。",
-            "本次快照包含 93 名贡献者提交的 197 项修复，无新引入的已知问题。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "Godot 4.8 dev 2 构建自 commit 7220d456d",
-              "basis": "source"
-            },
-            {
-              "text": "Object 变体在属性之间写入 \\n 换行符 (GH-92102)",
-              "basis": "source"
-            },
-            {
-              "text": "第三方物理库更新到 Jolt Physics 5.6.0 (GH-121260)",
-              "basis": "source"
-            },
-            {
-              "text": "Standard build 包含 GDScript 和 GDExtension 支持，.NET build 包含 C# 支持",
-              "basis": "source"
-            },
-            {
-              "text": "93 名贡献者提交了 197 个修复",
-              "basis": "source"
-            },
-            {
-              "text": "WorldEnvironment 天空反射中使用非体积雾 (GH-107958)",
-              "basis": "source"
-            },
-            {
-              "text": "确保只有一个主线程，不无故释放 (GH-121161)",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在 Godot 项目中优化版本控制与团队协作体验",
-              "steps": [
-                "1. 升级至 Godot 4.8 dev 2 或更高版本以获取 Object 属性换行特性。",
-                "2. 将项目中的 .tscn 和 .tres 等文本资源文件纳入 Git 等版本控制系统。",
-                "3. 在代码审查时，利用 diff 工具直接查看 Object 属性的具体变更，而非整行替换。",
-                "4. 使用 merge 工具解决资源文件冲突，享受基于文本的精准合并。"
-              ],
-              "tools": [
-                "Git",
-                "Godot Engine 4.8 dev 2",
-                "Diff/Merge 工具"
-              ],
-              "verification": [
-                "1. 修改一个包含多个属性的自定义资源并保存。",
-                "2. 使用文本编辑器或 Git diff 查看该资源文件，确认属性之间已按行分隔。",
-                "3. 制造资源冲突并使用 merge 工具验证是否能按属性级别进行合并。"
-              ]
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-28T10:15:30.935Z",
-        "model": "qwen3.7-plus",
-        "annotations": {
-          "emphasis": [
-            "自动展开创建的资源",
-            "Object 变体的属性之间写入换行符",
-            "Jolt Physics 5.6.0",
-            "预发布软件"
-          ],
-          "searchTerms": [
-            {
-              "term": "Godot 4.8 dev 2",
-              "query": "Godot 4.8 dev 2 release notes"
-            },
-            {
-              "term": "Jolt Physics 5.6.0",
-              "query": "Godot Jolt Physics 5.6.0 update"
-            },
-            {
-              "term": "GH-92102",
-              "query": "Godot GH-92102 Object newline"
-            },
-            {
-              "term": "GDExtension",
-              "query": "Godot GDExtension standard build"
-            }
-          ]
-        }
       }
     ],
     "art": [
@@ -2541,271 +2713,456 @@
         "analysisStatus": "complete",
         "analyzedAt": "2026-07-28T09:01:12.846Z",
         "model": "qwen3.7-plus"
-      },
+      }
+    ]
+  },
+  "editionLanes": {
+    "ai": [
       {
-        "id": "7b649b8bd33448ac72755b24",
-        "title": "Lospec Pixel Art Scaler Revamp + Pixel Art Rotator",
-        "url": "https://lospec.com/articles/lospec-pixel-art-scaler-revamp-pixel-art-rotator",
-        "summary": "Our popular Pixel Art Scaler tool has been upgraded so that it works purely in your client, so it no longer has to go to our server. Not only will this be faster for you, it will also reduce the strain on our server so everything else will process faster. The UI should now also be a little easier to use. If you don't like this change, the older version is still available. Theres also a new feature where you can pick from various pixel art scaling algorithms for upscaling your art. None of these are perfect, and wont be as good as scaling things up by hand, but they can be interesting to see, and might be a good starting point for other things. In addition there's also a new tool called the Pixel Art Rotator, which is very similar, just for rotation instead of scaling. This uses algorithms that work better than just typical pixel rotation, which can have very noisy and messy results. If y",
-        "publishedAt": "2026-07-03T16:25:58.958Z",
-        "sourceId": "lospec-articles",
-        "sourceName": "Lospec Articles",
-        "sourceSite": "https://lospec.com/articles/",
-        "lane": "art",
-        "accent": "#3f7f69",
-        "topic": "像素美术",
-        "score": 80,
-        "readMinutes": 3,
+        "id": "f15f29c5f3561ef5",
+        "title": "LFM2.5-Encoders for Fast Long-Context Inference on CPU",
+        "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-encoders",
+        "summary": "",
+        "publishedAt": "2026-07-28T15:01:45.000Z",
+        "sourceId": "huggingface",
+        "sourceName": "Hugging Face Blog",
+        "sourceSite": "https://huggingface.co/blog",
+        "lane": "ai",
+        "accent": "#ff9d00",
+        "topic": "开发实践",
+        "score": 78,
+        "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+        "readMinutes": 11,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 80,
-        "bodyHash": "7bda9fbd98077d0817295478",
+        "candidateScore": 91,
+        "bodyHash": "0db13679ba8c18b1a288f305",
         "extraction": {
           "method": "readability",
-          "length": 1150,
-          "originalLength": 1150,
+          "length": 7653,
+          "originalLength": 7653,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Lospec 像素画缩放器升级与新增旋转器工具解析",
+        "displayTitle": "LFM2.5-Encoders：面向CPU的长上下文快速推理通用编码器",
         "analysis": {
-          "listSummary": "Lospec 对其热门的像素画缩放工具进行了重大升级，将其转为纯客户端运行以提升速度并减轻服务器压力，同时优化了用户界面并保留了旧版本。此外，该工具新增了多种像素画放大算法供选择，并推出了一款全新的像素画旋转工具，采用优化算法以解决传统旋转产生的噪点和混乱问题。本文适合像素画创作者及关注前端图像处理工具更新的开发者阅读。",
+          "listSummary": "本文介绍 Liquid AI 发布的 LFM2.5-Encoder-230M 和 350M 通用编码器。模型基于 LFM2 架构，支持 8192 token 上下文，在多项基准测试中媲美更大模型。其核心优势在于 CPU 长文本推理速度，比 ModernBERT-base 快约 3.7 倍。文章详述了双向改造方法、两阶段训练策略、性能基准及 API 调用，适合需在 CPU 环境低成本处理长文本分类、路由和检测任务的开发者。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "在像素画创作与处理流程中，原有的像素画缩放工具高度依赖服务器端进行图像处理。这种架构不仅导致用户端存在网络传输延迟，处理速度受限，同时也给服务器带来了较大的计算负载，亟需减轻服务器压力。此外，在像素画旋转场景中，传统的像素旋转算法由于缺乏对像素边缘的智能处理，极易产生嘈杂和混乱的结果，无法满足创作者对高质量自动化处理的需求。"
+                "现代 NLP 生产应用（如分类器、意图路由、安全过滤器）通常需要全天候运行，且输入文本越来越长，这些任务大多在 CPU 上执行以控制硬件成本。现有的 BERT 和 ModernBERT 等模型在长上下文下的推理成本会随输入长度增加而显著上升，导致处理长文档时延迟不可接受。此前 Liquid AI 发布了专注于多语言搜索的 LFM2.5-Retrievers，但搜索只是编码器赋能的众多功能之一，这也是作者选择构建通用模型而非直接复用检索器的原因。为了满足更广泛的通用任务需求，并在长输入下保持成本缓慢增长，作者需要构建一个通用的、在 CPU 上具备长上下文快速推理能力的编码器模型，以替代昂贵的生成式大模型，从而在普通硬件上实现文档级任务的实时处理。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "为解决上述痛点，Lospec 对热门的像素画缩放器进行了底层架构重构，将其升级为纯客户端运行模式。这一改变彻底消除了图像上传至服务器的网络开销，不仅大幅提升了用户的处理速度，也有效释放了计算资源。在用户体验方面，新版工具优化了用户界面，并保留了旧版本入口。在核心功能上，缩放器新增了多种像素画缩放算法供用户选择；同时，官方推出了一款全新的像素画旋转工具，该工具采用了专门优化的旋转算法，以替代效果较差的传统旋转方法。"
+                "作者从 LFM2 解码器骨干（230M 和 350M 参数）初始化，通过三项关键改造将其转为双向编码器：采用双向注意力掩码使每个 token 能看到两侧上下文；使用对称填充的非因果短卷积混合两侧邻居信息；在训练时掩码 30% 的 token 进行掩码语言建模。训练分为两阶段：首先在 1024 token 上下文的大型 Web 语料库上训练通用语言能力，随后在完整数据混合集上进行长上下文适应，将上下文扩展至 8192 token，以增强事实、法律和多语言能力。",
+                "在论证方面，作者通过 14 个模型在 17 个任务（GLUE、SuperGLUE 等）上的全参数微调结果证明其质量，所有分数均基于 5 个保留种子的平均值以确保稳定性。同时对比了 CPU 和 GPU 上的推理吞吐量，验证了其在长上下文下的速度优势。此外，作者还构建了多个演示应用，如零样本提示路由、策略检查、拼写检查、PII 检测以及掩码扩散文本生成，直观展示了模型在实际场景中的泛化能力与执行效率。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者通过实际运行效果得出结论：客户端处理模式显著提升了响应速度。对于新增的缩放算法，作者客观承认这些自动算法并不完美，其最终效果不如手工放大，但可以作为二次创作的有趣起点。旋转工具则通过改进算法，有效克服了传统旋转产生的噪点问题。其适用边界在于：自动缩放和旋转算法仅适用于快速预览或作为基础素材起点，对于追求极致像素控制的最终成品，仍需依赖创作者的手工调整。"
+                "证据表明，LFM2.5-Encoder-350M 在 14 个模型中排名第四，超越了参数量近 10 倍的 3.5B 模型；230M 版本击败了 ModernBERT-base 和所有 EuroBERT 模型。在 CPU 推理速度上，处理 8192 token 时，ModernBERT-base 的前向传播耗时超过 90 秒，而 LFM2.5-Encoder-230M 仅需约 28 秒，速度提升约 3.7 倍，且吞吐量随长度增加下降平缓。这意味着开发者可以在笔记本 CPU 上于 30 秒内扫描完整合同或长支持工单。在 Apple GPU 上，2K token 以上时 LFM2.5 也取得领先。",
+                "结论是，LFM2.5-Encoders 能够在不牺牲质量的前提下，在现有 CPU 硬件上廉价且快速地处理文档级任务。对于开发者而言，350M 版本适合对准确率要求极高的场景，而 230M 版本则更适合硬件受限或需要极高吞吐量的环境。边界在于，该模型主要适用于高吞吐量的理解任务，对于需要自回归生成的任务仍需使用生成式 LLM；在极短输入（1K token 以下）的特定 GPU 环境下，ModernBERT 仍具速度优势；且模型需开发者自行附加任务头微调，并非开箱即用的端到端工具。"
               ]
             }
           ],
           "keyPoints": [
-            "像素画缩放器转为纯客户端运行，提升处理速度并降低服务器负载。",
-            "缩放工具用户界面得到优化，且保留了旧版本供用户选择。",
-            "新增多种像素画缩放算法，可作为创作起点但无法替代手工缩放。",
-            "推出全新的像素画旋转工具，采用改进算法解决传统旋转的噪点问题。"
+            "LFM2.5-Encoders (230M/350M) 是支持 8192 token 上下文的通用双向编码器。",
+            "模型由 LFM2 因果解码器改造而来，引入双向注意力、对称短卷积和 30% 掩码语言建模。",
+            "在 CPU 处理 8192 token 长文本时，推理速度比 ModernBERT-base 快约 3.7 倍。",
+            "采用两阶段训练：先进行 1024 token 短上下文通用预训练，再扩展至 8192 token 长上下文适应。",
+            "适用于意图路由、策略检查、PII 检测等需要全天候在 CPU 上低成本运行的高吞吐量理解任务。"
           ],
           "technicalDetails": [
             {
-              "text": "Pixel Art Scaler 工具改为纯客户端运行（purely in your client）",
+              "text": "模型参数量分为 230M 和 350M 两个版本，支持最大 8192 token 的上下文长度。",
               "basis": "source"
             },
             {
-              "text": "提供多种像素画缩放算法（various pixel art scaling algorithms）用于放大",
+              "text": "通过双向注意力掩码、对称填充的非因果短卷积以及 30% 掩码比例的语言建模目标，将因果解码器转换为双向编码器。",
               "basis": "source"
             },
             {
-              "text": "新增 Pixel Art Rotator 工具，采用优于传统像素旋转（typical pixel rotation）的算法",
+              "text": "在 CPU 上处理 8192 token 输入时，LFM2.5-Encoder-230M 的前向传播耗时约 28 秒，而 ModernBERT-base 耗时超过 90 秒。",
               "basis": "source"
             },
             {
-              "text": "传统像素旋转会产生嘈杂和混乱（noisy and messy）的结果",
+              "text": "使用 Hugging Face transformers 库加载模型时，需设置 trust_remote_code=True 以支持自定义代码。",
+              "basis": "source"
+            },
+            {
+              "text": "在支持 Flash Attention 2 的 GPU 环境下，可通过 pip install flash-attn 安装并启用以获得最高推理效率。",
+              "basis": "source"
+            },
+            {
+              "text": "对于下游任务，需使用 AutoModel 加载编码器主体，并自行附加分类、token 分类或回归等任务头进行微调。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在前端实现纯客户端的像素画图像处理工具",
+              "scenario": "在资源受限的 CPU 服务器上部署长文本合规性检查或 PII 脱敏服务。",
               "steps": [
-                "1. 使用 HTML5 Canvas 或 WebGL 在浏览器端加载图像",
-                "2. 利用 JavaScript 实现像素级操作（如双线性插值、最近邻插值或特定像素画放大算法）",
-                "3. 将处理后的图像数据渲染回 Canvas 或导出为文件"
+                "1. 使用 AutoModel 加载 LFM2.5-Encoder-230M 基础权重",
+                "2. 在模型顶部添加针对特定合规规则或 PII 实体的线性分类头",
+                "3. 使用长文本数据集进行全参数微调，设置最大序列长度为 8192",
+                "4. 导出为 ONNX 或 TensorRT 格式以进一步优化 CPU 推理延迟"
               ],
               "tools": [
-                "HTML5 Canvas API",
-                "WebGL",
-                "JavaScript"
+                "Hugging Face Transformers",
+                "PyTorch",
+                "ONNX Runtime",
+                "Optimum"
               ],
               "verification": [
-                "对比客户端处理与服务器端处理的耗时",
-                "验证不同放大算法在边缘处的像素表现",
-                "检查内存占用和浏览器兼容性"
+                "对比微调前后在验证集上的 F1 分数和准确率",
+                "使用基准测试工具测量单条 8192 token 文本在目标 CPU 上的推理延迟",
+                "进行压力测试验证高并发下的 CPU 吞吐量和内存占用"
               ]
             }
           ]
         },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-28T10:16:49.266Z",
-        "model": "qwen3.7-plus",
         "annotations": {
           "emphasis": [
-            "纯客户端运行",
-            "减轻服务器压力",
-            "多种像素画缩放算法",
-            "不如手工放大",
-            "像素画旋转工具",
-            "嘈杂和混乱的结果"
+            "双向注意力掩码",
+            "非因果短卷积",
+            "掩码语言建模",
+            "长上下文适应",
+            "推理吞吐量",
+            "前向传播"
           ],
           "searchTerms": [
             {
-              "term": "像素画缩放器",
-              "query": "Lospec Pixel Art Scaler client side"
+              "term": "LFM2.5-Encoder",
+              "query": "LFM2.5-Encoder Liquid AI"
             },
             {
-              "term": "像素画缩放算法",
-              "query": "pixel art upscaling algorithms comparison"
+              "term": "ModernBERT",
+              "query": "ModernBERT base long context inference"
             },
             {
-              "term": "像素画旋转工具",
-              "query": "pixel art rotation algorithm noise"
+              "term": "双向注意力掩码",
+              "query": "bidirectional attention mask encoder"
             },
             {
-              "term": "传统像素旋转",
-              "query": "pixel art rotation noisy messy results"
+              "term": "掩码语言建模",
+              "query": "masked language modeling pre-training"
+            },
+            {
+              "term": "Flash Attention 2",
+              "query": "Flash Attention 2 transformers GPU"
             }
           ]
-        }
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-29T02:19:17.002Z",
+        "model": "qwen3.7-plus"
       },
       {
-        "id": "3f15c705a77ae010",
-        "title": "Aseprite v1.3.16 & v1.3.17-beta1",
-        "url": "https://blog.aseprite.org/2025/12/11/aseprite-v1316/",
-        "summary": "Hi asepriters! Today we’re releasing Aseprite v1.3.16 as the new stable version. It includes all the new features from the previous v1.3.16-betas and a lot of bug fixes. On the other hand, in the Steam beta channel you’ll find the new Aseprite v1.3.17-beta1 with new features. In this release we’re featuring erema.pixel ! What’s new in Aseprite v1.3.17-beta1 New option to paint/select rounded rectangles #2184 You can change the corner radius in real-time pressing the C key: Moving the selection in Tiled Mode now works correctly #1457 Now mouse buttons (even X1 / X2) can be associated to commands / tools / drag values #598 #1793 Other changes that you can find in the release notes : Avoid confusing UX creating new keyframes for slices #5125 #2284 Avoid confusion with Slice selection search field #5484 t/27705 Don’t modify the sprite when we just click/select slices #5578 Lua API: Added Dia",
-        "publishedAt": "2025-12-11T00:00:00.000Z",
-        "sourceId": "aseprite",
-        "sourceName": "Aseprite Blog",
-        "sourceSite": "https://blog.aseprite.org/",
-        "lane": "art",
-        "accent": "#7d4db3",
-        "topic": "像素美术",
-        "score": 64,
-        "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
-        "readMinutes": 5,
+        "id": "6a4d7adf06c505e0",
+        "title": "Six Agent Harness Capabilities for Higher Model Performance",
+        "url": "https://developer.nvidia.com/blog/six-agent-harness-capabilities-for-higher-model-performance/",
+        "summary": "Building a great AI agent isn’t just about choosing the right models. The harness is the architecture surrounding the model. How it renders context, executes...",
+        "publishedAt": "2026-07-27T09:00:00.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
+        "lane": "ai",
+        "accent": "#76b900",
+        "topic": "Agent 与自动化",
+        "score": 71,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 16,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 89,
+        "bodyHash": "34ba015ac0a78c6b2bea445b",
+        "extraction": {
+          "method": "readability",
+          "length": 11367,
+          "originalLength": 11367,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "NVIDIA NOOA框架：通过六大Agent Harness能力提升模型性能",
+        "analysis": {
+          "listSummary": "本文介绍NVIDIA开源的NOOA框架，指出构建优秀AI Agent不仅依赖模型，更取决于外围Agent Harness架构。文章解析了将Agent抽象为单一Python类的设计，及类型化I/O、引用传递等六大能力。通过展示其在SWE-bench、ARC-AGI-3等测试中实现SOTA性能并大幅降低Token成本的证据，论证了该架构的有效性。适合关注大模型Agent工程化落地与架构设计的开发者阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "构建卓越的人工智能代理（Agent）并非仅仅取决于选择正确的底层大语言模型。模型周围的Agent Harness架构，在决定最终结果方面发挥着同等重要的作用。Harness负责渲染上下文、执行动作、管理状态以及判定任务何时完成。研究表明，仅Harness设计的差异就能导致基准测试结果出现两位数的波动，并在相同底层模型下产生显著的Token成本差异。",
+                "传统的Agent开发过程通常涉及协调多个移动部件，包括提示词模板、工具模式（tool schemas）、回调代码和工作流图。这种碎片化的开发方式增加了系统的复杂性，使得Agent难以像传统软件一样进行版本控制、代码审查和单元测试。为了解决这一问题，NVIDIA推出了NVIDIA NOOA框架。这是一个开源的研究预览版，旨在通过面向对象的方法简化Agent开发，使其回归传统的软件工程实践。NOOA提供了Python框架、内存系统、能力测试以及基准代理，并公开了代码、数据和评估方法，以便社区能够复现、挑战并在此基础上进行构建。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "NOOA框架的核心创新在于将Agent简化为单一Python类。在这个设计中，类的方法代表其能力，字段代表其状态，文档字符串（docstrings）作为提示词，而类型注解则作为强制执行的契约。对于标准Python方法，如果其方法体为省略号（...），则在运行时由LLM驱动的循环来完成；而具有正常方法体的代码则作为普通的、确定性的Python代码运行。这种设计使得Agent开发变得与传统软件开发无异，可以被人类和AI编码代理使用现有工具进行差异比对、代码审查、单元测试、追踪、版本控制和重构。",
+                "该架构识别出六个驱动Agent性能的面向模型的接口理念：第一，类型化输入/输出，代理调用具有类型化的参数和经过验证的返回值，而非自由文本；第二，引用传递，模型操作实时的Python对象，查看有界的预览，而不是序列化的数据转储；第三，代码即动作，模型通过编写包含控制流和内联方法调用的Python代码来执行动作；第四，可编程循环工程，编排循环是普通的Python代码，可由开发者和模型本身编写；第五，显式对象状态，持久化、类型化的状态存在于代理对象上，而不仅仅是对话历史；第六，模型可调用的Harness API，上下文块和事件历史是模型可以检查和管理API。",
+                "在内存系统方面，NOOA包含一个长期记忆子系统。与自动后台摘要管道不同，内存是一个由代理通过模型可调用工具自主管理的存储区。代理在工作过程中有意地写入、查询和纠正记录，同时与当前回合相关的自发记忆会自动浮现到上下文中。记录携带类型、重要性和标签，并通过“支持”、“矛盾”和“派生自”等类型化关系连接成知识图谱，而非扁平的日志。后台反思过程通过合并重复项、链接相关记录、将情节提炼为洞察以及修剪不再相关的信息来整合存储。所有数据持久化在一个人类可读的SQLite文件中，团队可以使用标准实践进行检查、备份和审查。存储的记忆可以引用实时的代理状态，保持知识更新，且多个代理可以共享一个存储区同时保留独立的所有权。",
+                "在论证效率提升时，文章指出Harness工程不仅能提高准确性，还能提高效率。以SWE-bench Verified为例，NOOA使用GPT-5.5达到82.2%的准确率，仅需29次LLM调用和约110万Token。相比之下，对比Harness需要66次调用和220万Token才能达到78.2%。这种成本减半的机制主要归功于两点：首先，通过引用传递，工具结果成为直接在代码中组合的实时Python变量，而不是作为文本在上下文窗口中往返。模型看到的是类型化、有界的预览，完整值保留在执行环境中。其次，这一特性意味着NOOA在使用前沿模型解决SWE-Bench时不需要上下文压缩（context compaction）。中位数会话的提示词Token峰值仅为2.2万至7.2万，远低于20万至40万的窗口限制。由于工具结果通过引用传递而非序列化到上下文窗口，转录内容在整个会话期间保持仅追加和缓存有效，无需摘要过程，预填充缓存命中在整个任务中复合叠加。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章提供了跨多个领域的具体证据来支持其方法的有效性。在软件工程领域，NOOA在SWE-bench Verified上使用GPT-5.5达到82.2%，超越了提交时公布的SOTA（79.2%），使用Opus 4.6达到79.8%，且仅使用253行通用代理代码，无特定基准提示词。在网络安全领域，在CyberGym L1上，NOOA使用GPT-5.5解决了86.8%的任务，在阻断网络访问且无特定安全提示的情况下，超越了大多数领先的闭源系统。在通用推理领域，在ARC-AGI-3上，单一NOOA代理使用GPT-5.5达到50.2%的平均RHAE，使用GPT-5.6-sol达到85.1%，且每局成本低于20美元（分别为17.85美元和13.3美元），推进了该基准的分数-成本帕累托前沿。在ARC-AGI-3的测试中，世界建模技能贡献了8.5分的提升，内存子系统贡献了11.8分的提升。",
+                "在安全与部署边界方面，NOOA在ARC-AGI-3的测试中采用了分层沙箱机制，包括进程内cell guard、每次运行的OS权限降级、游戏身份的端到端匿名化以及内核强制的每cell沙箱。红队审计未发现任何规则泄露。对于生产部署，NOOA与NVIDIA OpenShell安全运行时配对。在漏洞发现应用中，NOOA将确定性检查和模型推理放在同一个类型化对象上，通过三个确定性门控（崩溃判定、漏洞匹配、重现检查）确保发现的准确性。",
+                "结论是，NOOA作为开源代理生态系统的研究预览，证明了通过优化Harness架构可以显著提升模型性能并降低成本。它提供了一个透明、类型化、可检查的代理框架。然而，其适用边界在于，NOOA目前被定位为一个开放的实验性表面（experimental surface），而非现有Harness的完全替代品。此外，部分顶尖基准测试结果（如ARC-AGI-3的85.1%）高度依赖于特定的前沿模型（如GPT-5.6-sol），其在较弱模型上的表现边界需进一步验证。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Agent外围架构（Harness）的设计与底层模型同等重要，能带来两位数的基准分数波动和显著的Token成本差异。",
+            "NOOA框架将Agent抽象为单一Python类，通过类型注解、文档字符串和引用传递，使Agent开发回归传统软件工程实践。",
+            "六大核心能力包括类型化输入输出、引用传递、代码即动作、可编程循环工程、显式对象状态和模型可调用的Harness API。",
+            "长期内存系统由Agent自主管理，采用知识图谱结构，所有数据持久化于单一人类可读的SQLite文件中。",
+            "借助引用传递机制，工具结果作为实时变量处理，NOOA无需上下文压缩即可将Token消耗降低约一半。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "NOOA框架将Agent定义为单一Python类，方法体为省略号(...)的标准方法在运行时由LLM驱动循环完成。",
+              "basis": "source"
+            },
+            {
+              "text": "六大Harness能力包括：Typed input/output, Pass by reference, Code as action, Programmable loop engineering, Explicit object state, Model-callable harness APIs。",
+              "basis": "source"
+            },
+            {
+              "text": "在SWE-bench Verified上，NOOA使用GPT-5.5达到82.2%准确率，仅需29次LLM调用和约1.1M tokens。",
+              "basis": "source"
+            },
+            {
+              "text": "在ARC-AGI-3上，GPT-5.6-sol达到85.1% mean RHAE，单局成本约13.3美元，19/25游戏完全解决。",
+              "basis": "source"
+            },
+            {
+              "text": "内存系统使用SQLite存储，记录带有类型、重要性、标签及supports、contradicts等关系，形成知识图谱。",
+              "basis": "source"
+            },
+            {
+              "text": "安全部署采用分层沙箱，包括进程内cell guard、OS权限降级、端到端匿名化和内核强制沙箱，配合NVIDIA OpenShell运行时。",
+              "basis": "source"
+            },
+            {
+              "text": "由于NOOA依赖Python对象引用传递，其底层执行环境必须支持安全的对象状态隔离，以防止LLM生成的代码意外修改全局状态。",
+              "basis": "inference"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "构建需要复杂状态管理、长期记忆和严格确定性校验的代码生成或漏洞分析Agent。",
+              "steps": [
+                "1. 将Agent业务逻辑封装为Python类，使用类型注解定义输入输出契约。",
+                "2. 将确定性校验逻辑（如漏洞重现检查）实现为普通Python方法，将需要LLM推理的步骤实现为带省略号(...)的方法。",
+                "3. 引入SQLite作为长期记忆存储，设计包含关系（如支持、矛盾）的知识图谱Schema。",
+                "4. 配置分层沙箱环境，限制Agent执行时的OS权限和网络访问。"
+              ],
+              "tools": [
+                "Python",
+                "SQLite",
+                "NVIDIA OpenShell",
+                "标准代码审查与单元测试工具"
+              ],
+              "verification": [
+                "1. 对确定性方法编写单元测试，确保校验逻辑的绝对正确。",
+                "2. 使用Trace工具检查LLM驱动循环的执行路径和状态变更。",
+                "3. 监控Token消耗和上下文窗口峰值，验证是否成功避免了上下文压缩。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "模型周围的Agent Harness架构",
+            "单一Python类",
+            "引用传递",
+            "代码即动作",
+            "上下文压缩",
+            "分层沙箱"
+          ],
+          "searchTerms": [
+            {
+              "term": "NVIDIA NOOA",
+              "query": "NVIDIA NOOA framework agent"
+            },
+            {
+              "term": "Agent Harness",
+              "query": "AI agent harness architecture"
+            },
+            {
+              "term": "Pass by reference",
+              "query": "LLM agent pass by reference"
+            },
+            {
+              "term": "Context compaction",
+              "query": "LLM context compaction token cost"
+            },
+            {
+              "term": "ARC-AGI-3",
+              "query": "ARC-AGI-3 benchmark agent"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-29T02:21:56.581Z",
+        "model": "qwen3.7-plus"
+      },
+      {
+        "id": "65123164fe41bd47",
+        "title": "Gemini API Managed Agents: 3.6 Flash, hooks, and more",
+        "url": "https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api-3-6-flash-hooks/",
+        "summary": "We’re announcing even more new capabilities in Managed Agents in Gemini API so developers can build reliable, production-ready agents.",
+        "publishedAt": "2026-07-28T16:00:00.000Z",
+        "sourceId": "google-ai",
+        "sourceName": "Google AI",
+        "sourceSite": "https://blog.google/technology/ai/",
+        "lane": "ai",
+        "accent": "#4285f4",
+        "topic": "Agent 与自动化",
+        "score": 79,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 10,
         "category": "update",
         "slot": "update",
         "language": "en",
-        "candidateScore": 63,
-        "bodyHash": "048ded6c07b5a548a8814a8c",
+        "candidateScore": 91,
+        "bodyHash": "093ead1e192214101fc01111",
         "extraction": {
           "method": "readability",
-          "length": 3181,
-          "originalLength": 3181,
+          "length": 6783,
+          "originalLength": 6783,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Aseprite v1.3.16 稳定版与 v1.3.17-beta1 发布解析",
+        "displayTitle": "Gemini API 托管代理更新：默认 3.6 Flash、环境钩子与成本控制",
         "analysis": {
-          "listSummary": "Aseprite 发布 v1.3.16 稳定版与 v1.3.17-beta1 测试版。稳定版新增快捷键搜索命令、Solo Layer 命令及 Windows 文件关联优化，并修复多项崩溃与 UI 缺陷。测试版引入圆角矩形实时调整、平铺模式选区移动及鼠标按钮自定义，同时优化切片交互与 Lua API。本文梳理两版本核心更新，帮助像素画创作者评估升级价值。",
+          "listSummary": "本文介绍了 Gemini API 托管代理的最新更新。核心亮点包括默认升级至 Gemini 3.6 Flash 模型，并新增环境钩子功能，允许开发者在沙箱内对工具调用进行拦截、审计或自动格式化。此外，文章详细说明了预算控制、定时触发器、免费层访问以及环境 API 等新特性。适合需要构建可靠、生产级 AI 代理并关注成本控制与自动化工作流的开发者阅读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "Aseprite 作为主流的像素画编辑工具，持续通过版本迭代以优化创作者工作流并修复已知缺陷。本次发布包含 v1.3.16 稳定版与 v1.3.17-beta1 测试版，旨在解决用户在日常绘制、图层管理、UI 交互及脚本扩展中遇到的痛点，如快捷键搜索不便、平铺模式选区异常、鼠标按钮无法自定义及 Lua API 事务处理逻辑等，从而提升整体绘制效率与软件稳定性。"
+                "Google 持续迭代 Gemini API 中的托管代理（Managed Agents）功能，旨在帮助开发者构建可靠且适用于生产环境的 AI 代理。在之前的版本中，官方引入了后台任务和远程 MCP 服务器集成，使得单次 API 调用即可在隔离的云沙箱中协调推理、代码执行、包安装、文件管理和网络检索。",
+                "然而，随着代理自主执行多轮复杂任务，开发者面临着几个关键挑战：首先，缺乏对底层大语言模型的灵活选择与成本控制机制，复杂任务容易导致 Token 预算失控；其次，在远程沙箱环境中，开发者难以对代理的工具调用进行细粒度的安全拦截、代码质量检查或自动化审计，难以满足企业级合规要求；最后，缺乏原生的定时调度能力和沙箱生命周期管理 API，限制了代理在自动化工作流和持续集成场景中的长期稳定运行。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "稳定版 v1.3.16 侧重于基础体验与系统级优化，新增通过键盘快捷键搜索命令、Solo Layer 快捷键绑定，并在 Windows 下支持文件关联与缩略图自定义，同时修复了多屏幕、大字体崩溃及滤镜遮罩等大量 Bug。测试版 v1.3.17-beta1 聚焦绘制工具增强，新增圆角矩形绘制与选择功能，支持按 C 键实时调整圆角半径，修复平铺模式选区移动，并允许将鼠标按钮（X1/X2）映射至任意命令或工具。此外，两版本均对 Lua API 进行了更新与修复，优化了对话框交互与撤销逻辑。"
+                "为解决上述问题，Google 推出了一系列新特性。在模型层面，antigravity-preview-05-2026 代理默认升级至 Gemini 3.6 Flash，同时支持通过 agent_config.model 显式指定 Gemini 3.5 Flash 或 Flash-Lite 以平衡性能与成本。",
+                "在安全与质量控制方面，引入了环境钩子（Environment hooks）机制。开发者只需在环境中添加 .agents/hooks.json 配置文件，即可在 pre_tool_execution 或 post_tool_execution 阶段执行自定义的 command 或 http 处理器。通过正则表达式匹配，可以精准拦截特定工具调用或对所有调用进行后置审计。",
+                "在成本与自动化控制方面，新增了 max_total_tokens 预算控制参数，防止任务 runaway；同时引入定时触发器（Scheduled triggers），将代理、环境、提示词和 Cron 计划绑定为持久化资源，实现无人值守运行。此外，Environments API 的发布使得开发者能够通过代码直接列出、检查和删除沙箱会话，优化资源清理。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文证据表明，v1.3.17-beta1 的圆角矩形功能通过 #2184 实现，平铺模式选区修复对应 #1457；v1.3.16 的键盘快捷键搜索对应 #5465，Windows 文件关联对应 #2606。Lua API 更新至版本 38，明确了事务内外属性与图层标志更改的撤销行为。结论是，稳定版适合追求系统稳定与基础效率提升的用户，测试版适合需要高级绘制工具与自定义鼠标操作的进阶用户。边界在于，测试版仅通过 Steam beta 渠道提供，且部分新功能可能仍需后续打磨，用户需根据自身对稳定性的需求选择更新通道。"
+                "原文通过具体的代码示例和真实企业案例论证了新特性的有效性。例如，AI 原生投资银行 Offdeal 利用 post_tool_execution 钩子，在远程沙箱内自动触发图像验证流水线，对生成的公司 Logo 进行像素级质量检查和视觉验证，解决了此前验证代码无处运行的痛点。",
+                "结论表明，这些更新将托管代理转变为成本可控、可调度的自主工作者，无需外部编排即可在真实开发环境中运行。",
+                "然而，这些功能也存在明确的适用边界：预算控制达到上限时，任务会安全暂停并返回 incomplete 状态，必须通过传入 previous_interaction_id 并分配新预算才能继续执行；定时触发器在每次运行时复用同一沙箱，这意味着文件状态会跨执行持久化，开发者需注意上下文污染问题；此外，环境钩子的 command 类型受限于沙箱内的执行环境，需确保相关脚本和依赖已正确部署，且 http 类型需处理外部端点的网络延迟与失败语义。"
               ]
             }
           ],
           "keyPoints": [
-            "v1.3.16 稳定版新增通过键盘快捷键搜索命令功能。",
-            "v1.3.17-beta1 测试版支持绘制与选择圆角矩形，并可按 C 键实时调整半径。",
-            "测试版修复了平铺模式下移动选区的问题。",
-            "鼠标按钮（包括 X1/X2）现可关联至任意命令、工具或拖动值。",
-            "Lua API 更新至版本 38，规范了事务内外的撤销步骤生成逻辑。"
+            "Gemini API 托管代理默认模型已升级为 Gemini 3.6 Flash，并支持显式指定 3.5 Flash 或 3.5 Flash-Lite。",
+            "新增环境钩子（Environment hooks），支持在沙箱内通过正则匹配拦截或审计工具调用（pre/post_tool_execution）。",
+            "引入预算控制机制，通过 max_total_tokens 限制 Token 消耗，超限后任务暂停并保留环境状态。",
+            "支持定时触发器（Scheduled triggers），可绑定 Cron 计划实现代理任务的自动化周期执行。",
+            "提供 Environments API，允许开发者通过代码列出、检查和删除沙箱会话，优化资源清理。"
           ],
           "technicalDetails": [
             {
-              "text": "绘制或选择圆角矩形时，按 C 键可实时改变圆角半径",
+              "text": "默认模型为 gemini-3.6-flash，可通过 agent_config.model 指定 gemini-3.5-flash 或 gemini-3.5-flash-lite。",
               "basis": "source"
             },
             {
-              "text": "鼠标按钮（包括 X1/X2）可关联到命令、工具或拖动值",
+              "text": "环境钩子通过 .agents/hooks.json 配置，支持 pre_tool_execution 和 post_tool_execution 事件，matcher 字段支持正则表达式。",
               "basis": "source"
             },
             {
-              "text": "Lua API 版本更新至 38",
+              "text": "钩子类型支持 command（执行本地命令）和 http（POST 到外部端点），command 类型可设置 timeout。",
               "basis": "source"
             },
             {
-              "text": "在 Lua API 中，事务外的属性更改不生成撤销步骤，事务内的图层标志更改生成撤销步骤",
+              "text": "预算控制通过 agent_config.max_total_tokens 设置，达到限制时返回 status: 'incomplete'，可通过 previous_interaction_id 继续。",
               "basis": "source"
             },
             {
-              "text": "Windows 下可将任意文件关联到运行中的 Aseprite 实例并自定义资源管理器缩略图",
+              "text": "定时触发器将 agent、environment、prompt 和 cron schedule 绑定为持久化资源。",
               "basis": "source"
             },
             {
-              "text": "v1.3.17-beta1 仅通过 Steam beta 渠道提供",
+              "text": "Environments API 可用于管理沙箱会话，替代默认的 7 天 TTL 清理机制。",
+              "basis": "source"
+            },
+            {
+              "text": "使用 npx skills add google-gemini/gemini-skills --skill gemini-interactions-api 可为 AI 编码助手添加 Interactions API 技能。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "利用 Lua API 开发自定义插件或自动化脚本",
+              "scenario": "在 CI/CD 流水线或自动化代码审查中，使用 Gemini 托管代理进行依赖审计和代码格式化，并严格控制 Token 成本（此为延伸建议，非作者原文观点）。",
               "steps": [
-                "1. 升级至 v1.3.16 或更高版本以获取 API v38 支持。",
-                "2. 使用 Dialog.onresize 事件优化自定义对话框的响应式布局。",
-                "3. 利用 Sprite.isValid 在脚本中校验精灵对象状态。",
-                "4. 在 app.transaction() 中合理控制属性与图层标志的修改，以符合新的撤销逻辑。"
+                "1. 配置 .agents/hooks.json，设置 post_tool_execution 钩子调用 auto_lint.py 进行代码风格检查。",
+                "2. 在创建 interaction 时，设置 agent_config.max_total_tokens 为合理阈值（如 10000）。",
+                "3. 编写重试逻辑，当 interaction 返回 status 为 incomplete 时，提取 previous_interaction_id 并分配新预算继续执行。",
+                "4. 任务完成后，调用 Environments API 删除沙箱以释放资源。"
               ],
               "tools": [
-                "Aseprite",
-                "Lua",
-                "Steam"
+                "@google/genai SDK",
+                "Python 脚本 (gate.py/auto_lint.py)",
+                "Cron 调度器"
               ],
               "verification": [
-                "在 Aseprite 控制台中运行脚本，检查 Dialog 缩放时 onresize 事件是否正确触发。",
-                "验证事务内外的修改是否按预期生成或忽略撤销步骤。"
+                "检查 interaction 输出是否包含预期的代码修改。",
+                "验证 Token 消耗是否未超过 max_total_tokens 限制。",
+                "确认沙箱在任务结束后被成功删除。"
               ]
             }
           ]
         },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-28T10:18:13.028Z",
-        "model": "qwen3.7-plus",
         "annotations": {
           "emphasis": [
-            "圆角矩形",
-            "平铺模式",
-            "鼠标按钮",
-            "键盘快捷键",
-            "Solo Layer",
-            "Lua API",
-            "事务"
+            "Gemini 3.6 Flash",
+            "environment hooks",
+            "max_total_tokens",
+            "previous_interaction_id",
+            "Environments API",
+            "post_tool_execution"
           ],
           "searchTerms": [
             {
-              "term": "圆角矩形",
-              "query": "Aseprite rounded rectangles feature"
+              "term": "Gemini 3.6 Flash",
+              "query": "Gemini 3.6 Flash model"
             },
             {
-              "term": "平铺模式",
-              "query": "Aseprite Tiled Mode selection bug"
+              "term": "environment hooks",
+              "query": "Gemini API environment hooks"
             },
             {
-              "term": "Lua API",
-              "query": "Aseprite Lua API version 38"
+              "term": "Interactions API",
+              "query": "Gemini Interactions API"
             },
             {
-              "term": "Solo Layer",
-              "query": "Aseprite Solo Layer command shortcut"
+              "term": "Environments API",
+              "query": "Gemini Environments API"
             }
           ]
-        }
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-29T02:23:34.286Z",
+        "model": "qwen3.7-plus"
       }
-    ]
+    ],
+    "game": [],
+    "art": []
   },
   "sources": [
     {
@@ -2822,7 +3179,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 228,
+      "latencyMs": 195,
       "itemCount": 35
     },
     {
@@ -2839,7 +3196,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 208,
+      "latencyMs": 96,
       "itemCount": 10
     },
     {
@@ -2856,7 +3213,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 830,
+      "latencyMs": 973,
       "itemCount": 31
     },
     {
@@ -2873,7 +3230,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 951,
+      "latencyMs": 1170,
       "itemCount": 10
     },
     {
@@ -2890,7 +3247,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 196,
+      "latencyMs": 102,
       "itemCount": 35
     },
     {
@@ -2907,7 +3264,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 368,
+      "latencyMs": 207,
       "itemCount": 35
     },
     {
@@ -2924,7 +3281,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 397,
+      "latencyMs": 334,
       "itemCount": 35
     },
     {
@@ -2941,7 +3298,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 328,
+      "latencyMs": 201,
       "itemCount": 30
     },
     {
@@ -2958,7 +3315,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 316,
+      "latencyMs": 253,
       "itemCount": 35
     },
     {
@@ -2975,7 +3332,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 862,
+      "latencyMs": 957,
       "itemCount": 20
     },
     {
@@ -2992,7 +3349,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 893,
+      "latencyMs": 504,
       "itemCount": 35
     },
     {
@@ -3009,7 +3366,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 376,
+      "latencyMs": 393,
       "itemCount": 15
     },
     {
@@ -3026,7 +3383,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1303,
+      "latencyMs": 1626,
       "itemCount": 15
     },
     {
@@ -3042,10 +3399,9 @@
       "weight": 1.05,
       "dailyLimit": 1,
       "accent": "#222c37",
-      "ok": false,
-      "latencyMs": 20000,
-      "error": "The operation was aborted due to timeout",
-      "itemCount": 0
+      "ok": true,
+      "latencyMs": 17508,
+      "itemCount": 35
     },
     {
       "id": "red-blob",
@@ -3061,7 +3417,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 808,
+      "latencyMs": 691,
       "itemCount": 35
     },
     {
@@ -3083,7 +3439,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1291,
+      "latencyMs": 1352,
       "itemCount": 4
     },
     {
@@ -3100,7 +3456,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 945,
+      "latencyMs": 980,
       "itemCount": 10
     }
   ],
@@ -3131,9 +3487,9 @@
       "analysis": "qwen3.7-plus"
     },
     "calls": 4,
-    "rejectedCount": 354,
-    "sourceFailureCount": 1
+    "rejectedCount": 385,
+    "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-07-29T01:56:10.447Z"
+  "previousGeneratedAt": "2026-07-29T02:04:03.427Z"
 }
