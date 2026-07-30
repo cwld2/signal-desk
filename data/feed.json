@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-29T22:38:04.295Z",
+  "generatedAt": "2026-07-30T22:45:58.249Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-07-30",
+    "date": "2026-07-31",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
@@ -24,374 +24,383 @@
   },
   "items": [
     {
-      "id": "95bc64b9d477dde6",
-      "title": "How to Self-Host a Validated AI Coding Assistant with NVIDIA NeMo Guardrails",
-      "url": "https://developer.nvidia.com/blog/how-to-self-host-a-validated-ai-coding-assistant-with-nvidia-nemo-guardrails/",
-      "summary": "Deploying an AI coding assistant in a regulated, sovereign, or source-sensitive environment, often comes with challenges. Three common issues are: the source...",
-      "publishedAt": "2026-07-29T16:46:45.000Z",
+      "id": "58582dab7dd24e3a",
+      "title": "Four Ways to Deploy More Secure AI Agents",
+      "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
+      "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
+      "publishedAt": "2026-07-30T21:09:59.000Z",
       "sourceId": "nvidia-dev",
       "sourceName": "NVIDIA Developer",
       "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
       "accent": "#76b900",
-      "topic": "开发实践",
-      "score": 81,
-      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 25,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 90,
-      "bodyHash": "2303e069743b8342e8f75a18",
-      "extraction": {
-        "method": "readability",
-        "length": 17647,
-        "originalLength": 17647,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "如何在本地安全部署受控的 AI 编程助手",
-      "analysis": {
-        "listSummary": "本文介绍如何在本地服务器部署受控的 AI 编程助手，解决代码泄露、AI 幻觉引入恶意包以及缺乏审计追踪三大痛点。通过结合 NVIDIA NIM 和 NeMo Guardrails，开发者可以在不改变现有工作流的前提下，安全地使用 AI 辅助编程。如果你负责企业级代码安全，或想深入了解 AI 编程的落地规范，这篇文章非常值得阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "在企业内部使用 AI 编程助手，最大的风险不是模型不够聪明，而是代码泄露、AI 乱编依赖包以及出了问题找不到责任人。原文指出三个常见挑战：源码不能离开内网、AI 会捏造不存在的包名带来供应链风险、生成的代码出缺陷时没有审计记录。这就像让一个不懂公司保密协议的实习生写核心代码，他不仅可能把代码发给外人，还可能从网上随便抄一些带病毒的库进来。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "作者提出把模型和控制规则分开，用一套外部系统来拦截和检查 AI 的行为。文章设计了一个包含三层的架构：底层是本地运行的 StarCoder2 模型，中间层是 NeMo Guardrails 拦截器，上层是 IDE 和 CI 检查。作者论证，模型只负责提议代码，而安全策略、依赖检查和结果测量都放在模型外部。这样即使模型出错，外部系统也能兜底，团队可以逐步引入 AI，而不需要一次性推翻现有系统。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "这套方案通过具体的开源工具和指标监控，证明了 AI 辅助编程是可以被安全度量和控制的。原文提供了具体的 CI 脚本和 Git 钩子，用于检查幻觉包和给 AI 代码打标签。结论是，只要把验证、追踪和测量放在模型之外，就能安全落地 AI 编程。边界在于，这需要团队有一定的基础设施能力，如 GPU 服务器和 CI 流水线；且对于完全断网的环境，部分第三方扫描工具需要替换为自研脚本。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "本地部署模型可以确保源代码不离开企业内网，从根本上解决数据隐私和主权问题。",
-          "NeMo Guardrails 作为代理层，能在请求到达模型前拦截涉及支付、加密等仅限人工的敏感代码生成。",
-          "AI 容易捏造不存在的第三方包，必须在持续集成流水线中加入专门的依赖幻觉扫描来防范供应链攻击。",
-          "通过 Git 提交钩子为 AI 辅助的代码添加追踪标签，以便后续统计和对比 AI 代码的缺陷逃逸率。",
-          "核心设计理念是模型不是控制平面，安全策略和验证机制必须独立于 AI 模型之外运行。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "NVIDIA NIM（NVIDIA 推理微服务）是打包好 AI 模型的容器化服务。它通过提供 OpenAI 兼容的 API，让本地 GPU 能直接运行 StarCoder2 模型。它重要是因为它让企业能在内网部署模型，且集成开发环境无需修改代码即可接入。",
-            "basis": "source"
-          },
-          {
-            "text": "NeMo Guardrails 是位于集成开发环境和模型之间的安全代理。它通过执行预定义的策略，在模型生成代码前拦截违规请求。它重要是因为它从源头防止 AI 生成高风险或敏感代码，且策略本身是可读可查的文本。",
-            "basis": "source"
-          },
-          {
-            "text": "Slopsquatting（幻觉依赖）是 AI 模型捏造不存在的包名，被攻击者注册并植入恶意代码的现象。攻击者利用 AI 的幻觉，在公共仓库注册相似名称的恶意包。它重要是因为这会导致开发者在不知情的情况下引入供应链恶意软件。",
-            "basis": "source"
-          },
-          {
-            "text": "领域自适应是使用企业内部代码库对基础模型进行继续预训练和微调的过程。通过 NeMo Framework 让模型学习内部 API 和特定编码规范。它重要是因为它能减少 AI 对内部专有 API 的幻觉，提高代码生成的准确性。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在团队中初步引入本地 AI 编程助手，并建立基础的安全拦截机制。",
-            "steps": [
-              "准备一台至少 24GB 显存的 NVIDIA GPU 服务器，安装 Docker 和 NVIDIA Container Toolkit。",
-              "使用 Docker 拉取并运行 StarCoder2-7B NIM 容器，暴露 8000 端口。",
-              "安装 NeMo Guardrails，编写配置文件定义拦截认证和支付等路径的策略。",
-              "启动 Guardrails 服务（端口 8100），并将 IDE 的 API 地址指向该端口。"
-            ],
-            "tools": [
-              "Docker",
-              "NVIDIA Container Toolkit",
-              "StarCoder2 NIM",
-              "NeMo Guardrails",
-              "Continue 或 Cursor IDE"
-            ],
-            "verification": [
-              "在 IDE 中请求生成普通函数，能正常返回代码。",
-              "请求生成认证模块相关代码时，IDE 收到明确的拒绝提示，且 NIM 容器日志中无生成记录。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "供应链风险"
-        ],
-        "searchTerms": [
-          {
-            "term": "NVIDIA NIM",
-            "query": "NVIDIA NIM StarCoder2 deployment"
-          },
-          {
-            "term": "NeMo Guardrails",
-            "query": "NeMo Guardrails coding assistant policy"
-          },
-          {
-            "term": "slopsquatting",
-            "query": "AI hallucinated dependency slopsquatting"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:34:45.395Z",
-      "model": "qwen3.7-plus"
-    },
-    {
-      "id": "0d3521e6bbafd31a",
-      "title": "How Similarweb Evaluates Agent Reports with LangSmith",
-      "url": "https://www.langchain.com/blog/how-similarweb-evaluates-long-form-agent-research-reports-with-langsmith",
-      "summary": "Learn how Similarweb uses LangSmith to evaluate long-form agent research reports with rubrics, faithfulness checks, traces, and baseline comparisons.",
-      "publishedAt": "2026-07-29T15:30:04.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
-      "lane": "ai",
-      "accent": "#1c3c3c",
-      "topic": "AI 辅助学习",
-      "score": 59,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "topic": "Agent 与自动化",
+      "score": 86,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
       "readMinutes": 19,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 86,
-      "bodyHash": "44e114ca2ad539638b194c2a",
+      "candidateScore": 97,
+      "bodyHash": "876794aa4deebf83bcaeba83",
       "extraction": {
         "method": "readability",
-        "length": 12973,
-        "originalLength": 12973,
+        "length": 13495,
+        "originalLength": 13495,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Similarweb 如何使用 LangSmith 评估 AI 智能体生成的深度研究报告",
+      "displayTitle": "NVIDIA 红队总结：部署安全 AI 智能体的四大核心防线",
       "analysis": {
-        "listSummary": "本文介绍 Similarweb 如何用 LangSmith 评估 AI 智能体生成的开放式长文本报告。文章解释了当 AI 输出没有唯一标准答案时，如何结合确定性检查与大模型裁判进行质量打分。读者将学到如何设计评分量表、避免评分陷阱，并将评估与运行追踪结合。如果你正在开发 AI 智能体或长文本生成应用，本文能帮你建立可靠的自动化评估流程，非常值得阅读。",
+        "listSummary": "本文总结了 NVIDIA 红队评估 AI 智能体时发现的四大安全漏洞及防御方法。文章指出，依赖大模型提示词防御不可靠，必须采用访问控制、限制代码执行、默认拒绝网络出站和隔离密钥等硬性架构控制。如果你正在开发或部署能调用外部工具的 AI 智能体，这篇文章能帮你避开致命的安全坑，非常值得阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "传统软件测试非黑即白。但 AI 智能体（Agent，即能自主规划任务并调用工具的 AI 程序）系统的输出是开放且多变的。在 Similarweb Data Studio 中，用户用自然语言提问。智能体负责规划任务、调用数据工具并生成回答。由于每次运行的路径和结果可能不同，开发者很难判断一次更新是让系统变好了，还是仅仅把错误转移到了其他地方。",
-              "评估必须成为产品架构的一部分。对于简单的问答，我们可以对比标准答案。但对于包含数据引用和叙事的深度研究报告，根本没有唯一正确的标准答案。我们需要一种能评估质量和逻辑的方法。这种方法还必须能追踪到智能体具体调用了什么工具、获取了什么数据。"
+              "AI 智能体（AI Agent，简单说，就是能自主调用工具完成任务的 AI 程序）正在成为开发者的数字同事。它们能自动审查 Bug、编写修复代码并提交补丁，大幅提升工作效率。",
+              "但把大语言模型（LLM，即驱动 AI 的核心大脑）连接到企业实时工具和数据，会暴露巨大的攻击面。NVIDIA 红队测试发现，无论使用什么框架，不安全的智能体通常存在四个致命缺陷。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "团队采用两种检查机制来评估智能体输出。第一种是确定性检查（简单说，就是写死规则来检查机械行为）。比如验证智能体是否调用了必需的工具，或者是否返回了有效的结构化数据。第二种是大模型作为裁判（LLM-as-a-judge，即让另一个大语言模型来给输出打分）。这用于评估语义和质量。裁判模型会接收用户问题、智能体输出和评分标准。然后它返回分数和解释。",
-              "针对简单的常规聊天，团队使用语义评估器将智能体输出与标准答案（golden answer）进行对比。这能判断意思是否一致。针对复杂的深度研究，团队放弃了标准答案。他们改用评分量表（rubric，即明确列出各个质量维度及格线标准的提示词）。例如在来源整合维度，量表会明确规定得 0 分、0.3 分、0.8 分和 1 分的具体表现。",
-              "除了质量量表，团队还运行忠实度检查（faithfulness checks，即验证报告中的结论是否真的由检索到的数据推导出来）。这能防止智能体胡编乱造。为了判断新版本是否真的更好，他们还会将新报告与基线（baseline，即之前保存的、被认可的旧版本输出）进行 A/B 对比。裁判模型会直接比较两者的优劣。"
+              "第一个缺陷是缺乏访问控制。很多智能体持有用户凭证，且对内部网络所有人开放。攻击者可以轻易收集这些凭证并在其他地方滥用。必须为智能体设置严格的身份验证，并遵循最小权限原则（即只给完成工作所需的最低权限）。",
+              "第二个缺陷是未限制代码执行。许多智能体暴露了命令行工具。攻击者可以通过提示词注入，诱导智能体执行恶意命令，甚至获取远程代码执行（RCE，即完全控制目标机器的能力）。应尽量避免使用命令行，或将文件写入限制在非执行区域。",
+              "第三个缺陷是未限制网络出站。默认允许智能体连接外部网络，会导致数据泄露或建立反向 shell（一种让攻击者从外部控制内部机器的隐蔽连接）。必须在网络边界实施默认拒绝策略，只允许访问必要的白名单地址。",
+              "第四个缺陷是密钥明文暴露。智能体常需要 API 密钥或令牌。如果把它们放在环境变量中，攻击者只需让智能体执行简单的打印命令就能窃取。必须使用专门的密钥管理器，按需获取短生命周期的令牌。",
+              "文章特别论证了提示词防御的脆弱性。试图用系统提示词或大模型做裁判（LLM-as-a-judge，即让另一个大模型判断当前操作是否安全）来阻止恶意行为是无效的。攻击者可以通过伪装成管理员、温水煮青蛙式地逐步诱导，或利用恶意代码包安装等合法工作流，轻松绕过这些概率性的软防御。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "评估工具的核心价值在于将分数、裁判的解释和智能体的运行追踪（trace，即记录智能体每一步思考和工具调用的日志）连接起来。团队曾因为评分量表未校准而浪费了一周时间。新报告引用的来源变多了，但来源质量变差了，导致总分下降。如果只看总分，会误以为系统退步了。",
-              "通过查看每个维度的具体评论和运行追踪，团队发现是评分标准中来源数量和来源质量发生了冲突。修改量表使其更看重有具体名称和可验证的来源后，分数才真实反映了质量。这证明了一个未校准的评估系统比没有评估更糟。因为它会提供虚假的信心。",
-              "最终的工作流是：提出假设，运行小规模评估看信号，检查评论和追踪，运行包含多次重复的完整基准测试，与基线对比，最后决定是合并代码、继续迭代还是重新校准量表。评估并没有消除人类判断。它让判断变得可检查、可重复，并直接关联到智能体的实际行为。"
+              "NVIDIA 红队通过实际攻击验证了上述结论。例如，他们通过让智能体安装恶意 Python 包，成功触发了任意代码执行；通过伪装成调试人员，诱导 Slack 智能体创建了反向 shell。",
+              "结论是，防御 AI 智能体不能依赖大模型自身的判断，必须使用确定性的硬控制。这包括智能体访问控制、经过安全加固的隔离沙箱、默认拒绝的网络出站控制，以及物理隔离密钥。",
+              "这些架构级控制在对抗压力下表现良好。但边界在于，完全自主且拥有企业凭证的系统 inherently risky（原文表述，意为 inherently 具有高风险）。即使是最先进的前沿模型，只要有足够时间和专业知识，依然可能被攻破。安全是一个持续对抗的过程。"
             ]
           }
         ],
         "keyPoints": [
-          "AI 智能体系统的输出具有随机性和开放性，传统的单元测试无法直接适用，必须将评估流程嵌入到产品架构中。",
-          "评估智能体需要结合确定性检查（验证工具调用和数据结构）与大模型裁判（评估语义、质量和忠实度）。",
-          "对于没有唯一标准答案的长文本报告，应使用包含明确打分锚点的评分量表，而不是简单的标准答案对比。",
-          "评分量表必须经过校准，避免不同评估维度之间的冲突（如数量与质量的冲突）导致总分误导开发者。",
-          "有效的评估系统必须将分数、裁判解释与运行追踪深度绑定，让开发者能顺藤摸瓜找到智能体行为的具体缺陷。"
+          "AI 智能体连接外部工具会引入严重安全风险，不能仅靠大模型的提示词来防御。",
+          "必须对智能体实施严格的身份访问控制，并遵循最小权限原则。",
+          "应尽量避免让智能体直接执行命令行，防止攻击者通过提示词注入获取远程代码执行权限。",
+          "网络出站连接必须默认拒绝，仅开放任务必需的最小网络白名单。",
+          "密钥和令牌绝不能以明文形式暴露在智能体的执行环境或上下文中。",
+          "防御机制必须部署在大模型控制平面之外，使用确定性的架构级硬控制。"
         ],
         "technicalDetails": [
           {
-            "text": "大模型裁判（LLM-as-a-judge）评估机制。它是什么：一种让大语言模型扮演评审员，对另一个模型的输出进行打分的机制。怎么工作：裁判模型接收三个输入：用户原始问题、智能体生成的输出、以及预设的评分标准（如评分量表或标准答案）。模型根据标准输出一个分数和一段解释评论。为什么重要：它解决了开放式文本无法用精确字符串匹配来评估的问题，能够理解语义和上下文质量。",
+            "text": "远程代码执行 (RCE)：它是什么：攻击者能够在目标服务器上运行任意代码的漏洞。怎么工作：在 AI 智能体场景中，攻击者通过构造恶意提示词，诱导智能体的命令行工具执行恶意脚本。为什么重要：这是最高危的风险，一旦成功，攻击者就能完全接管运行智能体的服务器。",
             "basis": "source"
           },
           {
-            "text": "评分量表（Rubric）提示词设计。它是什么：一种结构化的提示词，为每个质量维度定义了具体的分数等级和对应的表现描述。怎么工作：在提示词中明确写出 0.0 到 1.0 各个分数段的具体要求（例如 0.3 分是模糊提及外部来源，0.8 分是引用多个带日期和数据的具名来源）。裁判模型根据这些锚点为每个维度独立打分。为什么重要：它避免了大模型打分时的随意性，确保评分标准与产品实际关心的质量维度严格对齐。",
+            "text": "反向 Shell (Reverse Shell)：它是什么：一种让目标机器主动连接回攻击者机器的隐蔽通道。怎么工作：攻击者诱导智能体执行特定命令，使智能体所在的服务器主动向攻击者的监听端口发起连接。为什么重要：它能绕过防火墙的入站限制，让攻击者直接控制智能体的运行环境。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 的 aevaluate API 与追踪绑定。它是什么：LangSmith 提供的一个异步评估 API，用于在数据集上批量运行评估循环。怎么工作：通过传入目标函数、数据集 ID、评估器列表和并发参数，API 会自动运行多次评估。每个评估器的分数会作为列展示，并且每个分数都会直接链接到该次运行的详细追踪日志。为什么重要：它将抽象的评估分数与具体的智能体执行步骤绑定，让开发者能从分数直接下钻到具体的代码或提示词问题。",
+            "text": "大模型做裁判 (LLM-as-a-judge)：它是什么：使用一个大语言模型来审查另一个大模型的输入或输出是否安全。怎么工作：在智能体执行操作前，让裁判模型评估该操作是否违规。为什么重要：原文证明这种基于概率的软防御极易被社会工程学或上下文伪装绕过，不能作为核心安全防线。",
+            "basis": "source"
+          },
+          {
+            "text": "温水煮青蛙攻击 (Frog-boiling / Crescendo attack)：它是什么：一种通过多轮对话逐步诱导 AI 执行恶意操作的提示词注入手法。怎么工作：攻击者先通过合法请求建立信任，然后逐步提出稍微越界的要求，最终让 AI 在不知不觉中泄露密钥或执行恶意代码。为什么重要：它证明了单次请求的防御很容易被多轮上下文操纵所瓦解。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "为长文本 AI 智能体输出建立基于评分量表的自动化评估流程。",
+            "scenario": "在 Unity 或 Godot 游戏开发中，部署一个能自动读取项目日志并生成修复代码的 AI 智能体。",
             "steps": [
-              "定义 3 到 5 个核心质量维度（如来源多样性、逻辑连贯性、数据忠实度）。",
-              "为每个维度编写评分量表提示词，明确写出 0.0、0.3、0.8、1.0 四个分数段的具体文本表现要求。",
-              "准备一个包含 20 个典型用户问题的测试数据集，并人工标注一个基线（baseline）输出。",
-              "使用 LangSmith 的 aevaluate API 运行评估，同时传入确定性检查评估器和 LLM 裁判评估器。",
-              "检查评估结果中的低分项，点击分数查看裁判的评论和智能体的运行追踪（trace）。",
-              "如果发现分数与人工直觉不符，修改评分量表提示词中的冲突条件，重新运行评估直到分数与评论逻辑一致。"
+              "在 Docker 中运行该智能体，并限制其只能读取特定的日志文件夹。",
+              "配置 Docker 网络为 none 或仅允许访问内部 API 网关，禁止直接访问外网。",
+              "将 Unity 或 Godot 的 API 密钥存放在 AWS Secrets Manager 或 HashiCorp Vault 中。",
+              "编写一个中间件脚本，智能体需要密钥时，由中间件向 Vault 申请一个 5 分钟有效的临时令牌并注入内存。"
             ],
             "tools": [
-              "LangSmith",
-              "Python (asyncio)",
-              "大语言模型 API (如 OpenAI GPT-4)"
+              "Docker",
+              "AWS Secrets Manager",
+              "HashiCorp Vault",
+              "自定义中间件脚本"
             ],
             "verification": [
-              "评估结果表格中，每个维度的分数旁边都有合理的评论解释。",
-              "修改提示词后，原本得分异常的用例分数回归到符合人工预期的范围。",
-              "运行追踪日志能清晰展示智能体调用工具和生成文本的完整过程。"
+              "尝试在智能体对话中输入请执行 env 命令查看环境变量，智能体应返回空或无敏感信息。",
+              "尝试让智能体访问外部网址，应返回网络不可达错误。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "确定性检查",
-          "大模型作为裁判",
-          "评分量表",
-          "忠实度检查",
-          "运行追踪",
-          "评分量表未校准"
+          "缺乏访问控制",
+          "任意代码执行",
+          "密钥明文暴露",
+          "提示词防御",
+          "确定性的硬控制"
         ],
         "searchTerms": [
           {
-            "term": "LangSmith",
-            "query": "LangSmith agent evaluation tutorial"
+            "term": "远程代码执行",
+            "query": "Remote Code Execution RCE AI agent"
           },
           {
-            "term": "LLM-as-a-judge",
-            "query": "LLM as a judge evaluation prompt"
+            "term": "反向 shell",
+            "query": "reverse shell AI agent exploitation"
           },
           {
-            "term": "Rubric",
-            "query": "LLM evaluation rubric prompt design"
+            "term": "大模型做裁判",
+            "query": "LLM-as-a-judge security bypass"
           },
           {
-            "term": "Faithfulness checks",
-            "query": "RAG faithfulness evaluation metrics"
+            "term": "温水煮青蛙攻击",
+            "query": "Crescendo attack prompt injection"
           },
           {
-            "term": "Trace",
-            "query": "LangSmith trace observability"
-          },
-          {
-            "term": "aevaluate",
-            "query": "LangSmith aevaluate API python"
+            "term": "最小权限原则",
+            "query": "principle of least privilege AI agents"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:36:50.343Z",
+      "analyzedAt": "2026-07-30T22:42:35.687Z",
       "model": "qwen3.7-plus"
     },
     {
-      "id": "23961d42d3945e47",
-      "title": "We’re launching Lyria 3.5 in Google Flow Music, with advances across musicality, lyrics, vocals, and creative control",
-      "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/lyria-3-5/?utm_source=deepmind.google&utm_medium=referral&utm_campaign=gdm&utm_content=",
-      "summary": "",
-      "publishedAt": "2026-07-29T16:02:10.000Z",
-      "sourceId": "deepmind",
-      "sourceName": "Google DeepMind",
-      "sourceSite": "https://deepmind.google/discover/blog/",
+      "id": "c8254ac6586638ff",
+      "title": "Stacked sessions and pull requests in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
+      "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-07-30T17:30:24.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
       "lane": "ai",
-      "accent": "#5c6bc0",
-      "topic": "AI 动态",
-      "score": 62,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 3,
-      "category": "research",
-      "slot": "update",
+      "accent": "#24292f",
+      "topic": "AI 辅助学习",
+      "score": 86,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 12,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 72,
-      "bodyHash": "eabfe295fd4ebeae57f28e36",
+      "candidateScore": 95,
+      "bodyHash": "3409436d53b8f9e09963aa04",
       "extraction": {
         "method": "readability",
-        "length": 764,
-        "originalLength": 764,
+        "length": 8396,
+        "originalLength": 8396,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Google 发布 Lyria 3.5 音乐生成模型：全面提升音乐、歌词与人声质量",
+      "displayTitle": "使用 GitHub Copilot 的堆叠会话和拉取请求重构老旧代码",
       "analysis": {
-        "listSummary": "本文介绍 Google DeepMind 发布的最新音乐生成模型 Lyria 3.5。它解决了早期 AI 音乐生成中旋律生硬、歌词不连贯和人声缺乏情感的问题。对于内容创作者和游戏开发者，这意味着能用更少的提示词生成结构完整、情感丰富的背景音乐或歌曲。文章简明扼要，值得关注 AI 音乐生成进展的入门学习者阅读。",
+        "listSummary": "本文介绍了如何使用 GitHub Copilot 应用中的“堆叠会话”和“堆叠拉取请求”功能来重构老旧代码。作者通过实际案例展示了如何将一个庞大的重构任务拆分为多个相互依赖的小任务。如果你正在面对难以维护的旧项目，或者想了解 AI 编程工具如何管理复杂的代码变更，这篇文章非常值得一读。它能帮你理解如何利用 AI 拆解大任务，避免代码混乱。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "早期 AI 音乐生成工具往往只能生成简单的循环旋律，歌词像随机拼凑，人声听起来像机器朗读。这限制了它们在专业内容制作或游戏开发中的实际应用。Google 推出 Lyria 3.5 模型，旨在解决这些痛点。它让不懂乐理的普通人也能通过文本指令，生成接近人类创作水平的完整歌曲。"
+              "老旧代码库的重构往往因为依赖复杂和牵一发而动全身而让人放弃。作者有一个2014年开发的个人应用，使用了 React 15、Less 和旧版 react-bootstrap。这些依赖已经非常过时，手动清理需要耗费数周时间。在引入 AI 工具前，作者曾尝试重构但失败了，因为代码量不大不小，投入产出比太低。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Lyria 3.5 通过四个核心维度的升级来提升音乐质量。首先是音乐性，模型能生成更复杂且自然的旋律结构，告别简单的机械循环。其次是歌词生成，它增强了对提示词（也就是用户输入的文本指令）的遵循能力，并具备了结构意识（简单说，就是模型知道一首歌应该有主歌、副歌等段落，就像写文章要有起承转合，而不是随机堆砌句子）。第三是人声表现，新模型让人声更具情感起伏，发音更准确。最后是创作控制，用户可以更精确地调节生成音乐的节奏和时长。"
+              "作者最初试图用 AI 一次性完成所有前端现代化工作，但失败了。作者使用 Plan 模式（一种让 AI 先制定计划再执行的模式）并借助 Claude Opus 4.8 和 GPT-5.5 模型进行规划。失败的原因在于作者忽略了之前在一个名为 dev 的分支上已经做过部分更新。AI 工具随后调整了策略，将样式修改应用到了 dev 分支上，解决了分支冲突问题。",
+              "在测试阶段，作者发现了旧版 react-bootstrap 库带来的控制台警告。为了避免“范围蔓延”（简单说，就是做任务时忍不住把不相关的功能也加进去，导致任务失控），作者决定将任务拆分。作者让 AI 先提交当前的样式修改，然后开启一个新的“堆叠会话”来专门处理替换 react-bootstrap 库的工作。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文事实表明，Lyria 3.5 已在 Google Flow Music 平台上线，并明确列出了上述四项改进。作者判断这些改进能让用户创作出更丰富的曲目，并拥有真正的创作控制权。需要注意的是，原文并未提供具体的底层算法细节或客观评测数据。因此，这些改进的实际听感和控制精度，仍需用户自行在 Flow Music 中验证。AI 推断认为，这种多模态控制能力的提升，将大幅降低游戏和短视频行业的配乐成本。"
+              "堆叠会话和堆叠拉取请求（Pull Request，简称 PR，即请求将代码合并到主分支的审核流程）是解决复杂重构的有效方法。堆叠是指一系列 PR，每个 PR 都指向它下方 PR 的分支，最终形成一条合并到主分支的链条。这种方法让作者能够安全地隔离不同阶段的修改，避免了生成一个包含一万行代码的巨大 PR。结论是，利用 AI 工具的会话堆叠功能，可以大幅降低老旧代码库现代化的心智负担。"
             ]
           }
         ],
         "keyPoints": [
-          "Lyria 3.5 是 Google DeepMind 推出的新一代音乐生成模型，现已集成到 Google Flow Music 平台。",
-          "音乐性提升体现在能生成更复杂、自然的旋律结构，告别简单的机械循环。",
-          "歌词生成不仅质量更高，还能更好地理解用户的文本指令，并遵循标准的歌曲段落结构。",
-          "人声合成更加逼真，不仅发音更准确，还能表现出细腻的情感起伏。",
-          "创作者现在可以更直观地控制生成音乐的具体节奏和总时长。"
+          "面对老旧代码库，试图用 AI 一次性完成所有重构通常会失败，需要分步进行。",
+          "在让 AI 生成代码前，必须确保 AI 基于正确的代码分支（如包含历史修改的 dev 分支）工作。",
+          "堆叠会话允许将一个大任务拆分为多个按顺序执行的小任务，每个任务基于前一个任务的结果。",
+          "堆叠拉取请求形成一条分支链，每个 PR 合并到前一个 PR 的分支，最终汇入主分支，便于代码审查。",
+          "拆分任务可以有效防止范围蔓延，避免生成难以测试和合并的超大代码变更。"
         ],
         "technicalDetails": [
           {
-            "text": "Lyria 3.5 音乐生成模型。它是什么：Google DeepMind 开发的用于将文本提示转化为音频音乐的 AI 模型。怎么工作：通过深度学习理解用户的文本指令（如风格、歌词、节奏），并合成对应的旋律、和声与人声。为什么重要：它是内容创作者快速生成高质量背景音乐或完整歌曲的核心引擎。",
+            "text": "堆叠会话是 GitHub Copilot 应用中的一种任务管理机制。它允许用户在一个仓库中创建一系列相互依赖的任务会话。每个新会话都基于前一个会话的代码状态运行，并生成对应的代码变更。这很重要，因为它将庞大的重构任务拆解为可控的线性步骤，防止 AI 在单次执行中产生混乱或超出上下文限制。",
             "basis": "source"
           },
           {
-            "text": "提示词遵循与结构意识。它是什么：模型准确执行用户文本指令，并理解歌曲段落排列规则的能力。怎么工作：模型在训练时学习了大量标准歌曲的文本与音频对应关系，从而在生成时能按指令输出特定段落。为什么重要：这保证了生成的歌词不会偏离主题，且歌曲听起来有完整的起承转合，而不是随机句子的堆砌。",
+            "text": "堆叠拉取请求是一种代码合并策略。它创建一系列 PR，其中每个 PR 的目标分支是它前一个 PR 的源分支，最终指向主分支。这很重要，因为它让开发者可以按顺序审查和合并小批量的代码变更，而不是面对一个包含所有修改的巨大 PR，从而降低代码审查的难度和合并冲突的风险。",
+            "basis": "source"
+          },
+          {
+            "text": "Plan 模式是 AI 编程工具中的一种交互方式。它要求 AI 在直接修改代码之前，先输出重构或实现步骤的计划供人类审核。这很重要，因为它让人类可以在 AI 消耗大量计算资源生成代码前，纠正方向或调整范围，避免生成完全不符合预期的代码。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "独立游戏开发者需要为游戏过场动画生成一段 30 秒、节奏舒缓且带有特定歌词的背景音乐。",
+            "scenario": "当你需要重构一个包含多个相互依赖模块的老旧项目，且单次 AI 生成代码容易失败或产生冲突时。",
             "steps": [
-              "打开 Google Flow Music 平台并登录账号。",
-              "在提示词框中输入具体的歌词内容，并指定音乐风格（如“舒缓的 acoustic pop”）。",
-              "在控制选项中，将时长参数设置为 30 秒，将节奏参数调低以匹配舒缓风格。",
-              "点击生成，试听输出结果，检查人声发音和旋律是否符合预期。"
+              "在 GitHub Copilot 应用中打开项目，进入 Plan 模式。",
+              "输入提示词，要求 AI 先制定重构计划，并明确指定基于当前正在开发的分支而非主分支。",
+              "审核 AI 生成的计划，确认无误后让 AI 执行第一阶段修改。",
+              "第一阶段完成后，要求 AI 为当前修改创建一个 PR。",
+              "接着，要求 AI 开启一个新的堆叠会话来处理下一个模块，并指示新会话基于上一个 PR 的分支。",
+              "重复创建 PR 和开启堆叠会话的步骤，直到所有模块重构完成，形成堆叠 PR 链。"
             ],
             "tools": [
-              "Google Flow Music",
-              "Lyria 3.5 模型"
+              "GitHub Copilot app",
+              "Git",
+              "GitHub"
             ],
             "verification": [
-              "生成的音频时长严格在 30 秒左右。",
-              "人声清晰且带有情感，歌词与输入的提示词高度一致。",
-              "旋律没有突兀的断裂感，具备明显的段落结构。"
+              "在 GitHub 界面中可以看到多个 PR 形成嵌套或链式结构。",
+              "每个 PR 的代码审查页面只显示当前阶段的修改。",
+              "所有 PR 依次合并后，主分支包含完整的重构代码且无冲突。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "Lyria 3.5",
-          "Google Flow Music",
-          "结构意识",
-          "创作控制"
+          "堆叠会话",
+          "堆叠拉取请求",
+          "范围蔓延",
+          "Plan 模式",
+          "依赖",
+          "分支"
         ],
         "searchTerms": [
           {
-            "term": "Lyria 3.5",
-            "query": "Google DeepMind Lyria 3.5 music generation model"
+            "term": "堆叠会话",
+            "query": "GitHub Copilot stacked sessions"
           },
           {
-            "term": "Google Flow Music",
-            "query": "Google Flow Music AI music platform"
+            "term": "堆叠拉取请求",
+            "query": "GitHub stacked pull requests"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot Plan mode"
+          },
+          {
+            "term": "范围蔓延",
+            "query": "software engineering scope creep"
+          },
+          {
+            "term": "react-bootstrap",
+            "query": "react-bootstrap migration"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:38:04.294Z",
+      "analyzedAt": "2026-07-30T22:44:29.652Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "b8125f9667d073b4",
+      "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
+      "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
+      "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
+      "publishedAt": "2026-07-30T15:22:24.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
+      "lane": "ai",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 72,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 8,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 74,
+      "bodyHash": "40965d78d9a5df57097e4592",
+      "extraction": {
+        "method": "readability",
+        "length": 5487,
+        "originalLength": 5487,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "前沿AI厂商如何构建隐蔽的开发者锁定",
+      "analysis": {
+        "listSummary": "本文揭示了前沿AI模型正通过加密内部推理状态和绑定专有执行环境，对开发者形成深层锁定。文章分析了这种锁定如何提升模型跑分，却牺牲了系统的可移植性。对于希望构建开放、跨模型AI智能体的开发者而言，本文提供了识别锁定陷阱的视角，并指明了构建独立状态管理架构的方向，非常值得阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "AI厂商的锁定手段已经从模型本身，升级到了运行时的状态和执行环境。过去大家担心AI锁定，主要是怕微调格式或提示词不兼容。现在AI变成了能连续执行多步任务的智能体系统（Agentic systems，即能自主规划和执行复杂任务的AI程序）。为了让智能体表现更好，厂商把中间推理过程和运行环境绑在了自己的服务器上。这解决了智能体长任务推理能力差的问题，但代价是开发者失去了对运行状态的控制权。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "厂商通过隐藏推理状态和定制执行沙盒，让模型在自家平台上跑分暴涨，但状态无法迁移。以OpenAI的Responses API（一种用于构建多轮对话和智能体的接口）为例，它允许服务器保存对话的中间推理状态。这些状态是加密的，开发者看不到也改不了。同时，模型针对厂商专有的代码执行沙盒进行了强化学习（RL，一种通过试错和奖励来训练AI的方法）优化。这导致模型在自家环境里得分翻倍，但在通用环境里表现平平。作者认为，这种跑分提升是一种幻觉，它反映的是模型加专有环境的整体能力，而不是模型本身的纯粹智力。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "开发者必须把厂商提供的状态管理当作临时优化，自己掌握核心状态数据。原文证据表明，无论是OpenAI的加密推理、Anthropic的思考块，还是Gemini的思维签名，都不向开发者暴露原始推理过程。此外，厂商内置的跨会话记忆层让开发者无法精细管理数据，也阻碍了多模型协作。作者的结论是，要构建不依赖单一厂商的系统，必须建立显式且开放的状态架构。边界在于，放弃厂商的内置状态管理可能会在短期内牺牲部分跑分和开发便利性，需要开发者自行搭建外部状态基础设施。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "AI锁定已从模型权重转移到运行时的状态与执行基础设施。",
+          "厂商通过加密中间推理状态，提升了长任务表现，但导致状态无法跨模型迁移。",
+          "专有执行沙盒让模型在特定基准测试中跑分暴涨，但这掩盖了模型在通用环境中的真实能力。",
+          "内置的跨会话记忆层剥夺了开发者对数据的精细管理权，并阻碍了多模型协同工作。",
+          "开发者应将厂商的状态管理视为临时优化，核心状态数据必须掌握在自己手中。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Responses API 的状态管理参数。它提供 previous_response_id（让服务器保存并复用上一轮的推理状态）和 store: false（让客户端自己保存完整输出）两种模式。当对话变长时，API 会自动压缩上下文，生成加密的压缩项。这决定了智能体能否记住之前的思考过程。加密机制虽然提升了长文本处理效率，但让开发者无法将这些状态转移给 Llama 或 Qwen 等开源模型。",
+            "basis": "source"
+          },
+          {
+            "text": "专有执行沙盒。AI 厂商为模型定制了封闭的代码解释器或浏览器代理环境，并使用强化学习针对这些特定环境进行优化。模型在自家沙盒里能完美调用工具，但在通用开源沙盒里表现糟糕。这导致基准测试分数虚高，开发者如果直接复用这些分数，会在实际部署时遭遇性能断崖。",
+            "basis": "source"
+          },
+          {
+            "text": "Otari 开源大语言模型控制平面。它是一个中间件系统，用于集中管理和调度多个 AI 模型及智能体工作流，将状态管理从单一厂商的 API 中剥离出来。它帮助开发者夺回对模型基础设施的控制权，实现跨厂商的模型路由和统一的状态管理，是打破厂商锁定的具体工程解法。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在构建多轮对话 AI 智能体时，避免将核心业务状态绑定在单一厂商的加密上下文中。",
+            "steps": [
+              "1. 在调用大模型 API 时，将 store 参数设置为 false，拒绝让服务器保存加密的中间状态。",
+              "2. 在客户端或自己的数据库中，以纯文本或结构化 JSON 格式，显式保存每一轮对话的结论、关键实体和上下文摘要。",
+              "3. 在下一轮对话时，将保存的纯文本状态作为提示词的一部分重新发送给模型，而不是依赖 previous_response_id。",
+              "4. 如果需要切换模型，直接读取本地数据库中的纯文本状态，无需修改底层数据结构。"
+            ],
+            "tools": [
+              "大模型 API (如 OpenAI Responses API)",
+              "本地关系型数据库 (如 PostgreSQL) 或文档数据库 (如 MongoDB)",
+              "LangChain 或 LlamaIndex 等状态管理框架"
+            ],
+            "verification": [
+              "1. 检查 API 请求日志，确认 store 参数为 false，且响应中不包含加密内容。",
+              "2. 在本地数据库中查询，确认能直接读取并修改对话的历史状态和关键实体。",
+              "3. 将保存的纯文本状态输入给另一个开源模型，确认新模型能准确理解上下文并继续执行任务。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "显式且开放的状态架构"
+        ],
+        "searchTerms": [
+          {
+            "term": "Responses API",
+            "query": "OpenAI Responses API state management"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-30T22:45:58.248Z",
       "model": "qwen3.7-plus"
     },
     {
@@ -853,1121 +862,1148 @@
   ],
   "editionItems": [
     {
-      "id": "95bc64b9d477dde6",
-      "title": "How to Self-Host a Validated AI Coding Assistant with NVIDIA NeMo Guardrails",
-      "url": "https://developer.nvidia.com/blog/how-to-self-host-a-validated-ai-coding-assistant-with-nvidia-nemo-guardrails/",
-      "summary": "Deploying an AI coding assistant in a regulated, sovereign, or source-sensitive environment, often comes with challenges. Three common issues are: the source...",
-      "publishedAt": "2026-07-29T16:46:45.000Z",
+      "id": "58582dab7dd24e3a",
+      "title": "Four Ways to Deploy More Secure AI Agents",
+      "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
+      "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
+      "publishedAt": "2026-07-30T21:09:59.000Z",
       "sourceId": "nvidia-dev",
       "sourceName": "NVIDIA Developer",
       "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
       "accent": "#76b900",
-      "topic": "开发实践",
-      "score": 81,
-      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 25,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 90,
-      "bodyHash": "2303e069743b8342e8f75a18",
-      "extraction": {
-        "method": "readability",
-        "length": 17647,
-        "originalLength": 17647,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "如何在本地安全部署受控的 AI 编程助手",
-      "analysis": {
-        "listSummary": "本文介绍如何在本地服务器部署受控的 AI 编程助手，解决代码泄露、AI 幻觉引入恶意包以及缺乏审计追踪三大痛点。通过结合 NVIDIA NIM 和 NeMo Guardrails，开发者可以在不改变现有工作流的前提下，安全地使用 AI 辅助编程。如果你负责企业级代码安全，或想深入了解 AI 编程的落地规范，这篇文章非常值得阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "在企业内部使用 AI 编程助手，最大的风险不是模型不够聪明，而是代码泄露、AI 乱编依赖包以及出了问题找不到责任人。原文指出三个常见挑战：源码不能离开内网、AI 会捏造不存在的包名带来供应链风险、生成的代码出缺陷时没有审计记录。这就像让一个不懂公司保密协议的实习生写核心代码，他不仅可能把代码发给外人，还可能从网上随便抄一些带病毒的库进来。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "作者提出把模型和控制规则分开，用一套外部系统来拦截和检查 AI 的行为。文章设计了一个包含三层的架构：底层是本地运行的 StarCoder2 模型，中间层是 NeMo Guardrails 拦截器，上层是 IDE 和 CI 检查。作者论证，模型只负责提议代码，而安全策略、依赖检查和结果测量都放在模型外部。这样即使模型出错，外部系统也能兜底，团队可以逐步引入 AI，而不需要一次性推翻现有系统。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "这套方案通过具体的开源工具和指标监控，证明了 AI 辅助编程是可以被安全度量和控制的。原文提供了具体的 CI 脚本和 Git 钩子，用于检查幻觉包和给 AI 代码打标签。结论是，只要把验证、追踪和测量放在模型之外，就能安全落地 AI 编程。边界在于，这需要团队有一定的基础设施能力，如 GPU 服务器和 CI 流水线；且对于完全断网的环境，部分第三方扫描工具需要替换为自研脚本。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "本地部署模型可以确保源代码不离开企业内网，从根本上解决数据隐私和主权问题。",
-          "NeMo Guardrails 作为代理层，能在请求到达模型前拦截涉及支付、加密等仅限人工的敏感代码生成。",
-          "AI 容易捏造不存在的第三方包，必须在持续集成流水线中加入专门的依赖幻觉扫描来防范供应链攻击。",
-          "通过 Git 提交钩子为 AI 辅助的代码添加追踪标签，以便后续统计和对比 AI 代码的缺陷逃逸率。",
-          "核心设计理念是模型不是控制平面，安全策略和验证机制必须独立于 AI 模型之外运行。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "NVIDIA NIM（NVIDIA 推理微服务）是打包好 AI 模型的容器化服务。它通过提供 OpenAI 兼容的 API，让本地 GPU 能直接运行 StarCoder2 模型。它重要是因为它让企业能在内网部署模型，且集成开发环境无需修改代码即可接入。",
-            "basis": "source"
-          },
-          {
-            "text": "NeMo Guardrails 是位于集成开发环境和模型之间的安全代理。它通过执行预定义的策略，在模型生成代码前拦截违规请求。它重要是因为它从源头防止 AI 生成高风险或敏感代码，且策略本身是可读可查的文本。",
-            "basis": "source"
-          },
-          {
-            "text": "Slopsquatting（幻觉依赖）是 AI 模型捏造不存在的包名，被攻击者注册并植入恶意代码的现象。攻击者利用 AI 的幻觉，在公共仓库注册相似名称的恶意包。它重要是因为这会导致开发者在不知情的情况下引入供应链恶意软件。",
-            "basis": "source"
-          },
-          {
-            "text": "领域自适应是使用企业内部代码库对基础模型进行继续预训练和微调的过程。通过 NeMo Framework 让模型学习内部 API 和特定编码规范。它重要是因为它能减少 AI 对内部专有 API 的幻觉，提高代码生成的准确性。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在团队中初步引入本地 AI 编程助手，并建立基础的安全拦截机制。",
-            "steps": [
-              "准备一台至少 24GB 显存的 NVIDIA GPU 服务器，安装 Docker 和 NVIDIA Container Toolkit。",
-              "使用 Docker 拉取并运行 StarCoder2-7B NIM 容器，暴露 8000 端口。",
-              "安装 NeMo Guardrails，编写配置文件定义拦截认证和支付等路径的策略。",
-              "启动 Guardrails 服务（端口 8100），并将 IDE 的 API 地址指向该端口。"
-            ],
-            "tools": [
-              "Docker",
-              "NVIDIA Container Toolkit",
-              "StarCoder2 NIM",
-              "NeMo Guardrails",
-              "Continue 或 Cursor IDE"
-            ],
-            "verification": [
-              "在 IDE 中请求生成普通函数，能正常返回代码。",
-              "请求生成认证模块相关代码时，IDE 收到明确的拒绝提示，且 NIM 容器日志中无生成记录。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "供应链风险"
-        ],
-        "searchTerms": [
-          {
-            "term": "NVIDIA NIM",
-            "query": "NVIDIA NIM StarCoder2 deployment"
-          },
-          {
-            "term": "NeMo Guardrails",
-            "query": "NeMo Guardrails coding assistant policy"
-          },
-          {
-            "term": "slopsquatting",
-            "query": "AI hallucinated dependency slopsquatting"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:34:45.395Z",
-      "model": "qwen3.7-plus"
-    },
-    {
-      "id": "0d3521e6bbafd31a",
-      "title": "How Similarweb Evaluates Agent Reports with LangSmith",
-      "url": "https://www.langchain.com/blog/how-similarweb-evaluates-long-form-agent-research-reports-with-langsmith",
-      "summary": "Learn how Similarweb uses LangSmith to evaluate long-form agent research reports with rubrics, faithfulness checks, traces, and baseline comparisons.",
-      "publishedAt": "2026-07-29T15:30:04.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
-      "lane": "ai",
-      "accent": "#1c3c3c",
-      "topic": "AI 辅助学习",
-      "score": 59,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "topic": "Agent 与自动化",
+      "score": 86,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
       "readMinutes": 19,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 86,
-      "bodyHash": "44e114ca2ad539638b194c2a",
+      "candidateScore": 97,
+      "bodyHash": "876794aa4deebf83bcaeba83",
       "extraction": {
         "method": "readability",
-        "length": 12973,
-        "originalLength": 12973,
+        "length": 13495,
+        "originalLength": 13495,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Similarweb 如何使用 LangSmith 评估 AI 智能体生成的深度研究报告",
+      "displayTitle": "NVIDIA 红队总结：部署安全 AI 智能体的四大核心防线",
       "analysis": {
-        "listSummary": "本文介绍 Similarweb 如何用 LangSmith 评估 AI 智能体生成的开放式长文本报告。文章解释了当 AI 输出没有唯一标准答案时，如何结合确定性检查与大模型裁判进行质量打分。读者将学到如何设计评分量表、避免评分陷阱，并将评估与运行追踪结合。如果你正在开发 AI 智能体或长文本生成应用，本文能帮你建立可靠的自动化评估流程，非常值得阅读。",
+        "listSummary": "本文总结了 NVIDIA 红队评估 AI 智能体时发现的四大安全漏洞及防御方法。文章指出，依赖大模型提示词防御不可靠，必须采用访问控制、限制代码执行、默认拒绝网络出站和隔离密钥等硬性架构控制。如果你正在开发或部署能调用外部工具的 AI 智能体，这篇文章能帮你避开致命的安全坑，非常值得阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "传统软件测试非黑即白。但 AI 智能体（Agent，即能自主规划任务并调用工具的 AI 程序）系统的输出是开放且多变的。在 Similarweb Data Studio 中，用户用自然语言提问。智能体负责规划任务、调用数据工具并生成回答。由于每次运行的路径和结果可能不同，开发者很难判断一次更新是让系统变好了，还是仅仅把错误转移到了其他地方。",
-              "评估必须成为产品架构的一部分。对于简单的问答，我们可以对比标准答案。但对于包含数据引用和叙事的深度研究报告，根本没有唯一正确的标准答案。我们需要一种能评估质量和逻辑的方法。这种方法还必须能追踪到智能体具体调用了什么工具、获取了什么数据。"
+              "AI 智能体（AI Agent，简单说，就是能自主调用工具完成任务的 AI 程序）正在成为开发者的数字同事。它们能自动审查 Bug、编写修复代码并提交补丁，大幅提升工作效率。",
+              "但把大语言模型（LLM，即驱动 AI 的核心大脑）连接到企业实时工具和数据，会暴露巨大的攻击面。NVIDIA 红队测试发现，无论使用什么框架，不安全的智能体通常存在四个致命缺陷。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "团队采用两种检查机制来评估智能体输出。第一种是确定性检查（简单说，就是写死规则来检查机械行为）。比如验证智能体是否调用了必需的工具，或者是否返回了有效的结构化数据。第二种是大模型作为裁判（LLM-as-a-judge，即让另一个大语言模型来给输出打分）。这用于评估语义和质量。裁判模型会接收用户问题、智能体输出和评分标准。然后它返回分数和解释。",
-              "针对简单的常规聊天，团队使用语义评估器将智能体输出与标准答案（golden answer）进行对比。这能判断意思是否一致。针对复杂的深度研究，团队放弃了标准答案。他们改用评分量表（rubric，即明确列出各个质量维度及格线标准的提示词）。例如在来源整合维度，量表会明确规定得 0 分、0.3 分、0.8 分和 1 分的具体表现。",
-              "除了质量量表，团队还运行忠实度检查（faithfulness checks，即验证报告中的结论是否真的由检索到的数据推导出来）。这能防止智能体胡编乱造。为了判断新版本是否真的更好，他们还会将新报告与基线（baseline，即之前保存的、被认可的旧版本输出）进行 A/B 对比。裁判模型会直接比较两者的优劣。"
+              "第一个缺陷是缺乏访问控制。很多智能体持有用户凭证，且对内部网络所有人开放。攻击者可以轻易收集这些凭证并在其他地方滥用。必须为智能体设置严格的身份验证，并遵循最小权限原则（即只给完成工作所需的最低权限）。",
+              "第二个缺陷是未限制代码执行。许多智能体暴露了命令行工具。攻击者可以通过提示词注入，诱导智能体执行恶意命令，甚至获取远程代码执行（RCE，即完全控制目标机器的能力）。应尽量避免使用命令行，或将文件写入限制在非执行区域。",
+              "第三个缺陷是未限制网络出站。默认允许智能体连接外部网络，会导致数据泄露或建立反向 shell（一种让攻击者从外部控制内部机器的隐蔽连接）。必须在网络边界实施默认拒绝策略，只允许访问必要的白名单地址。",
+              "第四个缺陷是密钥明文暴露。智能体常需要 API 密钥或令牌。如果把它们放在环境变量中，攻击者只需让智能体执行简单的打印命令就能窃取。必须使用专门的密钥管理器，按需获取短生命周期的令牌。",
+              "文章特别论证了提示词防御的脆弱性。试图用系统提示词或大模型做裁判（LLM-as-a-judge，即让另一个大模型判断当前操作是否安全）来阻止恶意行为是无效的。攻击者可以通过伪装成管理员、温水煮青蛙式地逐步诱导，或利用恶意代码包安装等合法工作流，轻松绕过这些概率性的软防御。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "评估工具的核心价值在于将分数、裁判的解释和智能体的运行追踪（trace，即记录智能体每一步思考和工具调用的日志）连接起来。团队曾因为评分量表未校准而浪费了一周时间。新报告引用的来源变多了，但来源质量变差了，导致总分下降。如果只看总分，会误以为系统退步了。",
-              "通过查看每个维度的具体评论和运行追踪，团队发现是评分标准中来源数量和来源质量发生了冲突。修改量表使其更看重有具体名称和可验证的来源后，分数才真实反映了质量。这证明了一个未校准的评估系统比没有评估更糟。因为它会提供虚假的信心。",
-              "最终的工作流是：提出假设，运行小规模评估看信号，检查评论和追踪，运行包含多次重复的完整基准测试，与基线对比，最后决定是合并代码、继续迭代还是重新校准量表。评估并没有消除人类判断。它让判断变得可检查、可重复，并直接关联到智能体的实际行为。"
+              "NVIDIA 红队通过实际攻击验证了上述结论。例如，他们通过让智能体安装恶意 Python 包，成功触发了任意代码执行；通过伪装成调试人员，诱导 Slack 智能体创建了反向 shell。",
+              "结论是，防御 AI 智能体不能依赖大模型自身的判断，必须使用确定性的硬控制。这包括智能体访问控制、经过安全加固的隔离沙箱、默认拒绝的网络出站控制，以及物理隔离密钥。",
+              "这些架构级控制在对抗压力下表现良好。但边界在于，完全自主且拥有企业凭证的系统 inherently risky（原文表述，意为 inherently 具有高风险）。即使是最先进的前沿模型，只要有足够时间和专业知识，依然可能被攻破。安全是一个持续对抗的过程。"
             ]
           }
         ],
         "keyPoints": [
-          "AI 智能体系统的输出具有随机性和开放性，传统的单元测试无法直接适用，必须将评估流程嵌入到产品架构中。",
-          "评估智能体需要结合确定性检查（验证工具调用和数据结构）与大模型裁判（评估语义、质量和忠实度）。",
-          "对于没有唯一标准答案的长文本报告，应使用包含明确打分锚点的评分量表，而不是简单的标准答案对比。",
-          "评分量表必须经过校准，避免不同评估维度之间的冲突（如数量与质量的冲突）导致总分误导开发者。",
-          "有效的评估系统必须将分数、裁判解释与运行追踪深度绑定，让开发者能顺藤摸瓜找到智能体行为的具体缺陷。"
+          "AI 智能体连接外部工具会引入严重安全风险，不能仅靠大模型的提示词来防御。",
+          "必须对智能体实施严格的身份访问控制，并遵循最小权限原则。",
+          "应尽量避免让智能体直接执行命令行，防止攻击者通过提示词注入获取远程代码执行权限。",
+          "网络出站连接必须默认拒绝，仅开放任务必需的最小网络白名单。",
+          "密钥和令牌绝不能以明文形式暴露在智能体的执行环境或上下文中。",
+          "防御机制必须部署在大模型控制平面之外，使用确定性的架构级硬控制。"
         ],
         "technicalDetails": [
           {
-            "text": "大模型裁判（LLM-as-a-judge）评估机制。它是什么：一种让大语言模型扮演评审员，对另一个模型的输出进行打分的机制。怎么工作：裁判模型接收三个输入：用户原始问题、智能体生成的输出、以及预设的评分标准（如评分量表或标准答案）。模型根据标准输出一个分数和一段解释评论。为什么重要：它解决了开放式文本无法用精确字符串匹配来评估的问题，能够理解语义和上下文质量。",
+            "text": "远程代码执行 (RCE)：它是什么：攻击者能够在目标服务器上运行任意代码的漏洞。怎么工作：在 AI 智能体场景中，攻击者通过构造恶意提示词，诱导智能体的命令行工具执行恶意脚本。为什么重要：这是最高危的风险，一旦成功，攻击者就能完全接管运行智能体的服务器。",
             "basis": "source"
           },
           {
-            "text": "评分量表（Rubric）提示词设计。它是什么：一种结构化的提示词，为每个质量维度定义了具体的分数等级和对应的表现描述。怎么工作：在提示词中明确写出 0.0 到 1.0 各个分数段的具体要求（例如 0.3 分是模糊提及外部来源，0.8 分是引用多个带日期和数据的具名来源）。裁判模型根据这些锚点为每个维度独立打分。为什么重要：它避免了大模型打分时的随意性，确保评分标准与产品实际关心的质量维度严格对齐。",
+            "text": "反向 Shell (Reverse Shell)：它是什么：一种让目标机器主动连接回攻击者机器的隐蔽通道。怎么工作：攻击者诱导智能体执行特定命令，使智能体所在的服务器主动向攻击者的监听端口发起连接。为什么重要：它能绕过防火墙的入站限制，让攻击者直接控制智能体的运行环境。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 的 aevaluate API 与追踪绑定。它是什么：LangSmith 提供的一个异步评估 API，用于在数据集上批量运行评估循环。怎么工作：通过传入目标函数、数据集 ID、评估器列表和并发参数，API 会自动运行多次评估。每个评估器的分数会作为列展示，并且每个分数都会直接链接到该次运行的详细追踪日志。为什么重要：它将抽象的评估分数与具体的智能体执行步骤绑定，让开发者能从分数直接下钻到具体的代码或提示词问题。",
+            "text": "大模型做裁判 (LLM-as-a-judge)：它是什么：使用一个大语言模型来审查另一个大模型的输入或输出是否安全。怎么工作：在智能体执行操作前，让裁判模型评估该操作是否违规。为什么重要：原文证明这种基于概率的软防御极易被社会工程学或上下文伪装绕过，不能作为核心安全防线。",
+            "basis": "source"
+          },
+          {
+            "text": "温水煮青蛙攻击 (Frog-boiling / Crescendo attack)：它是什么：一种通过多轮对话逐步诱导 AI 执行恶意操作的提示词注入手法。怎么工作：攻击者先通过合法请求建立信任，然后逐步提出稍微越界的要求，最终让 AI 在不知不觉中泄露密钥或执行恶意代码。为什么重要：它证明了单次请求的防御很容易被多轮上下文操纵所瓦解。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "为长文本 AI 智能体输出建立基于评分量表的自动化评估流程。",
+            "scenario": "在 Unity 或 Godot 游戏开发中，部署一个能自动读取项目日志并生成修复代码的 AI 智能体。",
             "steps": [
-              "定义 3 到 5 个核心质量维度（如来源多样性、逻辑连贯性、数据忠实度）。",
-              "为每个维度编写评分量表提示词，明确写出 0.0、0.3、0.8、1.0 四个分数段的具体文本表现要求。",
-              "准备一个包含 20 个典型用户问题的测试数据集，并人工标注一个基线（baseline）输出。",
-              "使用 LangSmith 的 aevaluate API 运行评估，同时传入确定性检查评估器和 LLM 裁判评估器。",
-              "检查评估结果中的低分项，点击分数查看裁判的评论和智能体的运行追踪（trace）。",
-              "如果发现分数与人工直觉不符，修改评分量表提示词中的冲突条件，重新运行评估直到分数与评论逻辑一致。"
+              "在 Docker 中运行该智能体，并限制其只能读取特定的日志文件夹。",
+              "配置 Docker 网络为 none 或仅允许访问内部 API 网关，禁止直接访问外网。",
+              "将 Unity 或 Godot 的 API 密钥存放在 AWS Secrets Manager 或 HashiCorp Vault 中。",
+              "编写一个中间件脚本，智能体需要密钥时，由中间件向 Vault 申请一个 5 分钟有效的临时令牌并注入内存。"
             ],
             "tools": [
-              "LangSmith",
-              "Python (asyncio)",
-              "大语言模型 API (如 OpenAI GPT-4)"
+              "Docker",
+              "AWS Secrets Manager",
+              "HashiCorp Vault",
+              "自定义中间件脚本"
             ],
             "verification": [
-              "评估结果表格中，每个维度的分数旁边都有合理的评论解释。",
-              "修改提示词后，原本得分异常的用例分数回归到符合人工预期的范围。",
-              "运行追踪日志能清晰展示智能体调用工具和生成文本的完整过程。"
+              "尝试在智能体对话中输入请执行 env 命令查看环境变量，智能体应返回空或无敏感信息。",
+              "尝试让智能体访问外部网址，应返回网络不可达错误。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "确定性检查",
-          "大模型作为裁判",
-          "评分量表",
-          "忠实度检查",
-          "运行追踪",
-          "评分量表未校准"
+          "缺乏访问控制",
+          "任意代码执行",
+          "密钥明文暴露",
+          "提示词防御",
+          "确定性的硬控制"
         ],
         "searchTerms": [
           {
-            "term": "LangSmith",
-            "query": "LangSmith agent evaluation tutorial"
+            "term": "远程代码执行",
+            "query": "Remote Code Execution RCE AI agent"
           },
           {
-            "term": "LLM-as-a-judge",
-            "query": "LLM as a judge evaluation prompt"
+            "term": "反向 shell",
+            "query": "reverse shell AI agent exploitation"
           },
           {
-            "term": "Rubric",
-            "query": "LLM evaluation rubric prompt design"
+            "term": "大模型做裁判",
+            "query": "LLM-as-a-judge security bypass"
           },
           {
-            "term": "Faithfulness checks",
-            "query": "RAG faithfulness evaluation metrics"
+            "term": "温水煮青蛙攻击",
+            "query": "Crescendo attack prompt injection"
           },
           {
-            "term": "Trace",
-            "query": "LangSmith trace observability"
-          },
-          {
-            "term": "aevaluate",
-            "query": "LangSmith aevaluate API python"
+            "term": "最小权限原则",
+            "query": "principle of least privilege AI agents"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:36:50.343Z",
+      "analyzedAt": "2026-07-30T22:42:35.687Z",
       "model": "qwen3.7-plus"
     },
     {
-      "id": "23961d42d3945e47",
-      "title": "We’re launching Lyria 3.5 in Google Flow Music, with advances across musicality, lyrics, vocals, and creative control",
-      "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/lyria-3-5/?utm_source=deepmind.google&utm_medium=referral&utm_campaign=gdm&utm_content=",
-      "summary": "",
-      "publishedAt": "2026-07-29T16:02:10.000Z",
-      "sourceId": "deepmind",
-      "sourceName": "Google DeepMind",
-      "sourceSite": "https://deepmind.google/discover/blog/",
+      "id": "c8254ac6586638ff",
+      "title": "Stacked sessions and pull requests in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
+      "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-07-30T17:30:24.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
       "lane": "ai",
-      "accent": "#5c6bc0",
-      "topic": "AI 动态",
-      "score": 62,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 3,
-      "category": "research",
-      "slot": "update",
+      "accent": "#24292f",
+      "topic": "AI 辅助学习",
+      "score": 86,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 12,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 72,
-      "bodyHash": "eabfe295fd4ebeae57f28e36",
+      "candidateScore": 95,
+      "bodyHash": "3409436d53b8f9e09963aa04",
       "extraction": {
         "method": "readability",
-        "length": 764,
-        "originalLength": 764,
+        "length": 8396,
+        "originalLength": 8396,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Google 发布 Lyria 3.5 音乐生成模型：全面提升音乐、歌词与人声质量",
+      "displayTitle": "使用 GitHub Copilot 的堆叠会话和拉取请求重构老旧代码",
       "analysis": {
-        "listSummary": "本文介绍 Google DeepMind 发布的最新音乐生成模型 Lyria 3.5。它解决了早期 AI 音乐生成中旋律生硬、歌词不连贯和人声缺乏情感的问题。对于内容创作者和游戏开发者，这意味着能用更少的提示词生成结构完整、情感丰富的背景音乐或歌曲。文章简明扼要，值得关注 AI 音乐生成进展的入门学习者阅读。",
+        "listSummary": "本文介绍了如何使用 GitHub Copilot 应用中的“堆叠会话”和“堆叠拉取请求”功能来重构老旧代码。作者通过实际案例展示了如何将一个庞大的重构任务拆分为多个相互依赖的小任务。如果你正在面对难以维护的旧项目，或者想了解 AI 编程工具如何管理复杂的代码变更，这篇文章非常值得一读。它能帮你理解如何利用 AI 拆解大任务，避免代码混乱。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "早期 AI 音乐生成工具往往只能生成简单的循环旋律，歌词像随机拼凑，人声听起来像机器朗读。这限制了它们在专业内容制作或游戏开发中的实际应用。Google 推出 Lyria 3.5 模型，旨在解决这些痛点。它让不懂乐理的普通人也能通过文本指令，生成接近人类创作水平的完整歌曲。"
+              "老旧代码库的重构往往因为依赖复杂和牵一发而动全身而让人放弃。作者有一个2014年开发的个人应用，使用了 React 15、Less 和旧版 react-bootstrap。这些依赖已经非常过时，手动清理需要耗费数周时间。在引入 AI 工具前，作者曾尝试重构但失败了，因为代码量不大不小，投入产出比太低。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Lyria 3.5 通过四个核心维度的升级来提升音乐质量。首先是音乐性，模型能生成更复杂且自然的旋律结构，告别简单的机械循环。其次是歌词生成，它增强了对提示词（也就是用户输入的文本指令）的遵循能力，并具备了结构意识（简单说，就是模型知道一首歌应该有主歌、副歌等段落，就像写文章要有起承转合，而不是随机堆砌句子）。第三是人声表现，新模型让人声更具情感起伏，发音更准确。最后是创作控制，用户可以更精确地调节生成音乐的节奏和时长。"
+              "作者最初试图用 AI 一次性完成所有前端现代化工作，但失败了。作者使用 Plan 模式（一种让 AI 先制定计划再执行的模式）并借助 Claude Opus 4.8 和 GPT-5.5 模型进行规划。失败的原因在于作者忽略了之前在一个名为 dev 的分支上已经做过部分更新。AI 工具随后调整了策略，将样式修改应用到了 dev 分支上，解决了分支冲突问题。",
+              "在测试阶段，作者发现了旧版 react-bootstrap 库带来的控制台警告。为了避免“范围蔓延”（简单说，就是做任务时忍不住把不相关的功能也加进去，导致任务失控），作者决定将任务拆分。作者让 AI 先提交当前的样式修改，然后开启一个新的“堆叠会话”来专门处理替换 react-bootstrap 库的工作。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文事实表明，Lyria 3.5 已在 Google Flow Music 平台上线，并明确列出了上述四项改进。作者判断这些改进能让用户创作出更丰富的曲目，并拥有真正的创作控制权。需要注意的是，原文并未提供具体的底层算法细节或客观评测数据。因此，这些改进的实际听感和控制精度，仍需用户自行在 Flow Music 中验证。AI 推断认为，这种多模态控制能力的提升，将大幅降低游戏和短视频行业的配乐成本。"
+              "堆叠会话和堆叠拉取请求（Pull Request，简称 PR，即请求将代码合并到主分支的审核流程）是解决复杂重构的有效方法。堆叠是指一系列 PR，每个 PR 都指向它下方 PR 的分支，最终形成一条合并到主分支的链条。这种方法让作者能够安全地隔离不同阶段的修改，避免了生成一个包含一万行代码的巨大 PR。结论是，利用 AI 工具的会话堆叠功能，可以大幅降低老旧代码库现代化的心智负担。"
             ]
           }
         ],
         "keyPoints": [
-          "Lyria 3.5 是 Google DeepMind 推出的新一代音乐生成模型，现已集成到 Google Flow Music 平台。",
-          "音乐性提升体现在能生成更复杂、自然的旋律结构，告别简单的机械循环。",
-          "歌词生成不仅质量更高，还能更好地理解用户的文本指令，并遵循标准的歌曲段落结构。",
-          "人声合成更加逼真，不仅发音更准确，还能表现出细腻的情感起伏。",
-          "创作者现在可以更直观地控制生成音乐的具体节奏和总时长。"
+          "面对老旧代码库，试图用 AI 一次性完成所有重构通常会失败，需要分步进行。",
+          "在让 AI 生成代码前，必须确保 AI 基于正确的代码分支（如包含历史修改的 dev 分支）工作。",
+          "堆叠会话允许将一个大任务拆分为多个按顺序执行的小任务，每个任务基于前一个任务的结果。",
+          "堆叠拉取请求形成一条分支链，每个 PR 合并到前一个 PR 的分支，最终汇入主分支，便于代码审查。",
+          "拆分任务可以有效防止范围蔓延，避免生成难以测试和合并的超大代码变更。"
         ],
         "technicalDetails": [
           {
-            "text": "Lyria 3.5 音乐生成模型。它是什么：Google DeepMind 开发的用于将文本提示转化为音频音乐的 AI 模型。怎么工作：通过深度学习理解用户的文本指令（如风格、歌词、节奏），并合成对应的旋律、和声与人声。为什么重要：它是内容创作者快速生成高质量背景音乐或完整歌曲的核心引擎。",
+            "text": "堆叠会话是 GitHub Copilot 应用中的一种任务管理机制。它允许用户在一个仓库中创建一系列相互依赖的任务会话。每个新会话都基于前一个会话的代码状态运行，并生成对应的代码变更。这很重要，因为它将庞大的重构任务拆解为可控的线性步骤，防止 AI 在单次执行中产生混乱或超出上下文限制。",
             "basis": "source"
           },
           {
-            "text": "提示词遵循与结构意识。它是什么：模型准确执行用户文本指令，并理解歌曲段落排列规则的能力。怎么工作：模型在训练时学习了大量标准歌曲的文本与音频对应关系，从而在生成时能按指令输出特定段落。为什么重要：这保证了生成的歌词不会偏离主题，且歌曲听起来有完整的起承转合，而不是随机句子的堆砌。",
+            "text": "堆叠拉取请求是一种代码合并策略。它创建一系列 PR，其中每个 PR 的目标分支是它前一个 PR 的源分支，最终指向主分支。这很重要，因为它让开发者可以按顺序审查和合并小批量的代码变更，而不是面对一个包含所有修改的巨大 PR，从而降低代码审查的难度和合并冲突的风险。",
+            "basis": "source"
+          },
+          {
+            "text": "Plan 模式是 AI 编程工具中的一种交互方式。它要求 AI 在直接修改代码之前，先输出重构或实现步骤的计划供人类审核。这很重要，因为它让人类可以在 AI 消耗大量计算资源生成代码前，纠正方向或调整范围，避免生成完全不符合预期的代码。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "独立游戏开发者需要为游戏过场动画生成一段 30 秒、节奏舒缓且带有特定歌词的背景音乐。",
+            "scenario": "当你需要重构一个包含多个相互依赖模块的老旧项目，且单次 AI 生成代码容易失败或产生冲突时。",
             "steps": [
-              "打开 Google Flow Music 平台并登录账号。",
-              "在提示词框中输入具体的歌词内容，并指定音乐风格（如“舒缓的 acoustic pop”）。",
-              "在控制选项中，将时长参数设置为 30 秒，将节奏参数调低以匹配舒缓风格。",
-              "点击生成，试听输出结果，检查人声发音和旋律是否符合预期。"
+              "在 GitHub Copilot 应用中打开项目，进入 Plan 模式。",
+              "输入提示词，要求 AI 先制定重构计划，并明确指定基于当前正在开发的分支而非主分支。",
+              "审核 AI 生成的计划，确认无误后让 AI 执行第一阶段修改。",
+              "第一阶段完成后，要求 AI 为当前修改创建一个 PR。",
+              "接着，要求 AI 开启一个新的堆叠会话来处理下一个模块，并指示新会话基于上一个 PR 的分支。",
+              "重复创建 PR 和开启堆叠会话的步骤，直到所有模块重构完成，形成堆叠 PR 链。"
             ],
             "tools": [
-              "Google Flow Music",
-              "Lyria 3.5 模型"
+              "GitHub Copilot app",
+              "Git",
+              "GitHub"
             ],
             "verification": [
-              "生成的音频时长严格在 30 秒左右。",
-              "人声清晰且带有情感，歌词与输入的提示词高度一致。",
-              "旋律没有突兀的断裂感，具备明显的段落结构。"
+              "在 GitHub 界面中可以看到多个 PR 形成嵌套或链式结构。",
+              "每个 PR 的代码审查页面只显示当前阶段的修改。",
+              "所有 PR 依次合并后，主分支包含完整的重构代码且无冲突。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "Lyria 3.5",
-          "Google Flow Music",
-          "结构意识",
-          "创作控制"
+          "堆叠会话",
+          "堆叠拉取请求",
+          "范围蔓延",
+          "Plan 模式",
+          "依赖",
+          "分支"
         ],
         "searchTerms": [
           {
-            "term": "Lyria 3.5",
-            "query": "Google DeepMind Lyria 3.5 music generation model"
+            "term": "堆叠会话",
+            "query": "GitHub Copilot stacked sessions"
           },
           {
-            "term": "Google Flow Music",
-            "query": "Google Flow Music AI music platform"
+            "term": "堆叠拉取请求",
+            "query": "GitHub stacked pull requests"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot Plan mode"
+          },
+          {
+            "term": "范围蔓延",
+            "query": "software engineering scope creep"
+          },
+          {
+            "term": "react-bootstrap",
+            "query": "react-bootstrap migration"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:38:04.294Z",
+      "analyzedAt": "2026-07-30T22:44:29.652Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "b8125f9667d073b4",
+      "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
+      "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
+      "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
+      "publishedAt": "2026-07-30T15:22:24.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
+      "lane": "ai",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 72,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 8,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 74,
+      "bodyHash": "40965d78d9a5df57097e4592",
+      "extraction": {
+        "method": "readability",
+        "length": 5487,
+        "originalLength": 5487,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "前沿AI厂商如何构建隐蔽的开发者锁定",
+      "analysis": {
+        "listSummary": "本文揭示了前沿AI模型正通过加密内部推理状态和绑定专有执行环境，对开发者形成深层锁定。文章分析了这种锁定如何提升模型跑分，却牺牲了系统的可移植性。对于希望构建开放、跨模型AI智能体的开发者而言，本文提供了识别锁定陷阱的视角，并指明了构建独立状态管理架构的方向，非常值得阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "AI厂商的锁定手段已经从模型本身，升级到了运行时的状态和执行环境。过去大家担心AI锁定，主要是怕微调格式或提示词不兼容。现在AI变成了能连续执行多步任务的智能体系统（Agentic systems，即能自主规划和执行复杂任务的AI程序）。为了让智能体表现更好，厂商把中间推理过程和运行环境绑在了自己的服务器上。这解决了智能体长任务推理能力差的问题，但代价是开发者失去了对运行状态的控制权。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "厂商通过隐藏推理状态和定制执行沙盒，让模型在自家平台上跑分暴涨，但状态无法迁移。以OpenAI的Responses API（一种用于构建多轮对话和智能体的接口）为例，它允许服务器保存对话的中间推理状态。这些状态是加密的，开发者看不到也改不了。同时，模型针对厂商专有的代码执行沙盒进行了强化学习（RL，一种通过试错和奖励来训练AI的方法）优化。这导致模型在自家环境里得分翻倍，但在通用环境里表现平平。作者认为，这种跑分提升是一种幻觉，它反映的是模型加专有环境的整体能力，而不是模型本身的纯粹智力。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "开发者必须把厂商提供的状态管理当作临时优化，自己掌握核心状态数据。原文证据表明，无论是OpenAI的加密推理、Anthropic的思考块，还是Gemini的思维签名，都不向开发者暴露原始推理过程。此外，厂商内置的跨会话记忆层让开发者无法精细管理数据，也阻碍了多模型协作。作者的结论是，要构建不依赖单一厂商的系统，必须建立显式且开放的状态架构。边界在于，放弃厂商的内置状态管理可能会在短期内牺牲部分跑分和开发便利性，需要开发者自行搭建外部状态基础设施。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "AI锁定已从模型权重转移到运行时的状态与执行基础设施。",
+          "厂商通过加密中间推理状态，提升了长任务表现，但导致状态无法跨模型迁移。",
+          "专有执行沙盒让模型在特定基准测试中跑分暴涨，但这掩盖了模型在通用环境中的真实能力。",
+          "内置的跨会话记忆层剥夺了开发者对数据的精细管理权，并阻碍了多模型协同工作。",
+          "开发者应将厂商的状态管理视为临时优化，核心状态数据必须掌握在自己手中。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Responses API 的状态管理参数。它提供 previous_response_id（让服务器保存并复用上一轮的推理状态）和 store: false（让客户端自己保存完整输出）两种模式。当对话变长时，API 会自动压缩上下文，生成加密的压缩项。这决定了智能体能否记住之前的思考过程。加密机制虽然提升了长文本处理效率，但让开发者无法将这些状态转移给 Llama 或 Qwen 等开源模型。",
+            "basis": "source"
+          },
+          {
+            "text": "专有执行沙盒。AI 厂商为模型定制了封闭的代码解释器或浏览器代理环境，并使用强化学习针对这些特定环境进行优化。模型在自家沙盒里能完美调用工具，但在通用开源沙盒里表现糟糕。这导致基准测试分数虚高，开发者如果直接复用这些分数，会在实际部署时遭遇性能断崖。",
+            "basis": "source"
+          },
+          {
+            "text": "Otari 开源大语言模型控制平面。它是一个中间件系统，用于集中管理和调度多个 AI 模型及智能体工作流，将状态管理从单一厂商的 API 中剥离出来。它帮助开发者夺回对模型基础设施的控制权，实现跨厂商的模型路由和统一的状态管理，是打破厂商锁定的具体工程解法。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在构建多轮对话 AI 智能体时，避免将核心业务状态绑定在单一厂商的加密上下文中。",
+            "steps": [
+              "1. 在调用大模型 API 时，将 store 参数设置为 false，拒绝让服务器保存加密的中间状态。",
+              "2. 在客户端或自己的数据库中，以纯文本或结构化 JSON 格式，显式保存每一轮对话的结论、关键实体和上下文摘要。",
+              "3. 在下一轮对话时，将保存的纯文本状态作为提示词的一部分重新发送给模型，而不是依赖 previous_response_id。",
+              "4. 如果需要切换模型，直接读取本地数据库中的纯文本状态，无需修改底层数据结构。"
+            ],
+            "tools": [
+              "大模型 API (如 OpenAI Responses API)",
+              "本地关系型数据库 (如 PostgreSQL) 或文档数据库 (如 MongoDB)",
+              "LangChain 或 LlamaIndex 等状态管理框架"
+            ],
+            "verification": [
+              "1. 检查 API 请求日志，确认 store 参数为 false，且响应中不包含加密内容。",
+              "2. 在本地数据库中查询，确认能直接读取并修改对话的历史状态和关键实体。",
+              "3. 将保存的纯文本状态输入给另一个开源模型，确认新模型能准确理解上下文并继续执行任务。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "显式且开放的状态架构"
+        ],
+        "searchTerms": [
+          {
+            "term": "Responses API",
+            "query": "OpenAI Responses API state management"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-30T22:45:58.248Z",
       "model": "qwen3.7-plus"
     }
   ],
   "study": [
     {
-      "id": "95bc64b9d477dde6",
-      "title": "How to Self-Host a Validated AI Coding Assistant with NVIDIA NeMo Guardrails",
-      "url": "https://developer.nvidia.com/blog/how-to-self-host-a-validated-ai-coding-assistant-with-nvidia-nemo-guardrails/",
-      "summary": "Deploying an AI coding assistant in a regulated, sovereign, or source-sensitive environment, often comes with challenges. Three common issues are: the source...",
-      "publishedAt": "2026-07-29T16:46:45.000Z",
+      "id": "58582dab7dd24e3a",
+      "title": "Four Ways to Deploy More Secure AI Agents",
+      "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
+      "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
+      "publishedAt": "2026-07-30T21:09:59.000Z",
       "sourceId": "nvidia-dev",
       "sourceName": "NVIDIA Developer",
       "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
       "accent": "#76b900",
-      "topic": "开发实践",
-      "score": 81,
-      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 25,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 90,
-      "bodyHash": "2303e069743b8342e8f75a18",
-      "extraction": {
-        "method": "readability",
-        "length": 17647,
-        "originalLength": 17647,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "如何在本地安全部署受控的 AI 编程助手",
-      "analysis": {
-        "listSummary": "本文介绍如何在本地服务器部署受控的 AI 编程助手，解决代码泄露、AI 幻觉引入恶意包以及缺乏审计追踪三大痛点。通过结合 NVIDIA NIM 和 NeMo Guardrails，开发者可以在不改变现有工作流的前提下，安全地使用 AI 辅助编程。如果你负责企业级代码安全，或想深入了解 AI 编程的落地规范，这篇文章非常值得阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "在企业内部使用 AI 编程助手，最大的风险不是模型不够聪明，而是代码泄露、AI 乱编依赖包以及出了问题找不到责任人。原文指出三个常见挑战：源码不能离开内网、AI 会捏造不存在的包名带来供应链风险、生成的代码出缺陷时没有审计记录。这就像让一个不懂公司保密协议的实习生写核心代码，他不仅可能把代码发给外人，还可能从网上随便抄一些带病毒的库进来。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "作者提出把模型和控制规则分开，用一套外部系统来拦截和检查 AI 的行为。文章设计了一个包含三层的架构：底层是本地运行的 StarCoder2 模型，中间层是 NeMo Guardrails 拦截器，上层是 IDE 和 CI 检查。作者论证，模型只负责提议代码，而安全策略、依赖检查和结果测量都放在模型外部。这样即使模型出错，外部系统也能兜底，团队可以逐步引入 AI，而不需要一次性推翻现有系统。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "这套方案通过具体的开源工具和指标监控，证明了 AI 辅助编程是可以被安全度量和控制的。原文提供了具体的 CI 脚本和 Git 钩子，用于检查幻觉包和给 AI 代码打标签。结论是，只要把验证、追踪和测量放在模型之外，就能安全落地 AI 编程。边界在于，这需要团队有一定的基础设施能力，如 GPU 服务器和 CI 流水线；且对于完全断网的环境，部分第三方扫描工具需要替换为自研脚本。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "本地部署模型可以确保源代码不离开企业内网，从根本上解决数据隐私和主权问题。",
-          "NeMo Guardrails 作为代理层，能在请求到达模型前拦截涉及支付、加密等仅限人工的敏感代码生成。",
-          "AI 容易捏造不存在的第三方包，必须在持续集成流水线中加入专门的依赖幻觉扫描来防范供应链攻击。",
-          "通过 Git 提交钩子为 AI 辅助的代码添加追踪标签，以便后续统计和对比 AI 代码的缺陷逃逸率。",
-          "核心设计理念是模型不是控制平面，安全策略和验证机制必须独立于 AI 模型之外运行。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "NVIDIA NIM（NVIDIA 推理微服务）是打包好 AI 模型的容器化服务。它通过提供 OpenAI 兼容的 API，让本地 GPU 能直接运行 StarCoder2 模型。它重要是因为它让企业能在内网部署模型，且集成开发环境无需修改代码即可接入。",
-            "basis": "source"
-          },
-          {
-            "text": "NeMo Guardrails 是位于集成开发环境和模型之间的安全代理。它通过执行预定义的策略，在模型生成代码前拦截违规请求。它重要是因为它从源头防止 AI 生成高风险或敏感代码，且策略本身是可读可查的文本。",
-            "basis": "source"
-          },
-          {
-            "text": "Slopsquatting（幻觉依赖）是 AI 模型捏造不存在的包名，被攻击者注册并植入恶意代码的现象。攻击者利用 AI 的幻觉，在公共仓库注册相似名称的恶意包。它重要是因为这会导致开发者在不知情的情况下引入供应链恶意软件。",
-            "basis": "source"
-          },
-          {
-            "text": "领域自适应是使用企业内部代码库对基础模型进行继续预训练和微调的过程。通过 NeMo Framework 让模型学习内部 API 和特定编码规范。它重要是因为它能减少 AI 对内部专有 API 的幻觉，提高代码生成的准确性。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在团队中初步引入本地 AI 编程助手，并建立基础的安全拦截机制。",
-            "steps": [
-              "准备一台至少 24GB 显存的 NVIDIA GPU 服务器，安装 Docker 和 NVIDIA Container Toolkit。",
-              "使用 Docker 拉取并运行 StarCoder2-7B NIM 容器，暴露 8000 端口。",
-              "安装 NeMo Guardrails，编写配置文件定义拦截认证和支付等路径的策略。",
-              "启动 Guardrails 服务（端口 8100），并将 IDE 的 API 地址指向该端口。"
-            ],
-            "tools": [
-              "Docker",
-              "NVIDIA Container Toolkit",
-              "StarCoder2 NIM",
-              "NeMo Guardrails",
-              "Continue 或 Cursor IDE"
-            ],
-            "verification": [
-              "在 IDE 中请求生成普通函数，能正常返回代码。",
-              "请求生成认证模块相关代码时，IDE 收到明确的拒绝提示，且 NIM 容器日志中无生成记录。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "供应链风险"
-        ],
-        "searchTerms": [
-          {
-            "term": "NVIDIA NIM",
-            "query": "NVIDIA NIM StarCoder2 deployment"
-          },
-          {
-            "term": "NeMo Guardrails",
-            "query": "NeMo Guardrails coding assistant policy"
-          },
-          {
-            "term": "slopsquatting",
-            "query": "AI hallucinated dependency slopsquatting"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:34:45.395Z",
-      "model": "qwen3.7-plus"
-    },
-    {
-      "id": "0d3521e6bbafd31a",
-      "title": "How Similarweb Evaluates Agent Reports with LangSmith",
-      "url": "https://www.langchain.com/blog/how-similarweb-evaluates-long-form-agent-research-reports-with-langsmith",
-      "summary": "Learn how Similarweb uses LangSmith to evaluate long-form agent research reports with rubrics, faithfulness checks, traces, and baseline comparisons.",
-      "publishedAt": "2026-07-29T15:30:04.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
-      "lane": "ai",
-      "accent": "#1c3c3c",
-      "topic": "AI 辅助学习",
-      "score": 59,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "topic": "Agent 与自动化",
+      "score": 86,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
       "readMinutes": 19,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 86,
-      "bodyHash": "44e114ca2ad539638b194c2a",
+      "candidateScore": 97,
+      "bodyHash": "876794aa4deebf83bcaeba83",
       "extraction": {
         "method": "readability",
-        "length": 12973,
-        "originalLength": 12973,
+        "length": 13495,
+        "originalLength": 13495,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Similarweb 如何使用 LangSmith 评估 AI 智能体生成的深度研究报告",
+      "displayTitle": "NVIDIA 红队总结：部署安全 AI 智能体的四大核心防线",
       "analysis": {
-        "listSummary": "本文介绍 Similarweb 如何用 LangSmith 评估 AI 智能体生成的开放式长文本报告。文章解释了当 AI 输出没有唯一标准答案时，如何结合确定性检查与大模型裁判进行质量打分。读者将学到如何设计评分量表、避免评分陷阱，并将评估与运行追踪结合。如果你正在开发 AI 智能体或长文本生成应用，本文能帮你建立可靠的自动化评估流程，非常值得阅读。",
+        "listSummary": "本文总结了 NVIDIA 红队评估 AI 智能体时发现的四大安全漏洞及防御方法。文章指出，依赖大模型提示词防御不可靠，必须采用访问控制、限制代码执行、默认拒绝网络出站和隔离密钥等硬性架构控制。如果你正在开发或部署能调用外部工具的 AI 智能体，这篇文章能帮你避开致命的安全坑，非常值得阅读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "传统软件测试非黑即白。但 AI 智能体（Agent，即能自主规划任务并调用工具的 AI 程序）系统的输出是开放且多变的。在 Similarweb Data Studio 中，用户用自然语言提问。智能体负责规划任务、调用数据工具并生成回答。由于每次运行的路径和结果可能不同，开发者很难判断一次更新是让系统变好了，还是仅仅把错误转移到了其他地方。",
-              "评估必须成为产品架构的一部分。对于简单的问答，我们可以对比标准答案。但对于包含数据引用和叙事的深度研究报告，根本没有唯一正确的标准答案。我们需要一种能评估质量和逻辑的方法。这种方法还必须能追踪到智能体具体调用了什么工具、获取了什么数据。"
+              "AI 智能体（AI Agent，简单说，就是能自主调用工具完成任务的 AI 程序）正在成为开发者的数字同事。它们能自动审查 Bug、编写修复代码并提交补丁，大幅提升工作效率。",
+              "但把大语言模型（LLM，即驱动 AI 的核心大脑）连接到企业实时工具和数据，会暴露巨大的攻击面。NVIDIA 红队测试发现，无论使用什么框架，不安全的智能体通常存在四个致命缺陷。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "团队采用两种检查机制来评估智能体输出。第一种是确定性检查（简单说，就是写死规则来检查机械行为）。比如验证智能体是否调用了必需的工具，或者是否返回了有效的结构化数据。第二种是大模型作为裁判（LLM-as-a-judge，即让另一个大语言模型来给输出打分）。这用于评估语义和质量。裁判模型会接收用户问题、智能体输出和评分标准。然后它返回分数和解释。",
-              "针对简单的常规聊天，团队使用语义评估器将智能体输出与标准答案（golden answer）进行对比。这能判断意思是否一致。针对复杂的深度研究，团队放弃了标准答案。他们改用评分量表（rubric，即明确列出各个质量维度及格线标准的提示词）。例如在来源整合维度，量表会明确规定得 0 分、0.3 分、0.8 分和 1 分的具体表现。",
-              "除了质量量表，团队还运行忠实度检查（faithfulness checks，即验证报告中的结论是否真的由检索到的数据推导出来）。这能防止智能体胡编乱造。为了判断新版本是否真的更好，他们还会将新报告与基线（baseline，即之前保存的、被认可的旧版本输出）进行 A/B 对比。裁判模型会直接比较两者的优劣。"
+              "第一个缺陷是缺乏访问控制。很多智能体持有用户凭证，且对内部网络所有人开放。攻击者可以轻易收集这些凭证并在其他地方滥用。必须为智能体设置严格的身份验证，并遵循最小权限原则（即只给完成工作所需的最低权限）。",
+              "第二个缺陷是未限制代码执行。许多智能体暴露了命令行工具。攻击者可以通过提示词注入，诱导智能体执行恶意命令，甚至获取远程代码执行（RCE，即完全控制目标机器的能力）。应尽量避免使用命令行，或将文件写入限制在非执行区域。",
+              "第三个缺陷是未限制网络出站。默认允许智能体连接外部网络，会导致数据泄露或建立反向 shell（一种让攻击者从外部控制内部机器的隐蔽连接）。必须在网络边界实施默认拒绝策略，只允许访问必要的白名单地址。",
+              "第四个缺陷是密钥明文暴露。智能体常需要 API 密钥或令牌。如果把它们放在环境变量中，攻击者只需让智能体执行简单的打印命令就能窃取。必须使用专门的密钥管理器，按需获取短生命周期的令牌。",
+              "文章特别论证了提示词防御的脆弱性。试图用系统提示词或大模型做裁判（LLM-as-a-judge，即让另一个大模型判断当前操作是否安全）来阻止恶意行为是无效的。攻击者可以通过伪装成管理员、温水煮青蛙式地逐步诱导，或利用恶意代码包安装等合法工作流，轻松绕过这些概率性的软防御。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "评估工具的核心价值在于将分数、裁判的解释和智能体的运行追踪（trace，即记录智能体每一步思考和工具调用的日志）连接起来。团队曾因为评分量表未校准而浪费了一周时间。新报告引用的来源变多了，但来源质量变差了，导致总分下降。如果只看总分，会误以为系统退步了。",
-              "通过查看每个维度的具体评论和运行追踪，团队发现是评分标准中来源数量和来源质量发生了冲突。修改量表使其更看重有具体名称和可验证的来源后，分数才真实反映了质量。这证明了一个未校准的评估系统比没有评估更糟。因为它会提供虚假的信心。",
-              "最终的工作流是：提出假设，运行小规模评估看信号，检查评论和追踪，运行包含多次重复的完整基准测试，与基线对比，最后决定是合并代码、继续迭代还是重新校准量表。评估并没有消除人类判断。它让判断变得可检查、可重复，并直接关联到智能体的实际行为。"
+              "NVIDIA 红队通过实际攻击验证了上述结论。例如，他们通过让智能体安装恶意 Python 包，成功触发了任意代码执行；通过伪装成调试人员，诱导 Slack 智能体创建了反向 shell。",
+              "结论是，防御 AI 智能体不能依赖大模型自身的判断，必须使用确定性的硬控制。这包括智能体访问控制、经过安全加固的隔离沙箱、默认拒绝的网络出站控制，以及物理隔离密钥。",
+              "这些架构级控制在对抗压力下表现良好。但边界在于，完全自主且拥有企业凭证的系统 inherently risky（原文表述，意为 inherently 具有高风险）。即使是最先进的前沿模型，只要有足够时间和专业知识，依然可能被攻破。安全是一个持续对抗的过程。"
             ]
           }
         ],
         "keyPoints": [
-          "AI 智能体系统的输出具有随机性和开放性，传统的单元测试无法直接适用，必须将评估流程嵌入到产品架构中。",
-          "评估智能体需要结合确定性检查（验证工具调用和数据结构）与大模型裁判（评估语义、质量和忠实度）。",
-          "对于没有唯一标准答案的长文本报告，应使用包含明确打分锚点的评分量表，而不是简单的标准答案对比。",
-          "评分量表必须经过校准，避免不同评估维度之间的冲突（如数量与质量的冲突）导致总分误导开发者。",
-          "有效的评估系统必须将分数、裁判解释与运行追踪深度绑定，让开发者能顺藤摸瓜找到智能体行为的具体缺陷。"
+          "AI 智能体连接外部工具会引入严重安全风险，不能仅靠大模型的提示词来防御。",
+          "必须对智能体实施严格的身份访问控制，并遵循最小权限原则。",
+          "应尽量避免让智能体直接执行命令行，防止攻击者通过提示词注入获取远程代码执行权限。",
+          "网络出站连接必须默认拒绝，仅开放任务必需的最小网络白名单。",
+          "密钥和令牌绝不能以明文形式暴露在智能体的执行环境或上下文中。",
+          "防御机制必须部署在大模型控制平面之外，使用确定性的架构级硬控制。"
         ],
         "technicalDetails": [
           {
-            "text": "大模型裁判（LLM-as-a-judge）评估机制。它是什么：一种让大语言模型扮演评审员，对另一个模型的输出进行打分的机制。怎么工作：裁判模型接收三个输入：用户原始问题、智能体生成的输出、以及预设的评分标准（如评分量表或标准答案）。模型根据标准输出一个分数和一段解释评论。为什么重要：它解决了开放式文本无法用精确字符串匹配来评估的问题，能够理解语义和上下文质量。",
+            "text": "远程代码执行 (RCE)：它是什么：攻击者能够在目标服务器上运行任意代码的漏洞。怎么工作：在 AI 智能体场景中，攻击者通过构造恶意提示词，诱导智能体的命令行工具执行恶意脚本。为什么重要：这是最高危的风险，一旦成功，攻击者就能完全接管运行智能体的服务器。",
             "basis": "source"
           },
           {
-            "text": "评分量表（Rubric）提示词设计。它是什么：一种结构化的提示词，为每个质量维度定义了具体的分数等级和对应的表现描述。怎么工作：在提示词中明确写出 0.0 到 1.0 各个分数段的具体要求（例如 0.3 分是模糊提及外部来源，0.8 分是引用多个带日期和数据的具名来源）。裁判模型根据这些锚点为每个维度独立打分。为什么重要：它避免了大模型打分时的随意性，确保评分标准与产品实际关心的质量维度严格对齐。",
+            "text": "反向 Shell (Reverse Shell)：它是什么：一种让目标机器主动连接回攻击者机器的隐蔽通道。怎么工作：攻击者诱导智能体执行特定命令，使智能体所在的服务器主动向攻击者的监听端口发起连接。为什么重要：它能绕过防火墙的入站限制，让攻击者直接控制智能体的运行环境。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 的 aevaluate API 与追踪绑定。它是什么：LangSmith 提供的一个异步评估 API，用于在数据集上批量运行评估循环。怎么工作：通过传入目标函数、数据集 ID、评估器列表和并发参数，API 会自动运行多次评估。每个评估器的分数会作为列展示，并且每个分数都会直接链接到该次运行的详细追踪日志。为什么重要：它将抽象的评估分数与具体的智能体执行步骤绑定，让开发者能从分数直接下钻到具体的代码或提示词问题。",
+            "text": "大模型做裁判 (LLM-as-a-judge)：它是什么：使用一个大语言模型来审查另一个大模型的输入或输出是否安全。怎么工作：在智能体执行操作前，让裁判模型评估该操作是否违规。为什么重要：原文证明这种基于概率的软防御极易被社会工程学或上下文伪装绕过，不能作为核心安全防线。",
+            "basis": "source"
+          },
+          {
+            "text": "温水煮青蛙攻击 (Frog-boiling / Crescendo attack)：它是什么：一种通过多轮对话逐步诱导 AI 执行恶意操作的提示词注入手法。怎么工作：攻击者先通过合法请求建立信任，然后逐步提出稍微越界的要求，最终让 AI 在不知不觉中泄露密钥或执行恶意代码。为什么重要：它证明了单次请求的防御很容易被多轮上下文操纵所瓦解。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "为长文本 AI 智能体输出建立基于评分量表的自动化评估流程。",
+            "scenario": "在 Unity 或 Godot 游戏开发中，部署一个能自动读取项目日志并生成修复代码的 AI 智能体。",
             "steps": [
-              "定义 3 到 5 个核心质量维度（如来源多样性、逻辑连贯性、数据忠实度）。",
-              "为每个维度编写评分量表提示词，明确写出 0.0、0.3、0.8、1.0 四个分数段的具体文本表现要求。",
-              "准备一个包含 20 个典型用户问题的测试数据集，并人工标注一个基线（baseline）输出。",
-              "使用 LangSmith 的 aevaluate API 运行评估，同时传入确定性检查评估器和 LLM 裁判评估器。",
-              "检查评估结果中的低分项，点击分数查看裁判的评论和智能体的运行追踪（trace）。",
-              "如果发现分数与人工直觉不符，修改评分量表提示词中的冲突条件，重新运行评估直到分数与评论逻辑一致。"
+              "在 Docker 中运行该智能体，并限制其只能读取特定的日志文件夹。",
+              "配置 Docker 网络为 none 或仅允许访问内部 API 网关，禁止直接访问外网。",
+              "将 Unity 或 Godot 的 API 密钥存放在 AWS Secrets Manager 或 HashiCorp Vault 中。",
+              "编写一个中间件脚本，智能体需要密钥时，由中间件向 Vault 申请一个 5 分钟有效的临时令牌并注入内存。"
             ],
             "tools": [
-              "LangSmith",
-              "Python (asyncio)",
-              "大语言模型 API (如 OpenAI GPT-4)"
+              "Docker",
+              "AWS Secrets Manager",
+              "HashiCorp Vault",
+              "自定义中间件脚本"
             ],
             "verification": [
-              "评估结果表格中，每个维度的分数旁边都有合理的评论解释。",
-              "修改提示词后，原本得分异常的用例分数回归到符合人工预期的范围。",
-              "运行追踪日志能清晰展示智能体调用工具和生成文本的完整过程。"
+              "尝试在智能体对话中输入请执行 env 命令查看环境变量，智能体应返回空或无敏感信息。",
+              "尝试让智能体访问外部网址，应返回网络不可达错误。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "确定性检查",
-          "大模型作为裁判",
-          "评分量表",
-          "忠实度检查",
-          "运行追踪",
-          "评分量表未校准"
+          "缺乏访问控制",
+          "任意代码执行",
+          "密钥明文暴露",
+          "提示词防御",
+          "确定性的硬控制"
         ],
         "searchTerms": [
           {
-            "term": "LangSmith",
-            "query": "LangSmith agent evaluation tutorial"
+            "term": "远程代码执行",
+            "query": "Remote Code Execution RCE AI agent"
           },
           {
-            "term": "LLM-as-a-judge",
-            "query": "LLM as a judge evaluation prompt"
+            "term": "反向 shell",
+            "query": "reverse shell AI agent exploitation"
           },
           {
-            "term": "Rubric",
-            "query": "LLM evaluation rubric prompt design"
+            "term": "大模型做裁判",
+            "query": "LLM-as-a-judge security bypass"
           },
           {
-            "term": "Faithfulness checks",
-            "query": "RAG faithfulness evaluation metrics"
+            "term": "温水煮青蛙攻击",
+            "query": "Crescendo attack prompt injection"
           },
           {
-            "term": "Trace",
-            "query": "LangSmith trace observability"
-          },
-          {
-            "term": "aevaluate",
-            "query": "LangSmith aevaluate API python"
+            "term": "最小权限原则",
+            "query": "principle of least privilege AI agents"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:36:50.343Z",
+      "analyzedAt": "2026-07-30T22:42:35.687Z",
       "model": "qwen3.7-plus"
     },
     {
-      "id": "23961d42d3945e47",
-      "title": "We’re launching Lyria 3.5 in Google Flow Music, with advances across musicality, lyrics, vocals, and creative control",
-      "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/lyria-3-5/?utm_source=deepmind.google&utm_medium=referral&utm_campaign=gdm&utm_content=",
-      "summary": "",
-      "publishedAt": "2026-07-29T16:02:10.000Z",
-      "sourceId": "deepmind",
-      "sourceName": "Google DeepMind",
-      "sourceSite": "https://deepmind.google/discover/blog/",
+      "id": "c8254ac6586638ff",
+      "title": "Stacked sessions and pull requests in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
+      "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-07-30T17:30:24.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
       "lane": "ai",
-      "accent": "#5c6bc0",
-      "topic": "AI 动态",
-      "score": 62,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 3,
-      "category": "research",
-      "slot": "update",
+      "accent": "#24292f",
+      "topic": "AI 辅助学习",
+      "score": 86,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 12,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 72,
-      "bodyHash": "eabfe295fd4ebeae57f28e36",
+      "candidateScore": 95,
+      "bodyHash": "3409436d53b8f9e09963aa04",
       "extraction": {
         "method": "readability",
-        "length": 764,
-        "originalLength": 764,
+        "length": 8396,
+        "originalLength": 8396,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Google 发布 Lyria 3.5 音乐生成模型：全面提升音乐、歌词与人声质量",
+      "displayTitle": "使用 GitHub Copilot 的堆叠会话和拉取请求重构老旧代码",
       "analysis": {
-        "listSummary": "本文介绍 Google DeepMind 发布的最新音乐生成模型 Lyria 3.5。它解决了早期 AI 音乐生成中旋律生硬、歌词不连贯和人声缺乏情感的问题。对于内容创作者和游戏开发者，这意味着能用更少的提示词生成结构完整、情感丰富的背景音乐或歌曲。文章简明扼要，值得关注 AI 音乐生成进展的入门学习者阅读。",
+        "listSummary": "本文介绍了如何使用 GitHub Copilot 应用中的“堆叠会话”和“堆叠拉取请求”功能来重构老旧代码。作者通过实际案例展示了如何将一个庞大的重构任务拆分为多个相互依赖的小任务。如果你正在面对难以维护的旧项目，或者想了解 AI 编程工具如何管理复杂的代码变更，这篇文章非常值得一读。它能帮你理解如何利用 AI 拆解大任务，避免代码混乱。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "早期 AI 音乐生成工具往往只能生成简单的循环旋律，歌词像随机拼凑，人声听起来像机器朗读。这限制了它们在专业内容制作或游戏开发中的实际应用。Google 推出 Lyria 3.5 模型，旨在解决这些痛点。它让不懂乐理的普通人也能通过文本指令，生成接近人类创作水平的完整歌曲。"
+              "老旧代码库的重构往往因为依赖复杂和牵一发而动全身而让人放弃。作者有一个2014年开发的个人应用，使用了 React 15、Less 和旧版 react-bootstrap。这些依赖已经非常过时，手动清理需要耗费数周时间。在引入 AI 工具前，作者曾尝试重构但失败了，因为代码量不大不小，投入产出比太低。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Lyria 3.5 通过四个核心维度的升级来提升音乐质量。首先是音乐性，模型能生成更复杂且自然的旋律结构，告别简单的机械循环。其次是歌词生成，它增强了对提示词（也就是用户输入的文本指令）的遵循能力，并具备了结构意识（简单说，就是模型知道一首歌应该有主歌、副歌等段落，就像写文章要有起承转合，而不是随机堆砌句子）。第三是人声表现，新模型让人声更具情感起伏，发音更准确。最后是创作控制，用户可以更精确地调节生成音乐的节奏和时长。"
+              "作者最初试图用 AI 一次性完成所有前端现代化工作，但失败了。作者使用 Plan 模式（一种让 AI 先制定计划再执行的模式）并借助 Claude Opus 4.8 和 GPT-5.5 模型进行规划。失败的原因在于作者忽略了之前在一个名为 dev 的分支上已经做过部分更新。AI 工具随后调整了策略，将样式修改应用到了 dev 分支上，解决了分支冲突问题。",
+              "在测试阶段，作者发现了旧版 react-bootstrap 库带来的控制台警告。为了避免“范围蔓延”（简单说，就是做任务时忍不住把不相关的功能也加进去，导致任务失控），作者决定将任务拆分。作者让 AI 先提交当前的样式修改，然后开启一个新的“堆叠会话”来专门处理替换 react-bootstrap 库的工作。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文事实表明，Lyria 3.5 已在 Google Flow Music 平台上线，并明确列出了上述四项改进。作者判断这些改进能让用户创作出更丰富的曲目，并拥有真正的创作控制权。需要注意的是，原文并未提供具体的底层算法细节或客观评测数据。因此，这些改进的实际听感和控制精度，仍需用户自行在 Flow Music 中验证。AI 推断认为，这种多模态控制能力的提升，将大幅降低游戏和短视频行业的配乐成本。"
+              "堆叠会话和堆叠拉取请求（Pull Request，简称 PR，即请求将代码合并到主分支的审核流程）是解决复杂重构的有效方法。堆叠是指一系列 PR，每个 PR 都指向它下方 PR 的分支，最终形成一条合并到主分支的链条。这种方法让作者能够安全地隔离不同阶段的修改，避免了生成一个包含一万行代码的巨大 PR。结论是，利用 AI 工具的会话堆叠功能，可以大幅降低老旧代码库现代化的心智负担。"
             ]
           }
         ],
         "keyPoints": [
-          "Lyria 3.5 是 Google DeepMind 推出的新一代音乐生成模型，现已集成到 Google Flow Music 平台。",
-          "音乐性提升体现在能生成更复杂、自然的旋律结构，告别简单的机械循环。",
-          "歌词生成不仅质量更高，还能更好地理解用户的文本指令，并遵循标准的歌曲段落结构。",
-          "人声合成更加逼真，不仅发音更准确，还能表现出细腻的情感起伏。",
-          "创作者现在可以更直观地控制生成音乐的具体节奏和总时长。"
+          "面对老旧代码库，试图用 AI 一次性完成所有重构通常会失败，需要分步进行。",
+          "在让 AI 生成代码前，必须确保 AI 基于正确的代码分支（如包含历史修改的 dev 分支）工作。",
+          "堆叠会话允许将一个大任务拆分为多个按顺序执行的小任务，每个任务基于前一个任务的结果。",
+          "堆叠拉取请求形成一条分支链，每个 PR 合并到前一个 PR 的分支，最终汇入主分支，便于代码审查。",
+          "拆分任务可以有效防止范围蔓延，避免生成难以测试和合并的超大代码变更。"
         ],
         "technicalDetails": [
           {
-            "text": "Lyria 3.5 音乐生成模型。它是什么：Google DeepMind 开发的用于将文本提示转化为音频音乐的 AI 模型。怎么工作：通过深度学习理解用户的文本指令（如风格、歌词、节奏），并合成对应的旋律、和声与人声。为什么重要：它是内容创作者快速生成高质量背景音乐或完整歌曲的核心引擎。",
+            "text": "堆叠会话是 GitHub Copilot 应用中的一种任务管理机制。它允许用户在一个仓库中创建一系列相互依赖的任务会话。每个新会话都基于前一个会话的代码状态运行，并生成对应的代码变更。这很重要，因为它将庞大的重构任务拆解为可控的线性步骤，防止 AI 在单次执行中产生混乱或超出上下文限制。",
             "basis": "source"
           },
           {
-            "text": "提示词遵循与结构意识。它是什么：模型准确执行用户文本指令，并理解歌曲段落排列规则的能力。怎么工作：模型在训练时学习了大量标准歌曲的文本与音频对应关系，从而在生成时能按指令输出特定段落。为什么重要：这保证了生成的歌词不会偏离主题，且歌曲听起来有完整的起承转合，而不是随机句子的堆砌。",
+            "text": "堆叠拉取请求是一种代码合并策略。它创建一系列 PR，其中每个 PR 的目标分支是它前一个 PR 的源分支，最终指向主分支。这很重要，因为它让开发者可以按顺序审查和合并小批量的代码变更，而不是面对一个包含所有修改的巨大 PR，从而降低代码审查的难度和合并冲突的风险。",
+            "basis": "source"
+          },
+          {
+            "text": "Plan 模式是 AI 编程工具中的一种交互方式。它要求 AI 在直接修改代码之前，先输出重构或实现步骤的计划供人类审核。这很重要，因为它让人类可以在 AI 消耗大量计算资源生成代码前，纠正方向或调整范围，避免生成完全不符合预期的代码。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "独立游戏开发者需要为游戏过场动画生成一段 30 秒、节奏舒缓且带有特定歌词的背景音乐。",
+            "scenario": "当你需要重构一个包含多个相互依赖模块的老旧项目，且单次 AI 生成代码容易失败或产生冲突时。",
             "steps": [
-              "打开 Google Flow Music 平台并登录账号。",
-              "在提示词框中输入具体的歌词内容，并指定音乐风格（如“舒缓的 acoustic pop”）。",
-              "在控制选项中，将时长参数设置为 30 秒，将节奏参数调低以匹配舒缓风格。",
-              "点击生成，试听输出结果，检查人声发音和旋律是否符合预期。"
+              "在 GitHub Copilot 应用中打开项目，进入 Plan 模式。",
+              "输入提示词，要求 AI 先制定重构计划，并明确指定基于当前正在开发的分支而非主分支。",
+              "审核 AI 生成的计划，确认无误后让 AI 执行第一阶段修改。",
+              "第一阶段完成后，要求 AI 为当前修改创建一个 PR。",
+              "接着，要求 AI 开启一个新的堆叠会话来处理下一个模块，并指示新会话基于上一个 PR 的分支。",
+              "重复创建 PR 和开启堆叠会话的步骤，直到所有模块重构完成，形成堆叠 PR 链。"
             ],
             "tools": [
-              "Google Flow Music",
-              "Lyria 3.5 模型"
+              "GitHub Copilot app",
+              "Git",
+              "GitHub"
             ],
             "verification": [
-              "生成的音频时长严格在 30 秒左右。",
-              "人声清晰且带有情感，歌词与输入的提示词高度一致。",
-              "旋律没有突兀的断裂感，具备明显的段落结构。"
+              "在 GitHub 界面中可以看到多个 PR 形成嵌套或链式结构。",
+              "每个 PR 的代码审查页面只显示当前阶段的修改。",
+              "所有 PR 依次合并后，主分支包含完整的重构代码且无冲突。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "Lyria 3.5",
-          "Google Flow Music",
-          "结构意识",
-          "创作控制"
+          "堆叠会话",
+          "堆叠拉取请求",
+          "范围蔓延",
+          "Plan 模式",
+          "依赖",
+          "分支"
         ],
         "searchTerms": [
           {
-            "term": "Lyria 3.5",
-            "query": "Google DeepMind Lyria 3.5 music generation model"
+            "term": "堆叠会话",
+            "query": "GitHub Copilot stacked sessions"
           },
           {
-            "term": "Google Flow Music",
-            "query": "Google Flow Music AI music platform"
+            "term": "堆叠拉取请求",
+            "query": "GitHub stacked pull requests"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot Plan mode"
+          },
+          {
+            "term": "范围蔓延",
+            "query": "software engineering scope creep"
+          },
+          {
+            "term": "react-bootstrap",
+            "query": "react-bootstrap migration"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-29T22:38:04.294Z",
+      "analyzedAt": "2026-07-30T22:44:29.652Z",
+      "model": "qwen3.7-plus"
+    },
+    {
+      "id": "b8125f9667d073b4",
+      "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
+      "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
+      "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
+      "publishedAt": "2026-07-30T15:22:24.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
+      "lane": "ai",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 72,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 8,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 74,
+      "bodyHash": "40965d78d9a5df57097e4592",
+      "extraction": {
+        "method": "readability",
+        "length": 5487,
+        "originalLength": 5487,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "前沿AI厂商如何构建隐蔽的开发者锁定",
+      "analysis": {
+        "listSummary": "本文揭示了前沿AI模型正通过加密内部推理状态和绑定专有执行环境，对开发者形成深层锁定。文章分析了这种锁定如何提升模型跑分，却牺牲了系统的可移植性。对于希望构建开放、跨模型AI智能体的开发者而言，本文提供了识别锁定陷阱的视角，并指明了构建独立状态管理架构的方向，非常值得阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "AI厂商的锁定手段已经从模型本身，升级到了运行时的状态和执行环境。过去大家担心AI锁定，主要是怕微调格式或提示词不兼容。现在AI变成了能连续执行多步任务的智能体系统（Agentic systems，即能自主规划和执行复杂任务的AI程序）。为了让智能体表现更好，厂商把中间推理过程和运行环境绑在了自己的服务器上。这解决了智能体长任务推理能力差的问题，但代价是开发者失去了对运行状态的控制权。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "厂商通过隐藏推理状态和定制执行沙盒，让模型在自家平台上跑分暴涨，但状态无法迁移。以OpenAI的Responses API（一种用于构建多轮对话和智能体的接口）为例，它允许服务器保存对话的中间推理状态。这些状态是加密的，开发者看不到也改不了。同时，模型针对厂商专有的代码执行沙盒进行了强化学习（RL，一种通过试错和奖励来训练AI的方法）优化。这导致模型在自家环境里得分翻倍，但在通用环境里表现平平。作者认为，这种跑分提升是一种幻觉，它反映的是模型加专有环境的整体能力，而不是模型本身的纯粹智力。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "开发者必须把厂商提供的状态管理当作临时优化，自己掌握核心状态数据。原文证据表明，无论是OpenAI的加密推理、Anthropic的思考块，还是Gemini的思维签名，都不向开发者暴露原始推理过程。此外，厂商内置的跨会话记忆层让开发者无法精细管理数据，也阻碍了多模型协作。作者的结论是，要构建不依赖单一厂商的系统，必须建立显式且开放的状态架构。边界在于，放弃厂商的内置状态管理可能会在短期内牺牲部分跑分和开发便利性，需要开发者自行搭建外部状态基础设施。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "AI锁定已从模型权重转移到运行时的状态与执行基础设施。",
+          "厂商通过加密中间推理状态，提升了长任务表现，但导致状态无法跨模型迁移。",
+          "专有执行沙盒让模型在特定基准测试中跑分暴涨，但这掩盖了模型在通用环境中的真实能力。",
+          "内置的跨会话记忆层剥夺了开发者对数据的精细管理权，并阻碍了多模型协同工作。",
+          "开发者应将厂商的状态管理视为临时优化，核心状态数据必须掌握在自己手中。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Responses API 的状态管理参数。它提供 previous_response_id（让服务器保存并复用上一轮的推理状态）和 store: false（让客户端自己保存完整输出）两种模式。当对话变长时，API 会自动压缩上下文，生成加密的压缩项。这决定了智能体能否记住之前的思考过程。加密机制虽然提升了长文本处理效率，但让开发者无法将这些状态转移给 Llama 或 Qwen 等开源模型。",
+            "basis": "source"
+          },
+          {
+            "text": "专有执行沙盒。AI 厂商为模型定制了封闭的代码解释器或浏览器代理环境，并使用强化学习针对这些特定环境进行优化。模型在自家沙盒里能完美调用工具，但在通用开源沙盒里表现糟糕。这导致基准测试分数虚高，开发者如果直接复用这些分数，会在实际部署时遭遇性能断崖。",
+            "basis": "source"
+          },
+          {
+            "text": "Otari 开源大语言模型控制平面。它是一个中间件系统，用于集中管理和调度多个 AI 模型及智能体工作流，将状态管理从单一厂商的 API 中剥离出来。它帮助开发者夺回对模型基础设施的控制权，实现跨厂商的模型路由和统一的状态管理，是打破厂商锁定的具体工程解法。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在构建多轮对话 AI 智能体时，避免将核心业务状态绑定在单一厂商的加密上下文中。",
+            "steps": [
+              "1. 在调用大模型 API 时，将 store 参数设置为 false，拒绝让服务器保存加密的中间状态。",
+              "2. 在客户端或自己的数据库中，以纯文本或结构化 JSON 格式，显式保存每一轮对话的结论、关键实体和上下文摘要。",
+              "3. 在下一轮对话时，将保存的纯文本状态作为提示词的一部分重新发送给模型，而不是依赖 previous_response_id。",
+              "4. 如果需要切换模型，直接读取本地数据库中的纯文本状态，无需修改底层数据结构。"
+            ],
+            "tools": [
+              "大模型 API (如 OpenAI Responses API)",
+              "本地关系型数据库 (如 PostgreSQL) 或文档数据库 (如 MongoDB)",
+              "LangChain 或 LlamaIndex 等状态管理框架"
+            ],
+            "verification": [
+              "1. 检查 API 请求日志，确认 store 参数为 false，且响应中不包含加密内容。",
+              "2. 在本地数据库中查询，确认能直接读取并修改对话的历史状态和关键实体。",
+              "3. 将保存的纯文本状态输入给另一个开源模型，确认新模型能准确理解上下文并继续执行任务。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "显式且开放的状态架构"
+        ],
+        "searchTerms": [
+          {
+            "term": "Responses API",
+            "query": "OpenAI Responses API state management"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-30T22:45:58.248Z",
       "model": "qwen3.7-plus"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "95bc64b9d477dde6",
-        "title": "How to Self-Host a Validated AI Coding Assistant with NVIDIA NeMo Guardrails",
-        "url": "https://developer.nvidia.com/blog/how-to-self-host-a-validated-ai-coding-assistant-with-nvidia-nemo-guardrails/",
-        "summary": "Deploying an AI coding assistant in a regulated, sovereign, or source-sensitive environment, often comes with challenges. Three common issues are: the source...",
-        "publishedAt": "2026-07-29T16:46:45.000Z",
+        "id": "58582dab7dd24e3a",
+        "title": "Four Ways to Deploy More Secure AI Agents",
+        "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
+        "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
+        "publishedAt": "2026-07-30T21:09:59.000Z",
         "sourceId": "nvidia-dev",
         "sourceName": "NVIDIA Developer",
         "sourceSite": "https://developer.nvidia.com/blog/",
         "lane": "ai",
         "accent": "#76b900",
-        "topic": "开发实践",
-        "score": 81,
-        "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-        "readMinutes": 25,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 90,
-        "bodyHash": "2303e069743b8342e8f75a18",
-        "extraction": {
-          "method": "readability",
-          "length": 17647,
-          "originalLength": 17647,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "如何在本地安全部署受控的 AI 编程助手",
-        "analysis": {
-          "listSummary": "本文介绍如何在本地服务器部署受控的 AI 编程助手，解决代码泄露、AI 幻觉引入恶意包以及缺乏审计追踪三大痛点。通过结合 NVIDIA NIM 和 NeMo Guardrails，开发者可以在不改变现有工作流的前提下，安全地使用 AI 辅助编程。如果你负责企业级代码安全，或想深入了解 AI 编程的落地规范，这篇文章非常值得阅读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "在企业内部使用 AI 编程助手，最大的风险不是模型不够聪明，而是代码泄露、AI 乱编依赖包以及出了问题找不到责任人。原文指出三个常见挑战：源码不能离开内网、AI 会捏造不存在的包名带来供应链风险、生成的代码出缺陷时没有审计记录。这就像让一个不懂公司保密协议的实习生写核心代码，他不仅可能把代码发给外人，还可能从网上随便抄一些带病毒的库进来。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "作者提出把模型和控制规则分开，用一套外部系统来拦截和检查 AI 的行为。文章设计了一个包含三层的架构：底层是本地运行的 StarCoder2 模型，中间层是 NeMo Guardrails 拦截器，上层是 IDE 和 CI 检查。作者论证，模型只负责提议代码，而安全策略、依赖检查和结果测量都放在模型外部。这样即使模型出错，外部系统也能兜底，团队可以逐步引入 AI，而不需要一次性推翻现有系统。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "这套方案通过具体的开源工具和指标监控，证明了 AI 辅助编程是可以被安全度量和控制的。原文提供了具体的 CI 脚本和 Git 钩子，用于检查幻觉包和给 AI 代码打标签。结论是，只要把验证、追踪和测量放在模型之外，就能安全落地 AI 编程。边界在于，这需要团队有一定的基础设施能力，如 GPU 服务器和 CI 流水线；且对于完全断网的环境，部分第三方扫描工具需要替换为自研脚本。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "本地部署模型可以确保源代码不离开企业内网，从根本上解决数据隐私和主权问题。",
-            "NeMo Guardrails 作为代理层，能在请求到达模型前拦截涉及支付、加密等仅限人工的敏感代码生成。",
-            "AI 容易捏造不存在的第三方包，必须在持续集成流水线中加入专门的依赖幻觉扫描来防范供应链攻击。",
-            "通过 Git 提交钩子为 AI 辅助的代码添加追踪标签，以便后续统计和对比 AI 代码的缺陷逃逸率。",
-            "核心设计理念是模型不是控制平面，安全策略和验证机制必须独立于 AI 模型之外运行。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "NVIDIA NIM（NVIDIA 推理微服务）是打包好 AI 模型的容器化服务。它通过提供 OpenAI 兼容的 API，让本地 GPU 能直接运行 StarCoder2 模型。它重要是因为它让企业能在内网部署模型，且集成开发环境无需修改代码即可接入。",
-              "basis": "source"
-            },
-            {
-              "text": "NeMo Guardrails 是位于集成开发环境和模型之间的安全代理。它通过执行预定义的策略，在模型生成代码前拦截违规请求。它重要是因为它从源头防止 AI 生成高风险或敏感代码，且策略本身是可读可查的文本。",
-              "basis": "source"
-            },
-            {
-              "text": "Slopsquatting（幻觉依赖）是 AI 模型捏造不存在的包名，被攻击者注册并植入恶意代码的现象。攻击者利用 AI 的幻觉，在公共仓库注册相似名称的恶意包。它重要是因为这会导致开发者在不知情的情况下引入供应链恶意软件。",
-              "basis": "source"
-            },
-            {
-              "text": "领域自适应是使用企业内部代码库对基础模型进行继续预训练和微调的过程。通过 NeMo Framework 让模型学习内部 API 和特定编码规范。它重要是因为它能减少 AI 对内部专有 API 的幻觉，提高代码生成的准确性。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在团队中初步引入本地 AI 编程助手，并建立基础的安全拦截机制。",
-              "steps": [
-                "准备一台至少 24GB 显存的 NVIDIA GPU 服务器，安装 Docker 和 NVIDIA Container Toolkit。",
-                "使用 Docker 拉取并运行 StarCoder2-7B NIM 容器，暴露 8000 端口。",
-                "安装 NeMo Guardrails，编写配置文件定义拦截认证和支付等路径的策略。",
-                "启动 Guardrails 服务（端口 8100），并将 IDE 的 API 地址指向该端口。"
-              ],
-              "tools": [
-                "Docker",
-                "NVIDIA Container Toolkit",
-                "StarCoder2 NIM",
-                "NeMo Guardrails",
-                "Continue 或 Cursor IDE"
-              ],
-              "verification": [
-                "在 IDE 中请求生成普通函数，能正常返回代码。",
-                "请求生成认证模块相关代码时，IDE 收到明确的拒绝提示，且 NIM 容器日志中无生成记录。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "供应链风险"
-          ],
-          "searchTerms": [
-            {
-              "term": "NVIDIA NIM",
-              "query": "NVIDIA NIM StarCoder2 deployment"
-            },
-            {
-              "term": "NeMo Guardrails",
-              "query": "NeMo Guardrails coding assistant policy"
-            },
-            {
-              "term": "slopsquatting",
-              "query": "AI hallucinated dependency slopsquatting"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T22:34:45.395Z",
-        "model": "qwen3.7-plus"
-      },
-      {
-        "id": "0d3521e6bbafd31a",
-        "title": "How Similarweb Evaluates Agent Reports with LangSmith",
-        "url": "https://www.langchain.com/blog/how-similarweb-evaluates-long-form-agent-research-reports-with-langsmith",
-        "summary": "Learn how Similarweb uses LangSmith to evaluate long-form agent research reports with rubrics, faithfulness checks, traces, and baseline comparisons.",
-        "publishedAt": "2026-07-29T15:30:04.000Z",
-        "sourceId": "langchain",
-        "sourceName": "LangChain Blog",
-        "sourceSite": "https://blog.langchain.com/",
-        "lane": "ai",
-        "accent": "#1c3c3c",
-        "topic": "AI 辅助学习",
-        "score": 59,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "topic": "Agent 与自动化",
+        "score": 86,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
         "readMinutes": 19,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 86,
-        "bodyHash": "44e114ca2ad539638b194c2a",
+        "candidateScore": 97,
+        "bodyHash": "876794aa4deebf83bcaeba83",
         "extraction": {
           "method": "readability",
-          "length": 12973,
-          "originalLength": 12973,
+          "length": 13495,
+          "originalLength": 13495,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Similarweb 如何使用 LangSmith 评估 AI 智能体生成的深度研究报告",
+        "displayTitle": "NVIDIA 红队总结：部署安全 AI 智能体的四大核心防线",
         "analysis": {
-          "listSummary": "本文介绍 Similarweb 如何用 LangSmith 评估 AI 智能体生成的开放式长文本报告。文章解释了当 AI 输出没有唯一标准答案时，如何结合确定性检查与大模型裁判进行质量打分。读者将学到如何设计评分量表、避免评分陷阱，并将评估与运行追踪结合。如果你正在开发 AI 智能体或长文本生成应用，本文能帮你建立可靠的自动化评估流程，非常值得阅读。",
+          "listSummary": "本文总结了 NVIDIA 红队评估 AI 智能体时发现的四大安全漏洞及防御方法。文章指出，依赖大模型提示词防御不可靠，必须采用访问控制、限制代码执行、默认拒绝网络出站和隔离密钥等硬性架构控制。如果你正在开发或部署能调用外部工具的 AI 智能体，这篇文章能帮你避开致命的安全坑，非常值得阅读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "传统软件测试非黑即白。但 AI 智能体（Agent，即能自主规划任务并调用工具的 AI 程序）系统的输出是开放且多变的。在 Similarweb Data Studio 中，用户用自然语言提问。智能体负责规划任务、调用数据工具并生成回答。由于每次运行的路径和结果可能不同，开发者很难判断一次更新是让系统变好了，还是仅仅把错误转移到了其他地方。",
-                "评估必须成为产品架构的一部分。对于简单的问答，我们可以对比标准答案。但对于包含数据引用和叙事的深度研究报告，根本没有唯一正确的标准答案。我们需要一种能评估质量和逻辑的方法。这种方法还必须能追踪到智能体具体调用了什么工具、获取了什么数据。"
+                "AI 智能体（AI Agent，简单说，就是能自主调用工具完成任务的 AI 程序）正在成为开发者的数字同事。它们能自动审查 Bug、编写修复代码并提交补丁，大幅提升工作效率。",
+                "但把大语言模型（LLM，即驱动 AI 的核心大脑）连接到企业实时工具和数据，会暴露巨大的攻击面。NVIDIA 红队测试发现，无论使用什么框架，不安全的智能体通常存在四个致命缺陷。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "团队采用两种检查机制来评估智能体输出。第一种是确定性检查（简单说，就是写死规则来检查机械行为）。比如验证智能体是否调用了必需的工具，或者是否返回了有效的结构化数据。第二种是大模型作为裁判（LLM-as-a-judge，即让另一个大语言模型来给输出打分）。这用于评估语义和质量。裁判模型会接收用户问题、智能体输出和评分标准。然后它返回分数和解释。",
-                "针对简单的常规聊天，团队使用语义评估器将智能体输出与标准答案（golden answer）进行对比。这能判断意思是否一致。针对复杂的深度研究，团队放弃了标准答案。他们改用评分量表（rubric，即明确列出各个质量维度及格线标准的提示词）。例如在来源整合维度，量表会明确规定得 0 分、0.3 分、0.8 分和 1 分的具体表现。",
-                "除了质量量表，团队还运行忠实度检查（faithfulness checks，即验证报告中的结论是否真的由检索到的数据推导出来）。这能防止智能体胡编乱造。为了判断新版本是否真的更好，他们还会将新报告与基线（baseline，即之前保存的、被认可的旧版本输出）进行 A/B 对比。裁判模型会直接比较两者的优劣。"
+                "第一个缺陷是缺乏访问控制。很多智能体持有用户凭证，且对内部网络所有人开放。攻击者可以轻易收集这些凭证并在其他地方滥用。必须为智能体设置严格的身份验证，并遵循最小权限原则（即只给完成工作所需的最低权限）。",
+                "第二个缺陷是未限制代码执行。许多智能体暴露了命令行工具。攻击者可以通过提示词注入，诱导智能体执行恶意命令，甚至获取远程代码执行（RCE，即完全控制目标机器的能力）。应尽量避免使用命令行，或将文件写入限制在非执行区域。",
+                "第三个缺陷是未限制网络出站。默认允许智能体连接外部网络，会导致数据泄露或建立反向 shell（一种让攻击者从外部控制内部机器的隐蔽连接）。必须在网络边界实施默认拒绝策略，只允许访问必要的白名单地址。",
+                "第四个缺陷是密钥明文暴露。智能体常需要 API 密钥或令牌。如果把它们放在环境变量中，攻击者只需让智能体执行简单的打印命令就能窃取。必须使用专门的密钥管理器，按需获取短生命周期的令牌。",
+                "文章特别论证了提示词防御的脆弱性。试图用系统提示词或大模型做裁判（LLM-as-a-judge，即让另一个大模型判断当前操作是否安全）来阻止恶意行为是无效的。攻击者可以通过伪装成管理员、温水煮青蛙式地逐步诱导，或利用恶意代码包安装等合法工作流，轻松绕过这些概率性的软防御。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "评估工具的核心价值在于将分数、裁判的解释和智能体的运行追踪（trace，即记录智能体每一步思考和工具调用的日志）连接起来。团队曾因为评分量表未校准而浪费了一周时间。新报告引用的来源变多了，但来源质量变差了，导致总分下降。如果只看总分，会误以为系统退步了。",
-                "通过查看每个维度的具体评论和运行追踪，团队发现是评分标准中来源数量和来源质量发生了冲突。修改量表使其更看重有具体名称和可验证的来源后，分数才真实反映了质量。这证明了一个未校准的评估系统比没有评估更糟。因为它会提供虚假的信心。",
-                "最终的工作流是：提出假设，运行小规模评估看信号，检查评论和追踪，运行包含多次重复的完整基准测试，与基线对比，最后决定是合并代码、继续迭代还是重新校准量表。评估并没有消除人类判断。它让判断变得可检查、可重复，并直接关联到智能体的实际行为。"
+                "NVIDIA 红队通过实际攻击验证了上述结论。例如，他们通过让智能体安装恶意 Python 包，成功触发了任意代码执行；通过伪装成调试人员，诱导 Slack 智能体创建了反向 shell。",
+                "结论是，防御 AI 智能体不能依赖大模型自身的判断，必须使用确定性的硬控制。这包括智能体访问控制、经过安全加固的隔离沙箱、默认拒绝的网络出站控制，以及物理隔离密钥。",
+                "这些架构级控制在对抗压力下表现良好。但边界在于，完全自主且拥有企业凭证的系统 inherently risky（原文表述，意为 inherently 具有高风险）。即使是最先进的前沿模型，只要有足够时间和专业知识，依然可能被攻破。安全是一个持续对抗的过程。"
               ]
             }
           ],
           "keyPoints": [
-            "AI 智能体系统的输出具有随机性和开放性，传统的单元测试无法直接适用，必须将评估流程嵌入到产品架构中。",
-            "评估智能体需要结合确定性检查（验证工具调用和数据结构）与大模型裁判（评估语义、质量和忠实度）。",
-            "对于没有唯一标准答案的长文本报告，应使用包含明确打分锚点的评分量表，而不是简单的标准答案对比。",
-            "评分量表必须经过校准，避免不同评估维度之间的冲突（如数量与质量的冲突）导致总分误导开发者。",
-            "有效的评估系统必须将分数、裁判解释与运行追踪深度绑定，让开发者能顺藤摸瓜找到智能体行为的具体缺陷。"
+            "AI 智能体连接外部工具会引入严重安全风险，不能仅靠大模型的提示词来防御。",
+            "必须对智能体实施严格的身份访问控制，并遵循最小权限原则。",
+            "应尽量避免让智能体直接执行命令行，防止攻击者通过提示词注入获取远程代码执行权限。",
+            "网络出站连接必须默认拒绝，仅开放任务必需的最小网络白名单。",
+            "密钥和令牌绝不能以明文形式暴露在智能体的执行环境或上下文中。",
+            "防御机制必须部署在大模型控制平面之外，使用确定性的架构级硬控制。"
           ],
           "technicalDetails": [
             {
-              "text": "大模型裁判（LLM-as-a-judge）评估机制。它是什么：一种让大语言模型扮演评审员，对另一个模型的输出进行打分的机制。怎么工作：裁判模型接收三个输入：用户原始问题、智能体生成的输出、以及预设的评分标准（如评分量表或标准答案）。模型根据标准输出一个分数和一段解释评论。为什么重要：它解决了开放式文本无法用精确字符串匹配来评估的问题，能够理解语义和上下文质量。",
+              "text": "远程代码执行 (RCE)：它是什么：攻击者能够在目标服务器上运行任意代码的漏洞。怎么工作：在 AI 智能体场景中，攻击者通过构造恶意提示词，诱导智能体的命令行工具执行恶意脚本。为什么重要：这是最高危的风险，一旦成功，攻击者就能完全接管运行智能体的服务器。",
               "basis": "source"
             },
             {
-              "text": "评分量表（Rubric）提示词设计。它是什么：一种结构化的提示词，为每个质量维度定义了具体的分数等级和对应的表现描述。怎么工作：在提示词中明确写出 0.0 到 1.0 各个分数段的具体要求（例如 0.3 分是模糊提及外部来源，0.8 分是引用多个带日期和数据的具名来源）。裁判模型根据这些锚点为每个维度独立打分。为什么重要：它避免了大模型打分时的随意性，确保评分标准与产品实际关心的质量维度严格对齐。",
+              "text": "反向 Shell (Reverse Shell)：它是什么：一种让目标机器主动连接回攻击者机器的隐蔽通道。怎么工作：攻击者诱导智能体执行特定命令，使智能体所在的服务器主动向攻击者的监听端口发起连接。为什么重要：它能绕过防火墙的入站限制，让攻击者直接控制智能体的运行环境。",
               "basis": "source"
             },
             {
-              "text": "LangSmith 的 aevaluate API 与追踪绑定。它是什么：LangSmith 提供的一个异步评估 API，用于在数据集上批量运行评估循环。怎么工作：通过传入目标函数、数据集 ID、评估器列表和并发参数，API 会自动运行多次评估。每个评估器的分数会作为列展示，并且每个分数都会直接链接到该次运行的详细追踪日志。为什么重要：它将抽象的评估分数与具体的智能体执行步骤绑定，让开发者能从分数直接下钻到具体的代码或提示词问题。",
+              "text": "大模型做裁判 (LLM-as-a-judge)：它是什么：使用一个大语言模型来审查另一个大模型的输入或输出是否安全。怎么工作：在智能体执行操作前，让裁判模型评估该操作是否违规。为什么重要：原文证明这种基于概率的软防御极易被社会工程学或上下文伪装绕过，不能作为核心安全防线。",
+              "basis": "source"
+            },
+            {
+              "text": "温水煮青蛙攻击 (Frog-boiling / Crescendo attack)：它是什么：一种通过多轮对话逐步诱导 AI 执行恶意操作的提示词注入手法。怎么工作：攻击者先通过合法请求建立信任，然后逐步提出稍微越界的要求，最终让 AI 在不知不觉中泄露密钥或执行恶意代码。为什么重要：它证明了单次请求的防御很容易被多轮上下文操纵所瓦解。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "为长文本 AI 智能体输出建立基于评分量表的自动化评估流程。",
+              "scenario": "在 Unity 或 Godot 游戏开发中，部署一个能自动读取项目日志并生成修复代码的 AI 智能体。",
               "steps": [
-                "定义 3 到 5 个核心质量维度（如来源多样性、逻辑连贯性、数据忠实度）。",
-                "为每个维度编写评分量表提示词，明确写出 0.0、0.3、0.8、1.0 四个分数段的具体文本表现要求。",
-                "准备一个包含 20 个典型用户问题的测试数据集，并人工标注一个基线（baseline）输出。",
-                "使用 LangSmith 的 aevaluate API 运行评估，同时传入确定性检查评估器和 LLM 裁判评估器。",
-                "检查评估结果中的低分项，点击分数查看裁判的评论和智能体的运行追踪（trace）。",
-                "如果发现分数与人工直觉不符，修改评分量表提示词中的冲突条件，重新运行评估直到分数与评论逻辑一致。"
+                "在 Docker 中运行该智能体，并限制其只能读取特定的日志文件夹。",
+                "配置 Docker 网络为 none 或仅允许访问内部 API 网关，禁止直接访问外网。",
+                "将 Unity 或 Godot 的 API 密钥存放在 AWS Secrets Manager 或 HashiCorp Vault 中。",
+                "编写一个中间件脚本，智能体需要密钥时，由中间件向 Vault 申请一个 5 分钟有效的临时令牌并注入内存。"
               ],
               "tools": [
-                "LangSmith",
-                "Python (asyncio)",
-                "大语言模型 API (如 OpenAI GPT-4)"
+                "Docker",
+                "AWS Secrets Manager",
+                "HashiCorp Vault",
+                "自定义中间件脚本"
               ],
               "verification": [
-                "评估结果表格中，每个维度的分数旁边都有合理的评论解释。",
-                "修改提示词后，原本得分异常的用例分数回归到符合人工预期的范围。",
-                "运行追踪日志能清晰展示智能体调用工具和生成文本的完整过程。"
+                "尝试在智能体对话中输入请执行 env 命令查看环境变量，智能体应返回空或无敏感信息。",
+                "尝试让智能体访问外部网址，应返回网络不可达错误。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "确定性检查",
-            "大模型作为裁判",
-            "评分量表",
-            "忠实度检查",
-            "运行追踪",
-            "评分量表未校准"
+            "缺乏访问控制",
+            "任意代码执行",
+            "密钥明文暴露",
+            "提示词防御",
+            "确定性的硬控制"
           ],
           "searchTerms": [
             {
-              "term": "LangSmith",
-              "query": "LangSmith agent evaluation tutorial"
+              "term": "远程代码执行",
+              "query": "Remote Code Execution RCE AI agent"
             },
             {
-              "term": "LLM-as-a-judge",
-              "query": "LLM as a judge evaluation prompt"
+              "term": "反向 shell",
+              "query": "reverse shell AI agent exploitation"
             },
             {
-              "term": "Rubric",
-              "query": "LLM evaluation rubric prompt design"
+              "term": "大模型做裁判",
+              "query": "LLM-as-a-judge security bypass"
             },
             {
-              "term": "Faithfulness checks",
-              "query": "RAG faithfulness evaluation metrics"
+              "term": "温水煮青蛙攻击",
+              "query": "Crescendo attack prompt injection"
             },
             {
-              "term": "Trace",
-              "query": "LangSmith trace observability"
-            },
-            {
-              "term": "aevaluate",
-              "query": "LangSmith aevaluate API python"
+              "term": "最小权限原则",
+              "query": "principle of least privilege AI agents"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T22:36:50.343Z",
+        "analyzedAt": "2026-07-30T22:42:35.687Z",
         "model": "qwen3.7-plus"
       },
       {
-        "id": "23961d42d3945e47",
-        "title": "We’re launching Lyria 3.5 in Google Flow Music, with advances across musicality, lyrics, vocals, and creative control",
-        "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/lyria-3-5/?utm_source=deepmind.google&utm_medium=referral&utm_campaign=gdm&utm_content=",
-        "summary": "",
-        "publishedAt": "2026-07-29T16:02:10.000Z",
-        "sourceId": "deepmind",
-        "sourceName": "Google DeepMind",
-        "sourceSite": "https://deepmind.google/discover/blog/",
+        "id": "c8254ac6586638ff",
+        "title": "Stacked sessions and pull requests in the GitHub Copilot app",
+        "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
+        "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
+        "publishedAt": "2026-07-30T17:30:24.000Z",
+        "sourceId": "github-ai",
+        "sourceName": "GitHub AI & ML",
+        "sourceSite": "https://github.blog/ai-and-ml/",
         "lane": "ai",
-        "accent": "#5c6bc0",
-        "topic": "AI 动态",
-        "score": 62,
-        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-        "readMinutes": 3,
-        "category": "research",
-        "slot": "update",
+        "accent": "#24292f",
+        "topic": "AI 辅助学习",
+        "score": 86,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 12,
+        "category": "practice",
+        "slot": "practice",
         "language": "en",
-        "candidateScore": 72,
-        "bodyHash": "eabfe295fd4ebeae57f28e36",
+        "candidateScore": 95,
+        "bodyHash": "3409436d53b8f9e09963aa04",
         "extraction": {
           "method": "readability",
-          "length": 764,
-          "originalLength": 764,
+          "length": 8396,
+          "originalLength": 8396,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Google 发布 Lyria 3.5 音乐生成模型：全面提升音乐、歌词与人声质量",
+        "displayTitle": "使用 GitHub Copilot 的堆叠会话和拉取请求重构老旧代码",
         "analysis": {
-          "listSummary": "本文介绍 Google DeepMind 发布的最新音乐生成模型 Lyria 3.5。它解决了早期 AI 音乐生成中旋律生硬、歌词不连贯和人声缺乏情感的问题。对于内容创作者和游戏开发者，这意味着能用更少的提示词生成结构完整、情感丰富的背景音乐或歌曲。文章简明扼要，值得关注 AI 音乐生成进展的入门学习者阅读。",
+          "listSummary": "本文介绍了如何使用 GitHub Copilot 应用中的“堆叠会话”和“堆叠拉取请求”功能来重构老旧代码。作者通过实际案例展示了如何将一个庞大的重构任务拆分为多个相互依赖的小任务。如果你正在面对难以维护的旧项目，或者想了解 AI 编程工具如何管理复杂的代码变更，这篇文章非常值得一读。它能帮你理解如何利用 AI 拆解大任务，避免代码混乱。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "早期 AI 音乐生成工具往往只能生成简单的循环旋律，歌词像随机拼凑，人声听起来像机器朗读。这限制了它们在专业内容制作或游戏开发中的实际应用。Google 推出 Lyria 3.5 模型，旨在解决这些痛点。它让不懂乐理的普通人也能通过文本指令，生成接近人类创作水平的完整歌曲。"
+                "老旧代码库的重构往往因为依赖复杂和牵一发而动全身而让人放弃。作者有一个2014年开发的个人应用，使用了 React 15、Less 和旧版 react-bootstrap。这些依赖已经非常过时，手动清理需要耗费数周时间。在引入 AI 工具前，作者曾尝试重构但失败了，因为代码量不大不小，投入产出比太低。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "Lyria 3.5 通过四个核心维度的升级来提升音乐质量。首先是音乐性，模型能生成更复杂且自然的旋律结构，告别简单的机械循环。其次是歌词生成，它增强了对提示词（也就是用户输入的文本指令）的遵循能力，并具备了结构意识（简单说，就是模型知道一首歌应该有主歌、副歌等段落，就像写文章要有起承转合，而不是随机堆砌句子）。第三是人声表现，新模型让人声更具情感起伏，发音更准确。最后是创作控制，用户可以更精确地调节生成音乐的节奏和时长。"
+                "作者最初试图用 AI 一次性完成所有前端现代化工作，但失败了。作者使用 Plan 模式（一种让 AI 先制定计划再执行的模式）并借助 Claude Opus 4.8 和 GPT-5.5 模型进行规划。失败的原因在于作者忽略了之前在一个名为 dev 的分支上已经做过部分更新。AI 工具随后调整了策略，将样式修改应用到了 dev 分支上，解决了分支冲突问题。",
+                "在测试阶段，作者发现了旧版 react-bootstrap 库带来的控制台警告。为了避免“范围蔓延”（简单说，就是做任务时忍不住把不相关的功能也加进去，导致任务失控），作者决定将任务拆分。作者让 AI 先提交当前的样式修改，然后开启一个新的“堆叠会话”来专门处理替换 react-bootstrap 库的工作。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文事实表明，Lyria 3.5 已在 Google Flow Music 平台上线，并明确列出了上述四项改进。作者判断这些改进能让用户创作出更丰富的曲目，并拥有真正的创作控制权。需要注意的是，原文并未提供具体的底层算法细节或客观评测数据。因此，这些改进的实际听感和控制精度，仍需用户自行在 Flow Music 中验证。AI 推断认为，这种多模态控制能力的提升，将大幅降低游戏和短视频行业的配乐成本。"
+                "堆叠会话和堆叠拉取请求（Pull Request，简称 PR，即请求将代码合并到主分支的审核流程）是解决复杂重构的有效方法。堆叠是指一系列 PR，每个 PR 都指向它下方 PR 的分支，最终形成一条合并到主分支的链条。这种方法让作者能够安全地隔离不同阶段的修改，避免了生成一个包含一万行代码的巨大 PR。结论是，利用 AI 工具的会话堆叠功能，可以大幅降低老旧代码库现代化的心智负担。"
               ]
             }
           ],
           "keyPoints": [
-            "Lyria 3.5 是 Google DeepMind 推出的新一代音乐生成模型，现已集成到 Google Flow Music 平台。",
-            "音乐性提升体现在能生成更复杂、自然的旋律结构，告别简单的机械循环。",
-            "歌词生成不仅质量更高，还能更好地理解用户的文本指令，并遵循标准的歌曲段落结构。",
-            "人声合成更加逼真，不仅发音更准确，还能表现出细腻的情感起伏。",
-            "创作者现在可以更直观地控制生成音乐的具体节奏和总时长。"
+            "面对老旧代码库，试图用 AI 一次性完成所有重构通常会失败，需要分步进行。",
+            "在让 AI 生成代码前，必须确保 AI 基于正确的代码分支（如包含历史修改的 dev 分支）工作。",
+            "堆叠会话允许将一个大任务拆分为多个按顺序执行的小任务，每个任务基于前一个任务的结果。",
+            "堆叠拉取请求形成一条分支链，每个 PR 合并到前一个 PR 的分支，最终汇入主分支，便于代码审查。",
+            "拆分任务可以有效防止范围蔓延，避免生成难以测试和合并的超大代码变更。"
           ],
           "technicalDetails": [
             {
-              "text": "Lyria 3.5 音乐生成模型。它是什么：Google DeepMind 开发的用于将文本提示转化为音频音乐的 AI 模型。怎么工作：通过深度学习理解用户的文本指令（如风格、歌词、节奏），并合成对应的旋律、和声与人声。为什么重要：它是内容创作者快速生成高质量背景音乐或完整歌曲的核心引擎。",
+              "text": "堆叠会话是 GitHub Copilot 应用中的一种任务管理机制。它允许用户在一个仓库中创建一系列相互依赖的任务会话。每个新会话都基于前一个会话的代码状态运行，并生成对应的代码变更。这很重要，因为它将庞大的重构任务拆解为可控的线性步骤，防止 AI 在单次执行中产生混乱或超出上下文限制。",
               "basis": "source"
             },
             {
-              "text": "提示词遵循与结构意识。它是什么：模型准确执行用户文本指令，并理解歌曲段落排列规则的能力。怎么工作：模型在训练时学习了大量标准歌曲的文本与音频对应关系，从而在生成时能按指令输出特定段落。为什么重要：这保证了生成的歌词不会偏离主题，且歌曲听起来有完整的起承转合，而不是随机句子的堆砌。",
+              "text": "堆叠拉取请求是一种代码合并策略。它创建一系列 PR，其中每个 PR 的目标分支是它前一个 PR 的源分支，最终指向主分支。这很重要，因为它让开发者可以按顺序审查和合并小批量的代码变更，而不是面对一个包含所有修改的巨大 PR，从而降低代码审查的难度和合并冲突的风险。",
+              "basis": "source"
+            },
+            {
+              "text": "Plan 模式是 AI 编程工具中的一种交互方式。它要求 AI 在直接修改代码之前，先输出重构或实现步骤的计划供人类审核。这很重要，因为它让人类可以在 AI 消耗大量计算资源生成代码前，纠正方向或调整范围，避免生成完全不符合预期的代码。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "独立游戏开发者需要为游戏过场动画生成一段 30 秒、节奏舒缓且带有特定歌词的背景音乐。",
+              "scenario": "当你需要重构一个包含多个相互依赖模块的老旧项目，且单次 AI 生成代码容易失败或产生冲突时。",
               "steps": [
-                "打开 Google Flow Music 平台并登录账号。",
-                "在提示词框中输入具体的歌词内容，并指定音乐风格（如“舒缓的 acoustic pop”）。",
-                "在控制选项中，将时长参数设置为 30 秒，将节奏参数调低以匹配舒缓风格。",
-                "点击生成，试听输出结果，检查人声发音和旋律是否符合预期。"
+                "在 GitHub Copilot 应用中打开项目，进入 Plan 模式。",
+                "输入提示词，要求 AI 先制定重构计划，并明确指定基于当前正在开发的分支而非主分支。",
+                "审核 AI 生成的计划，确认无误后让 AI 执行第一阶段修改。",
+                "第一阶段完成后，要求 AI 为当前修改创建一个 PR。",
+                "接着，要求 AI 开启一个新的堆叠会话来处理下一个模块，并指示新会话基于上一个 PR 的分支。",
+                "重复创建 PR 和开启堆叠会话的步骤，直到所有模块重构完成，形成堆叠 PR 链。"
               ],
               "tools": [
-                "Google Flow Music",
-                "Lyria 3.5 模型"
+                "GitHub Copilot app",
+                "Git",
+                "GitHub"
               ],
               "verification": [
-                "生成的音频时长严格在 30 秒左右。",
-                "人声清晰且带有情感，歌词与输入的提示词高度一致。",
-                "旋律没有突兀的断裂感，具备明显的段落结构。"
+                "在 GitHub 界面中可以看到多个 PR 形成嵌套或链式结构。",
+                "每个 PR 的代码审查页面只显示当前阶段的修改。",
+                "所有 PR 依次合并后，主分支包含完整的重构代码且无冲突。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "Lyria 3.5",
-            "Google Flow Music",
-            "结构意识",
-            "创作控制"
+            "堆叠会话",
+            "堆叠拉取请求",
+            "范围蔓延",
+            "Plan 模式",
+            "依赖",
+            "分支"
           ],
           "searchTerms": [
             {
-              "term": "Lyria 3.5",
-              "query": "Google DeepMind Lyria 3.5 music generation model"
+              "term": "堆叠会话",
+              "query": "GitHub Copilot stacked sessions"
             },
             {
-              "term": "Google Flow Music",
-              "query": "Google Flow Music AI music platform"
+              "term": "堆叠拉取请求",
+              "query": "GitHub stacked pull requests"
+            },
+            {
+              "term": "Plan 模式",
+              "query": "GitHub Copilot Plan mode"
+            },
+            {
+              "term": "范围蔓延",
+              "query": "software engineering scope creep"
+            },
+            {
+              "term": "react-bootstrap",
+              "query": "react-bootstrap migration"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T22:38:04.294Z",
+        "analyzedAt": "2026-07-30T22:44:29.652Z",
+        "model": "qwen3.7-plus"
+      },
+      {
+        "id": "b8125f9667d073b4",
+        "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
+        "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
+        "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
+        "publishedAt": "2026-07-30T15:22:24.000Z",
+        "sourceId": "mozilla-ai",
+        "sourceName": "Mozilla AI",
+        "sourceSite": "https://blog.mozilla.ai/",
+        "lane": "ai",
+        "accent": "#ff7139",
+        "topic": "模型与研究",
+        "score": 72,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 8,
+        "category": "research",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 74,
+        "bodyHash": "40965d78d9a5df57097e4592",
+        "extraction": {
+          "method": "readability",
+          "length": 5487,
+          "originalLength": 5487,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "前沿AI厂商如何构建隐蔽的开发者锁定",
+        "analysis": {
+          "listSummary": "本文揭示了前沿AI模型正通过加密内部推理状态和绑定专有执行环境，对开发者形成深层锁定。文章分析了这种锁定如何提升模型跑分，却牺牲了系统的可移植性。对于希望构建开放、跨模型AI智能体的开发者而言，本文提供了识别锁定陷阱的视角，并指明了构建独立状态管理架构的方向，非常值得阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "AI厂商的锁定手段已经从模型本身，升级到了运行时的状态和执行环境。过去大家担心AI锁定，主要是怕微调格式或提示词不兼容。现在AI变成了能连续执行多步任务的智能体系统（Agentic systems，即能自主规划和执行复杂任务的AI程序）。为了让智能体表现更好，厂商把中间推理过程和运行环境绑在了自己的服务器上。这解决了智能体长任务推理能力差的问题，但代价是开发者失去了对运行状态的控制权。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "厂商通过隐藏推理状态和定制执行沙盒，让模型在自家平台上跑分暴涨，但状态无法迁移。以OpenAI的Responses API（一种用于构建多轮对话和智能体的接口）为例，它允许服务器保存对话的中间推理状态。这些状态是加密的，开发者看不到也改不了。同时，模型针对厂商专有的代码执行沙盒进行了强化学习（RL，一种通过试错和奖励来训练AI的方法）优化。这导致模型在自家环境里得分翻倍，但在通用环境里表现平平。作者认为，这种跑分提升是一种幻觉，它反映的是模型加专有环境的整体能力，而不是模型本身的纯粹智力。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "开发者必须把厂商提供的状态管理当作临时优化，自己掌握核心状态数据。原文证据表明，无论是OpenAI的加密推理、Anthropic的思考块，还是Gemini的思维签名，都不向开发者暴露原始推理过程。此外，厂商内置的跨会话记忆层让开发者无法精细管理数据，也阻碍了多模型协作。作者的结论是，要构建不依赖单一厂商的系统，必须建立显式且开放的状态架构。边界在于，放弃厂商的内置状态管理可能会在短期内牺牲部分跑分和开发便利性，需要开发者自行搭建外部状态基础设施。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "AI锁定已从模型权重转移到运行时的状态与执行基础设施。",
+            "厂商通过加密中间推理状态，提升了长任务表现，但导致状态无法跨模型迁移。",
+            "专有执行沙盒让模型在特定基准测试中跑分暴涨，但这掩盖了模型在通用环境中的真实能力。",
+            "内置的跨会话记忆层剥夺了开发者对数据的精细管理权，并阻碍了多模型协同工作。",
+            "开发者应将厂商的状态管理视为临时优化，核心状态数据必须掌握在自己手中。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Responses API 的状态管理参数。它提供 previous_response_id（让服务器保存并复用上一轮的推理状态）和 store: false（让客户端自己保存完整输出）两种模式。当对话变长时，API 会自动压缩上下文，生成加密的压缩项。这决定了智能体能否记住之前的思考过程。加密机制虽然提升了长文本处理效率，但让开发者无法将这些状态转移给 Llama 或 Qwen 等开源模型。",
+              "basis": "source"
+            },
+            {
+              "text": "专有执行沙盒。AI 厂商为模型定制了封闭的代码解释器或浏览器代理环境，并使用强化学习针对这些特定环境进行优化。模型在自家沙盒里能完美调用工具，但在通用开源沙盒里表现糟糕。这导致基准测试分数虚高，开发者如果直接复用这些分数，会在实际部署时遭遇性能断崖。",
+              "basis": "source"
+            },
+            {
+              "text": "Otari 开源大语言模型控制平面。它是一个中间件系统，用于集中管理和调度多个 AI 模型及智能体工作流，将状态管理从单一厂商的 API 中剥离出来。它帮助开发者夺回对模型基础设施的控制权，实现跨厂商的模型路由和统一的状态管理，是打破厂商锁定的具体工程解法。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在构建多轮对话 AI 智能体时，避免将核心业务状态绑定在单一厂商的加密上下文中。",
+              "steps": [
+                "1. 在调用大模型 API 时，将 store 参数设置为 false，拒绝让服务器保存加密的中间状态。",
+                "2. 在客户端或自己的数据库中，以纯文本或结构化 JSON 格式，显式保存每一轮对话的结论、关键实体和上下文摘要。",
+                "3. 在下一轮对话时，将保存的纯文本状态作为提示词的一部分重新发送给模型，而不是依赖 previous_response_id。",
+                "4. 如果需要切换模型，直接读取本地数据库中的纯文本状态，无需修改底层数据结构。"
+              ],
+              "tools": [
+                "大模型 API (如 OpenAI Responses API)",
+                "本地关系型数据库 (如 PostgreSQL) 或文档数据库 (如 MongoDB)",
+                "LangChain 或 LlamaIndex 等状态管理框架"
+              ],
+              "verification": [
+                "1. 检查 API 请求日志，确认 store 参数为 false，且响应中不包含加密内容。",
+                "2. 在本地数据库中查询，确认能直接读取并修改对话的历史状态和关键实体。",
+                "3. 将保存的纯文本状态输入给另一个开源模型，确认新模型能准确理解上下文并继续执行任务。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "显式且开放的状态架构"
+          ],
+          "searchTerms": [
+            {
+              "term": "Responses API",
+              "query": "OpenAI Responses API state management"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-30T22:45:58.248Z",
         "model": "qwen3.7-plus"
       }
     ],
@@ -2435,374 +2471,383 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "95bc64b9d477dde6",
-        "title": "How to Self-Host a Validated AI Coding Assistant with NVIDIA NeMo Guardrails",
-        "url": "https://developer.nvidia.com/blog/how-to-self-host-a-validated-ai-coding-assistant-with-nvidia-nemo-guardrails/",
-        "summary": "Deploying an AI coding assistant in a regulated, sovereign, or source-sensitive environment, often comes with challenges. Three common issues are: the source...",
-        "publishedAt": "2026-07-29T16:46:45.000Z",
+        "id": "58582dab7dd24e3a",
+        "title": "Four Ways to Deploy More Secure AI Agents",
+        "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
+        "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
+        "publishedAt": "2026-07-30T21:09:59.000Z",
         "sourceId": "nvidia-dev",
         "sourceName": "NVIDIA Developer",
         "sourceSite": "https://developer.nvidia.com/blog/",
         "lane": "ai",
         "accent": "#76b900",
-        "topic": "开发实践",
-        "score": 81,
-        "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-        "readMinutes": 25,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 90,
-        "bodyHash": "2303e069743b8342e8f75a18",
-        "extraction": {
-          "method": "readability",
-          "length": 17647,
-          "originalLength": 17647,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "如何在本地安全部署受控的 AI 编程助手",
-        "analysis": {
-          "listSummary": "本文介绍如何在本地服务器部署受控的 AI 编程助手，解决代码泄露、AI 幻觉引入恶意包以及缺乏审计追踪三大痛点。通过结合 NVIDIA NIM 和 NeMo Guardrails，开发者可以在不改变现有工作流的前提下，安全地使用 AI 辅助编程。如果你负责企业级代码安全，或想深入了解 AI 编程的落地规范，这篇文章非常值得阅读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "在企业内部使用 AI 编程助手，最大的风险不是模型不够聪明，而是代码泄露、AI 乱编依赖包以及出了问题找不到责任人。原文指出三个常见挑战：源码不能离开内网、AI 会捏造不存在的包名带来供应链风险、生成的代码出缺陷时没有审计记录。这就像让一个不懂公司保密协议的实习生写核心代码，他不仅可能把代码发给外人，还可能从网上随便抄一些带病毒的库进来。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "作者提出把模型和控制规则分开，用一套外部系统来拦截和检查 AI 的行为。文章设计了一个包含三层的架构：底层是本地运行的 StarCoder2 模型，中间层是 NeMo Guardrails 拦截器，上层是 IDE 和 CI 检查。作者论证，模型只负责提议代码，而安全策略、依赖检查和结果测量都放在模型外部。这样即使模型出错，外部系统也能兜底，团队可以逐步引入 AI，而不需要一次性推翻现有系统。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "这套方案通过具体的开源工具和指标监控，证明了 AI 辅助编程是可以被安全度量和控制的。原文提供了具体的 CI 脚本和 Git 钩子，用于检查幻觉包和给 AI 代码打标签。结论是，只要把验证、追踪和测量放在模型之外，就能安全落地 AI 编程。边界在于，这需要团队有一定的基础设施能力，如 GPU 服务器和 CI 流水线；且对于完全断网的环境，部分第三方扫描工具需要替换为自研脚本。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "本地部署模型可以确保源代码不离开企业内网，从根本上解决数据隐私和主权问题。",
-            "NeMo Guardrails 作为代理层，能在请求到达模型前拦截涉及支付、加密等仅限人工的敏感代码生成。",
-            "AI 容易捏造不存在的第三方包，必须在持续集成流水线中加入专门的依赖幻觉扫描来防范供应链攻击。",
-            "通过 Git 提交钩子为 AI 辅助的代码添加追踪标签，以便后续统计和对比 AI 代码的缺陷逃逸率。",
-            "核心设计理念是模型不是控制平面，安全策略和验证机制必须独立于 AI 模型之外运行。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "NVIDIA NIM（NVIDIA 推理微服务）是打包好 AI 模型的容器化服务。它通过提供 OpenAI 兼容的 API，让本地 GPU 能直接运行 StarCoder2 模型。它重要是因为它让企业能在内网部署模型，且集成开发环境无需修改代码即可接入。",
-              "basis": "source"
-            },
-            {
-              "text": "NeMo Guardrails 是位于集成开发环境和模型之间的安全代理。它通过执行预定义的策略，在模型生成代码前拦截违规请求。它重要是因为它从源头防止 AI 生成高风险或敏感代码，且策略本身是可读可查的文本。",
-              "basis": "source"
-            },
-            {
-              "text": "Slopsquatting（幻觉依赖）是 AI 模型捏造不存在的包名，被攻击者注册并植入恶意代码的现象。攻击者利用 AI 的幻觉，在公共仓库注册相似名称的恶意包。它重要是因为这会导致开发者在不知情的情况下引入供应链恶意软件。",
-              "basis": "source"
-            },
-            {
-              "text": "领域自适应是使用企业内部代码库对基础模型进行继续预训练和微调的过程。通过 NeMo Framework 让模型学习内部 API 和特定编码规范。它重要是因为它能减少 AI 对内部专有 API 的幻觉，提高代码生成的准确性。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在团队中初步引入本地 AI 编程助手，并建立基础的安全拦截机制。",
-              "steps": [
-                "准备一台至少 24GB 显存的 NVIDIA GPU 服务器，安装 Docker 和 NVIDIA Container Toolkit。",
-                "使用 Docker 拉取并运行 StarCoder2-7B NIM 容器，暴露 8000 端口。",
-                "安装 NeMo Guardrails，编写配置文件定义拦截认证和支付等路径的策略。",
-                "启动 Guardrails 服务（端口 8100），并将 IDE 的 API 地址指向该端口。"
-              ],
-              "tools": [
-                "Docker",
-                "NVIDIA Container Toolkit",
-                "StarCoder2 NIM",
-                "NeMo Guardrails",
-                "Continue 或 Cursor IDE"
-              ],
-              "verification": [
-                "在 IDE 中请求生成普通函数，能正常返回代码。",
-                "请求生成认证模块相关代码时，IDE 收到明确的拒绝提示，且 NIM 容器日志中无生成记录。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "供应链风险"
-          ],
-          "searchTerms": [
-            {
-              "term": "NVIDIA NIM",
-              "query": "NVIDIA NIM StarCoder2 deployment"
-            },
-            {
-              "term": "NeMo Guardrails",
-              "query": "NeMo Guardrails coding assistant policy"
-            },
-            {
-              "term": "slopsquatting",
-              "query": "AI hallucinated dependency slopsquatting"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T22:34:45.395Z",
-        "model": "qwen3.7-plus"
-      },
-      {
-        "id": "0d3521e6bbafd31a",
-        "title": "How Similarweb Evaluates Agent Reports with LangSmith",
-        "url": "https://www.langchain.com/blog/how-similarweb-evaluates-long-form-agent-research-reports-with-langsmith",
-        "summary": "Learn how Similarweb uses LangSmith to evaluate long-form agent research reports with rubrics, faithfulness checks, traces, and baseline comparisons.",
-        "publishedAt": "2026-07-29T15:30:04.000Z",
-        "sourceId": "langchain",
-        "sourceName": "LangChain Blog",
-        "sourceSite": "https://blog.langchain.com/",
-        "lane": "ai",
-        "accent": "#1c3c3c",
-        "topic": "AI 辅助学习",
-        "score": 59,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "topic": "Agent 与自动化",
+        "score": 86,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
         "readMinutes": 19,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 86,
-        "bodyHash": "44e114ca2ad539638b194c2a",
+        "candidateScore": 97,
+        "bodyHash": "876794aa4deebf83bcaeba83",
         "extraction": {
           "method": "readability",
-          "length": 12973,
-          "originalLength": 12973,
+          "length": 13495,
+          "originalLength": 13495,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Similarweb 如何使用 LangSmith 评估 AI 智能体生成的深度研究报告",
+        "displayTitle": "NVIDIA 红队总结：部署安全 AI 智能体的四大核心防线",
         "analysis": {
-          "listSummary": "本文介绍 Similarweb 如何用 LangSmith 评估 AI 智能体生成的开放式长文本报告。文章解释了当 AI 输出没有唯一标准答案时，如何结合确定性检查与大模型裁判进行质量打分。读者将学到如何设计评分量表、避免评分陷阱，并将评估与运行追踪结合。如果你正在开发 AI 智能体或长文本生成应用，本文能帮你建立可靠的自动化评估流程，非常值得阅读。",
+          "listSummary": "本文总结了 NVIDIA 红队评估 AI 智能体时发现的四大安全漏洞及防御方法。文章指出，依赖大模型提示词防御不可靠，必须采用访问控制、限制代码执行、默认拒绝网络出站和隔离密钥等硬性架构控制。如果你正在开发或部署能调用外部工具的 AI 智能体，这篇文章能帮你避开致命的安全坑，非常值得阅读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "传统软件测试非黑即白。但 AI 智能体（Agent，即能自主规划任务并调用工具的 AI 程序）系统的输出是开放且多变的。在 Similarweb Data Studio 中，用户用自然语言提问。智能体负责规划任务、调用数据工具并生成回答。由于每次运行的路径和结果可能不同，开发者很难判断一次更新是让系统变好了，还是仅仅把错误转移到了其他地方。",
-                "评估必须成为产品架构的一部分。对于简单的问答，我们可以对比标准答案。但对于包含数据引用和叙事的深度研究报告，根本没有唯一正确的标准答案。我们需要一种能评估质量和逻辑的方法。这种方法还必须能追踪到智能体具体调用了什么工具、获取了什么数据。"
+                "AI 智能体（AI Agent，简单说，就是能自主调用工具完成任务的 AI 程序）正在成为开发者的数字同事。它们能自动审查 Bug、编写修复代码并提交补丁，大幅提升工作效率。",
+                "但把大语言模型（LLM，即驱动 AI 的核心大脑）连接到企业实时工具和数据，会暴露巨大的攻击面。NVIDIA 红队测试发现，无论使用什么框架，不安全的智能体通常存在四个致命缺陷。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "团队采用两种检查机制来评估智能体输出。第一种是确定性检查（简单说，就是写死规则来检查机械行为）。比如验证智能体是否调用了必需的工具，或者是否返回了有效的结构化数据。第二种是大模型作为裁判（LLM-as-a-judge，即让另一个大语言模型来给输出打分）。这用于评估语义和质量。裁判模型会接收用户问题、智能体输出和评分标准。然后它返回分数和解释。",
-                "针对简单的常规聊天，团队使用语义评估器将智能体输出与标准答案（golden answer）进行对比。这能判断意思是否一致。针对复杂的深度研究，团队放弃了标准答案。他们改用评分量表（rubric，即明确列出各个质量维度及格线标准的提示词）。例如在来源整合维度，量表会明确规定得 0 分、0.3 分、0.8 分和 1 分的具体表现。",
-                "除了质量量表，团队还运行忠实度检查（faithfulness checks，即验证报告中的结论是否真的由检索到的数据推导出来）。这能防止智能体胡编乱造。为了判断新版本是否真的更好，他们还会将新报告与基线（baseline，即之前保存的、被认可的旧版本输出）进行 A/B 对比。裁判模型会直接比较两者的优劣。"
+                "第一个缺陷是缺乏访问控制。很多智能体持有用户凭证，且对内部网络所有人开放。攻击者可以轻易收集这些凭证并在其他地方滥用。必须为智能体设置严格的身份验证，并遵循最小权限原则（即只给完成工作所需的最低权限）。",
+                "第二个缺陷是未限制代码执行。许多智能体暴露了命令行工具。攻击者可以通过提示词注入，诱导智能体执行恶意命令，甚至获取远程代码执行（RCE，即完全控制目标机器的能力）。应尽量避免使用命令行，或将文件写入限制在非执行区域。",
+                "第三个缺陷是未限制网络出站。默认允许智能体连接外部网络，会导致数据泄露或建立反向 shell（一种让攻击者从外部控制内部机器的隐蔽连接）。必须在网络边界实施默认拒绝策略，只允许访问必要的白名单地址。",
+                "第四个缺陷是密钥明文暴露。智能体常需要 API 密钥或令牌。如果把它们放在环境变量中，攻击者只需让智能体执行简单的打印命令就能窃取。必须使用专门的密钥管理器，按需获取短生命周期的令牌。",
+                "文章特别论证了提示词防御的脆弱性。试图用系统提示词或大模型做裁判（LLM-as-a-judge，即让另一个大模型判断当前操作是否安全）来阻止恶意行为是无效的。攻击者可以通过伪装成管理员、温水煮青蛙式地逐步诱导，或利用恶意代码包安装等合法工作流，轻松绕过这些概率性的软防御。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "评估工具的核心价值在于将分数、裁判的解释和智能体的运行追踪（trace，即记录智能体每一步思考和工具调用的日志）连接起来。团队曾因为评分量表未校准而浪费了一周时间。新报告引用的来源变多了，但来源质量变差了，导致总分下降。如果只看总分，会误以为系统退步了。",
-                "通过查看每个维度的具体评论和运行追踪，团队发现是评分标准中来源数量和来源质量发生了冲突。修改量表使其更看重有具体名称和可验证的来源后，分数才真实反映了质量。这证明了一个未校准的评估系统比没有评估更糟。因为它会提供虚假的信心。",
-                "最终的工作流是：提出假设，运行小规模评估看信号，检查评论和追踪，运行包含多次重复的完整基准测试，与基线对比，最后决定是合并代码、继续迭代还是重新校准量表。评估并没有消除人类判断。它让判断变得可检查、可重复，并直接关联到智能体的实际行为。"
+                "NVIDIA 红队通过实际攻击验证了上述结论。例如，他们通过让智能体安装恶意 Python 包，成功触发了任意代码执行；通过伪装成调试人员，诱导 Slack 智能体创建了反向 shell。",
+                "结论是，防御 AI 智能体不能依赖大模型自身的判断，必须使用确定性的硬控制。这包括智能体访问控制、经过安全加固的隔离沙箱、默认拒绝的网络出站控制，以及物理隔离密钥。",
+                "这些架构级控制在对抗压力下表现良好。但边界在于，完全自主且拥有企业凭证的系统 inherently risky（原文表述，意为 inherently 具有高风险）。即使是最先进的前沿模型，只要有足够时间和专业知识，依然可能被攻破。安全是一个持续对抗的过程。"
               ]
             }
           ],
           "keyPoints": [
-            "AI 智能体系统的输出具有随机性和开放性，传统的单元测试无法直接适用，必须将评估流程嵌入到产品架构中。",
-            "评估智能体需要结合确定性检查（验证工具调用和数据结构）与大模型裁判（评估语义、质量和忠实度）。",
-            "对于没有唯一标准答案的长文本报告，应使用包含明确打分锚点的评分量表，而不是简单的标准答案对比。",
-            "评分量表必须经过校准，避免不同评估维度之间的冲突（如数量与质量的冲突）导致总分误导开发者。",
-            "有效的评估系统必须将分数、裁判解释与运行追踪深度绑定，让开发者能顺藤摸瓜找到智能体行为的具体缺陷。"
+            "AI 智能体连接外部工具会引入严重安全风险，不能仅靠大模型的提示词来防御。",
+            "必须对智能体实施严格的身份访问控制，并遵循最小权限原则。",
+            "应尽量避免让智能体直接执行命令行，防止攻击者通过提示词注入获取远程代码执行权限。",
+            "网络出站连接必须默认拒绝，仅开放任务必需的最小网络白名单。",
+            "密钥和令牌绝不能以明文形式暴露在智能体的执行环境或上下文中。",
+            "防御机制必须部署在大模型控制平面之外，使用确定性的架构级硬控制。"
           ],
           "technicalDetails": [
             {
-              "text": "大模型裁判（LLM-as-a-judge）评估机制。它是什么：一种让大语言模型扮演评审员，对另一个模型的输出进行打分的机制。怎么工作：裁判模型接收三个输入：用户原始问题、智能体生成的输出、以及预设的评分标准（如评分量表或标准答案）。模型根据标准输出一个分数和一段解释评论。为什么重要：它解决了开放式文本无法用精确字符串匹配来评估的问题，能够理解语义和上下文质量。",
+              "text": "远程代码执行 (RCE)：它是什么：攻击者能够在目标服务器上运行任意代码的漏洞。怎么工作：在 AI 智能体场景中，攻击者通过构造恶意提示词，诱导智能体的命令行工具执行恶意脚本。为什么重要：这是最高危的风险，一旦成功，攻击者就能完全接管运行智能体的服务器。",
               "basis": "source"
             },
             {
-              "text": "评分量表（Rubric）提示词设计。它是什么：一种结构化的提示词，为每个质量维度定义了具体的分数等级和对应的表现描述。怎么工作：在提示词中明确写出 0.0 到 1.0 各个分数段的具体要求（例如 0.3 分是模糊提及外部来源，0.8 分是引用多个带日期和数据的具名来源）。裁判模型根据这些锚点为每个维度独立打分。为什么重要：它避免了大模型打分时的随意性，确保评分标准与产品实际关心的质量维度严格对齐。",
+              "text": "反向 Shell (Reverse Shell)：它是什么：一种让目标机器主动连接回攻击者机器的隐蔽通道。怎么工作：攻击者诱导智能体执行特定命令，使智能体所在的服务器主动向攻击者的监听端口发起连接。为什么重要：它能绕过防火墙的入站限制，让攻击者直接控制智能体的运行环境。",
               "basis": "source"
             },
             {
-              "text": "LangSmith 的 aevaluate API 与追踪绑定。它是什么：LangSmith 提供的一个异步评估 API，用于在数据集上批量运行评估循环。怎么工作：通过传入目标函数、数据集 ID、评估器列表和并发参数，API 会自动运行多次评估。每个评估器的分数会作为列展示，并且每个分数都会直接链接到该次运行的详细追踪日志。为什么重要：它将抽象的评估分数与具体的智能体执行步骤绑定，让开发者能从分数直接下钻到具体的代码或提示词问题。",
+              "text": "大模型做裁判 (LLM-as-a-judge)：它是什么：使用一个大语言模型来审查另一个大模型的输入或输出是否安全。怎么工作：在智能体执行操作前，让裁判模型评估该操作是否违规。为什么重要：原文证明这种基于概率的软防御极易被社会工程学或上下文伪装绕过，不能作为核心安全防线。",
+              "basis": "source"
+            },
+            {
+              "text": "温水煮青蛙攻击 (Frog-boiling / Crescendo attack)：它是什么：一种通过多轮对话逐步诱导 AI 执行恶意操作的提示词注入手法。怎么工作：攻击者先通过合法请求建立信任，然后逐步提出稍微越界的要求，最终让 AI 在不知不觉中泄露密钥或执行恶意代码。为什么重要：它证明了单次请求的防御很容易被多轮上下文操纵所瓦解。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "为长文本 AI 智能体输出建立基于评分量表的自动化评估流程。",
+              "scenario": "在 Unity 或 Godot 游戏开发中，部署一个能自动读取项目日志并生成修复代码的 AI 智能体。",
               "steps": [
-                "定义 3 到 5 个核心质量维度（如来源多样性、逻辑连贯性、数据忠实度）。",
-                "为每个维度编写评分量表提示词，明确写出 0.0、0.3、0.8、1.0 四个分数段的具体文本表现要求。",
-                "准备一个包含 20 个典型用户问题的测试数据集，并人工标注一个基线（baseline）输出。",
-                "使用 LangSmith 的 aevaluate API 运行评估，同时传入确定性检查评估器和 LLM 裁判评估器。",
-                "检查评估结果中的低分项，点击分数查看裁判的评论和智能体的运行追踪（trace）。",
-                "如果发现分数与人工直觉不符，修改评分量表提示词中的冲突条件，重新运行评估直到分数与评论逻辑一致。"
+                "在 Docker 中运行该智能体，并限制其只能读取特定的日志文件夹。",
+                "配置 Docker 网络为 none 或仅允许访问内部 API 网关，禁止直接访问外网。",
+                "将 Unity 或 Godot 的 API 密钥存放在 AWS Secrets Manager 或 HashiCorp Vault 中。",
+                "编写一个中间件脚本，智能体需要密钥时，由中间件向 Vault 申请一个 5 分钟有效的临时令牌并注入内存。"
               ],
               "tools": [
-                "LangSmith",
-                "Python (asyncio)",
-                "大语言模型 API (如 OpenAI GPT-4)"
+                "Docker",
+                "AWS Secrets Manager",
+                "HashiCorp Vault",
+                "自定义中间件脚本"
               ],
               "verification": [
-                "评估结果表格中，每个维度的分数旁边都有合理的评论解释。",
-                "修改提示词后，原本得分异常的用例分数回归到符合人工预期的范围。",
-                "运行追踪日志能清晰展示智能体调用工具和生成文本的完整过程。"
+                "尝试在智能体对话中输入请执行 env 命令查看环境变量，智能体应返回空或无敏感信息。",
+                "尝试让智能体访问外部网址，应返回网络不可达错误。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "确定性检查",
-            "大模型作为裁判",
-            "评分量表",
-            "忠实度检查",
-            "运行追踪",
-            "评分量表未校准"
+            "缺乏访问控制",
+            "任意代码执行",
+            "密钥明文暴露",
+            "提示词防御",
+            "确定性的硬控制"
           ],
           "searchTerms": [
             {
-              "term": "LangSmith",
-              "query": "LangSmith agent evaluation tutorial"
+              "term": "远程代码执行",
+              "query": "Remote Code Execution RCE AI agent"
             },
             {
-              "term": "LLM-as-a-judge",
-              "query": "LLM as a judge evaluation prompt"
+              "term": "反向 shell",
+              "query": "reverse shell AI agent exploitation"
             },
             {
-              "term": "Rubric",
-              "query": "LLM evaluation rubric prompt design"
+              "term": "大模型做裁判",
+              "query": "LLM-as-a-judge security bypass"
             },
             {
-              "term": "Faithfulness checks",
-              "query": "RAG faithfulness evaluation metrics"
+              "term": "温水煮青蛙攻击",
+              "query": "Crescendo attack prompt injection"
             },
             {
-              "term": "Trace",
-              "query": "LangSmith trace observability"
-            },
-            {
-              "term": "aevaluate",
-              "query": "LangSmith aevaluate API python"
+              "term": "最小权限原则",
+              "query": "principle of least privilege AI agents"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T22:36:50.343Z",
+        "analyzedAt": "2026-07-30T22:42:35.687Z",
         "model": "qwen3.7-plus"
       },
       {
-        "id": "23961d42d3945e47",
-        "title": "We’re launching Lyria 3.5 in Google Flow Music, with advances across musicality, lyrics, vocals, and creative control",
-        "url": "https://blog.google/innovation-and-ai/models-and-research/google-labs/lyria-3-5/?utm_source=deepmind.google&utm_medium=referral&utm_campaign=gdm&utm_content=",
-        "summary": "",
-        "publishedAt": "2026-07-29T16:02:10.000Z",
-        "sourceId": "deepmind",
-        "sourceName": "Google DeepMind",
-        "sourceSite": "https://deepmind.google/discover/blog/",
+        "id": "c8254ac6586638ff",
+        "title": "Stacked sessions and pull requests in the GitHub Copilot app",
+        "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
+        "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
+        "publishedAt": "2026-07-30T17:30:24.000Z",
+        "sourceId": "github-ai",
+        "sourceName": "GitHub AI & ML",
+        "sourceSite": "https://github.blog/ai-and-ml/",
         "lane": "ai",
-        "accent": "#5c6bc0",
-        "topic": "AI 动态",
-        "score": 62,
-        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-        "readMinutes": 3,
-        "category": "research",
-        "slot": "update",
+        "accent": "#24292f",
+        "topic": "AI 辅助学习",
+        "score": 86,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 12,
+        "category": "practice",
+        "slot": "practice",
         "language": "en",
-        "candidateScore": 72,
-        "bodyHash": "eabfe295fd4ebeae57f28e36",
+        "candidateScore": 95,
+        "bodyHash": "3409436d53b8f9e09963aa04",
         "extraction": {
           "method": "readability",
-          "length": 764,
-          "originalLength": 764,
+          "length": 8396,
+          "originalLength": 8396,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Google 发布 Lyria 3.5 音乐生成模型：全面提升音乐、歌词与人声质量",
+        "displayTitle": "使用 GitHub Copilot 的堆叠会话和拉取请求重构老旧代码",
         "analysis": {
-          "listSummary": "本文介绍 Google DeepMind 发布的最新音乐生成模型 Lyria 3.5。它解决了早期 AI 音乐生成中旋律生硬、歌词不连贯和人声缺乏情感的问题。对于内容创作者和游戏开发者，这意味着能用更少的提示词生成结构完整、情感丰富的背景音乐或歌曲。文章简明扼要，值得关注 AI 音乐生成进展的入门学习者阅读。",
+          "listSummary": "本文介绍了如何使用 GitHub Copilot 应用中的“堆叠会话”和“堆叠拉取请求”功能来重构老旧代码。作者通过实际案例展示了如何将一个庞大的重构任务拆分为多个相互依赖的小任务。如果你正在面对难以维护的旧项目，或者想了解 AI 编程工具如何管理复杂的代码变更，这篇文章非常值得一读。它能帮你理解如何利用 AI 拆解大任务，避免代码混乱。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "早期 AI 音乐生成工具往往只能生成简单的循环旋律，歌词像随机拼凑，人声听起来像机器朗读。这限制了它们在专业内容制作或游戏开发中的实际应用。Google 推出 Lyria 3.5 模型，旨在解决这些痛点。它让不懂乐理的普通人也能通过文本指令，生成接近人类创作水平的完整歌曲。"
+                "老旧代码库的重构往往因为依赖复杂和牵一发而动全身而让人放弃。作者有一个2014年开发的个人应用，使用了 React 15、Less 和旧版 react-bootstrap。这些依赖已经非常过时，手动清理需要耗费数周时间。在引入 AI 工具前，作者曾尝试重构但失败了，因为代码量不大不小，投入产出比太低。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "Lyria 3.5 通过四个核心维度的升级来提升音乐质量。首先是音乐性，模型能生成更复杂且自然的旋律结构，告别简单的机械循环。其次是歌词生成，它增强了对提示词（也就是用户输入的文本指令）的遵循能力，并具备了结构意识（简单说，就是模型知道一首歌应该有主歌、副歌等段落，就像写文章要有起承转合，而不是随机堆砌句子）。第三是人声表现，新模型让人声更具情感起伏，发音更准确。最后是创作控制，用户可以更精确地调节生成音乐的节奏和时长。"
+                "作者最初试图用 AI 一次性完成所有前端现代化工作，但失败了。作者使用 Plan 模式（一种让 AI 先制定计划再执行的模式）并借助 Claude Opus 4.8 和 GPT-5.5 模型进行规划。失败的原因在于作者忽略了之前在一个名为 dev 的分支上已经做过部分更新。AI 工具随后调整了策略，将样式修改应用到了 dev 分支上，解决了分支冲突问题。",
+                "在测试阶段，作者发现了旧版 react-bootstrap 库带来的控制台警告。为了避免“范围蔓延”（简单说，就是做任务时忍不住把不相关的功能也加进去，导致任务失控），作者决定将任务拆分。作者让 AI 先提交当前的样式修改，然后开启一个新的“堆叠会话”来专门处理替换 react-bootstrap 库的工作。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文事实表明，Lyria 3.5 已在 Google Flow Music 平台上线，并明确列出了上述四项改进。作者判断这些改进能让用户创作出更丰富的曲目，并拥有真正的创作控制权。需要注意的是，原文并未提供具体的底层算法细节或客观评测数据。因此，这些改进的实际听感和控制精度，仍需用户自行在 Flow Music 中验证。AI 推断认为，这种多模态控制能力的提升，将大幅降低游戏和短视频行业的配乐成本。"
+                "堆叠会话和堆叠拉取请求（Pull Request，简称 PR，即请求将代码合并到主分支的审核流程）是解决复杂重构的有效方法。堆叠是指一系列 PR，每个 PR 都指向它下方 PR 的分支，最终形成一条合并到主分支的链条。这种方法让作者能够安全地隔离不同阶段的修改，避免了生成一个包含一万行代码的巨大 PR。结论是，利用 AI 工具的会话堆叠功能，可以大幅降低老旧代码库现代化的心智负担。"
               ]
             }
           ],
           "keyPoints": [
-            "Lyria 3.5 是 Google DeepMind 推出的新一代音乐生成模型，现已集成到 Google Flow Music 平台。",
-            "音乐性提升体现在能生成更复杂、自然的旋律结构，告别简单的机械循环。",
-            "歌词生成不仅质量更高，还能更好地理解用户的文本指令，并遵循标准的歌曲段落结构。",
-            "人声合成更加逼真，不仅发音更准确，还能表现出细腻的情感起伏。",
-            "创作者现在可以更直观地控制生成音乐的具体节奏和总时长。"
+            "面对老旧代码库，试图用 AI 一次性完成所有重构通常会失败，需要分步进行。",
+            "在让 AI 生成代码前，必须确保 AI 基于正确的代码分支（如包含历史修改的 dev 分支）工作。",
+            "堆叠会话允许将一个大任务拆分为多个按顺序执行的小任务，每个任务基于前一个任务的结果。",
+            "堆叠拉取请求形成一条分支链，每个 PR 合并到前一个 PR 的分支，最终汇入主分支，便于代码审查。",
+            "拆分任务可以有效防止范围蔓延，避免生成难以测试和合并的超大代码变更。"
           ],
           "technicalDetails": [
             {
-              "text": "Lyria 3.5 音乐生成模型。它是什么：Google DeepMind 开发的用于将文本提示转化为音频音乐的 AI 模型。怎么工作：通过深度学习理解用户的文本指令（如风格、歌词、节奏），并合成对应的旋律、和声与人声。为什么重要：它是内容创作者快速生成高质量背景音乐或完整歌曲的核心引擎。",
+              "text": "堆叠会话是 GitHub Copilot 应用中的一种任务管理机制。它允许用户在一个仓库中创建一系列相互依赖的任务会话。每个新会话都基于前一个会话的代码状态运行，并生成对应的代码变更。这很重要，因为它将庞大的重构任务拆解为可控的线性步骤，防止 AI 在单次执行中产生混乱或超出上下文限制。",
               "basis": "source"
             },
             {
-              "text": "提示词遵循与结构意识。它是什么：模型准确执行用户文本指令，并理解歌曲段落排列规则的能力。怎么工作：模型在训练时学习了大量标准歌曲的文本与音频对应关系，从而在生成时能按指令输出特定段落。为什么重要：这保证了生成的歌词不会偏离主题，且歌曲听起来有完整的起承转合，而不是随机句子的堆砌。",
+              "text": "堆叠拉取请求是一种代码合并策略。它创建一系列 PR，其中每个 PR 的目标分支是它前一个 PR 的源分支，最终指向主分支。这很重要，因为它让开发者可以按顺序审查和合并小批量的代码变更，而不是面对一个包含所有修改的巨大 PR，从而降低代码审查的难度和合并冲突的风险。",
+              "basis": "source"
+            },
+            {
+              "text": "Plan 模式是 AI 编程工具中的一种交互方式。它要求 AI 在直接修改代码之前，先输出重构或实现步骤的计划供人类审核。这很重要，因为它让人类可以在 AI 消耗大量计算资源生成代码前，纠正方向或调整范围，避免生成完全不符合预期的代码。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "独立游戏开发者需要为游戏过场动画生成一段 30 秒、节奏舒缓且带有特定歌词的背景音乐。",
+              "scenario": "当你需要重构一个包含多个相互依赖模块的老旧项目，且单次 AI 生成代码容易失败或产生冲突时。",
               "steps": [
-                "打开 Google Flow Music 平台并登录账号。",
-                "在提示词框中输入具体的歌词内容，并指定音乐风格（如“舒缓的 acoustic pop”）。",
-                "在控制选项中，将时长参数设置为 30 秒，将节奏参数调低以匹配舒缓风格。",
-                "点击生成，试听输出结果，检查人声发音和旋律是否符合预期。"
+                "在 GitHub Copilot 应用中打开项目，进入 Plan 模式。",
+                "输入提示词，要求 AI 先制定重构计划，并明确指定基于当前正在开发的分支而非主分支。",
+                "审核 AI 生成的计划，确认无误后让 AI 执行第一阶段修改。",
+                "第一阶段完成后，要求 AI 为当前修改创建一个 PR。",
+                "接着，要求 AI 开启一个新的堆叠会话来处理下一个模块，并指示新会话基于上一个 PR 的分支。",
+                "重复创建 PR 和开启堆叠会话的步骤，直到所有模块重构完成，形成堆叠 PR 链。"
               ],
               "tools": [
-                "Google Flow Music",
-                "Lyria 3.5 模型"
+                "GitHub Copilot app",
+                "Git",
+                "GitHub"
               ],
               "verification": [
-                "生成的音频时长严格在 30 秒左右。",
-                "人声清晰且带有情感，歌词与输入的提示词高度一致。",
-                "旋律没有突兀的断裂感，具备明显的段落结构。"
+                "在 GitHub 界面中可以看到多个 PR 形成嵌套或链式结构。",
+                "每个 PR 的代码审查页面只显示当前阶段的修改。",
+                "所有 PR 依次合并后，主分支包含完整的重构代码且无冲突。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "Lyria 3.5",
-            "Google Flow Music",
-            "结构意识",
-            "创作控制"
+            "堆叠会话",
+            "堆叠拉取请求",
+            "范围蔓延",
+            "Plan 模式",
+            "依赖",
+            "分支"
           ],
           "searchTerms": [
             {
-              "term": "Lyria 3.5",
-              "query": "Google DeepMind Lyria 3.5 music generation model"
+              "term": "堆叠会话",
+              "query": "GitHub Copilot stacked sessions"
             },
             {
-              "term": "Google Flow Music",
-              "query": "Google Flow Music AI music platform"
+              "term": "堆叠拉取请求",
+              "query": "GitHub stacked pull requests"
+            },
+            {
+              "term": "Plan 模式",
+              "query": "GitHub Copilot Plan mode"
+            },
+            {
+              "term": "范围蔓延",
+              "query": "software engineering scope creep"
+            },
+            {
+              "term": "react-bootstrap",
+              "query": "react-bootstrap migration"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-29T22:38:04.294Z",
+        "analyzedAt": "2026-07-30T22:44:29.652Z",
+        "model": "qwen3.7-plus"
+      },
+      {
+        "id": "b8125f9667d073b4",
+        "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
+        "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
+        "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
+        "publishedAt": "2026-07-30T15:22:24.000Z",
+        "sourceId": "mozilla-ai",
+        "sourceName": "Mozilla AI",
+        "sourceSite": "https://blog.mozilla.ai/",
+        "lane": "ai",
+        "accent": "#ff7139",
+        "topic": "模型与研究",
+        "score": 72,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 8,
+        "category": "research",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 74,
+        "bodyHash": "40965d78d9a5df57097e4592",
+        "extraction": {
+          "method": "readability",
+          "length": 5487,
+          "originalLength": 5487,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "前沿AI厂商如何构建隐蔽的开发者锁定",
+        "analysis": {
+          "listSummary": "本文揭示了前沿AI模型正通过加密内部推理状态和绑定专有执行环境，对开发者形成深层锁定。文章分析了这种锁定如何提升模型跑分，却牺牲了系统的可移植性。对于希望构建开放、跨模型AI智能体的开发者而言，本文提供了识别锁定陷阱的视角，并指明了构建独立状态管理架构的方向，非常值得阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "AI厂商的锁定手段已经从模型本身，升级到了运行时的状态和执行环境。过去大家担心AI锁定，主要是怕微调格式或提示词不兼容。现在AI变成了能连续执行多步任务的智能体系统（Agentic systems，即能自主规划和执行复杂任务的AI程序）。为了让智能体表现更好，厂商把中间推理过程和运行环境绑在了自己的服务器上。这解决了智能体长任务推理能力差的问题，但代价是开发者失去了对运行状态的控制权。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "厂商通过隐藏推理状态和定制执行沙盒，让模型在自家平台上跑分暴涨，但状态无法迁移。以OpenAI的Responses API（一种用于构建多轮对话和智能体的接口）为例，它允许服务器保存对话的中间推理状态。这些状态是加密的，开发者看不到也改不了。同时，模型针对厂商专有的代码执行沙盒进行了强化学习（RL，一种通过试错和奖励来训练AI的方法）优化。这导致模型在自家环境里得分翻倍，但在通用环境里表现平平。作者认为，这种跑分提升是一种幻觉，它反映的是模型加专有环境的整体能力，而不是模型本身的纯粹智力。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "开发者必须把厂商提供的状态管理当作临时优化，自己掌握核心状态数据。原文证据表明，无论是OpenAI的加密推理、Anthropic的思考块，还是Gemini的思维签名，都不向开发者暴露原始推理过程。此外，厂商内置的跨会话记忆层让开发者无法精细管理数据，也阻碍了多模型协作。作者的结论是，要构建不依赖单一厂商的系统，必须建立显式且开放的状态架构。边界在于，放弃厂商的内置状态管理可能会在短期内牺牲部分跑分和开发便利性，需要开发者自行搭建外部状态基础设施。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "AI锁定已从模型权重转移到运行时的状态与执行基础设施。",
+            "厂商通过加密中间推理状态，提升了长任务表现，但导致状态无法跨模型迁移。",
+            "专有执行沙盒让模型在特定基准测试中跑分暴涨，但这掩盖了模型在通用环境中的真实能力。",
+            "内置的跨会话记忆层剥夺了开发者对数据的精细管理权，并阻碍了多模型协同工作。",
+            "开发者应将厂商的状态管理视为临时优化，核心状态数据必须掌握在自己手中。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Responses API 的状态管理参数。它提供 previous_response_id（让服务器保存并复用上一轮的推理状态）和 store: false（让客户端自己保存完整输出）两种模式。当对话变长时，API 会自动压缩上下文，生成加密的压缩项。这决定了智能体能否记住之前的思考过程。加密机制虽然提升了长文本处理效率，但让开发者无法将这些状态转移给 Llama 或 Qwen 等开源模型。",
+              "basis": "source"
+            },
+            {
+              "text": "专有执行沙盒。AI 厂商为模型定制了封闭的代码解释器或浏览器代理环境，并使用强化学习针对这些特定环境进行优化。模型在自家沙盒里能完美调用工具，但在通用开源沙盒里表现糟糕。这导致基准测试分数虚高，开发者如果直接复用这些分数，会在实际部署时遭遇性能断崖。",
+              "basis": "source"
+            },
+            {
+              "text": "Otari 开源大语言模型控制平面。它是一个中间件系统，用于集中管理和调度多个 AI 模型及智能体工作流，将状态管理从单一厂商的 API 中剥离出来。它帮助开发者夺回对模型基础设施的控制权，实现跨厂商的模型路由和统一的状态管理，是打破厂商锁定的具体工程解法。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在构建多轮对话 AI 智能体时，避免将核心业务状态绑定在单一厂商的加密上下文中。",
+              "steps": [
+                "1. 在调用大模型 API 时，将 store 参数设置为 false，拒绝让服务器保存加密的中间状态。",
+                "2. 在客户端或自己的数据库中，以纯文本或结构化 JSON 格式，显式保存每一轮对话的结论、关键实体和上下文摘要。",
+                "3. 在下一轮对话时，将保存的纯文本状态作为提示词的一部分重新发送给模型，而不是依赖 previous_response_id。",
+                "4. 如果需要切换模型，直接读取本地数据库中的纯文本状态，无需修改底层数据结构。"
+              ],
+              "tools": [
+                "大模型 API (如 OpenAI Responses API)",
+                "本地关系型数据库 (如 PostgreSQL) 或文档数据库 (如 MongoDB)",
+                "LangChain 或 LlamaIndex 等状态管理框架"
+              ],
+              "verification": [
+                "1. 检查 API 请求日志，确认 store 参数为 false，且响应中不包含加密内容。",
+                "2. 在本地数据库中查询，确认能直接读取并修改对话的历史状态和关键实体。",
+                "3. 将保存的纯文本状态输入给另一个开源模型，确认新模型能准确理解上下文并继续执行任务。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "显式且开放的状态架构"
+          ],
+          "searchTerms": [
+            {
+              "term": "Responses API",
+              "query": "OpenAI Responses API state management"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-30T22:45:58.248Z",
         "model": "qwen3.7-plus"
       }
     ],
@@ -2824,7 +2869,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 167,
+      "latencyMs": 245,
       "itemCount": 35
     },
     {
@@ -2841,7 +2886,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 116,
+      "latencyMs": 187,
       "itemCount": 10
     },
     {
@@ -2858,7 +2903,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 721,
+      "latencyMs": 619,
       "itemCount": 31
     },
     {
@@ -2875,7 +2920,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 804,
+      "latencyMs": 939,
       "itemCount": 10
     },
     {
@@ -2892,7 +2937,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 172,
+      "latencyMs": 168,
       "itemCount": 35
     },
     {
@@ -2909,7 +2954,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 166,
+      "latencyMs": 185,
       "itemCount": 35
     },
     {
@@ -2926,7 +2971,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 334,
+      "latencyMs": 294,
       "itemCount": 35
     },
     {
@@ -2943,7 +2988,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 277,
+      "latencyMs": 193,
       "itemCount": 30
     },
     {
@@ -2960,7 +3005,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 301,
+      "latencyMs": 206,
       "itemCount": 35
     },
     {
@@ -2977,7 +3022,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 754,
+      "latencyMs": 625,
       "itemCount": 20
     },
     {
@@ -2994,7 +3039,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 557,
+      "latencyMs": 469,
       "itemCount": 35
     },
     {
@@ -3011,7 +3056,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 482,
+      "latencyMs": 293,
       "itemCount": 15
     },
     {
@@ -3028,7 +3073,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1092,
+      "latencyMs": 699,
       "itemCount": 15
     },
     {
@@ -3045,7 +3090,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 19833,
+      "latencyMs": 18759,
       "itemCount": 35
     },
     {
@@ -3062,7 +3107,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 570,
+      "latencyMs": 370,
       "itemCount": 35
     },
     {
@@ -3084,7 +3129,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 973,
+      "latencyMs": 882,
       "itemCount": 4
     },
     {
@@ -3101,7 +3146,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 1034,
+      "latencyMs": 603,
       "itemCount": 10
     }
   ],
@@ -3125,7 +3170,10 @@
       "65123164fe41bd47",
       "95bc64b9d477dde6",
       "0d3521e6bbafd31a",
-      "23961d42d3945e47"
+      "23961d42d3945e47",
+      "58582dab7dd24e3a",
+      "c8254ac6586638ff",
+      "b8125f9667d073b4"
     ],
     "processedManualUrls": []
   },
@@ -3135,9 +3183,9 @@
       "analysis": "qwen3.7-plus"
     },
     "calls": 4,
-    "rejectedCount": 370,
+    "rejectedCount": 367,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-07-29T02:23:34.287Z"
+  "previousGeneratedAt": "2026-07-29T22:38:04.295Z"
 }
