@@ -597,7 +597,7 @@ function normalizeAnnotations(value, fullAnalysis, technicalDetails) {
 function normalizeAnalysis(raw) {
   const listSummary = String(raw?.listSummary || "").trim();
   const displayTitle = String(raw?.displayTitle || "").trim();
-  if (!displayTitle || listSummary.length < 80 || listSummary.length > 240) throw new BailianError("中文标题或列表简介长度不合要求", "format");
+  if (!displayTitle || listSummary.length < 40 || listSummary.length > 400) throw new BailianError("中文标题或列表简介长度不合要求", "format");
   const fullAnalysis = (Array.isArray(raw.fullAnalysis) ? raw.fullAnalysis : []).map((section) => ({
     heading: String(section?.heading || "").trim(),
     paragraphs: stringList(section?.paragraphs, 1, 8)
