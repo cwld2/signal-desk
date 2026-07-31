@@ -1,0 +1,1164 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-31T22:40:29.996Z",
+  "timezone": "Asia/Shanghai",
+  "edition": {
+    "date": "2026-08-01",
+    "isWeeklyEdition": false,
+    "weeklyReason": null
+  },
+  "stats": {
+    "candidates": 16,
+    "selected": 2,
+    "ai": 2,
+    "practice": 2,
+    "update": 0,
+    "manual": 0,
+    "game": 0,
+    "art": 0,
+    "currentGame": 2,
+    "currentArt": 2,
+    "studyMinutes": 30,
+    "bailianCalls": 3
+  },
+  "items": [
+    {
+      "id": "0fb8d4e9801e55af",
+      "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+      "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+      "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+      "publishedAt": "2026-07-31T21:15:23.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "AI 辅助学习",
+      "score": 78,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 4,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "21d58ae329709d6b757c9dc2",
+      "extraction": {
+        "method": "readability",
+        "length": 2774,
+        "originalLength": 2774,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
+      "analysis": {
+        "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+              "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+              "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+              "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+              "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+              "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+              "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+              "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+          "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+          "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+          "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+          "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
+            "basis": "source"
+          },
+          {
+            "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
+            "basis": "source"
+          },
+          {
+            "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
+            "basis": "source"
+          },
+          {
+            "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+            "basis": "source"
+          },
+          {
+            "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
+            "steps": [
+              "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+              "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+              "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+              "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+              "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
+            ],
+            "tools": [
+              "smevals",
+              "uvx"
+            ],
+            "verification": [
+              "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+              "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "评分",
+          "任务",
+          "检查",
+          "静态 HTML 报告"
+        ],
+        "searchTerms": [
+          {
+            "term": "smevals",
+            "query": "smevals eval suite"
+          },
+          {
+            "term": "eval",
+            "query": "AI eval suite definition"
+          },
+          {
+            "term": "task",
+            "query": "eval task definition"
+          },
+          {
+            "term": "config",
+            "query": "model config evaluation"
+          },
+          {
+            "term": "grader",
+            "query": "AI grader checks"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-31T22:40:13.349Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "36ab3d95868ba280",
+      "title": "Evaluating code review agents with ReviewBench",
+      "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+      "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+      "publishedAt": "2026-07-31T16:58:26.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 10,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 90,
+      "bodyHash": "d588f3a2f81fa42cd906398c",
+      "extraction": {
+        "method": "readability",
+        "length": 7283,
+        "originalLength": 7283,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
+      "analysis": {
+        "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+              "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+              "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+              "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+              "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+              "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+              "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+          "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+          "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+          "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+          "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+          "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
+            "basis": "source"
+          },
+          {
+            "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
+            "basis": "source"
+          },
+          {
+            "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
+            "basis": "source"
+          },
+          {
+            "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "构建自己的代码审查智能体评测基准",
+            "steps": [
+              "从可信审查者的合并 PR 评论中收集候选问题。",
+              "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+              "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+              "运行智能体并记录提交的发现列表。",
+              "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
+            ],
+            "tools": [
+              "Harbor",
+              "LLM 门控",
+              "LangSmith 单仓库"
+            ],
+            "verification": [
+              "任务数量达到 59 个以上，结果趋于稳定。",
+              "覆盖率分数能区分不同模型或策略的性能差异。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "真实 PR 反馈",
+          "覆盖率",
+          "精确率",
+          "F1",
+          "审查策略",
+          "Harbor 任务",
+          "LLM-as-judge"
+        ],
+        "searchTerms": [
+          {
+            "term": "Harbor 任务格式",
+            "query": "Harbor benchmark task format"
+          },
+          {
+            "term": "LLM-as-judge",
+            "query": "LLM as judge evaluation"
+          },
+          {
+            "term": "代码审查智能体",
+            "query": "code review agent benchmark"
+          },
+          {
+            "term": "Deep Agents 框架",
+            "query": "Deep Agents harness"
+          },
+          {
+            "term": "覆盖率",
+            "query": "coverage precision F1 code review"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-31T22:40:29.996Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "editionItems": [
+    {
+      "id": "0fb8d4e9801e55af",
+      "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+      "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+      "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+      "publishedAt": "2026-07-31T21:15:23.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "AI 辅助学习",
+      "score": 78,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 4,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "21d58ae329709d6b757c9dc2",
+      "extraction": {
+        "method": "readability",
+        "length": 2774,
+        "originalLength": 2774,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
+      "analysis": {
+        "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+              "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+              "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+              "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+              "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+              "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+              "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+              "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+          "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+          "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+          "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+          "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
+            "basis": "source"
+          },
+          {
+            "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
+            "basis": "source"
+          },
+          {
+            "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
+            "basis": "source"
+          },
+          {
+            "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+            "basis": "source"
+          },
+          {
+            "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
+            "steps": [
+              "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+              "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+              "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+              "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+              "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
+            ],
+            "tools": [
+              "smevals",
+              "uvx"
+            ],
+            "verification": [
+              "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+              "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "评分",
+          "任务",
+          "检查",
+          "静态 HTML 报告"
+        ],
+        "searchTerms": [
+          {
+            "term": "smevals",
+            "query": "smevals eval suite"
+          },
+          {
+            "term": "eval",
+            "query": "AI eval suite definition"
+          },
+          {
+            "term": "task",
+            "query": "eval task definition"
+          },
+          {
+            "term": "config",
+            "query": "model config evaluation"
+          },
+          {
+            "term": "grader",
+            "query": "AI grader checks"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-31T22:40:13.349Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "36ab3d95868ba280",
+      "title": "Evaluating code review agents with ReviewBench",
+      "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+      "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+      "publishedAt": "2026-07-31T16:58:26.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 10,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 90,
+      "bodyHash": "d588f3a2f81fa42cd906398c",
+      "extraction": {
+        "method": "readability",
+        "length": 7283,
+        "originalLength": 7283,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
+      "analysis": {
+        "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+              "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+              "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+              "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+              "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+              "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+              "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+          "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+          "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+          "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+          "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+          "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
+            "basis": "source"
+          },
+          {
+            "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
+            "basis": "source"
+          },
+          {
+            "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
+            "basis": "source"
+          },
+          {
+            "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "构建自己的代码审查智能体评测基准",
+            "steps": [
+              "从可信审查者的合并 PR 评论中收集候选问题。",
+              "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+              "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+              "运行智能体并记录提交的发现列表。",
+              "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
+            ],
+            "tools": [
+              "Harbor",
+              "LLM 门控",
+              "LangSmith 单仓库"
+            ],
+            "verification": [
+              "任务数量达到 59 个以上，结果趋于稳定。",
+              "覆盖率分数能区分不同模型或策略的性能差异。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "真实 PR 反馈",
+          "覆盖率",
+          "精确率",
+          "F1",
+          "审查策略",
+          "Harbor 任务",
+          "LLM-as-judge"
+        ],
+        "searchTerms": [
+          {
+            "term": "Harbor 任务格式",
+            "query": "Harbor benchmark task format"
+          },
+          {
+            "term": "LLM-as-judge",
+            "query": "LLM as judge evaluation"
+          },
+          {
+            "term": "代码审查智能体",
+            "query": "code review agent benchmark"
+          },
+          {
+            "term": "Deep Agents 框架",
+            "query": "Deep Agents harness"
+          },
+          {
+            "term": "覆盖率",
+            "query": "coverage precision F1 code review"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-31T22:40:29.996Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "study": [
+    {
+      "id": "0fb8d4e9801e55af",
+      "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+      "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+      "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+      "publishedAt": "2026-07-31T21:15:23.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "AI 辅助学习",
+      "score": 78,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 4,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "21d58ae329709d6b757c9dc2",
+      "extraction": {
+        "method": "readability",
+        "length": 2774,
+        "originalLength": 2774,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
+      "analysis": {
+        "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+              "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+              "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+              "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+              "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+              "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+              "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+              "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+          "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+          "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+          "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+          "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
+            "basis": "source"
+          },
+          {
+            "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
+            "basis": "source"
+          },
+          {
+            "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
+            "basis": "source"
+          },
+          {
+            "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+            "basis": "source"
+          },
+          {
+            "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
+            "steps": [
+              "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+              "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+              "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+              "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+              "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
+            ],
+            "tools": [
+              "smevals",
+              "uvx"
+            ],
+            "verification": [
+              "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+              "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "评分",
+          "任务",
+          "检查",
+          "静态 HTML 报告"
+        ],
+        "searchTerms": [
+          {
+            "term": "smevals",
+            "query": "smevals eval suite"
+          },
+          {
+            "term": "eval",
+            "query": "AI eval suite definition"
+          },
+          {
+            "term": "task",
+            "query": "eval task definition"
+          },
+          {
+            "term": "config",
+            "query": "model config evaluation"
+          },
+          {
+            "term": "grader",
+            "query": "AI grader checks"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-31T22:40:13.349Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "36ab3d95868ba280",
+      "title": "Evaluating code review agents with ReviewBench",
+      "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+      "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+      "publishedAt": "2026-07-31T16:58:26.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 10,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 90,
+      "bodyHash": "d588f3a2f81fa42cd906398c",
+      "extraction": {
+        "method": "readability",
+        "length": 7283,
+        "originalLength": 7283,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
+      "analysis": {
+        "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+              "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+              "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+              "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+              "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+              "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+              "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+          "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+          "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+          "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+          "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+          "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
+            "basis": "source"
+          },
+          {
+            "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
+            "basis": "source"
+          },
+          {
+            "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
+            "basis": "source"
+          },
+          {
+            "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "构建自己的代码审查智能体评测基准",
+            "steps": [
+              "从可信审查者的合并 PR 评论中收集候选问题。",
+              "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+              "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+              "运行智能体并记录提交的发现列表。",
+              "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
+            ],
+            "tools": [
+              "Harbor",
+              "LLM 门控",
+              "LangSmith 单仓库"
+            ],
+            "verification": [
+              "任务数量达到 59 个以上，结果趋于稳定。",
+              "覆盖率分数能区分不同模型或策略的性能差异。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "真实 PR 反馈",
+          "覆盖率",
+          "精确率",
+          "F1",
+          "审查策略",
+          "Harbor 任务",
+          "LLM-as-judge"
+        ],
+        "searchTerms": [
+          {
+            "term": "Harbor 任务格式",
+            "query": "Harbor benchmark task format"
+          },
+          {
+            "term": "LLM-as-judge",
+            "query": "LLM as judge evaluation"
+          },
+          {
+            "term": "代码审查智能体",
+            "query": "code review agent benchmark"
+          },
+          {
+            "term": "Deep Agents 框架",
+            "query": "Deep Agents harness"
+          },
+          {
+            "term": "覆盖率",
+            "query": "coverage precision F1 code review"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-07-31T22:40:29.996Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "lanes": {
+    "ai": [
+      {
+        "id": "0fb8d4e9801e55af",
+        "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+        "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+        "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+        "publishedAt": "2026-07-31T21:15:23.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
+        "lane": "ai",
+        "accent": "#b36b00",
+        "topic": "AI 辅助学习",
+        "score": 78,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 4,
+        "category": "opinion",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 91,
+        "bodyHash": "21d58ae329709d6b757c9dc2",
+        "extraction": {
+          "method": "readability",
+          "length": 2774,
+          "originalLength": 2774,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
+        "analysis": {
+          "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+                "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+                "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+                "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+                "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+                "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+                "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+                "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+            "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+            "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+            "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+            "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
+              "basis": "source"
+            },
+            {
+              "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
+              "basis": "source"
+            },
+            {
+              "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
+              "basis": "source"
+            },
+            {
+              "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+              "basis": "source"
+            },
+            {
+              "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
+              "steps": [
+                "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+                "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+                "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+                "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+                "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
+              ],
+              "tools": [
+                "smevals",
+                "uvx"
+              ],
+              "verification": [
+                "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+                "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "评分",
+            "任务",
+            "检查",
+            "静态 HTML 报告"
+          ],
+          "searchTerms": [
+            {
+              "term": "smevals",
+              "query": "smevals eval suite"
+            },
+            {
+              "term": "eval",
+              "query": "AI eval suite definition"
+            },
+            {
+              "term": "task",
+              "query": "eval task definition"
+            },
+            {
+              "term": "config",
+              "query": "model config evaluation"
+            },
+            {
+              "term": "grader",
+              "query": "AI grader checks"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-31T22:40:13.349Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "36ab3d95868ba280",
+        "title": "Evaluating code review agents with ReviewBench",
+        "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+        "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+        "publishedAt": "2026-07-31T16:58:26.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "AI 辅助学习",
+        "score": 69,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 10,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 90,
+        "bodyHash": "d588f3a2f81fa42cd906398c",
+        "extraction": {
+          "method": "readability",
+          "length": 7283,
+          "originalLength": 7283,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
+        "analysis": {
+          "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+                "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+                "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+                "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+                "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+                "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+                "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+            "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+            "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+            "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+            "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+            "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
+              "basis": "source"
+            },
+            {
+              "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
+              "basis": "source"
+            },
+            {
+              "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
+              "basis": "source"
+            },
+            {
+              "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "构建自己的代码审查智能体评测基准",
+              "steps": [
+                "从可信审查者的合并 PR 评论中收集候选问题。",
+                "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+                "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+                "运行智能体并记录提交的发现列表。",
+                "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
+              ],
+              "tools": [
+                "Harbor",
+                "LLM 门控",
+                "LangSmith 单仓库"
+              ],
+              "verification": [
+                "任务数量达到 59 个以上，结果趋于稳定。",
+                "覆盖率分数能区分不同模型或策略的性能差异。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "真实 PR 反馈",
+            "覆盖率",
+            "精确率",
+            "F1",
+            "审查策略",
+            "Harbor 任务",
+            "LLM-as-judge"
+          ],
+          "searchTerms": [
+            {
+              "term": "Harbor 任务格式",
+              "query": "Harbor benchmark task format"
+            },
+            {
+              "term": "LLM-as-judge",
+              "query": "LLM as judge evaluation"
+            },
+            {
+              "term": "代码审查智能体",
+              "query": "code review agent benchmark"
+            },
+            {
+              "term": "Deep Agents 框架",
+              "query": "Deep Agents harness"
+            },
+            {
+              "term": "覆盖率",
+              "query": "coverage precision F1 code review"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-07-31T22:40:29.996Z",
+        "model": "deepseek-v4-flash"
+      }
+    ],
+    "game": [],
+    "art": []
+  }
+}

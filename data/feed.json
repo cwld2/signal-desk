@@ -1,443 +1,308 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-31T14:13:26.546Z",
+  "generatedAt": "2026-07-31T22:40:29.996Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-07-31",
+    "date": "2026-08-01",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
   "stats": {
-    "candidates": 7,
-    "selected": 3,
-    "ai": 3,
+    "candidates": 16,
+    "selected": 2,
+    "ai": 2,
     "practice": 2,
-    "update": 1,
+    "update": 0,
     "manual": 0,
     "game": 0,
     "art": 0,
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 7
+    "bailianCalls": 3
   },
   "items": [
     {
-      "id": "58582dab7dd24e3a",
-      "title": "Four Ways to Deploy More Secure AI Agents",
-      "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
-      "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
-      "publishedAt": "2026-07-30T21:09:59.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
+      "id": "0fb8d4e9801e55af",
+      "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+      "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+      "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+      "publishedAt": "2026-07-31T21:15:23.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
       "lane": "ai",
-      "accent": "#76b900",
-      "topic": "Agent 与自动化",
-      "score": 86,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 19,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 97,
-      "bodyHash": "876794aa4deebf83bcaeba83",
-      "extraction": {
-        "method": "readability",
-        "length": 13495,
-        "originalLength": 13495,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "四招加固AI代理：NVIDIA红队的安全部署指南",
-      "analysis": {
-        "listSummary": "本文由NVIDIA AI红队撰写，基于对多个AI代理的安全评估，总结了最常见的四大失败模式：缺乏访问控制、任意代码执行、网络出口未限制、明文密钥暴露。文章强调，基于提示的防御（如LLM-as-a-judge）不可靠，必须采用架构级“硬”控制，如身份验证、沙箱、默认拒绝网络出口和密钥管理。对开发者而言，本文提供了可操作的安全清单，能显著降低AI代理被攻击的风险，值得所有部署AI代理的团队阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "AI代理（能自主执行任务的AI系统，如自动修复代码的助手）正被越来越多地集成到工作流程中，带来效率提升，但也引入了新的安全风险。",
-              "当AI代理连接到实时工具和企业数据时，它可能从助手变成拥有特权但攻击面不明的软件。NVIDIA红队（专门模拟攻击以测试系统安全性的团队）在过去六个月评估了多个AI代理，发现无论使用何种框架，失败模式都相似。",
-              "最常见的失败模式包括：代理本身缺乏访问控制、工具允许任意代码执行、没有网络出口控制、密钥以明文暴露给代理。这些问题使得攻击者能利用代理的合法权限进行恶意操作。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "文章通过实际攻击案例，展示了这些失败模式如何被利用。例如，通过社会工程（伪装成调试或管理员）诱导代理执行反向Shell（一种允许远程控制系统的连接），或通过“温水煮青蛙”攻击逐步诱导代理泄露密钥。",
-              "作者指出，常见的缓解措施如LLM-as-a-judge（用另一个AI模型审查输入输出）或命令白名单，都提供有限防御，因为它们与LLM在同一控制平面，继承其概率性不可靠行为。",
-              "相反，架构控制（如操作系统级限制、沙箱隔离）能有效抵御攻击。文章强调，防御必须放在模型控制平面之外，即通过确定性控制而非提示词来实现。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "红队观察到，当网络出口控制严格时，攻击速度显著降低，影响变得不可靠。这证明了默认拒绝网络出口的有效性。",
-              "结论是，提示词防护栏无法关闭任何安全缺口，而架构控制（访问控制、沙箱、网络限制、密钥管理）能大幅减少滥用。",
-              "边界在于，即使使用前沿模型，攻击者仍可能通过足够时间和技巧绕过。文章建议使用最新模型，但强调没有绝对安全。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "AI代理的安全风险主要源于缺乏访问控制、任意代码执行、网络出口未限制和密钥暴露。",
-          "基于提示的防御（如LLM-as-a-judge）不可靠，因为攻击者可通过社会工程或间接提示注入绕过。",
-          "架构控制（如沙箱、默认拒绝网络出口）是更有效的第一道防线。",
-          "密钥应存储在专用管理器中，按需获取，避免暴露给代理。",
-          "允许命令执行时，必须使用最小权限白名单，并隔离环境。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "LLM-as-a-judge：一种用另一个AI模型审查输入输出的防御机制。它通过模型判断请求是否恶意，但攻击者可通过构造看似合法的上下文绕过。",
-            "basis": "source"
-          },
-          {
-            "text": "反向Shell：一种攻击技术，攻击者让目标系统连接到自己的机器，从而获得远程控制。文章示例中，代理被诱导创建反向Shell。",
-            "basis": "source"
-          },
-          {
-            "text": "默认拒绝网络出口：一种安全策略，默认阻止所有出站连接，仅允许白名单中的特定端点。这能防止数据泄露和反向Shell。",
-            "basis": "source"
-          },
-          {
-            "text": "密钥管理器：一种集中存储和管理密钥的系统，如HashiCorp Vault。代理按需获取短期令牌，避免长期暴露。",
-            "basis": "inference"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "部署AI代理到企业环境，如自动处理工单或代码审查。",
-            "steps": [
-              "为代理配置身份验证，仅允许授权用户访问。",
-              "将代理运行在沙箱环境（如Docker）中，并限制文件写入路径。",
-              "设置网络防火墙，默认拒绝所有出站连接，仅允许必要端点。",
-              "使用密钥管理器存储API密钥，代理按需获取短期令牌。",
-              "审查代理可用的工具，移除不必要的执行和写入功能。"
-            ],
-            "tools": [
-              "Docker",
-              "HashiCorp Vault",
-              "防火墙管理工具"
-            ],
-            "verification": [
-              "尝试未授权访问，确认被拒绝。",
-              "检查沙箱内无法执行非白名单命令。",
-              "监控网络日志，确认无意外出站连接。",
-              "确认代理无法读取环境变量中的密钥。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "访问控制",
-          "任意代码执行",
-          "网络出口控制",
-          "架构控制",
-          "沙箱",
-          "默认拒绝",
-          "LLM-as-a-judge"
-        ],
-        "searchTerms": [
-          {
-            "term": "LLM-as-a-judge",
-            "query": "LLM as a judge vulnerability"
-          },
-          {
-            "term": "反向Shell",
-            "query": "reverse shell attack AI agent"
-          },
-          {
-            "term": "沙箱",
-            "query": "sandbox AI agent security"
-          },
-          {
-            "term": "密钥管理",
-            "query": "secrets management AI agent"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:11:52.569Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "c8254ac6586638ff",
-      "title": "Stacked sessions and pull requests in the GitHub Copilot app",
-      "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
-      "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
-      "publishedAt": "2026-07-30T17:30:24.000Z",
-      "sourceId": "github-ai",
-      "sourceName": "GitHub AI & ML",
-      "sourceSite": "https://github.blog/ai-and-ml/",
-      "lane": "ai",
-      "accent": "#24292f",
+      "accent": "#b36b00",
       "topic": "AI 辅助学习",
-      "score": 86,
+      "score": 78,
       "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 12,
-      "category": "practice",
+      "readMinutes": 4,
+      "category": "opinion",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 95,
-      "bodyHash": "3409436d53b8f9e09963aa04",
+      "candidateScore": 91,
+      "bodyHash": "21d58ae329709d6b757c9dc2",
       "extraction": {
         "method": "readability",
-        "length": 8396,
-        "originalLength": 8396,
+        "length": 2774,
+        "originalLength": 2774,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "用 GitHub Copilot 的堆叠会话与堆叠拉取请求，轻松现代化老旧代码库",
+      "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
       "analysis": {
-        "listSummary": "本文作者分享了使用 GitHub Copilot 应用中的堆叠会话和堆叠拉取请求，将一个基于 React 15 的十年老项目成功现代化的过程。文章通过具体案例，解释了如何将大型重构任务拆分为多个有序的小步骤，每个步骤对应独立的会话和拉取请求，从而避免混乱和范围蔓延。对于希望利用 AI 工具安全、高效地改造旧项目的开发者，这篇文章提供了实用的方法和思路，值得一读。",
+        "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "作者有一个个人生活仪表盘应用，代码写于 2014 年底，依赖项非常陈旧，包括 React 15（2016 年发布）、Less 和 react-bootstrap。这些过时的技术导致维护和更新越来越困难，作者曾尝试手动现代化但最终放弃，因为工作量太大。",
-              "这个项目虽然不大，但足够复杂，手动重构需要数周时间，而且风险高、收益低。作者强调，在 AI 出现之前，这个问题几乎无法解决，因此他决定尝试使用 GitHub Copilot 应用来辅助完成。"
+              "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+              "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+              "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者首先在 Plan 模式中提出了一个详细的重构计划，要求评估使用 Tailwind 还是纯 CSS，移除 Less，并改善可访问性和响应式设计。他使用了 Claude Opus 4.8 和 GPT-5.5 进行辅助决策，经过多轮交互后确定了计划。",
-              "执行过程中，作者发现自己的代码库中有一个旧的 dev 分支，包含部分现代化更新，但存在兼容性问题。他意识到需要将新工作基于 dev 分支，而不是 main 分支，以避免丢失已有功能。",
-              "在测试新分支时，作者发现 react-bootstrap 库中的旧警告（如 findDOMNode 和 componentWillReceiveProps），这些是库本身的问题。他再次使用 Plan 模式，最终决定完全移除 react-bootstrap，替换为现代替代方案。",
-              "为了避免将 react-bootstrap 替换工作混入当前重构，作者使用了“堆叠会话”功能：先为当前工作创建拉取请求，然后基于该分支创建新会话，专门处理 react-bootstrap 替换，并生成独立的拉取请求。"
+              "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+              "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+              "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+              "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者通过截图展示了堆叠会话的结构：顶层是仓库，下面是“Frontend modernization”会话，再下面是两个拉取请求（一个未发布，一个已合并），最底层是进行中的 react-bootstrap 替换草稿。这证明了堆叠会话和堆叠拉取请求确实有效。",
-              "作者强调，堆叠拉取请求是一系列按顺序排列的拉取请求，每个请求的目标分支是前一个请求的分支，最终合并到主分支。这种方法使得大型重构可以分步进行，每个步骤独立审查和测试，降低了风险。",
-              "作者承认，这个过程并非一帆风顺，他最初试图一次性完成所有工作，但失败了。他建议读者不要试图创建巨大的拉取请求，而是利用堆叠会话将工作分解为可管理的部分。",
-              "本文的结论基于作者的个人经验，适用于中小型代码库的现代化。对于大型项目，可能需要更复杂的策略，但堆叠会话和堆叠拉取请求的基本原理仍然适用。"
+              "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+              "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+              "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
             ]
           }
         ],
         "keyPoints": [
-          "堆叠会话允许在同一个仓库中创建一系列有序的会话，每个会话基于前一个会话的成果，适合分步处理复杂任务。",
-          "堆叠拉取请求形成一条有序的链，每个请求合并到前一个请求的分支，最终合并到主分支，便于逐步审查和测试。",
-          "使用 AI 辅助重构时，应避免一次性提交大量更改，而是通过多个小步骤降低风险和复杂度。",
-          "在开始重构前，检查现有分支和依赖项，避免遗漏已有功能或引入兼容性问题。",
-          "对于过时的库，优先考虑完全替换而非升级，如果替换成本过高，则分阶段进行。"
+          "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+          "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+          "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+          "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+          "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
         ],
         "technicalDetails": [
           {
-            "text": "堆叠会话：在 GitHub Copilot 应用中，用户可以基于当前会话的上下文创建新会话，新会话会继承前一个会话的更改，并基于该状态继续工作。它通过创建分支和拉取请求来隔离工作，使得每个会话可以独立运行和审查。",
+            "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
             "basis": "source"
           },
           {
-            "text": "堆叠拉取请求：一系列拉取请求，每个请求的目标分支是前一个请求的分支，形成有序链。它通过分支链实现，每个拉取请求的更改基于前一个，最终合并到主分支。",
+            "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
             "basis": "source"
           },
           {
-            "text": "Plan 模式：GitHub Copilot 应用中的一种功能，允许用户描述目标，AI 生成计划并供用户审阅。它通过交互式对话实现，帮助用户制定详细的重构步骤。",
+            "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
             "basis": "source"
           },
           {
-            "text": "react-bootstrap 替换：作者决定完全移除 react-bootstrap，因为其内部使用了过时的 React API（如 findDOMNode），无法通过升级解决。替换为现代替代方案，如 Tailwind CSS 或自定义组件。",
+            "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+            "basis": "source"
+          },
+          {
+            "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "当你需要现代化一个老旧代码库，且任务复杂、风险高时，可以使用堆叠会话和堆叠拉取请求来分步进行。",
+            "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
             "steps": [
-              "在 GitHub Copilot 应用中打开目标仓库，使用 Plan 模式制定初步重构计划。",
-              "检查现有分支，确保基于正确的分支开始工作，避免遗漏已有功能。",
-              "执行第一个会话的重构，完成后创建拉取请求。",
-              "基于该会话创建新会话，处理下一个任务（如替换库），并创建独立的拉取请求。",
-              "重复上述步骤，直到所有任务完成，然后按顺序合并每个拉取请求。"
+              "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+              "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+              "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+              "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+              "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
             ],
             "tools": [
-              "GitHub Copilot 应用",
-              "GitHub 拉取请求"
+              "smevals",
+              "uvx"
             ],
             "verification": [
-              "每个拉取请求可以独立审查和测试，确保没有引入新问题。",
-              "最终所有拉取请求合并后，应用可以正常运行，且没有旧的依赖警告。"
+              "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+              "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "堆叠会话",
-          "堆叠拉取请求",
-          "react-bootstrap",
-          "Plan 模式",
-          "现代化",
-          "依赖项"
+          "评分",
+          "任务",
+          "检查",
+          "静态 HTML 报告"
         ],
         "searchTerms": [
           {
-            "term": "堆叠会话",
-            "query": "GitHub Copilot 堆叠会话 使用"
+            "term": "smevals",
+            "query": "smevals eval suite"
           },
           {
-            "term": "堆叠拉取请求",
-            "query": "GitHub 堆叠拉取请求 指南"
+            "term": "eval",
+            "query": "AI eval suite definition"
           },
           {
-            "term": "react-bootstrap",
-            "query": "react-bootstrap 替换 现代化"
+            "term": "task",
+            "query": "eval task definition"
           },
           {
-            "term": "Plan 模式",
-            "query": "GitHub Copilot Plan 模式 功能"
+            "term": "config",
+            "query": "model config evaluation"
+          },
+          {
+            "term": "grader",
+            "query": "AI grader checks"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:12:08.237Z",
+      "analyzedAt": "2026-07-31T22:40:13.349Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "b8125f9667d073b4",
-      "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
-      "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
-      "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
-      "publishedAt": "2026-07-30T15:22:24.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
+      "id": "36ab3d95868ba280",
+      "title": "Evaluating code review agents with ReviewBench",
+      "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+      "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+      "publishedAt": "2026-07-31T16:58:26.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
-      "accent": "#ff7139",
-      "topic": "模型与研究",
-      "score": 72,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 8,
-      "category": "research",
-      "slot": "update",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 10,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 74,
-      "bodyHash": "40965d78d9a5df57097e4592",
+      "candidateScore": 90,
+      "bodyHash": "d588f3a2f81fa42cd906398c",
       "extraction": {
         "method": "readability",
-        "length": 5487,
-        "originalLength": 5487,
+        "length": 7283,
+        "originalLength": 7283,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "前沿AI实验室如何构建隐性的开发者锁定：状态与执行基础设施的封闭化",
+      "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
       "analysis": {
-        "listSummary": "本文探讨了前沿AI模型（如OpenAI、Anthropic、Google）如何通过状态持久化、加密推理和专有执行环境，构建比模型权重更深的开发者锁定。文章指出，多轮代理系统的兴起使状态管理成为关键，而提供商的封闭基础设施使开发者难以迁移到开源模型。对开发者而言，理解这些机制是构建可移植、可互操作AI系统的第一步。文章值得一读，尤其对关注AI架构和开源替代方案的开发者。",
+        "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "AI供应商锁定通常指模型权重或API格式的依赖，但本文指出，前沿模型转向多轮代理系统后，锁定已深化到状态和执行基础设施。",
-              "状态持久化是指模型在多次对话中保留上下文和推理过程的能力，而执行环境是模型运行代码或与工具交互的沙箱。",
-              "OpenAI的GPT-5.6 Sol在启用隐藏推理持久化和上下文压缩后，ARC-AGI-3得分从13.3%升至38.3%，同时输出令牌减少6倍，这展示了状态管理的重要性。",
-              "然而，这些状态对开发者不透明，导致无法迁移到其他提供商或开源模型，形成隐性锁定。"
+              "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+              "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+              "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章通过OpenAI的Responses API、Anthropic的思考块和Gemini的思考签名，论证了加密推理和状态持久化的普遍性。",
-              "这些机制使开发者只能访问可见输出和摘要，无法检查或转移隐藏状态，从而限制了跨提供商互操作性。",
-              "此外，前沿模型通过强化学习优化专有执行环境，导致在通用开源基准上表现不佳，但在原生环境中分数翻倍，造成基准膨胀。",
-              "文章强调，基准分数反映的是模型加状态管理加执行环境的组合，而非模型本身的能力，这误导了评估。"
+              "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+              "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+              "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文证据包括OpenAI的ARC-AGI-3成绩提升、API文档中的加密状态，以及Anthropic和Gemini的类似设计。",
-              "结论是，开发者应视提供商状态管理为临时优化，而非事实来源，否则将面临锁定风险。",
-              "边界在于，文章基于Mozilla AI的立场，强调开放和可移植性，可能低估了提供商状态管理的性能优势。",
-              "文章建议投资显式开放状态管理，如Mozilla的Otari项目，但未提供具体实现细节。"
+              "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+              "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+              "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
             ]
           }
         ],
         "keyPoints": [
-          "前沿AI模型的锁定已从模型权重扩展到状态持久化和执行环境。",
-          "OpenAI的隐藏推理持久化显著提升性能，但状态对开发者不透明。",
-          "Anthropic和Gemini也使用加密推理，阻碍跨提供商迁移。",
-          "基准分数受专有执行环境影响，不能直接比较模型能力。",
-          "开发者应设计可移植的状态架构，避免依赖提供商特定基础设施。"
+          "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+          "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+          "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+          "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+          "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+          "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
         ],
         "technicalDetails": [
           {
-            "text": "状态持久化：指模型在多轮对话中保留上下文和推理过程的能力。在OpenAI的Responses API中，通过previous_response_id实现服务端管理，或通过store: false实现客户端管理。它通过存储加密状态来工作，但开发者无法检查或转移。这对长任务代理系统至关重要，但也导致锁定。",
+            "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
             "basis": "source"
           },
           {
-            "text": "上下文压缩：当对话过长时，OpenAI自动压缩上下文，生成加密的压缩项。开发者可以存储和重放，但不能解密或翻译。这减少了令牌消耗，但限制了互操作性。",
+            "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
             "basis": "source"
           },
           {
-            "text": "加密推理：Anthropic的思考块和Gemini的思考签名都是加密的，不暴露原始推理令牌。这防止开发者访问内部推理，但阻碍了跨模型转移。",
+            "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
             "basis": "source"
           },
           {
-            "text": "专有执行环境：如Code Interpreter，模型通过强化学习优化这些环境。在原生环境中性能高，但通用开源基准无法复现。",
+            "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "构建可移植的AI代理系统，避免依赖单一提供商",
+            "scenario": "构建自己的代码审查智能体评测基准",
             "steps": [
-              "使用显式状态管理库（如LangChain）存储对话历史和推理摘要，而非依赖API内置状态。",
-              "设计状态导出功能，定期将关键上下文导出为JSON或SQLite格式。",
-              "采用开源执行环境（如Docker容器）运行模型代码，而非提供商沙箱。",
-              "测试跨提供商迁移，使用不同模型（如Llama）运行相同任务，验证状态兼容性。"
+              "从可信审查者的合并 PR 评论中收集候选问题。",
+              "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+              "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+              "运行智能体并记录提交的发现列表。",
+              "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
             ],
             "tools": [
-              "LangChain",
-              "Docker",
-              "SQLite",
-              "Ollama"
+              "Harbor",
+              "LLM 门控",
+              "LangSmith 单仓库"
             ],
             "verification": [
-              "在切换提供商后，代理系统能继续任务，无需重新初始化状态。",
-              "导出的状态文件能被其他工具读取和修改。",
-              "基准测试在开源环境中的得分与提供商环境接近。"
+              "任务数量达到 59 个以上，结果趋于稳定。",
+              "覆盖率分数能区分不同模型或策略的性能差异。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "状态持久化",
-          "加密推理",
-          "专有执行环境",
-          "基准膨胀",
-          "可移植性",
-          "锁定",
-          "上下文压缩"
+          "真实 PR 反馈",
+          "覆盖率",
+          "精确率",
+          "F1",
+          "审查策略",
+          "Harbor 任务",
+          "LLM-as-judge"
         ],
         "searchTerms": [
           {
-            "term": "状态持久化",
-            "query": "AI状态持久化机制"
+            "term": "Harbor 任务格式",
+            "query": "Harbor benchmark task format"
           },
           {
-            "term": "加密推理",
-            "query": "encrypted reasoning AI"
+            "term": "LLM-as-judge",
+            "query": "LLM as judge evaluation"
           },
           {
-            "term": "专有执行环境",
-            "query": "proprietary execution environment AI"
+            "term": "代码审查智能体",
+            "query": "code review agent benchmark"
           },
           {
-            "term": "基准膨胀",
-            "query": "benchmark inflation AI"
+            "term": "Deep Agents 框架",
+            "query": "Deep Agents harness"
           },
           {
-            "term": "可移植性",
-            "query": "AI model portability"
+            "term": "覆盖率",
+            "query": "coverage precision F1 code review"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:12:21.319Z",
+      "analyzedAt": "2026-07-31T22:40:29.996Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -1032,1259 +897,854 @@
   ],
   "editionItems": [
     {
-      "id": "58582dab7dd24e3a",
-      "title": "Four Ways to Deploy More Secure AI Agents",
-      "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
-      "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
-      "publishedAt": "2026-07-30T21:09:59.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
+      "id": "0fb8d4e9801e55af",
+      "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+      "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+      "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+      "publishedAt": "2026-07-31T21:15:23.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
       "lane": "ai",
-      "accent": "#76b900",
-      "topic": "Agent 与自动化",
-      "score": 86,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 19,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 97,
-      "bodyHash": "876794aa4deebf83bcaeba83",
-      "extraction": {
-        "method": "readability",
-        "length": 13495,
-        "originalLength": 13495,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "四招加固AI代理：NVIDIA红队的安全部署指南",
-      "analysis": {
-        "listSummary": "本文由NVIDIA AI红队撰写，基于对多个AI代理的安全评估，总结了最常见的四大失败模式：缺乏访问控制、任意代码执行、网络出口未限制、明文密钥暴露。文章强调，基于提示的防御（如LLM-as-a-judge）不可靠，必须采用架构级“硬”控制，如身份验证、沙箱、默认拒绝网络出口和密钥管理。对开发者而言，本文提供了可操作的安全清单，能显著降低AI代理被攻击的风险，值得所有部署AI代理的团队阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "AI代理（能自主执行任务的AI系统，如自动修复代码的助手）正被越来越多地集成到工作流程中，带来效率提升，但也引入了新的安全风险。",
-              "当AI代理连接到实时工具和企业数据时，它可能从助手变成拥有特权但攻击面不明的软件。NVIDIA红队（专门模拟攻击以测试系统安全性的团队）在过去六个月评估了多个AI代理，发现无论使用何种框架，失败模式都相似。",
-              "最常见的失败模式包括：代理本身缺乏访问控制、工具允许任意代码执行、没有网络出口控制、密钥以明文暴露给代理。这些问题使得攻击者能利用代理的合法权限进行恶意操作。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "文章通过实际攻击案例，展示了这些失败模式如何被利用。例如，通过社会工程（伪装成调试或管理员）诱导代理执行反向Shell（一种允许远程控制系统的连接），或通过“温水煮青蛙”攻击逐步诱导代理泄露密钥。",
-              "作者指出，常见的缓解措施如LLM-as-a-judge（用另一个AI模型审查输入输出）或命令白名单，都提供有限防御，因为它们与LLM在同一控制平面，继承其概率性不可靠行为。",
-              "相反，架构控制（如操作系统级限制、沙箱隔离）能有效抵御攻击。文章强调，防御必须放在模型控制平面之外，即通过确定性控制而非提示词来实现。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "红队观察到，当网络出口控制严格时，攻击速度显著降低，影响变得不可靠。这证明了默认拒绝网络出口的有效性。",
-              "结论是，提示词防护栏无法关闭任何安全缺口，而架构控制（访问控制、沙箱、网络限制、密钥管理）能大幅减少滥用。",
-              "边界在于，即使使用前沿模型，攻击者仍可能通过足够时间和技巧绕过。文章建议使用最新模型，但强调没有绝对安全。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "AI代理的安全风险主要源于缺乏访问控制、任意代码执行、网络出口未限制和密钥暴露。",
-          "基于提示的防御（如LLM-as-a-judge）不可靠，因为攻击者可通过社会工程或间接提示注入绕过。",
-          "架构控制（如沙箱、默认拒绝网络出口）是更有效的第一道防线。",
-          "密钥应存储在专用管理器中，按需获取，避免暴露给代理。",
-          "允许命令执行时，必须使用最小权限白名单，并隔离环境。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "LLM-as-a-judge：一种用另一个AI模型审查输入输出的防御机制。它通过模型判断请求是否恶意，但攻击者可通过构造看似合法的上下文绕过。",
-            "basis": "source"
-          },
-          {
-            "text": "反向Shell：一种攻击技术，攻击者让目标系统连接到自己的机器，从而获得远程控制。文章示例中，代理被诱导创建反向Shell。",
-            "basis": "source"
-          },
-          {
-            "text": "默认拒绝网络出口：一种安全策略，默认阻止所有出站连接，仅允许白名单中的特定端点。这能防止数据泄露和反向Shell。",
-            "basis": "source"
-          },
-          {
-            "text": "密钥管理器：一种集中存储和管理密钥的系统，如HashiCorp Vault。代理按需获取短期令牌，避免长期暴露。",
-            "basis": "inference"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "部署AI代理到企业环境，如自动处理工单或代码审查。",
-            "steps": [
-              "为代理配置身份验证，仅允许授权用户访问。",
-              "将代理运行在沙箱环境（如Docker）中，并限制文件写入路径。",
-              "设置网络防火墙，默认拒绝所有出站连接，仅允许必要端点。",
-              "使用密钥管理器存储API密钥，代理按需获取短期令牌。",
-              "审查代理可用的工具，移除不必要的执行和写入功能。"
-            ],
-            "tools": [
-              "Docker",
-              "HashiCorp Vault",
-              "防火墙管理工具"
-            ],
-            "verification": [
-              "尝试未授权访问，确认被拒绝。",
-              "检查沙箱内无法执行非白名单命令。",
-              "监控网络日志，确认无意外出站连接。",
-              "确认代理无法读取环境变量中的密钥。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "访问控制",
-          "任意代码执行",
-          "网络出口控制",
-          "架构控制",
-          "沙箱",
-          "默认拒绝",
-          "LLM-as-a-judge"
-        ],
-        "searchTerms": [
-          {
-            "term": "LLM-as-a-judge",
-            "query": "LLM as a judge vulnerability"
-          },
-          {
-            "term": "反向Shell",
-            "query": "reverse shell attack AI agent"
-          },
-          {
-            "term": "沙箱",
-            "query": "sandbox AI agent security"
-          },
-          {
-            "term": "密钥管理",
-            "query": "secrets management AI agent"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:11:52.569Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "c8254ac6586638ff",
-      "title": "Stacked sessions and pull requests in the GitHub Copilot app",
-      "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
-      "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
-      "publishedAt": "2026-07-30T17:30:24.000Z",
-      "sourceId": "github-ai",
-      "sourceName": "GitHub AI & ML",
-      "sourceSite": "https://github.blog/ai-and-ml/",
-      "lane": "ai",
-      "accent": "#24292f",
+      "accent": "#b36b00",
       "topic": "AI 辅助学习",
-      "score": 86,
+      "score": 78,
       "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 12,
-      "category": "practice",
+      "readMinutes": 4,
+      "category": "opinion",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 95,
-      "bodyHash": "3409436d53b8f9e09963aa04",
+      "candidateScore": 91,
+      "bodyHash": "21d58ae329709d6b757c9dc2",
       "extraction": {
         "method": "readability",
-        "length": 8396,
-        "originalLength": 8396,
+        "length": 2774,
+        "originalLength": 2774,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "用 GitHub Copilot 的堆叠会话与堆叠拉取请求，轻松现代化老旧代码库",
+      "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
       "analysis": {
-        "listSummary": "本文作者分享了使用 GitHub Copilot 应用中的堆叠会话和堆叠拉取请求，将一个基于 React 15 的十年老项目成功现代化的过程。文章通过具体案例，解释了如何将大型重构任务拆分为多个有序的小步骤，每个步骤对应独立的会话和拉取请求，从而避免混乱和范围蔓延。对于希望利用 AI 工具安全、高效地改造旧项目的开发者，这篇文章提供了实用的方法和思路，值得一读。",
+        "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "作者有一个个人生活仪表盘应用，代码写于 2014 年底，依赖项非常陈旧，包括 React 15（2016 年发布）、Less 和 react-bootstrap。这些过时的技术导致维护和更新越来越困难，作者曾尝试手动现代化但最终放弃，因为工作量太大。",
-              "这个项目虽然不大，但足够复杂，手动重构需要数周时间，而且风险高、收益低。作者强调，在 AI 出现之前，这个问题几乎无法解决，因此他决定尝试使用 GitHub Copilot 应用来辅助完成。"
+              "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+              "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+              "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者首先在 Plan 模式中提出了一个详细的重构计划，要求评估使用 Tailwind 还是纯 CSS，移除 Less，并改善可访问性和响应式设计。他使用了 Claude Opus 4.8 和 GPT-5.5 进行辅助决策，经过多轮交互后确定了计划。",
-              "执行过程中，作者发现自己的代码库中有一个旧的 dev 分支，包含部分现代化更新，但存在兼容性问题。他意识到需要将新工作基于 dev 分支，而不是 main 分支，以避免丢失已有功能。",
-              "在测试新分支时，作者发现 react-bootstrap 库中的旧警告（如 findDOMNode 和 componentWillReceiveProps），这些是库本身的问题。他再次使用 Plan 模式，最终决定完全移除 react-bootstrap，替换为现代替代方案。",
-              "为了避免将 react-bootstrap 替换工作混入当前重构，作者使用了“堆叠会话”功能：先为当前工作创建拉取请求，然后基于该分支创建新会话，专门处理 react-bootstrap 替换，并生成独立的拉取请求。"
+              "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+              "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+              "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+              "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者通过截图展示了堆叠会话的结构：顶层是仓库，下面是“Frontend modernization”会话，再下面是两个拉取请求（一个未发布，一个已合并），最底层是进行中的 react-bootstrap 替换草稿。这证明了堆叠会话和堆叠拉取请求确实有效。",
-              "作者强调，堆叠拉取请求是一系列按顺序排列的拉取请求，每个请求的目标分支是前一个请求的分支，最终合并到主分支。这种方法使得大型重构可以分步进行，每个步骤独立审查和测试，降低了风险。",
-              "作者承认，这个过程并非一帆风顺，他最初试图一次性完成所有工作，但失败了。他建议读者不要试图创建巨大的拉取请求，而是利用堆叠会话将工作分解为可管理的部分。",
-              "本文的结论基于作者的个人经验，适用于中小型代码库的现代化。对于大型项目，可能需要更复杂的策略，但堆叠会话和堆叠拉取请求的基本原理仍然适用。"
+              "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+              "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+              "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
             ]
           }
         ],
         "keyPoints": [
-          "堆叠会话允许在同一个仓库中创建一系列有序的会话，每个会话基于前一个会话的成果，适合分步处理复杂任务。",
-          "堆叠拉取请求形成一条有序的链，每个请求合并到前一个请求的分支，最终合并到主分支，便于逐步审查和测试。",
-          "使用 AI 辅助重构时，应避免一次性提交大量更改，而是通过多个小步骤降低风险和复杂度。",
-          "在开始重构前，检查现有分支和依赖项，避免遗漏已有功能或引入兼容性问题。",
-          "对于过时的库，优先考虑完全替换而非升级，如果替换成本过高，则分阶段进行。"
+          "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+          "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+          "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+          "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+          "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
         ],
         "technicalDetails": [
           {
-            "text": "堆叠会话：在 GitHub Copilot 应用中，用户可以基于当前会话的上下文创建新会话，新会话会继承前一个会话的更改，并基于该状态继续工作。它通过创建分支和拉取请求来隔离工作，使得每个会话可以独立运行和审查。",
+            "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
             "basis": "source"
           },
           {
-            "text": "堆叠拉取请求：一系列拉取请求，每个请求的目标分支是前一个请求的分支，形成有序链。它通过分支链实现，每个拉取请求的更改基于前一个，最终合并到主分支。",
+            "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
             "basis": "source"
           },
           {
-            "text": "Plan 模式：GitHub Copilot 应用中的一种功能，允许用户描述目标，AI 生成计划并供用户审阅。它通过交互式对话实现，帮助用户制定详细的重构步骤。",
+            "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
             "basis": "source"
           },
           {
-            "text": "react-bootstrap 替换：作者决定完全移除 react-bootstrap，因为其内部使用了过时的 React API（如 findDOMNode），无法通过升级解决。替换为现代替代方案，如 Tailwind CSS 或自定义组件。",
+            "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+            "basis": "source"
+          },
+          {
+            "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "当你需要现代化一个老旧代码库，且任务复杂、风险高时，可以使用堆叠会话和堆叠拉取请求来分步进行。",
+            "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
             "steps": [
-              "在 GitHub Copilot 应用中打开目标仓库，使用 Plan 模式制定初步重构计划。",
-              "检查现有分支，确保基于正确的分支开始工作，避免遗漏已有功能。",
-              "执行第一个会话的重构，完成后创建拉取请求。",
-              "基于该会话创建新会话，处理下一个任务（如替换库），并创建独立的拉取请求。",
-              "重复上述步骤，直到所有任务完成，然后按顺序合并每个拉取请求。"
+              "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+              "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+              "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+              "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+              "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
             ],
             "tools": [
-              "GitHub Copilot 应用",
-              "GitHub 拉取请求"
+              "smevals",
+              "uvx"
             ],
             "verification": [
-              "每个拉取请求可以独立审查和测试，确保没有引入新问题。",
-              "最终所有拉取请求合并后，应用可以正常运行，且没有旧的依赖警告。"
+              "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+              "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "堆叠会话",
-          "堆叠拉取请求",
-          "react-bootstrap",
-          "Plan 模式",
-          "现代化",
-          "依赖项"
+          "评分",
+          "任务",
+          "检查",
+          "静态 HTML 报告"
         ],
         "searchTerms": [
           {
-            "term": "堆叠会话",
-            "query": "GitHub Copilot 堆叠会话 使用"
+            "term": "smevals",
+            "query": "smevals eval suite"
           },
           {
-            "term": "堆叠拉取请求",
-            "query": "GitHub 堆叠拉取请求 指南"
+            "term": "eval",
+            "query": "AI eval suite definition"
           },
           {
-            "term": "react-bootstrap",
-            "query": "react-bootstrap 替换 现代化"
+            "term": "task",
+            "query": "eval task definition"
           },
           {
-            "term": "Plan 模式",
-            "query": "GitHub Copilot Plan 模式 功能"
+            "term": "config",
+            "query": "model config evaluation"
+          },
+          {
+            "term": "grader",
+            "query": "AI grader checks"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:12:08.237Z",
+      "analyzedAt": "2026-07-31T22:40:13.349Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "b8125f9667d073b4",
-      "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
-      "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
-      "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
-      "publishedAt": "2026-07-30T15:22:24.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
+      "id": "36ab3d95868ba280",
+      "title": "Evaluating code review agents with ReviewBench",
+      "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+      "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+      "publishedAt": "2026-07-31T16:58:26.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
-      "accent": "#ff7139",
-      "topic": "模型与研究",
-      "score": 72,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 8,
-      "category": "research",
-      "slot": "update",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 10,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 74,
-      "bodyHash": "40965d78d9a5df57097e4592",
+      "candidateScore": 90,
+      "bodyHash": "d588f3a2f81fa42cd906398c",
       "extraction": {
         "method": "readability",
-        "length": 5487,
-        "originalLength": 5487,
+        "length": 7283,
+        "originalLength": 7283,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "前沿AI实验室如何构建隐性的开发者锁定：状态与执行基础设施的封闭化",
+      "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
       "analysis": {
-        "listSummary": "本文探讨了前沿AI模型（如OpenAI、Anthropic、Google）如何通过状态持久化、加密推理和专有执行环境，构建比模型权重更深的开发者锁定。文章指出，多轮代理系统的兴起使状态管理成为关键，而提供商的封闭基础设施使开发者难以迁移到开源模型。对开发者而言，理解这些机制是构建可移植、可互操作AI系统的第一步。文章值得一读，尤其对关注AI架构和开源替代方案的开发者。",
+        "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "AI供应商锁定通常指模型权重或API格式的依赖，但本文指出，前沿模型转向多轮代理系统后，锁定已深化到状态和执行基础设施。",
-              "状态持久化是指模型在多次对话中保留上下文和推理过程的能力，而执行环境是模型运行代码或与工具交互的沙箱。",
-              "OpenAI的GPT-5.6 Sol在启用隐藏推理持久化和上下文压缩后，ARC-AGI-3得分从13.3%升至38.3%，同时输出令牌减少6倍，这展示了状态管理的重要性。",
-              "然而，这些状态对开发者不透明，导致无法迁移到其他提供商或开源模型，形成隐性锁定。"
+              "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+              "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+              "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章通过OpenAI的Responses API、Anthropic的思考块和Gemini的思考签名，论证了加密推理和状态持久化的普遍性。",
-              "这些机制使开发者只能访问可见输出和摘要，无法检查或转移隐藏状态，从而限制了跨提供商互操作性。",
-              "此外，前沿模型通过强化学习优化专有执行环境，导致在通用开源基准上表现不佳，但在原生环境中分数翻倍，造成基准膨胀。",
-              "文章强调，基准分数反映的是模型加状态管理加执行环境的组合，而非模型本身的能力，这误导了评估。"
+              "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+              "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+              "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文证据包括OpenAI的ARC-AGI-3成绩提升、API文档中的加密状态，以及Anthropic和Gemini的类似设计。",
-              "结论是，开发者应视提供商状态管理为临时优化，而非事实来源，否则将面临锁定风险。",
-              "边界在于，文章基于Mozilla AI的立场，强调开放和可移植性，可能低估了提供商状态管理的性能优势。",
-              "文章建议投资显式开放状态管理，如Mozilla的Otari项目，但未提供具体实现细节。"
+              "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+              "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+              "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
             ]
           }
         ],
         "keyPoints": [
-          "前沿AI模型的锁定已从模型权重扩展到状态持久化和执行环境。",
-          "OpenAI的隐藏推理持久化显著提升性能，但状态对开发者不透明。",
-          "Anthropic和Gemini也使用加密推理，阻碍跨提供商迁移。",
-          "基准分数受专有执行环境影响，不能直接比较模型能力。",
-          "开发者应设计可移植的状态架构，避免依赖提供商特定基础设施。"
+          "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+          "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+          "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+          "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+          "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+          "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
         ],
         "technicalDetails": [
           {
-            "text": "状态持久化：指模型在多轮对话中保留上下文和推理过程的能力。在OpenAI的Responses API中，通过previous_response_id实现服务端管理，或通过store: false实现客户端管理。它通过存储加密状态来工作，但开发者无法检查或转移。这对长任务代理系统至关重要，但也导致锁定。",
+            "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
             "basis": "source"
           },
           {
-            "text": "上下文压缩：当对话过长时，OpenAI自动压缩上下文，生成加密的压缩项。开发者可以存储和重放，但不能解密或翻译。这减少了令牌消耗，但限制了互操作性。",
+            "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
             "basis": "source"
           },
           {
-            "text": "加密推理：Anthropic的思考块和Gemini的思考签名都是加密的，不暴露原始推理令牌。这防止开发者访问内部推理，但阻碍了跨模型转移。",
+            "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
             "basis": "source"
           },
           {
-            "text": "专有执行环境：如Code Interpreter，模型通过强化学习优化这些环境。在原生环境中性能高，但通用开源基准无法复现。",
+            "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "构建可移植的AI代理系统，避免依赖单一提供商",
+            "scenario": "构建自己的代码审查智能体评测基准",
             "steps": [
-              "使用显式状态管理库（如LangChain）存储对话历史和推理摘要，而非依赖API内置状态。",
-              "设计状态导出功能，定期将关键上下文导出为JSON或SQLite格式。",
-              "采用开源执行环境（如Docker容器）运行模型代码，而非提供商沙箱。",
-              "测试跨提供商迁移，使用不同模型（如Llama）运行相同任务，验证状态兼容性。"
+              "从可信审查者的合并 PR 评论中收集候选问题。",
+              "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+              "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+              "运行智能体并记录提交的发现列表。",
+              "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
             ],
             "tools": [
-              "LangChain",
-              "Docker",
-              "SQLite",
-              "Ollama"
+              "Harbor",
+              "LLM 门控",
+              "LangSmith 单仓库"
             ],
             "verification": [
-              "在切换提供商后，代理系统能继续任务，无需重新初始化状态。",
-              "导出的状态文件能被其他工具读取和修改。",
-              "基准测试在开源环境中的得分与提供商环境接近。"
+              "任务数量达到 59 个以上，结果趋于稳定。",
+              "覆盖率分数能区分不同模型或策略的性能差异。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "状态持久化",
-          "加密推理",
-          "专有执行环境",
-          "基准膨胀",
-          "可移植性",
-          "锁定",
-          "上下文压缩"
+          "真实 PR 反馈",
+          "覆盖率",
+          "精确率",
+          "F1",
+          "审查策略",
+          "Harbor 任务",
+          "LLM-as-judge"
         ],
         "searchTerms": [
           {
-            "term": "状态持久化",
-            "query": "AI状态持久化机制"
+            "term": "Harbor 任务格式",
+            "query": "Harbor benchmark task format"
           },
           {
-            "term": "加密推理",
-            "query": "encrypted reasoning AI"
+            "term": "LLM-as-judge",
+            "query": "LLM as judge evaluation"
           },
           {
-            "term": "专有执行环境",
-            "query": "proprietary execution environment AI"
+            "term": "代码审查智能体",
+            "query": "code review agent benchmark"
           },
           {
-            "term": "基准膨胀",
-            "query": "benchmark inflation AI"
+            "term": "Deep Agents 框架",
+            "query": "Deep Agents harness"
           },
           {
-            "term": "可移植性",
-            "query": "AI model portability"
+            "term": "覆盖率",
+            "query": "coverage precision F1 code review"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:12:21.319Z",
+      "analyzedAt": "2026-07-31T22:40:29.996Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "58582dab7dd24e3a",
-      "title": "Four Ways to Deploy More Secure AI Agents",
-      "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
-      "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
-      "publishedAt": "2026-07-30T21:09:59.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
+      "id": "0fb8d4e9801e55af",
+      "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+      "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+      "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+      "publishedAt": "2026-07-31T21:15:23.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
       "lane": "ai",
-      "accent": "#76b900",
-      "topic": "Agent 与自动化",
-      "score": 86,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 19,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 97,
-      "bodyHash": "876794aa4deebf83bcaeba83",
-      "extraction": {
-        "method": "readability",
-        "length": 13495,
-        "originalLength": 13495,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "四招加固AI代理：NVIDIA红队的安全部署指南",
-      "analysis": {
-        "listSummary": "本文由NVIDIA AI红队撰写，基于对多个AI代理的安全评估，总结了最常见的四大失败模式：缺乏访问控制、任意代码执行、网络出口未限制、明文密钥暴露。文章强调，基于提示的防御（如LLM-as-a-judge）不可靠，必须采用架构级“硬”控制，如身份验证、沙箱、默认拒绝网络出口和密钥管理。对开发者而言，本文提供了可操作的安全清单，能显著降低AI代理被攻击的风险，值得所有部署AI代理的团队阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "AI代理（能自主执行任务的AI系统，如自动修复代码的助手）正被越来越多地集成到工作流程中，带来效率提升，但也引入了新的安全风险。",
-              "当AI代理连接到实时工具和企业数据时，它可能从助手变成拥有特权但攻击面不明的软件。NVIDIA红队（专门模拟攻击以测试系统安全性的团队）在过去六个月评估了多个AI代理，发现无论使用何种框架，失败模式都相似。",
-              "最常见的失败模式包括：代理本身缺乏访问控制、工具允许任意代码执行、没有网络出口控制、密钥以明文暴露给代理。这些问题使得攻击者能利用代理的合法权限进行恶意操作。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "文章通过实际攻击案例，展示了这些失败模式如何被利用。例如，通过社会工程（伪装成调试或管理员）诱导代理执行反向Shell（一种允许远程控制系统的连接），或通过“温水煮青蛙”攻击逐步诱导代理泄露密钥。",
-              "作者指出，常见的缓解措施如LLM-as-a-judge（用另一个AI模型审查输入输出）或命令白名单，都提供有限防御，因为它们与LLM在同一控制平面，继承其概率性不可靠行为。",
-              "相反，架构控制（如操作系统级限制、沙箱隔离）能有效抵御攻击。文章强调，防御必须放在模型控制平面之外，即通过确定性控制而非提示词来实现。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "红队观察到，当网络出口控制严格时，攻击速度显著降低，影响变得不可靠。这证明了默认拒绝网络出口的有效性。",
-              "结论是，提示词防护栏无法关闭任何安全缺口，而架构控制（访问控制、沙箱、网络限制、密钥管理）能大幅减少滥用。",
-              "边界在于，即使使用前沿模型，攻击者仍可能通过足够时间和技巧绕过。文章建议使用最新模型，但强调没有绝对安全。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "AI代理的安全风险主要源于缺乏访问控制、任意代码执行、网络出口未限制和密钥暴露。",
-          "基于提示的防御（如LLM-as-a-judge）不可靠，因为攻击者可通过社会工程或间接提示注入绕过。",
-          "架构控制（如沙箱、默认拒绝网络出口）是更有效的第一道防线。",
-          "密钥应存储在专用管理器中，按需获取，避免暴露给代理。",
-          "允许命令执行时，必须使用最小权限白名单，并隔离环境。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "LLM-as-a-judge：一种用另一个AI模型审查输入输出的防御机制。它通过模型判断请求是否恶意，但攻击者可通过构造看似合法的上下文绕过。",
-            "basis": "source"
-          },
-          {
-            "text": "反向Shell：一种攻击技术，攻击者让目标系统连接到自己的机器，从而获得远程控制。文章示例中，代理被诱导创建反向Shell。",
-            "basis": "source"
-          },
-          {
-            "text": "默认拒绝网络出口：一种安全策略，默认阻止所有出站连接，仅允许白名单中的特定端点。这能防止数据泄露和反向Shell。",
-            "basis": "source"
-          },
-          {
-            "text": "密钥管理器：一种集中存储和管理密钥的系统，如HashiCorp Vault。代理按需获取短期令牌，避免长期暴露。",
-            "basis": "inference"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "部署AI代理到企业环境，如自动处理工单或代码审查。",
-            "steps": [
-              "为代理配置身份验证，仅允许授权用户访问。",
-              "将代理运行在沙箱环境（如Docker）中，并限制文件写入路径。",
-              "设置网络防火墙，默认拒绝所有出站连接，仅允许必要端点。",
-              "使用密钥管理器存储API密钥，代理按需获取短期令牌。",
-              "审查代理可用的工具，移除不必要的执行和写入功能。"
-            ],
-            "tools": [
-              "Docker",
-              "HashiCorp Vault",
-              "防火墙管理工具"
-            ],
-            "verification": [
-              "尝试未授权访问，确认被拒绝。",
-              "检查沙箱内无法执行非白名单命令。",
-              "监控网络日志，确认无意外出站连接。",
-              "确认代理无法读取环境变量中的密钥。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "访问控制",
-          "任意代码执行",
-          "网络出口控制",
-          "架构控制",
-          "沙箱",
-          "默认拒绝",
-          "LLM-as-a-judge"
-        ],
-        "searchTerms": [
-          {
-            "term": "LLM-as-a-judge",
-            "query": "LLM as a judge vulnerability"
-          },
-          {
-            "term": "反向Shell",
-            "query": "reverse shell attack AI agent"
-          },
-          {
-            "term": "沙箱",
-            "query": "sandbox AI agent security"
-          },
-          {
-            "term": "密钥管理",
-            "query": "secrets management AI agent"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:11:52.569Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "c8254ac6586638ff",
-      "title": "Stacked sessions and pull requests in the GitHub Copilot app",
-      "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
-      "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
-      "publishedAt": "2026-07-30T17:30:24.000Z",
-      "sourceId": "github-ai",
-      "sourceName": "GitHub AI & ML",
-      "sourceSite": "https://github.blog/ai-and-ml/",
-      "lane": "ai",
-      "accent": "#24292f",
+      "accent": "#b36b00",
       "topic": "AI 辅助学习",
-      "score": 86,
+      "score": 78,
       "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 12,
-      "category": "practice",
+      "readMinutes": 4,
+      "category": "opinion",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 95,
-      "bodyHash": "3409436d53b8f9e09963aa04",
+      "candidateScore": 91,
+      "bodyHash": "21d58ae329709d6b757c9dc2",
       "extraction": {
         "method": "readability",
-        "length": 8396,
-        "originalLength": 8396,
+        "length": 2774,
+        "originalLength": 2774,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "用 GitHub Copilot 的堆叠会话与堆叠拉取请求，轻松现代化老旧代码库",
+      "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
       "analysis": {
-        "listSummary": "本文作者分享了使用 GitHub Copilot 应用中的堆叠会话和堆叠拉取请求，将一个基于 React 15 的十年老项目成功现代化的过程。文章通过具体案例，解释了如何将大型重构任务拆分为多个有序的小步骤，每个步骤对应独立的会话和拉取请求，从而避免混乱和范围蔓延。对于希望利用 AI 工具安全、高效地改造旧项目的开发者，这篇文章提供了实用的方法和思路，值得一读。",
+        "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "作者有一个个人生活仪表盘应用，代码写于 2014 年底，依赖项非常陈旧，包括 React 15（2016 年发布）、Less 和 react-bootstrap。这些过时的技术导致维护和更新越来越困难，作者曾尝试手动现代化但最终放弃，因为工作量太大。",
-              "这个项目虽然不大，但足够复杂，手动重构需要数周时间，而且风险高、收益低。作者强调，在 AI 出现之前，这个问题几乎无法解决，因此他决定尝试使用 GitHub Copilot 应用来辅助完成。"
+              "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+              "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+              "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者首先在 Plan 模式中提出了一个详细的重构计划，要求评估使用 Tailwind 还是纯 CSS，移除 Less，并改善可访问性和响应式设计。他使用了 Claude Opus 4.8 和 GPT-5.5 进行辅助决策，经过多轮交互后确定了计划。",
-              "执行过程中，作者发现自己的代码库中有一个旧的 dev 分支，包含部分现代化更新，但存在兼容性问题。他意识到需要将新工作基于 dev 分支，而不是 main 分支，以避免丢失已有功能。",
-              "在测试新分支时，作者发现 react-bootstrap 库中的旧警告（如 findDOMNode 和 componentWillReceiveProps），这些是库本身的问题。他再次使用 Plan 模式，最终决定完全移除 react-bootstrap，替换为现代替代方案。",
-              "为了避免将 react-bootstrap 替换工作混入当前重构，作者使用了“堆叠会话”功能：先为当前工作创建拉取请求，然后基于该分支创建新会话，专门处理 react-bootstrap 替换，并生成独立的拉取请求。"
+              "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+              "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+              "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+              "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者通过截图展示了堆叠会话的结构：顶层是仓库，下面是“Frontend modernization”会话，再下面是两个拉取请求（一个未发布，一个已合并），最底层是进行中的 react-bootstrap 替换草稿。这证明了堆叠会话和堆叠拉取请求确实有效。",
-              "作者强调，堆叠拉取请求是一系列按顺序排列的拉取请求，每个请求的目标分支是前一个请求的分支，最终合并到主分支。这种方法使得大型重构可以分步进行，每个步骤独立审查和测试，降低了风险。",
-              "作者承认，这个过程并非一帆风顺，他最初试图一次性完成所有工作，但失败了。他建议读者不要试图创建巨大的拉取请求，而是利用堆叠会话将工作分解为可管理的部分。",
-              "本文的结论基于作者的个人经验，适用于中小型代码库的现代化。对于大型项目，可能需要更复杂的策略，但堆叠会话和堆叠拉取请求的基本原理仍然适用。"
+              "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+              "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+              "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
             ]
           }
         ],
         "keyPoints": [
-          "堆叠会话允许在同一个仓库中创建一系列有序的会话，每个会话基于前一个会话的成果，适合分步处理复杂任务。",
-          "堆叠拉取请求形成一条有序的链，每个请求合并到前一个请求的分支，最终合并到主分支，便于逐步审查和测试。",
-          "使用 AI 辅助重构时，应避免一次性提交大量更改，而是通过多个小步骤降低风险和复杂度。",
-          "在开始重构前，检查现有分支和依赖项，避免遗漏已有功能或引入兼容性问题。",
-          "对于过时的库，优先考虑完全替换而非升级，如果替换成本过高，则分阶段进行。"
+          "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+          "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+          "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+          "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+          "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
         ],
         "technicalDetails": [
           {
-            "text": "堆叠会话：在 GitHub Copilot 应用中，用户可以基于当前会话的上下文创建新会话，新会话会继承前一个会话的更改，并基于该状态继续工作。它通过创建分支和拉取请求来隔离工作，使得每个会话可以独立运行和审查。",
+            "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
             "basis": "source"
           },
           {
-            "text": "堆叠拉取请求：一系列拉取请求，每个请求的目标分支是前一个请求的分支，形成有序链。它通过分支链实现，每个拉取请求的更改基于前一个，最终合并到主分支。",
+            "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
             "basis": "source"
           },
           {
-            "text": "Plan 模式：GitHub Copilot 应用中的一种功能，允许用户描述目标，AI 生成计划并供用户审阅。它通过交互式对话实现，帮助用户制定详细的重构步骤。",
+            "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
             "basis": "source"
           },
           {
-            "text": "react-bootstrap 替换：作者决定完全移除 react-bootstrap，因为其内部使用了过时的 React API（如 findDOMNode），无法通过升级解决。替换为现代替代方案，如 Tailwind CSS 或自定义组件。",
+            "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+            "basis": "source"
+          },
+          {
+            "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "当你需要现代化一个老旧代码库，且任务复杂、风险高时，可以使用堆叠会话和堆叠拉取请求来分步进行。",
+            "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
             "steps": [
-              "在 GitHub Copilot 应用中打开目标仓库，使用 Plan 模式制定初步重构计划。",
-              "检查现有分支，确保基于正确的分支开始工作，避免遗漏已有功能。",
-              "执行第一个会话的重构，完成后创建拉取请求。",
-              "基于该会话创建新会话，处理下一个任务（如替换库），并创建独立的拉取请求。",
-              "重复上述步骤，直到所有任务完成，然后按顺序合并每个拉取请求。"
+              "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+              "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+              "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+              "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+              "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
             ],
             "tools": [
-              "GitHub Copilot 应用",
-              "GitHub 拉取请求"
+              "smevals",
+              "uvx"
             ],
             "verification": [
-              "每个拉取请求可以独立审查和测试，确保没有引入新问题。",
-              "最终所有拉取请求合并后，应用可以正常运行，且没有旧的依赖警告。"
+              "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+              "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "堆叠会话",
-          "堆叠拉取请求",
-          "react-bootstrap",
-          "Plan 模式",
-          "现代化",
-          "依赖项"
+          "评分",
+          "任务",
+          "检查",
+          "静态 HTML 报告"
         ],
         "searchTerms": [
           {
-            "term": "堆叠会话",
-            "query": "GitHub Copilot 堆叠会话 使用"
+            "term": "smevals",
+            "query": "smevals eval suite"
           },
           {
-            "term": "堆叠拉取请求",
-            "query": "GitHub 堆叠拉取请求 指南"
+            "term": "eval",
+            "query": "AI eval suite definition"
           },
           {
-            "term": "react-bootstrap",
-            "query": "react-bootstrap 替换 现代化"
+            "term": "task",
+            "query": "eval task definition"
           },
           {
-            "term": "Plan 模式",
-            "query": "GitHub Copilot Plan 模式 功能"
+            "term": "config",
+            "query": "model config evaluation"
+          },
+          {
+            "term": "grader",
+            "query": "AI grader checks"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:12:08.237Z",
+      "analyzedAt": "2026-07-31T22:40:13.349Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "b8125f9667d073b4",
-      "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
-      "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
-      "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
-      "publishedAt": "2026-07-30T15:22:24.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
+      "id": "36ab3d95868ba280",
+      "title": "Evaluating code review agents with ReviewBench",
+      "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+      "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+      "publishedAt": "2026-07-31T16:58:26.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
-      "accent": "#ff7139",
-      "topic": "模型与研究",
-      "score": 72,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 8,
-      "category": "research",
-      "slot": "update",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 10,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 74,
-      "bodyHash": "40965d78d9a5df57097e4592",
+      "candidateScore": 90,
+      "bodyHash": "d588f3a2f81fa42cd906398c",
       "extraction": {
         "method": "readability",
-        "length": 5487,
-        "originalLength": 5487,
+        "length": 7283,
+        "originalLength": 7283,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "前沿AI实验室如何构建隐性的开发者锁定：状态与执行基础设施的封闭化",
+      "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
       "analysis": {
-        "listSummary": "本文探讨了前沿AI模型（如OpenAI、Anthropic、Google）如何通过状态持久化、加密推理和专有执行环境，构建比模型权重更深的开发者锁定。文章指出，多轮代理系统的兴起使状态管理成为关键，而提供商的封闭基础设施使开发者难以迁移到开源模型。对开发者而言，理解这些机制是构建可移植、可互操作AI系统的第一步。文章值得一读，尤其对关注AI架构和开源替代方案的开发者。",
+        "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "AI供应商锁定通常指模型权重或API格式的依赖，但本文指出，前沿模型转向多轮代理系统后，锁定已深化到状态和执行基础设施。",
-              "状态持久化是指模型在多次对话中保留上下文和推理过程的能力，而执行环境是模型运行代码或与工具交互的沙箱。",
-              "OpenAI的GPT-5.6 Sol在启用隐藏推理持久化和上下文压缩后，ARC-AGI-3得分从13.3%升至38.3%，同时输出令牌减少6倍，这展示了状态管理的重要性。",
-              "然而，这些状态对开发者不透明，导致无法迁移到其他提供商或开源模型，形成隐性锁定。"
+              "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+              "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+              "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章通过OpenAI的Responses API、Anthropic的思考块和Gemini的思考签名，论证了加密推理和状态持久化的普遍性。",
-              "这些机制使开发者只能访问可见输出和摘要，无法检查或转移隐藏状态，从而限制了跨提供商互操作性。",
-              "此外，前沿模型通过强化学习优化专有执行环境，导致在通用开源基准上表现不佳，但在原生环境中分数翻倍，造成基准膨胀。",
-              "文章强调，基准分数反映的是模型加状态管理加执行环境的组合，而非模型本身的能力，这误导了评估。"
+              "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+              "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+              "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文证据包括OpenAI的ARC-AGI-3成绩提升、API文档中的加密状态，以及Anthropic和Gemini的类似设计。",
-              "结论是，开发者应视提供商状态管理为临时优化，而非事实来源，否则将面临锁定风险。",
-              "边界在于，文章基于Mozilla AI的立场，强调开放和可移植性，可能低估了提供商状态管理的性能优势。",
-              "文章建议投资显式开放状态管理，如Mozilla的Otari项目，但未提供具体实现细节。"
+              "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+              "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+              "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
             ]
           }
         ],
         "keyPoints": [
-          "前沿AI模型的锁定已从模型权重扩展到状态持久化和执行环境。",
-          "OpenAI的隐藏推理持久化显著提升性能，但状态对开发者不透明。",
-          "Anthropic和Gemini也使用加密推理，阻碍跨提供商迁移。",
-          "基准分数受专有执行环境影响，不能直接比较模型能力。",
-          "开发者应设计可移植的状态架构，避免依赖提供商特定基础设施。"
+          "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+          "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+          "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+          "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+          "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+          "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
         ],
         "technicalDetails": [
           {
-            "text": "状态持久化：指模型在多轮对话中保留上下文和推理过程的能力。在OpenAI的Responses API中，通过previous_response_id实现服务端管理，或通过store: false实现客户端管理。它通过存储加密状态来工作，但开发者无法检查或转移。这对长任务代理系统至关重要，但也导致锁定。",
+            "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
             "basis": "source"
           },
           {
-            "text": "上下文压缩：当对话过长时，OpenAI自动压缩上下文，生成加密的压缩项。开发者可以存储和重放，但不能解密或翻译。这减少了令牌消耗，但限制了互操作性。",
+            "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
             "basis": "source"
           },
           {
-            "text": "加密推理：Anthropic的思考块和Gemini的思考签名都是加密的，不暴露原始推理令牌。这防止开发者访问内部推理，但阻碍了跨模型转移。",
+            "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
             "basis": "source"
           },
           {
-            "text": "专有执行环境：如Code Interpreter，模型通过强化学习优化这些环境。在原生环境中性能高，但通用开源基准无法复现。",
+            "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "构建可移植的AI代理系统，避免依赖单一提供商",
+            "scenario": "构建自己的代码审查智能体评测基准",
             "steps": [
-              "使用显式状态管理库（如LangChain）存储对话历史和推理摘要，而非依赖API内置状态。",
-              "设计状态导出功能，定期将关键上下文导出为JSON或SQLite格式。",
-              "采用开源执行环境（如Docker容器）运行模型代码，而非提供商沙箱。",
-              "测试跨提供商迁移，使用不同模型（如Llama）运行相同任务，验证状态兼容性。"
+              "从可信审查者的合并 PR 评论中收集候选问题。",
+              "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+              "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+              "运行智能体并记录提交的发现列表。",
+              "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
             ],
             "tools": [
-              "LangChain",
-              "Docker",
-              "SQLite",
-              "Ollama"
+              "Harbor",
+              "LLM 门控",
+              "LangSmith 单仓库"
             ],
             "verification": [
-              "在切换提供商后，代理系统能继续任务，无需重新初始化状态。",
-              "导出的状态文件能被其他工具读取和修改。",
-              "基准测试在开源环境中的得分与提供商环境接近。"
+              "任务数量达到 59 个以上，结果趋于稳定。",
+              "覆盖率分数能区分不同模型或策略的性能差异。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "状态持久化",
-          "加密推理",
-          "专有执行环境",
-          "基准膨胀",
-          "可移植性",
-          "锁定",
-          "上下文压缩"
+          "真实 PR 反馈",
+          "覆盖率",
+          "精确率",
+          "F1",
+          "审查策略",
+          "Harbor 任务",
+          "LLM-as-judge"
         ],
         "searchTerms": [
           {
-            "term": "状态持久化",
-            "query": "AI状态持久化机制"
+            "term": "Harbor 任务格式",
+            "query": "Harbor benchmark task format"
           },
           {
-            "term": "加密推理",
-            "query": "encrypted reasoning AI"
+            "term": "LLM-as-judge",
+            "query": "LLM as judge evaluation"
           },
           {
-            "term": "专有执行环境",
-            "query": "proprietary execution environment AI"
+            "term": "代码审查智能体",
+            "query": "code review agent benchmark"
           },
           {
-            "term": "基准膨胀",
-            "query": "benchmark inflation AI"
+            "term": "Deep Agents 框架",
+            "query": "Deep Agents harness"
           },
           {
-            "term": "可移植性",
-            "query": "AI model portability"
+            "term": "覆盖率",
+            "query": "coverage precision F1 code review"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-07-31T14:12:21.319Z",
+      "analyzedAt": "2026-07-31T22:40:29.996Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "58582dab7dd24e3a",
-        "title": "Four Ways to Deploy More Secure AI Agents",
-        "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
-        "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
-        "publishedAt": "2026-07-30T21:09:59.000Z",
-        "sourceId": "nvidia-dev",
-        "sourceName": "NVIDIA Developer",
-        "sourceSite": "https://developer.nvidia.com/blog/",
+        "id": "0fb8d4e9801e55af",
+        "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+        "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+        "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+        "publishedAt": "2026-07-31T21:15:23.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
         "lane": "ai",
-        "accent": "#76b900",
-        "topic": "Agent 与自动化",
-        "score": 86,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 19,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 97,
-        "bodyHash": "876794aa4deebf83bcaeba83",
-        "extraction": {
-          "method": "readability",
-          "length": 13495,
-          "originalLength": 13495,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "四招加固AI代理：NVIDIA红队的安全部署指南",
-        "analysis": {
-          "listSummary": "本文由NVIDIA AI红队撰写，基于对多个AI代理的安全评估，总结了最常见的四大失败模式：缺乏访问控制、任意代码执行、网络出口未限制、明文密钥暴露。文章强调，基于提示的防御（如LLM-as-a-judge）不可靠，必须采用架构级“硬”控制，如身份验证、沙箱、默认拒绝网络出口和密钥管理。对开发者而言，本文提供了可操作的安全清单，能显著降低AI代理被攻击的风险，值得所有部署AI代理的团队阅读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "AI代理（能自主执行任务的AI系统，如自动修复代码的助手）正被越来越多地集成到工作流程中，带来效率提升，但也引入了新的安全风险。",
-                "当AI代理连接到实时工具和企业数据时，它可能从助手变成拥有特权但攻击面不明的软件。NVIDIA红队（专门模拟攻击以测试系统安全性的团队）在过去六个月评估了多个AI代理，发现无论使用何种框架，失败模式都相似。",
-                "最常见的失败模式包括：代理本身缺乏访问控制、工具允许任意代码执行、没有网络出口控制、密钥以明文暴露给代理。这些问题使得攻击者能利用代理的合法权限进行恶意操作。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "文章通过实际攻击案例，展示了这些失败模式如何被利用。例如，通过社会工程（伪装成调试或管理员）诱导代理执行反向Shell（一种允许远程控制系统的连接），或通过“温水煮青蛙”攻击逐步诱导代理泄露密钥。",
-                "作者指出，常见的缓解措施如LLM-as-a-judge（用另一个AI模型审查输入输出）或命令白名单，都提供有限防御，因为它们与LLM在同一控制平面，继承其概率性不可靠行为。",
-                "相反，架构控制（如操作系统级限制、沙箱隔离）能有效抵御攻击。文章强调，防御必须放在模型控制平面之外，即通过确定性控制而非提示词来实现。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "红队观察到，当网络出口控制严格时，攻击速度显著降低，影响变得不可靠。这证明了默认拒绝网络出口的有效性。",
-                "结论是，提示词防护栏无法关闭任何安全缺口，而架构控制（访问控制、沙箱、网络限制、密钥管理）能大幅减少滥用。",
-                "边界在于，即使使用前沿模型，攻击者仍可能通过足够时间和技巧绕过。文章建议使用最新模型，但强调没有绝对安全。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "AI代理的安全风险主要源于缺乏访问控制、任意代码执行、网络出口未限制和密钥暴露。",
-            "基于提示的防御（如LLM-as-a-judge）不可靠，因为攻击者可通过社会工程或间接提示注入绕过。",
-            "架构控制（如沙箱、默认拒绝网络出口）是更有效的第一道防线。",
-            "密钥应存储在专用管理器中，按需获取，避免暴露给代理。",
-            "允许命令执行时，必须使用最小权限白名单，并隔离环境。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "LLM-as-a-judge：一种用另一个AI模型审查输入输出的防御机制。它通过模型判断请求是否恶意，但攻击者可通过构造看似合法的上下文绕过。",
-              "basis": "source"
-            },
-            {
-              "text": "反向Shell：一种攻击技术，攻击者让目标系统连接到自己的机器，从而获得远程控制。文章示例中，代理被诱导创建反向Shell。",
-              "basis": "source"
-            },
-            {
-              "text": "默认拒绝网络出口：一种安全策略，默认阻止所有出站连接，仅允许白名单中的特定端点。这能防止数据泄露和反向Shell。",
-              "basis": "source"
-            },
-            {
-              "text": "密钥管理器：一种集中存储和管理密钥的系统，如HashiCorp Vault。代理按需获取短期令牌，避免长期暴露。",
-              "basis": "inference"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "部署AI代理到企业环境，如自动处理工单或代码审查。",
-              "steps": [
-                "为代理配置身份验证，仅允许授权用户访问。",
-                "将代理运行在沙箱环境（如Docker）中，并限制文件写入路径。",
-                "设置网络防火墙，默认拒绝所有出站连接，仅允许必要端点。",
-                "使用密钥管理器存储API密钥，代理按需获取短期令牌。",
-                "审查代理可用的工具，移除不必要的执行和写入功能。"
-              ],
-              "tools": [
-                "Docker",
-                "HashiCorp Vault",
-                "防火墙管理工具"
-              ],
-              "verification": [
-                "尝试未授权访问，确认被拒绝。",
-                "检查沙箱内无法执行非白名单命令。",
-                "监控网络日志，确认无意外出站连接。",
-                "确认代理无法读取环境变量中的密钥。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "访问控制",
-            "任意代码执行",
-            "网络出口控制",
-            "架构控制",
-            "沙箱",
-            "默认拒绝",
-            "LLM-as-a-judge"
-          ],
-          "searchTerms": [
-            {
-              "term": "LLM-as-a-judge",
-              "query": "LLM as a judge vulnerability"
-            },
-            {
-              "term": "反向Shell",
-              "query": "reverse shell attack AI agent"
-            },
-            {
-              "term": "沙箱",
-              "query": "sandbox AI agent security"
-            },
-            {
-              "term": "密钥管理",
-              "query": "secrets management AI agent"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-31T14:11:52.569Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "c8254ac6586638ff",
-        "title": "Stacked sessions and pull requests in the GitHub Copilot app",
-        "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
-        "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
-        "publishedAt": "2026-07-30T17:30:24.000Z",
-        "sourceId": "github-ai",
-        "sourceName": "GitHub AI & ML",
-        "sourceSite": "https://github.blog/ai-and-ml/",
-        "lane": "ai",
-        "accent": "#24292f",
+        "accent": "#b36b00",
         "topic": "AI 辅助学习",
-        "score": 86,
+        "score": 78,
         "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 12,
-        "category": "practice",
+        "readMinutes": 4,
+        "category": "opinion",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 95,
-        "bodyHash": "3409436d53b8f9e09963aa04",
+        "candidateScore": 91,
+        "bodyHash": "21d58ae329709d6b757c9dc2",
         "extraction": {
           "method": "readability",
-          "length": 8396,
-          "originalLength": 8396,
+          "length": 2774,
+          "originalLength": 2774,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "用 GitHub Copilot 的堆叠会话与堆叠拉取请求，轻松现代化老旧代码库",
+        "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
         "analysis": {
-          "listSummary": "本文作者分享了使用 GitHub Copilot 应用中的堆叠会话和堆叠拉取请求，将一个基于 React 15 的十年老项目成功现代化的过程。文章通过具体案例，解释了如何将大型重构任务拆分为多个有序的小步骤，每个步骤对应独立的会话和拉取请求，从而避免混乱和范围蔓延。对于希望利用 AI 工具安全、高效地改造旧项目的开发者，这篇文章提供了实用的方法和思路，值得一读。",
+          "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "作者有一个个人生活仪表盘应用，代码写于 2014 年底，依赖项非常陈旧，包括 React 15（2016 年发布）、Less 和 react-bootstrap。这些过时的技术导致维护和更新越来越困难，作者曾尝试手动现代化但最终放弃，因为工作量太大。",
-                "这个项目虽然不大，但足够复杂，手动重构需要数周时间，而且风险高、收益低。作者强调，在 AI 出现之前，这个问题几乎无法解决，因此他决定尝试使用 GitHub Copilot 应用来辅助完成。"
+                "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+                "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+                "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "作者首先在 Plan 模式中提出了一个详细的重构计划，要求评估使用 Tailwind 还是纯 CSS，移除 Less，并改善可访问性和响应式设计。他使用了 Claude Opus 4.8 和 GPT-5.5 进行辅助决策，经过多轮交互后确定了计划。",
-                "执行过程中，作者发现自己的代码库中有一个旧的 dev 分支，包含部分现代化更新，但存在兼容性问题。他意识到需要将新工作基于 dev 分支，而不是 main 分支，以避免丢失已有功能。",
-                "在测试新分支时，作者发现 react-bootstrap 库中的旧警告（如 findDOMNode 和 componentWillReceiveProps），这些是库本身的问题。他再次使用 Plan 模式，最终决定完全移除 react-bootstrap，替换为现代替代方案。",
-                "为了避免将 react-bootstrap 替换工作混入当前重构，作者使用了“堆叠会话”功能：先为当前工作创建拉取请求，然后基于该分支创建新会话，专门处理 react-bootstrap 替换，并生成独立的拉取请求。"
+                "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+                "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+                "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+                "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者通过截图展示了堆叠会话的结构：顶层是仓库，下面是“Frontend modernization”会话，再下面是两个拉取请求（一个未发布，一个已合并），最底层是进行中的 react-bootstrap 替换草稿。这证明了堆叠会话和堆叠拉取请求确实有效。",
-                "作者强调，堆叠拉取请求是一系列按顺序排列的拉取请求，每个请求的目标分支是前一个请求的分支，最终合并到主分支。这种方法使得大型重构可以分步进行，每个步骤独立审查和测试，降低了风险。",
-                "作者承认，这个过程并非一帆风顺，他最初试图一次性完成所有工作，但失败了。他建议读者不要试图创建巨大的拉取请求，而是利用堆叠会话将工作分解为可管理的部分。",
-                "本文的结论基于作者的个人经验，适用于中小型代码库的现代化。对于大型项目，可能需要更复杂的策略，但堆叠会话和堆叠拉取请求的基本原理仍然适用。"
+                "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+                "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+                "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
               ]
             }
           ],
           "keyPoints": [
-            "堆叠会话允许在同一个仓库中创建一系列有序的会话，每个会话基于前一个会话的成果，适合分步处理复杂任务。",
-            "堆叠拉取请求形成一条有序的链，每个请求合并到前一个请求的分支，最终合并到主分支，便于逐步审查和测试。",
-            "使用 AI 辅助重构时，应避免一次性提交大量更改，而是通过多个小步骤降低风险和复杂度。",
-            "在开始重构前，检查现有分支和依赖项，避免遗漏已有功能或引入兼容性问题。",
-            "对于过时的库，优先考虑完全替换而非升级，如果替换成本过高，则分阶段进行。"
+            "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+            "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+            "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+            "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+            "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
           ],
           "technicalDetails": [
             {
-              "text": "堆叠会话：在 GitHub Copilot 应用中，用户可以基于当前会话的上下文创建新会话，新会话会继承前一个会话的更改，并基于该状态继续工作。它通过创建分支和拉取请求来隔离工作，使得每个会话可以独立运行和审查。",
+              "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
               "basis": "source"
             },
             {
-              "text": "堆叠拉取请求：一系列拉取请求，每个请求的目标分支是前一个请求的分支，形成有序链。它通过分支链实现，每个拉取请求的更改基于前一个，最终合并到主分支。",
+              "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
               "basis": "source"
             },
             {
-              "text": "Plan 模式：GitHub Copilot 应用中的一种功能，允许用户描述目标，AI 生成计划并供用户审阅。它通过交互式对话实现，帮助用户制定详细的重构步骤。",
+              "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
               "basis": "source"
             },
             {
-              "text": "react-bootstrap 替换：作者决定完全移除 react-bootstrap，因为其内部使用了过时的 React API（如 findDOMNode），无法通过升级解决。替换为现代替代方案，如 Tailwind CSS 或自定义组件。",
+              "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+              "basis": "source"
+            },
+            {
+              "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "当你需要现代化一个老旧代码库，且任务复杂、风险高时，可以使用堆叠会话和堆叠拉取请求来分步进行。",
+              "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
               "steps": [
-                "在 GitHub Copilot 应用中打开目标仓库，使用 Plan 模式制定初步重构计划。",
-                "检查现有分支，确保基于正确的分支开始工作，避免遗漏已有功能。",
-                "执行第一个会话的重构，完成后创建拉取请求。",
-                "基于该会话创建新会话，处理下一个任务（如替换库），并创建独立的拉取请求。",
-                "重复上述步骤，直到所有任务完成，然后按顺序合并每个拉取请求。"
+                "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+                "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+                "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+                "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+                "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
               ],
               "tools": [
-                "GitHub Copilot 应用",
-                "GitHub 拉取请求"
+                "smevals",
+                "uvx"
               ],
               "verification": [
-                "每个拉取请求可以独立审查和测试，确保没有引入新问题。",
-                "最终所有拉取请求合并后，应用可以正常运行，且没有旧的依赖警告。"
+                "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+                "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "堆叠会话",
-            "堆叠拉取请求",
-            "react-bootstrap",
-            "Plan 模式",
-            "现代化",
-            "依赖项"
+            "评分",
+            "任务",
+            "检查",
+            "静态 HTML 报告"
           ],
           "searchTerms": [
             {
-              "term": "堆叠会话",
-              "query": "GitHub Copilot 堆叠会话 使用"
+              "term": "smevals",
+              "query": "smevals eval suite"
             },
             {
-              "term": "堆叠拉取请求",
-              "query": "GitHub 堆叠拉取请求 指南"
+              "term": "eval",
+              "query": "AI eval suite definition"
             },
             {
-              "term": "react-bootstrap",
-              "query": "react-bootstrap 替换 现代化"
+              "term": "task",
+              "query": "eval task definition"
             },
             {
-              "term": "Plan 模式",
-              "query": "GitHub Copilot Plan 模式 功能"
+              "term": "config",
+              "query": "model config evaluation"
+            },
+            {
+              "term": "grader",
+              "query": "AI grader checks"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-31T14:12:08.237Z",
+        "analyzedAt": "2026-07-31T22:40:13.349Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "b8125f9667d073b4",
-        "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
-        "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
-        "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
-        "publishedAt": "2026-07-30T15:22:24.000Z",
-        "sourceId": "mozilla-ai",
-        "sourceName": "Mozilla AI",
-        "sourceSite": "https://blog.mozilla.ai/",
+        "id": "36ab3d95868ba280",
+        "title": "Evaluating code review agents with ReviewBench",
+        "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+        "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+        "publishedAt": "2026-07-31T16:58:26.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
-        "accent": "#ff7139",
-        "topic": "模型与研究",
-        "score": 72,
-        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 8,
-        "category": "research",
-        "slot": "update",
+        "accent": "#1c3c3c",
+        "topic": "AI 辅助学习",
+        "score": 69,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 10,
+        "category": "practice",
+        "slot": "practice",
         "language": "en",
-        "candidateScore": 74,
-        "bodyHash": "40965d78d9a5df57097e4592",
+        "candidateScore": 90,
+        "bodyHash": "d588f3a2f81fa42cd906398c",
         "extraction": {
           "method": "readability",
-          "length": 5487,
-          "originalLength": 5487,
+          "length": 7283,
+          "originalLength": 7283,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "前沿AI实验室如何构建隐性的开发者锁定：状态与执行基础设施的封闭化",
+        "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
         "analysis": {
-          "listSummary": "本文探讨了前沿AI模型（如OpenAI、Anthropic、Google）如何通过状态持久化、加密推理和专有执行环境，构建比模型权重更深的开发者锁定。文章指出，多轮代理系统的兴起使状态管理成为关键，而提供商的封闭基础设施使开发者难以迁移到开源模型。对开发者而言，理解这些机制是构建可移植、可互操作AI系统的第一步。文章值得一读，尤其对关注AI架构和开源替代方案的开发者。",
+          "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "AI供应商锁定通常指模型权重或API格式的依赖，但本文指出，前沿模型转向多轮代理系统后，锁定已深化到状态和执行基础设施。",
-                "状态持久化是指模型在多次对话中保留上下文和推理过程的能力，而执行环境是模型运行代码或与工具交互的沙箱。",
-                "OpenAI的GPT-5.6 Sol在启用隐藏推理持久化和上下文压缩后，ARC-AGI-3得分从13.3%升至38.3%，同时输出令牌减少6倍，这展示了状态管理的重要性。",
-                "然而，这些状态对开发者不透明，导致无法迁移到其他提供商或开源模型，形成隐性锁定。"
+                "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+                "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+                "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "文章通过OpenAI的Responses API、Anthropic的思考块和Gemini的思考签名，论证了加密推理和状态持久化的普遍性。",
-                "这些机制使开发者只能访问可见输出和摘要，无法检查或转移隐藏状态，从而限制了跨提供商互操作性。",
-                "此外，前沿模型通过强化学习优化专有执行环境，导致在通用开源基准上表现不佳，但在原生环境中分数翻倍，造成基准膨胀。",
-                "文章强调，基准分数反映的是模型加状态管理加执行环境的组合，而非模型本身的能力，这误导了评估。"
+                "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+                "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+                "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文证据包括OpenAI的ARC-AGI-3成绩提升、API文档中的加密状态，以及Anthropic和Gemini的类似设计。",
-                "结论是，开发者应视提供商状态管理为临时优化，而非事实来源，否则将面临锁定风险。",
-                "边界在于，文章基于Mozilla AI的立场，强调开放和可移植性，可能低估了提供商状态管理的性能优势。",
-                "文章建议投资显式开放状态管理，如Mozilla的Otari项目，但未提供具体实现细节。"
+                "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+                "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+                "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
               ]
             }
           ],
           "keyPoints": [
-            "前沿AI模型的锁定已从模型权重扩展到状态持久化和执行环境。",
-            "OpenAI的隐藏推理持久化显著提升性能，但状态对开发者不透明。",
-            "Anthropic和Gemini也使用加密推理，阻碍跨提供商迁移。",
-            "基准分数受专有执行环境影响，不能直接比较模型能力。",
-            "开发者应设计可移植的状态架构，避免依赖提供商特定基础设施。"
+            "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+            "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+            "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+            "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+            "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+            "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
           ],
           "technicalDetails": [
             {
-              "text": "状态持久化：指模型在多轮对话中保留上下文和推理过程的能力。在OpenAI的Responses API中，通过previous_response_id实现服务端管理，或通过store: false实现客户端管理。它通过存储加密状态来工作，但开发者无法检查或转移。这对长任务代理系统至关重要，但也导致锁定。",
+              "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
               "basis": "source"
             },
             {
-              "text": "上下文压缩：当对话过长时，OpenAI自动压缩上下文，生成加密的压缩项。开发者可以存储和重放，但不能解密或翻译。这减少了令牌消耗，但限制了互操作性。",
+              "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
               "basis": "source"
             },
             {
-              "text": "加密推理：Anthropic的思考块和Gemini的思考签名都是加密的，不暴露原始推理令牌。这防止开发者访问内部推理，但阻碍了跨模型转移。",
+              "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
               "basis": "source"
             },
             {
-              "text": "专有执行环境：如Code Interpreter，模型通过强化学习优化这些环境。在原生环境中性能高，但通用开源基准无法复现。",
+              "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "构建可移植的AI代理系统，避免依赖单一提供商",
+              "scenario": "构建自己的代码审查智能体评测基准",
               "steps": [
-                "使用显式状态管理库（如LangChain）存储对话历史和推理摘要，而非依赖API内置状态。",
-                "设计状态导出功能，定期将关键上下文导出为JSON或SQLite格式。",
-                "采用开源执行环境（如Docker容器）运行模型代码，而非提供商沙箱。",
-                "测试跨提供商迁移，使用不同模型（如Llama）运行相同任务，验证状态兼容性。"
+                "从可信审查者的合并 PR 评论中收集候选问题。",
+                "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+                "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+                "运行智能体并记录提交的发现列表。",
+                "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
               ],
               "tools": [
-                "LangChain",
-                "Docker",
-                "SQLite",
-                "Ollama"
+                "Harbor",
+                "LLM 门控",
+                "LangSmith 单仓库"
               ],
               "verification": [
-                "在切换提供商后，代理系统能继续任务，无需重新初始化状态。",
-                "导出的状态文件能被其他工具读取和修改。",
-                "基准测试在开源环境中的得分与提供商环境接近。"
+                "任务数量达到 59 个以上，结果趋于稳定。",
+                "覆盖率分数能区分不同模型或策略的性能差异。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "状态持久化",
-            "加密推理",
-            "专有执行环境",
-            "基准膨胀",
-            "可移植性",
-            "锁定",
-            "上下文压缩"
+            "真实 PR 反馈",
+            "覆盖率",
+            "精确率",
+            "F1",
+            "审查策略",
+            "Harbor 任务",
+            "LLM-as-judge"
           ],
           "searchTerms": [
             {
-              "term": "状态持久化",
-              "query": "AI状态持久化机制"
+              "term": "Harbor 任务格式",
+              "query": "Harbor benchmark task format"
             },
             {
-              "term": "加密推理",
-              "query": "encrypted reasoning AI"
+              "term": "LLM-as-judge",
+              "query": "LLM as judge evaluation"
             },
             {
-              "term": "专有执行环境",
-              "query": "proprietary execution environment AI"
+              "term": "代码审查智能体",
+              "query": "code review agent benchmark"
             },
             {
-              "term": "基准膨胀",
-              "query": "benchmark inflation AI"
+              "term": "Deep Agents 框架",
+              "query": "Deep Agents harness"
             },
             {
-              "term": "可移植性",
-              "query": "AI model portability"
+              "term": "覆盖率",
+              "query": "coverage precision F1 code review"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-31T14:12:21.319Z",
+        "analyzedAt": "2026-07-31T22:40:29.996Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2885,420 +2345,285 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "58582dab7dd24e3a",
-        "title": "Four Ways to Deploy More Secure AI Agents",
-        "url": "https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/",
-        "summary": "Knowledge workers are increasingly integrating AI agents into their workflows. Agents that function as \"digital coworkers\" offer clear benefits. For example,...",
-        "publishedAt": "2026-07-30T21:09:59.000Z",
-        "sourceId": "nvidia-dev",
-        "sourceName": "NVIDIA Developer",
-        "sourceSite": "https://developer.nvidia.com/blog/",
+        "id": "0fb8d4e9801e55af",
+        "title": "smevals - a small eval suite for evaluating models, prompts, and harnesses",
+        "url": "https://simonwillison.net/2026/Jul/31/smevals/",
+        "summary": "smevals - a small eval suite for evaluating models, prompts, and harnesses I've been working with Jesse Vincent's Prime Radiant applied AI research lab building out this evals framework to help answer questions about the capabilities of different models. The result is smevals , a new tool for running small eval suites across different model configurations and grading the results. This blog entry describes the tool in detail. Here's the 10 second version: Tell your coding agent to run uvx smevals docs to learn the tool (this outputs the README ) Then tell it to build you an eval suite Once you've created an eval - which takes the form of a directory with some YAML files - you can run it against models like this: uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6 Runs are treated separately from grading operations - you can grade your runs (against your defined set of checks) usin",
+        "publishedAt": "2026-07-31T21:15:23.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
         "lane": "ai",
-        "accent": "#76b900",
-        "topic": "Agent 与自动化",
-        "score": 86,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 19,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 97,
-        "bodyHash": "876794aa4deebf83bcaeba83",
-        "extraction": {
-          "method": "readability",
-          "length": 13495,
-          "originalLength": 13495,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "四招加固AI代理：NVIDIA红队的安全部署指南",
-        "analysis": {
-          "listSummary": "本文由NVIDIA AI红队撰写，基于对多个AI代理的安全评估，总结了最常见的四大失败模式：缺乏访问控制、任意代码执行、网络出口未限制、明文密钥暴露。文章强调，基于提示的防御（如LLM-as-a-judge）不可靠，必须采用架构级“硬”控制，如身份验证、沙箱、默认拒绝网络出口和密钥管理。对开发者而言，本文提供了可操作的安全清单，能显著降低AI代理被攻击的风险，值得所有部署AI代理的团队阅读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "AI代理（能自主执行任务的AI系统，如自动修复代码的助手）正被越来越多地集成到工作流程中，带来效率提升，但也引入了新的安全风险。",
-                "当AI代理连接到实时工具和企业数据时，它可能从助手变成拥有特权但攻击面不明的软件。NVIDIA红队（专门模拟攻击以测试系统安全性的团队）在过去六个月评估了多个AI代理，发现无论使用何种框架，失败模式都相似。",
-                "最常见的失败模式包括：代理本身缺乏访问控制、工具允许任意代码执行、没有网络出口控制、密钥以明文暴露给代理。这些问题使得攻击者能利用代理的合法权限进行恶意操作。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "文章通过实际攻击案例，展示了这些失败模式如何被利用。例如，通过社会工程（伪装成调试或管理员）诱导代理执行反向Shell（一种允许远程控制系统的连接），或通过“温水煮青蛙”攻击逐步诱导代理泄露密钥。",
-                "作者指出，常见的缓解措施如LLM-as-a-judge（用另一个AI模型审查输入输出）或命令白名单，都提供有限防御，因为它们与LLM在同一控制平面，继承其概率性不可靠行为。",
-                "相反，架构控制（如操作系统级限制、沙箱隔离）能有效抵御攻击。文章强调，防御必须放在模型控制平面之外，即通过确定性控制而非提示词来实现。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "红队观察到，当网络出口控制严格时，攻击速度显著降低，影响变得不可靠。这证明了默认拒绝网络出口的有效性。",
-                "结论是，提示词防护栏无法关闭任何安全缺口，而架构控制（访问控制、沙箱、网络限制、密钥管理）能大幅减少滥用。",
-                "边界在于，即使使用前沿模型，攻击者仍可能通过足够时间和技巧绕过。文章建议使用最新模型，但强调没有绝对安全。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "AI代理的安全风险主要源于缺乏访问控制、任意代码执行、网络出口未限制和密钥暴露。",
-            "基于提示的防御（如LLM-as-a-judge）不可靠，因为攻击者可通过社会工程或间接提示注入绕过。",
-            "架构控制（如沙箱、默认拒绝网络出口）是更有效的第一道防线。",
-            "密钥应存储在专用管理器中，按需获取，避免暴露给代理。",
-            "允许命令执行时，必须使用最小权限白名单，并隔离环境。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "LLM-as-a-judge：一种用另一个AI模型审查输入输出的防御机制。它通过模型判断请求是否恶意，但攻击者可通过构造看似合法的上下文绕过。",
-              "basis": "source"
-            },
-            {
-              "text": "反向Shell：一种攻击技术，攻击者让目标系统连接到自己的机器，从而获得远程控制。文章示例中，代理被诱导创建反向Shell。",
-              "basis": "source"
-            },
-            {
-              "text": "默认拒绝网络出口：一种安全策略，默认阻止所有出站连接，仅允许白名单中的特定端点。这能防止数据泄露和反向Shell。",
-              "basis": "source"
-            },
-            {
-              "text": "密钥管理器：一种集中存储和管理密钥的系统，如HashiCorp Vault。代理按需获取短期令牌，避免长期暴露。",
-              "basis": "inference"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "部署AI代理到企业环境，如自动处理工单或代码审查。",
-              "steps": [
-                "为代理配置身份验证，仅允许授权用户访问。",
-                "将代理运行在沙箱环境（如Docker）中，并限制文件写入路径。",
-                "设置网络防火墙，默认拒绝所有出站连接，仅允许必要端点。",
-                "使用密钥管理器存储API密钥，代理按需获取短期令牌。",
-                "审查代理可用的工具，移除不必要的执行和写入功能。"
-              ],
-              "tools": [
-                "Docker",
-                "HashiCorp Vault",
-                "防火墙管理工具"
-              ],
-              "verification": [
-                "尝试未授权访问，确认被拒绝。",
-                "检查沙箱内无法执行非白名单命令。",
-                "监控网络日志，确认无意外出站连接。",
-                "确认代理无法读取环境变量中的密钥。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "访问控制",
-            "任意代码执行",
-            "网络出口控制",
-            "架构控制",
-            "沙箱",
-            "默认拒绝",
-            "LLM-as-a-judge"
-          ],
-          "searchTerms": [
-            {
-              "term": "LLM-as-a-judge",
-              "query": "LLM as a judge vulnerability"
-            },
-            {
-              "term": "反向Shell",
-              "query": "reverse shell attack AI agent"
-            },
-            {
-              "term": "沙箱",
-              "query": "sandbox AI agent security"
-            },
-            {
-              "term": "密钥管理",
-              "query": "secrets management AI agent"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-07-31T14:11:52.569Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "c8254ac6586638ff",
-        "title": "Stacked sessions and pull requests in the GitHub Copilot app",
-        "url": "https://github.blog/ai-and-ml/github-copilot/stacked-sessions-and-pull-requests-in-the-github-copilot-app/",
-        "summary": "Learn how I modernized an old codebase of mine using stacked sessions and pull requests in the GitHub Copilot app. The post Stacked sessions and pull requests in the GitHub Copilot app appeared first on The GitHub Blog .",
-        "publishedAt": "2026-07-30T17:30:24.000Z",
-        "sourceId": "github-ai",
-        "sourceName": "GitHub AI & ML",
-        "sourceSite": "https://github.blog/ai-and-ml/",
-        "lane": "ai",
-        "accent": "#24292f",
+        "accent": "#b36b00",
         "topic": "AI 辅助学习",
-        "score": 86,
+        "score": 78,
         "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 12,
-        "category": "practice",
+        "readMinutes": 4,
+        "category": "opinion",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 95,
-        "bodyHash": "3409436d53b8f9e09963aa04",
+        "candidateScore": 91,
+        "bodyHash": "21d58ae329709d6b757c9dc2",
         "extraction": {
           "method": "readability",
-          "length": 8396,
-          "originalLength": 8396,
+          "length": 2774,
+          "originalLength": 2774,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "用 GitHub Copilot 的堆叠会话与堆叠拉取请求，轻松现代化老旧代码库",
+        "displayTitle": "smevals：一个轻量级模型评估套件，帮你快速比较模型、提示词和运行框架",
         "analysis": {
-          "listSummary": "本文作者分享了使用 GitHub Copilot 应用中的堆叠会话和堆叠拉取请求，将一个基于 React 15 的十年老项目成功现代化的过程。文章通过具体案例，解释了如何将大型重构任务拆分为多个有序的小步骤，每个步骤对应独立的会话和拉取请求，从而避免混乱和范围蔓延。对于希望利用 AI 工具安全、高效地改造旧项目的开发者，这篇文章提供了实用的方法和思路，值得一读。",
+          "listSummary": "本文介绍 Simon Willison 与 Prime Radiant 实验室合作开发的 smevals 工具，用于运行小型评估套件，比较不同模型配置的表现。文章详细解释了 eval、task、config、run、grader 等核心概念，并展示了从创建评估到运行、评分、查看结果的完整流程。对想系统评估模型能力或优化提示词的开发者，这是一个实用且易上手的工具，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "作者有一个个人生活仪表盘应用，代码写于 2014 年底，依赖项非常陈旧，包括 React 15（2016 年发布）、Less 和 react-bootstrap。这些过时的技术导致维护和更新越来越困难，作者曾尝试手动现代化但最终放弃，因为工作量太大。",
-                "这个项目虽然不大，但足够复杂，手动重构需要数周时间，而且风险高、收益低。作者强调，在 AI 出现之前，这个问题几乎无法解决，因此他决定尝试使用 GitHub Copilot 应用来辅助完成。"
+                "在 AI 开发中，我们常需要回答“哪个模型更适合我的任务”或“这个提示词是否有效”等问题，但手动测试既费时又缺乏一致性。smevals 正是为解决这类问题而设计的工具。",
+                "它由 Simon Willison 与 Jesse Vincent 的 Prime Radiant 实验室合作开发，是作者在评估框架上的第三次迭代，旨在提供一个轻量、可复用的评估方案。",
+                "核心价值在于将评估过程标准化：通过定义任务、配置和评分规则，让模型对比变得可重复、可量化，避免主观判断。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "作者首先在 Plan 模式中提出了一个详细的重构计划，要求评估使用 Tailwind 还是纯 CSS，移除 Less，并改善可访问性和响应式设计。他使用了 Claude Opus 4.8 和 GPT-5.5 进行辅助决策，经过多轮交互后确定了计划。",
-                "执行过程中，作者发现自己的代码库中有一个旧的 dev 分支，包含部分现代化更新，但存在兼容性问题。他意识到需要将新工作基于 dev 分支，而不是 main 分支，以避免丢失已有功能。",
-                "在测试新分支时，作者发现 react-bootstrap 库中的旧警告（如 findDOMNode 和 componentWillReceiveProps），这些是库本身的问题。他再次使用 Plan 模式，最终决定完全移除 react-bootstrap，替换为现代替代方案。",
-                "为了避免将 react-bootstrap 替换工作混入当前重构，作者使用了“堆叠会话”功能：先为当前工作创建拉取请求，然后基于该分支创建新会话，专门处理 react-bootstrap 替换，并生成独立的拉取请求。"
+                "smevals 的工作流程分为三步：首先，用 `uvx smevals docs` 让编码代理了解工具（输出 README）；其次，创建评估套件，即包含 YAML 文件的目录；最后，用 `uvx smevals run` 运行评估，指定模型如 `-m gpt-5.5` 或 `-m claude-opus-4.6`。",
+                "评估与评分分离是设计亮点：`run` 命令执行任务，`grade` 命令根据预定义检查评分，`serve` 命令启动本地服务器查看结果，`build` 命令生成静态 HTML 报告，便于分享。",
+                "核心概念包括：eval（评估套件，回答关于模型能力的问题）、task（具体挑战，如“生成一只骑自行车的鹈鹕的 SVG”）、config（配置，指定模型及系统提示等参数）、run（一次执行记录）、grader（评分器，运行检查序列）。",
+                "检查可以是简单操作（如检查输出是否包含特定字符串或是否为有效 XML），也可以是复杂自定义脚本（checkers），甚至用其他模型来评判结果。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者通过截图展示了堆叠会话的结构：顶层是仓库，下面是“Frontend modernization”会话，再下面是两个拉取请求（一个未发布，一个已合并），最底层是进行中的 react-bootstrap 替换草稿。这证明了堆叠会话和堆叠拉取请求确实有效。",
-                "作者强调，堆叠拉取请求是一系列按顺序排列的拉取请求，每个请求的目标分支是前一个请求的分支，最终合并到主分支。这种方法使得大型重构可以分步进行，每个步骤独立审查和测试，降低了风险。",
-                "作者承认，这个过程并非一帆风顺，他最初试图一次性完成所有工作，但失败了。他建议读者不要试图创建巨大的拉取请求，而是利用堆叠会话将工作分解为可管理的部分。",
-                "本文的结论基于作者的个人经验，适用于中小型代码库的现代化。对于大型项目，可能需要更复杂的策略，但堆叠会话和堆叠拉取请求的基本原理仍然适用。"
+                "作者提供了一个示例：评估模型写俳句的能力，展示了套件的实际应用。",
+                "作者表示，这是他在评估框架上的第三次尝试，感觉“对了”，并计划未来扩展，用于自己的项目。",
+                "边界在于：smevals 是“小型”评估套件，适合快速比较，但可能不适合大规模基准测试；且评估质量依赖于任务设计和检查定义，需要用户自行确保有效性。"
               ]
             }
           ],
           "keyPoints": [
-            "堆叠会话允许在同一个仓库中创建一系列有序的会话，每个会话基于前一个会话的成果，适合分步处理复杂任务。",
-            "堆叠拉取请求形成一条有序的链，每个请求合并到前一个请求的分支，最终合并到主分支，便于逐步审查和测试。",
-            "使用 AI 辅助重构时，应避免一次性提交大量更改，而是通过多个小步骤降低风险和复杂度。",
-            "在开始重构前，检查现有分支和依赖项，避免遗漏已有功能或引入兼容性问题。",
-            "对于过时的库，优先考虑完全替换而非升级，如果替换成本过高，则分阶段进行。"
+            "smevals 是一个轻量级评估工具，用于比较不同模型配置在特定任务上的表现。",
+            "评估套件由 YAML 文件定义，包含任务、配置和评分规则，易于版本控制和分享。",
+            "运行与评分分离：先执行任务，再根据检查评分，支持简单字符串检查到复杂模型评判。",
+            "通过 `uvx smevals serve` 或 `build` 命令，可以直观查看或分享评估结果。",
+            "适合快速回答“哪个模型更好”或“提示词是否有效”等问题，但需注意任务设计的质量。"
           ],
           "technicalDetails": [
             {
-              "text": "堆叠会话：在 GitHub Copilot 应用中，用户可以基于当前会话的上下文创建新会话，新会话会继承前一个会话的更改，并基于该状态继续工作。它通过创建分支和拉取请求来隔离工作，使得每个会话可以独立运行和审查。",
+              "text": "eval 是一个评估套件，由一组任务组成，旨在回答关于模型能力的问题（如“模型生成 SVG 的能力如何”）。它通过 YAML 文件定义，是评估的基本单元。",
               "basis": "source"
             },
             {
-              "text": "堆叠拉取请求：一系列拉取请求，每个请求的目标分支是前一个请求的分支，形成有序链。它通过分支链实现，每个拉取请求的更改基于前一个，最终合并到主分支。",
+              "text": "task 是具体挑战，例如“生成一只骑自行车的鹈鹕的 SVG”。每个 eval 包含多个 task，用于测试模型的不同方面。",
               "basis": "source"
             },
             {
-              "text": "Plan 模式：GitHub Copilot 应用中的一种功能，允许用户描述目标，AI 生成计划并供用户审阅。它通过交互式对话实现，帮助用户制定详细的重构步骤。",
+              "text": "config 指定要评估的模型，并可包含其他参数（如系统提示、模型参数或代理框架）。运行评估时，可以针对多个 config 执行，以比较不同配置。",
               "basis": "source"
             },
             {
-              "text": "react-bootstrap 替换：作者决定完全移除 react-bootstrap，因为其内部使用了过时的 React API（如 findDOMNode），无法通过升级解决。替换为现代替代方案，如 Tailwind CSS 或自定义组件。",
+              "text": "run 记录特定 config 执行特定 task 的结果。评分时，grader 对 run 执行一系列检查，检查可以是简单操作（如字符串匹配、XML 验证）或复杂脚本（checkers），甚至使用其他模型进行评判。",
+              "basis": "source"
+            },
+            {
+              "text": "命令行工具 `uvx smevals` 提供多个子命令：`docs` 输出 README，`run` 执行评估，`grade` 评分，`serve` 启动本地服务器，`build` 生成静态 HTML 报告。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "当你需要现代化一个老旧代码库，且任务复杂、风险高时，可以使用堆叠会话和堆叠拉取请求来分步进行。",
+              "scenario": "当你想比较不同模型在特定任务（如代码生成、文本摘要）上的表现，或优化提示词时，可以使用 smevals 进行快速评估。",
               "steps": [
-                "在 GitHub Copilot 应用中打开目标仓库，使用 Plan 模式制定初步重构计划。",
-                "检查现有分支，确保基于正确的分支开始工作，避免遗漏已有功能。",
-                "执行第一个会话的重构，完成后创建拉取请求。",
-                "基于该会话创建新会话，处理下一个任务（如替换库），并创建独立的拉取请求。",
-                "重复上述步骤，直到所有任务完成，然后按顺序合并每个拉取请求。"
+                "运行 `uvx smevals docs` 阅读 README，了解工具用法。",
+                "创建一个评估目录，在其中定义 YAML 文件，包含任务和配置。",
+                "使用 `uvx smevals run path-to-eval/ -m gpt-5.5 -m claude-opus-4.6` 运行评估。",
+                "使用 `uvx smevals grade path-to-eval/` 对运行结果进行评分。",
+                "使用 `uvx smevals serve path-to-eval/` 查看结果，或使用 `build` 生成静态报告。"
               ],
               "tools": [
-                "GitHub Copilot 应用",
-                "GitHub 拉取请求"
+                "smevals",
+                "uvx"
               ],
               "verification": [
-                "每个拉取请求可以独立审查和测试，确保没有引入新问题。",
-                "最终所有拉取请求合并后，应用可以正常运行，且没有旧的依赖警告。"
+                "运行命令后，观察输出是否包含预期的运行记录和评分结果。",
+                "通过本地服务器或静态 HTML 报告，确认结果可视化正确。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "堆叠会话",
-            "堆叠拉取请求",
-            "react-bootstrap",
-            "Plan 模式",
-            "现代化",
-            "依赖项"
+            "评分",
+            "任务",
+            "检查",
+            "静态 HTML 报告"
           ],
           "searchTerms": [
             {
-              "term": "堆叠会话",
-              "query": "GitHub Copilot 堆叠会话 使用"
+              "term": "smevals",
+              "query": "smevals eval suite"
             },
             {
-              "term": "堆叠拉取请求",
-              "query": "GitHub 堆叠拉取请求 指南"
+              "term": "eval",
+              "query": "AI eval suite definition"
             },
             {
-              "term": "react-bootstrap",
-              "query": "react-bootstrap 替换 现代化"
+              "term": "task",
+              "query": "eval task definition"
             },
             {
-              "term": "Plan 模式",
-              "query": "GitHub Copilot Plan 模式 功能"
+              "term": "config",
+              "query": "model config evaluation"
+            },
+            {
+              "term": "grader",
+              "query": "AI grader checks"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-31T14:12:08.237Z",
+        "analyzedAt": "2026-07-31T22:40:13.349Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "b8125f9667d073b4",
-        "title": "How Frontier Labs Are Building Subtle Developer Lock-In",
-        "url": "https://blog.mozilla.ai/how-frontier-labs-are-building-subtle-developer-lock-in/",
-        "summary": "Frontier AI models are becoming more capable, but also more tightly coupled to proprietary state, memory and execution environments. This article explores what that means for developers building open, portable AI systems.",
-        "publishedAt": "2026-07-30T15:22:24.000Z",
-        "sourceId": "mozilla-ai",
-        "sourceName": "Mozilla AI",
-        "sourceSite": "https://blog.mozilla.ai/",
+        "id": "36ab3d95868ba280",
+        "title": "Evaluating code review agents with ReviewBench",
+        "url": "https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench",
+        "summary": "Learn how LangChain built ReviewBench, a benchmark for evaluating code review agents against real PR feedback from trusted reviewers.",
+        "publishedAt": "2026-07-31T16:58:26.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
-        "accent": "#ff7139",
-        "topic": "模型与研究",
-        "score": 72,
-        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 8,
-        "category": "research",
-        "slot": "update",
+        "accent": "#1c3c3c",
+        "topic": "AI 辅助学习",
+        "score": 69,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 10,
+        "category": "practice",
+        "slot": "practice",
         "language": "en",
-        "candidateScore": 74,
-        "bodyHash": "40965d78d9a5df57097e4592",
+        "candidateScore": 90,
+        "bodyHash": "d588f3a2f81fa42cd906398c",
         "extraction": {
           "method": "readability",
-          "length": 5487,
-          "originalLength": 5487,
+          "length": 7283,
+          "originalLength": 7283,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "前沿AI实验室如何构建隐性的开发者锁定：状态与执行基础设施的封闭化",
+        "displayTitle": "ReviewBench：用真实 PR 反馈评测代码审查智能体",
         "analysis": {
-          "listSummary": "本文探讨了前沿AI模型（如OpenAI、Anthropic、Google）如何通过状态持久化、加密推理和专有执行环境，构建比模型权重更深的开发者锁定。文章指出，多轮代理系统的兴起使状态管理成为关键，而提供商的封闭基础设施使开发者难以迁移到开源模型。对开发者而言，理解这些机制是构建可移植、可互操作AI系统的第一步。文章值得一读，尤其对关注AI架构和开源替代方案的开发者。",
+          "listSummary": "本文介绍 LangChain 如何构建 ReviewBench，一个基于真实 PR 反馈的代码审查智能体评测基准。它解决了现有基准无法反映内部审查标准的问题，通过从可信审查者评论中筛选出具体问题，并转化为可复现的 Harbor 任务。评测结果显示，当前模型在基础框架下仅能发现约 30% 的基准问题，而改进审查策略（如使用结构化提示词）能显著提升性能。对开发者而言，本文提供了评测代码审查智能体的实用方法和改进思路，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "AI供应商锁定通常指模型权重或API格式的依赖，但本文指出，前沿模型转向多轮代理系统后，锁定已深化到状态和执行基础设施。",
-                "状态持久化是指模型在多次对话中保留上下文和推理过程的能力，而执行环境是模型运行代码或与工具交互的沙箱。",
-                "OpenAI的GPT-5.6 Sol在启用隐藏推理持久化和上下文压缩后，ARC-AGI-3得分从13.3%升至38.3%，同时输出令牌减少6倍，这展示了状态管理的重要性。",
-                "然而，这些状态对开发者不透明，导致无法迁移到其他提供商或开源模型，形成隐性锁定。"
+                "代码审查智能体越来越多，但评测它们是否真正有用很困难。现有基准没有融入 LangChain 内部的审查标准，因此无法衡量智能体在实际工作流中的价值。",
+                "代码审查（指自动检查代码变更并发现问题的过程）难以评测，因为问题往往依赖代码库特定的隐式规则，例如数据库查询必须包含租户约束，或生产环境定时任务需遵循特定锁定模式。这些规则无法从变更行中直接看出，需要智能体从周围代码中推断。",
+                "LangChain 团队构建 ReviewBench，目的是从真实 PR 反馈中提取具体问题，让评测更贴近实际审查场景。他们从 LangSmith 单仓库中收集可信审查者的评论，并筛选出具体、可验证的问题，而不是直接使用原始评论。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "文章通过OpenAI的Responses API、Anthropic的思考块和Gemini的思考签名，论证了加密推理和状态持久化的普遍性。",
-                "这些机制使开发者只能访问可见输出和摘要，无法检查或转移隐藏状态，从而限制了跨提供商互操作性。",
-                "此外，前沿模型通过强化学习优化专有执行环境，导致在通用开源基准上表现不佳，但在原生环境中分数翻倍，造成基准膨胀。",
-                "文章强调，基准分数反映的是模型加状态管理加执行环境的组合，而非模型本身的能力，这误导了评估。"
+                "ReviewBench 的构建过程分为三步：收集真实审查评论、筛选有效问题、转化为 Harbor 任务。原始评论噪声较大，包含大量琐碎评论或疑问，因此他们使用 LLM 门控（通过大语言模型自动筛选）标记弱候选，再人工审查每个剩余评论。",
+                "每个任务包含冻结的 PR 上下文和指令，智能体通过本地 GitHub 存根（模拟 GitHub 数据的本地服务）获取 PR 元数据和差异，不依赖实时状态。智能体提交结构化发现列表后，验证器使用 LLM 作为裁判（LLM-as-judge，即用大语言模型来评判结果）比较发现与基准问题。",
+                "评分指标包括覆盖率和精确率。覆盖率衡量智能体是否找到基准问题，精确率衡量提交发现中正确部分的比例。额外正确发现计入精确率但不增加覆盖率，最终分数是 F1（覆盖率和精确率的调和平均）。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文证据包括OpenAI的ARC-AGI-3成绩提升、API文档中的加密状态，以及Anthropic和Gemini的类似设计。",
-                "结论是，开发者应视提供商状态管理为临时优化，而非事实来源，否则将面临锁定风险。",
-                "边界在于，文章基于Mozilla AI的立场，强调开放和可移植性，可能低估了提供商状态管理的性能优势。",
-                "文章建议投资显式开放状态管理，如Mozilla的Otari项目，但未提供具体实现细节。"
+                "实验使用相同的基础 Deep Agents 框架，在 59 个任务上运行三次，并故意不使用自定义审查提示词，以比较模型在最小脚手架下的表现。结果显示，最强模型仅能恢复约 30% 的基准问题，说明当前模型仍会遗漏大多数真实审查发现。",
+                "Luna 和 Terra 的结果低于预期，因为它们的审查策略较窄，倾向于聚焦少量发现后停止，导致覆盖率低。但后续实验表明，通过调整提示词（如要求识别变更、追踪依赖、验证调用者），Luna 在 20 个任务子集上达到 0.32 的分数，高于静态审查的 Kimi 和 Opus。",
+                "本文强调这是框架比较而非纯模型比较，审查策略比模型选择更重要。边界在于任务数量有限（59 个），结果可能不稳定，且未涵盖所有审查问题类型，如安全约束和 API 兼容性。未来计划扩展任务规模和覆盖范围。"
               ]
             }
           ],
           "keyPoints": [
-            "前沿AI模型的锁定已从模型权重扩展到状态持久化和执行环境。",
-            "OpenAI的隐藏推理持久化显著提升性能，但状态对开发者不透明。",
-            "Anthropic和Gemini也使用加密推理，阻碍跨提供商迁移。",
-            "基准分数受专有执行环境影响，不能直接比较模型能力。",
-            "开发者应设计可移植的状态架构，避免依赖提供商特定基础设施。"
+            "ReviewBench 基于真实 PR 反馈构建，而非合成缺陷，能反映实际审查标准。",
+            "原始评论需经 LLM 门控和人工筛选，去除噪声，保留具体可验证的问题。",
+            "评测使用覆盖率和精确率，F1 分数作为主要指标，额外发现不计入覆盖率。",
+            "当前模型在基础框架下仅能发现约 30% 的基准问题，性能有限。",
+            "改进审查策略（如结构化提示词）能显著提升性能，即使不增加新工具。",
+            "ReviewBench 目前规模较小，需扩展任务数量和覆盖范围以提高稳定性。"
           ],
           "technicalDetails": [
             {
-              "text": "状态持久化：指模型在多轮对话中保留上下文和推理过程的能力。在OpenAI的Responses API中，通过previous_response_id实现服务端管理，或通过store: false实现客户端管理。它通过存储加密状态来工作，但开发者无法检查或转移。这对长任务代理系统至关重要，但也导致锁定。",
+              "text": "Harbor 任务格式：它是什么——一种标准化的评测任务格式，包含指令、环境和验证器。怎么工作——智能体在冻结的 PR 上下文中审查，提交发现后由验证器比较。为什么重要——提供可复现的评测环境，不依赖实时 GitHub 状态。",
               "basis": "source"
             },
             {
-              "text": "上下文压缩：当对话过长时，OpenAI自动压缩上下文，生成加密的压缩项。开发者可以存储和重放，但不能解密或翻译。这减少了令牌消耗，但限制了互操作性。",
+              "text": "LLM-as-judge 验证器：它是什么——使用大语言模型作为裁判来评估智能体提交的审查结果。怎么工作——比较智能体发现与基准问题，判断是否识别同一底层问题。为什么重要——允许灵活匹配问题本质，而非字面措辞。",
               "basis": "source"
             },
             {
-              "text": "加密推理：Anthropic的思考块和Gemini的思考签名都是加密的，不暴露原始推理令牌。这防止开发者访问内部推理，但阻碍了跨模型转移。",
+              "text": "覆盖率和精确率：覆盖率指找到基准问题的比例，精确率指提交发现中正确部分的比例。F1 是两者的调和平均，用于综合评分。额外正确发现计入精确率但不增加覆盖率。",
               "basis": "source"
             },
             {
-              "text": "专有执行环境：如Code Interpreter，模型通过强化学习优化这些环境。在原生环境中性能高，但通用开源基准无法复现。",
+              "text": "Deep Agents 框架：它是什么——用于运行智能体的基础框架。怎么工作——在 59 个任务上运行三次，不使用自定义提示词。为什么重要——提供统一基线，便于比较模型性能。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "构建可移植的AI代理系统，避免依赖单一提供商",
+              "scenario": "构建自己的代码审查智能体评测基准",
               "steps": [
-                "使用显式状态管理库（如LangChain）存储对话历史和推理摘要，而非依赖API内置状态。",
-                "设计状态导出功能，定期将关键上下文导出为JSON或SQLite格式。",
-                "采用开源执行环境（如Docker容器）运行模型代码，而非提供商沙箱。",
-                "测试跨提供商迁移，使用不同模型（如Llama）运行相同任务，验证状态兼容性。"
+                "从可信审查者的合并 PR 评论中收集候选问题。",
+                "使用 LLM 门控筛选弱候选，再人工审查剩余评论。",
+                "将具体问题转化为 Harbor 任务，冻结 PR 上下文。",
+                "运行智能体并记录提交的发现列表。",
+                "使用 LLM-as-judge 验证器计算覆盖率和精确率。"
               ],
               "tools": [
-                "LangChain",
-                "Docker",
-                "SQLite",
-                "Ollama"
+                "Harbor",
+                "LLM 门控",
+                "LangSmith 单仓库"
               ],
               "verification": [
-                "在切换提供商后，代理系统能继续任务，无需重新初始化状态。",
-                "导出的状态文件能被其他工具读取和修改。",
-                "基准测试在开源环境中的得分与提供商环境接近。"
+                "任务数量达到 59 个以上，结果趋于稳定。",
+                "覆盖率分数能区分不同模型或策略的性能差异。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "状态持久化",
-            "加密推理",
-            "专有执行环境",
-            "基准膨胀",
-            "可移植性",
-            "锁定",
-            "上下文压缩"
+            "真实 PR 反馈",
+            "覆盖率",
+            "精确率",
+            "F1",
+            "审查策略",
+            "Harbor 任务",
+            "LLM-as-judge"
           ],
           "searchTerms": [
             {
-              "term": "状态持久化",
-              "query": "AI状态持久化机制"
+              "term": "Harbor 任务格式",
+              "query": "Harbor benchmark task format"
             },
             {
-              "term": "加密推理",
-              "query": "encrypted reasoning AI"
+              "term": "LLM-as-judge",
+              "query": "LLM as judge evaluation"
             },
             {
-              "term": "专有执行环境",
-              "query": "proprietary execution environment AI"
+              "term": "代码审查智能体",
+              "query": "code review agent benchmark"
             },
             {
-              "term": "基准膨胀",
-              "query": "benchmark inflation AI"
+              "term": "Deep Agents 框架",
+              "query": "Deep Agents harness"
             },
             {
-              "term": "可移植性",
-              "query": "AI model portability"
+              "term": "覆盖率",
+              "query": "coverage precision F1 code review"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-07-31T14:12:21.319Z",
+        "analyzedAt": "2026-07-31T22:40:29.996Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -3320,7 +2645,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 177,
+      "latencyMs": 133,
       "itemCount": 35
     },
     {
@@ -3337,7 +2662,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 105,
+      "latencyMs": 193,
       "itemCount": 10
     },
     {
@@ -3354,7 +2679,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 573,
+      "latencyMs": 696,
       "itemCount": 31
     },
     {
@@ -3371,7 +2696,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1165,
+      "latencyMs": 1048,
       "itemCount": 10
     },
     {
@@ -3388,7 +2713,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 69,
+      "latencyMs": 89,
       "itemCount": 35
     },
     {
@@ -3405,7 +2730,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 191,
+      "latencyMs": 183,
       "itemCount": 35
     },
     {
@@ -3422,7 +2747,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 188,
+      "latencyMs": 346,
       "itemCount": 35
     },
     {
@@ -3439,7 +2764,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 127,
+      "latencyMs": 293,
       "itemCount": 30
     },
     {
@@ -3456,7 +2781,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 147,
+      "latencyMs": 318,
       "itemCount": 35
     },
     {
@@ -3473,7 +2798,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 639,
+      "latencyMs": 721,
       "itemCount": 20
     },
     {
@@ -3490,7 +2815,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 582,
+      "latencyMs": 608,
       "itemCount": 35
     },
     {
@@ -3507,7 +2832,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 216,
+      "latencyMs": 346,
       "itemCount": 15
     },
     {
@@ -3524,7 +2849,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1104,
+      "latencyMs": 1084,
       "itemCount": 15
     },
     {
@@ -3541,7 +2866,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 18783,
+      "latencyMs": 17854,
       "itemCount": 35
     },
     {
@@ -3558,7 +2883,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 834,
+      "latencyMs": 645,
       "itemCount": 35
     },
     {
@@ -3580,7 +2905,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1327,
+      "latencyMs": 998,
       "itemCount": 4
     },
     {
@@ -3597,7 +2922,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 906,
+      "latencyMs": 1061,
       "itemCount": 10
     }
   ],
@@ -3624,7 +2949,9 @@
       "23961d42d3945e47",
       "58582dab7dd24e3a",
       "c8254ac6586638ff",
-      "b8125f9667d073b4"
+      "b8125f9667d073b4",
+      "0fb8d4e9801e55af",
+      "36ab3d95868ba280"
     ],
     "processedManualUrls": []
   },
@@ -3633,10 +2960,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 7,
-    "rejectedCount": 0,
+    "calls": 3,
+    "rejectedCount": 368,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-07-31T09:30:55.285Z"
+  "previousGeneratedAt": "2026-07-31T14:13:26.546Z"
 }
