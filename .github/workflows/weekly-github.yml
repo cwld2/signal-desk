@@ -88,7 +88,7 @@ jobs:
         env:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
           DASHSCOPE_BASE_URL: ${{ vars.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1' }}
-          DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'glm-5.2' }}
+          DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'deepseek-chat' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SIGNAL_DATA_DIR: ${{ github.workspace }}/content-store/data
           SIGNAL_GITHUB_FORCE: ${{ (github.event_name == 'workflow_dispatch' && inputs.force) && '1' || '0' }}
