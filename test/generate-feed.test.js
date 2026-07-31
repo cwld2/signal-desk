@@ -288,6 +288,11 @@ test("parses fenced Bailian JSON and rejects malformed output", () => {
   assert.throws(() => parseModelJson("not json"), /未返回 JSON/);
 });
 
+test("recovers JSON from reasoning_content and reports JSON format errors", () => {
+  assert.deepEqual(parseModelJson("", '思考中...\n{"practiceIds":["a"]}'), { practiceIds: ["a"] });
+  assert.throws(() => parseModelJson('{"x":'), /JSON 格式错误/);
+});
+
 test("deduplicates URL, title and body hashes", () => {
   const first = { ...fixture("one"), bodyHash: "same-body" };
   const urlDuplicate = { ...fixture("two"), url: `${first.url}/` };

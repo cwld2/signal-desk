@@ -396,7 +396,8 @@ class BailianClient {
               { role: "user", content: attemptPrompt }
             ],
             temperature: this.temperature,
-            max_tokens: 8192,
+            thinking: { type: "disabled" },
+            max_tokens: 16384,
             stream: false
           }),
           signal: AbortSignal.timeout(timeoutMs)
@@ -407,7 +408,8 @@ class BailianClient {
           throw new BailianError(`百炼 HTTP ${response.status}: ${detail}`, kind);
         }
         const payload = await response.json();
-        return validator(parseModelJson(payload.choices?.[0]?.message?.content));
+        const message = payload.choices?.[0]?.message || {};
+        return validator(parseModelJson(message.content, message.reasoning_content));
       } catch (error) {
         const kind = error?.name === "TimeoutError" ? "network" : "format";
         lastError = error instanceof BailianError ? error : new BailianError(`${model} 调用失败：${error.message}`, kind);
@@ -422,16 +424,46 @@ class BailianClient {
   }
 }
 
-function parseModelJson(raw) {
-  const text = String(raw || "").replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new BailianError("百炼未返回 JSON", "format");
-  try {
-    return JSON.parse(text.slice(start, end + 1));
-  } catch (error) {
-    throw new BailianError(`百炼 JSON 格式错误：${error.message}`, "format");
+function extractJson(text) {
+  const stripped = String(text || "").replace(/```(?:json)?/gi, "").replace(/```/g, "");
+  for (let start = 0; start < stripped.length; start += 1) {
+    if (stripped[start] !== "{") continue;
+    let depth = 0, inStr = false, esc = false, cand = null;
+    for (let i = start; i < stripped.length; i += 1) {
+      const c = stripped[i];
+      if (inStr) {
+        if (esc) esc = false;
+        else if (c === "\\") esc = true;
+        else if (c === '"') inStr = false;
+      } else if (c === '"') inStr = true;
+      else if (c === "{") depth += 1;
+      else if (c === "}") {
+        depth -= 1;
+        if (depth === 0) { cand = stripped.slice(start, i + 1); break; }
+      }
+    }
+    if (cand != null) { try { return JSON.parse(cand); } catch (e) { /* 试下一个 { */ } }
   }
+  return null;
+}
+
+function parseModelJson(content, reasoning) {
+  const sources = [];
+  if (content != null) sources.push(content);
+  if (reasoning != null && String(reasoning).trim()) sources.push(reasoning);
+  let sawBraces = false, lastParseErr = null;
+  for (const raw of sources) {
+    const stripped = String(raw || "").replace(/```(?:json)?/gi, "").replace(/```/g, "");
+    const obj = extractJson(stripped);
+    if (obj != null) return obj;
+    const s = stripped.indexOf("{"), e = stripped.lastIndexOf("}");
+    if (s >= 0) {
+      sawBraces = true;
+      try { JSON.parse(stripped.slice(s, e + 1)); } catch (err) { lastParseErr = err.message; }
+    }
+  }
+  if (sawBraces) throw new BailianError(`百炼 JSON 格式错误：${lastParseErr}`, "format");
+  throw new BailianError("百炼未返回 JSON", "format");
 }
 
 function enforceQuota(candidates, ids, predicate, limit, usedSources = new Set(), sourceLimit = 1) {
