@@ -1,5 +1,4 @@
-name: 畅神妙妙屋 · 每日简报
-
+name: 畅神妙妙�?· 每日简�?
 on:
   schedule:
     # 05:38 Asia/Shanghai (21:38 UTC on the previous day).
@@ -102,8 +101,8 @@ jobs:
         env:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
           DASHSCOPE_BASE_URL: ${{ vars.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1' }}
-          DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'qwen3.7-flash' }}
-          DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'qwen3.7-plus' }}
+          DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'glm-5.2' }}
+          DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'glm-5.2' }}
           SIGNAL_DATA_DIR: ${{ github.workspace }}/content-store/data
           SIGNAL_FORCE_REBUILD: ${{ (inputs.mode == 'force-rebuild-today' || inputs.mode == 'force-weekly-now') && '1' || '0' }}
           SIGNAL_RESELECT: ${{ inputs.mode == 'force-weekly-now' && '1' || '0' }}
