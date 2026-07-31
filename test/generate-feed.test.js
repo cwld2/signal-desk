@@ -1,4 +1,4 @@
-const test = require("node:test");
+﻿const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -389,6 +389,8 @@ test("missing Bailian key exits before overwriting previous data", () => {
   fs.writeFileSync(path.join(temp, "feed.json"), original);
   const env = { ...process.env, SIGNAL_DATA_DIR: temp };
   delete env.DASHSCOPE_API_KEY;
+  delete env.GITHUB_STEP_SUMMARY;
+  delete env.SIGNAL_RUN_SUMMARY_FILE;
   const result = spawnSync(process.execPath, [path.join(__dirname, "..", "scripts", "generate-feed.js")], { env, encoding: "utf8" });
   assert.notEqual(result.status, 0);
   assert.equal(fs.readFileSync(path.join(temp, "feed.json"), "utf8"), original);
@@ -412,11 +414,17 @@ test("static validator rejects duplicate weekly lanes and accepts 3+2+2 edition 
   fs.writeFileSync(path.join(temp, "feed.json"), JSON.stringify(feed));
   fs.writeFileSync(path.join(temp, "archive", "index.json"), JSON.stringify({ entries: [{ date: "2026-08-02", counts: { ai: 3, game: 2, art: 2 } }] }));
   const script = path.join(__dirname, "..", "scripts", "validate-feed.js");
-  const valid = spawnSync(process.execPath, [script], { env: { ...process.env, SIGNAL_DATA_DIR: temp }, encoding: "utf8" });
+  const validEnv = { ...process.env, SIGNAL_DATA_DIR: temp };
+  delete validEnv.GITHUB_STEP_SUMMARY;
+  delete validEnv.SIGNAL_RUN_SUMMARY_FILE;
+  const valid = spawnSync(process.execPath, [script], { env: validEnv, encoding: "utf8" });
   assert.equal(valid.status, 0, valid.stderr);
 
   fs.writeFileSync(path.join(temp, "feed.json"), JSON.stringify({ ...feed, lanes: { ...feed.lanes, art: [art[0], art[0]] } }));
-  const invalid = spawnSync(process.execPath, [script], { env: { ...process.env, SIGNAL_DATA_DIR: temp }, encoding: "utf8" });
+  const invalidEnv = { ...process.env, SIGNAL_DATA_DIR: temp };
+  delete invalidEnv.GITHUB_STEP_SUMMARY;
+  delete invalidEnv.SIGNAL_RUN_SUMMARY_FILE;
+  const invalid = spawnSync(process.execPath, [script], { env: invalidEnv, encoding: "utf8" });
   assert.notEqual(invalid.status, 0);
   assert.match(invalid.stderr, /art 栏目包含重复文章/);
 });

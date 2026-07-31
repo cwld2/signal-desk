@@ -1,4 +1,4 @@
-const test = require("node:test");
+﻿const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
@@ -112,7 +112,10 @@ test("published GitHub output excludes README text and passes validator", () => 
 
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), "signal-desk-github-"));
   fs.writeFileSync(path.join(temp, "github.json"), JSON.stringify(output));
-  const result = spawnSync(process.execPath, [path.join(__dirname, "..", "scripts", "validate-github-feed.js")], { env: { ...process.env, SIGNAL_DATA_DIR: temp }, encoding: "utf8" });
+  const env = { ...process.env, SIGNAL_DATA_DIR: temp };
+  delete env.GITHUB_STEP_SUMMARY;
+  delete env.SIGNAL_RUN_SUMMARY_FILE;
+  const result = spawnSync(process.execPath, [path.join(__dirname, "..", "scripts", "validate-github-feed.js")], { env, encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
 });
 
@@ -123,6 +126,8 @@ test("missing Bailian key never overwrites the previous GitHub recommendations",
   fs.writeFileSync(file, original);
   const env = { ...process.env, SIGNAL_DATA_DIR: temp, SIGNAL_GITHUB_FORCE: "1" };
   delete env.DASHSCOPE_API_KEY;
+  delete env.GITHUB_STEP_SUMMARY;
+  delete env.SIGNAL_RUN_SUMMARY_FILE;
   const result = spawnSync(process.execPath, [path.join(__dirname, "..", "scripts", "generate-github-trending.js")], { env, encoding: "utf8" });
   assert.notEqual(result.status, 0);
   assert.equal(fs.readFileSync(file, "utf8"), original);
