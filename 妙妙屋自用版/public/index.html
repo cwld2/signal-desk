@@ -1,0 +1,95 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>畅神妙妙屋 · 自用版</title>
+  <link rel="stylesheet" href="./styles.css?v=5">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <a class="brand" href="#today" aria-label="畅神妙妙屋首页">
+        <span class="brand-mark">畅</span>
+        <span><strong>畅神妙妙屋</strong><small>自用版</small></span>
+      </a>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="today"><span class="nav-icon">⌁</span><span>今日学习</span><span class="nav-count" id="todayCount">0</span></button>
+        <button class="nav-item" data-view="ai"><span class="nav-icon">◫</span><span>AI 动态</span></button>
+        <button class="nav-item" data-view="game"><span class="nav-icon">◇</span><span>游戏开发</span></button>
+        <button class="nav-item" data-view="art"><span class="nav-icon">▦</span><span>像素美术</span></button>
+        <button class="nav-item" data-view="sources"><span class="nav-icon">⚙</span><span>来源管理</span></button>
+        <button class="nav-item" data-view="settings"><span class="nav-icon">⊙</span><span>设置</span></button>
+        <button class="nav-item" data-view="saved"><span class="nav-icon">☆</span><span>稍后阅读</span><span class="nav-count" id="savedCount">0</span></button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <section class="source-health">
+        <div class="eyebrow">STATUS</div>
+        <div class="health-line"><span class="status-dot"></span><strong id="healthValue">本机运行</strong></div>
+      </section>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menuButton" aria-label="打开菜单">☰</button>
+        <div class="date-block"><span id="weekday">星期四</span><strong id="dateText">7月30日</strong></div>
+        <div class="top-actions">
+          <div class="freshness"><span class="status-dot"></span><span id="freshnessText">准备就绪</span></div>
+          <button class="icon-button" id="refreshButton" title="刷新订阅源" aria-label="刷新订阅源">↻</button>
+          <button class="focus-button" id="focusButton"><span>▶</span> 开始 30 分钟</button>
+        </div>
+      </header>
+      <div class="content">
+        <section class="view active" data-page="today">
+          <div class="page-heading"><div><div class="eyebrow">DAILY BRIEF</div><h1>今天，只看这些</h1><p>从你启用的来源中筛选，按学习价值排序。</p></div></div>
+          <div class="article-list" id="studyList" aria-live="polite"></div>
+        </section>
+        <section class="view" data-page="ai">
+          <div class="page-heading"><div><div class="eyebrow">AI SIGNALS</div><h1>AI 动态</h1><p>研究、Agent、开发实践与社会影响。</p></div></div>
+          <div class="card-grid" id="aiGrid"></div>
+        </section>
+        <section class="view" data-page="game">
+          <div class="page-heading"><div><div class="eyebrow">GAME CRAFT</div><h1>游戏开发</h1><p>跨引擎理解设计与底层，再落到 Unity 和 Godot。</p></div></div>
+          <div class="card-grid" id="gameGrid"></div>
+        </section>
+        <section class="view" data-page="art">
+          <div class="page-heading"><div><div class="eyebrow">PIXEL ART</div><h1>像素美术</h1><p>让 AI 负责探索，让像素规范和人工判断负责收尾。</p></div></div>
+          <div class="card-grid" id="artGrid"></div>
+        </section>
+        <section class="view" data-page="sources">
+          <div class="page-heading"><div><div class="eyebrow">SOURCE MANAGER</div><h1>来源管理</h1><p>搜索、添加、删除和启用/禁用订阅源。</p></div></div>
+          <div class="source-toolbar"><input type="text" id="sourceSearch" placeholder="搜索来源名称…"><button id="addSourceButton">+ 添加来源</button></div>
+          <div class="source-list" id="sourceList"></div>
+        </section>
+        <section class="view" data-page="settings">
+          <div class="page-heading"><div><div class="eyebrow">CONFIGURATION</div><h1>设置</h1><p>配置中转站 API、模型和文章处理参数。</p></div></div>
+          <form class="config-form" id="configForm"></form>
+        </section>
+        <section class="view" data-page="saved">
+          <div class="page-heading"><div><div class="eyebrow">READ LATER</div><h1>稍后阅读</h1><p>这里不是囤积箱。每周清空一次，只留下真正要实践的内容。</p></div></div>
+          <div class="card-grid" id="savedGrid"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <dialog class="analysis-dialog" id="analysisDialog">
+    <div class="dialog-head"><div><div class="eyebrow">ARTICLE ANALYSIS</div><h2 id="analysisTitle">全文分析</h2><div class="article-meta" id="analysisMeta"></div></div><button class="icon-button" id="closeAnalysis" aria-label="关闭">×</button></div>
+    <div id="analysisContent"></div>
+    <a class="action-link analysis-source" id="analysisSource" href="#" target="_blank" rel="noopener noreferrer">查看原文 →</a>
+  </dialog>
+  <dialog class="add-dialog" id="addDialog">
+    <div class="dialog-head"><div><div class="eyebrow">ADD SOURCE</div><h2>添加来源</h2></div><button class="icon-button" id="closeAdd" aria-label="关闭">×</button></div>
+    <form id="addForm">
+      <label>名称<input name="name" required placeholder="来源名称"></label>
+      <label>RSS / Atom 地址<input name="url" required placeholder="https://example.com/rss.xml"></label>
+      <label>栏目<select name="lane"><option value="ai">AI</option><option value="game">游戏开发</option><option value="art">像素美术</option></select></label>
+      <button type="submit" style="height:42px;padding:0 24px;border:0;border-radius:4px;background:var(--green);color:#fff;font-weight:700;cursor:pointer">添加</button>
+    </form>
+  </dialog>
+  <div class="focus-overlay" id="focusOverlay" hidden>
+    <button class="icon-button focus-close" id="closeFocus" aria-label="退出专注模式">×</button>
+    <div class="focus-inner"><div class="eyebrow">FOCUS</div><div class="timer" id="timer">30:00</div><p id="focusPrompt">先阅读第一篇，再用一句话写下它真正解决的问题。</p><div class="focus-controls"><button id="timerToggle">开始</button><button id="timerReset">重置</button></div></div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="./app.js?v=5" defer></script>
+</body>
+</html>

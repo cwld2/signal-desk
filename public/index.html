@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -86,16 +86,27 @@
 
         <section class="view" data-page="github">
           <div class="page-heading">
-            <div><div class="eyebrow">WEEKLY REPOSITORY RADAR</div><h1>GitHub 热门</h1><p>从本周趋势中只选两个值得打开、验证和动手尝试的项目。</p></div>
+            <div><div class="eyebrow">WEEKLY REPOSITORY RADAR</div><h1>GitHub 热门</h1><p>从本周趋势中选出五个值得打开、验证和动手尝试的项目。</p></div>
             <div class="week-badge" id="githubWeekBadge">--</div>
           </div>
-          <div class="github-status" id="githubStatus">正在读取本周推荐…</div>
+          <div class="github-week-nav" aria-label="周导航">
+              <button class="icon-button" id="githubPrevWeek" aria-label="上一周" title="上一周">‹</button>
+              <span class="github-week-label" id="githubArchiveWeek">本周</span>
+              <button class="icon-button" id="githubNextWeek" aria-label="下一周" title="下一周">›</button>
+            </div>
+            <div class="github-status" id="githubStatus">正在读取本周推荐…</div>
           <div class="github-grid skeleton-area" id="githubGrid" aria-live="polite"></div>
         </section>
 
         <section class="view" data-page="archive">
           <div class="page-heading">
             <div><div class="eyebrow">DAILY ARCHIVE</div><h1>历史简报</h1><p>按日期查看已经生成的精选文章和全文分析。</p></div>
+          </div>
+          <div class="archive-tabs" role="tablist" aria-label="历史板块">
+            <button class="archive-tab active" role="tab" data-section="all">全部</button>
+            <button class="archive-tab" role="tab" data-section="ai">AI 动态</button>
+            <button class="archive-tab" role="tab" data-section="game">游戏开发</button>
+            <button class="archive-tab" role="tab" data-section="art">像素美术</button>
           </div>
           <section class="archive-calendar" aria-label="历史简报月历">
             <div class="calendar-toolbar">

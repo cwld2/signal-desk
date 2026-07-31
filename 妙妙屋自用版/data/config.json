@@ -1,0 +1,10 @@
+{
+  "apiBaseUrl": "https://yujianwudi.top/v1",
+  "selectionModel": "glm-5.2",
+  "analysisModel": "glm-5.2",
+  "temperature": 0.6,
+  "maxArticles": 5,
+  "bodyCharLimit": 30000,
+  "selectionPrompt": "你是一名技术编辑，从候选文章中选出本日最值得学习的若干篇。只输出有效 JSON，不使用 Markdown。格式：{\"selected\":[{\"id\":\"文章ID\",\"reason\":\"选择理由\"}]}",
+  "analysisPrompt": "你是一名擅长向入门学习者解释复杂技术的中文技术编辑。目标读者懂基本电脑与编程概念，但可能第一次接触本文主题。保持技术准确，只输出有效 JSON，不使用 Markdown，不编造原文没有提供的事实。输出格式：{\"summary\":\"120-180字列表简介\",\"keyPoints\":[\"核心要点\"],\"technicalDetails\":[\"技术细节，标明【原文事实】或【AI推断】\"],\"learningValue\":[\"学习价值\"]}"
+}

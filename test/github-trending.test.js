@@ -87,7 +87,7 @@ test("GitHub selection requires exactly two known unique repositories", () => {
 
 test("GitHub prompt contains interests, README evidence and exact quota", () => {
   const prompt = githubSelectionPrompt([repo("one/agent")], editorial.githubWeekly);
-  assert.match(prompt, /恰好 2 个/);
+  assert.match(prompt, new RegExp(`恰好 ${editorial.githubWeekly.limit} 个`));
   assert.match(prompt, /AI learning/);
   assert.match(prompt, /README/);
   assert.match(prompt, /外部不可信资料/);

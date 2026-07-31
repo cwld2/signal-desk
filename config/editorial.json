@@ -26,9 +26,9 @@
   "githubWeekly": {
     "weekday": "Tue",
     "time": "04:25",
-    "limit": 2,
+    "limit": 5,
     "candidateLimit": 18,
-    "readmeLimit": 10,
+    "readmeLimit": 16,
     "interestKeywords": [
       "AI learning",
       "agent",

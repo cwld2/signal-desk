@@ -1,10 +1,14 @@
-const state = {
+﻿const state = {
   digest: null,
   githubDigest: null,
+  githubArchiveIndex: [],
+  githubArchiveDigest: null,
+  selectedGithubWeek: null,
   archiveIndex: [],
   archiveDigest: null,
   selectedArchiveDate: null,
   archiveMonth: null,
+  archiveSection: "all",
   view: "today",
   topic: "全部",
   saved: new Set(JSON.parse(localStorage.getItem("signalDeskSaved") || "[]")),
@@ -162,14 +166,33 @@ function githubCard(item, index) {
   </article>`;
 }
 
+function updateGithubWeekNav() {
+  const index = state.githubArchiveIndex;
+  const sel = state.selectedGithubWeek;
+  const weekLabel = $("#githubArchiveWeek");
+  if (weekLabel) weekLabel.textContent = sel ? `${sel} 起` : "本周";
+  const pos = index.findIndex((entry) => entry.weekStart === sel);
+  const prevBtn = $("#githubPrevWeek");
+  const nextBtn = $("#githubNextWeek");
+  if (prevBtn) prevBtn.disabled = pos < 0 || pos >= index.length - 1;
+  if (nextBtn) nextBtn.disabled = pos <= 0;
+}
+
 function renderGithub() {
-  const items = state.githubDigest?.items || [];
+  const activeDigest = state.githubArchiveDigest || state.githubDigest;
+  const isArchive = !!state.githubArchiveDigest;
+  const items = activeDigest?.items || [];
   $("#githubCount").textContent = items.length;
-  $("#githubGrid").innerHTML = items.map(githubCard).join("") || `<div class="empty-state"><strong>本周推荐尚未生成</strong>周二更新完成后会显示两个项目。</div>`;
-  if (!state.githubDigest) return;
-  const weekStart = state.githubDigest.weekStart || "";
+  const emptyMsg = isArchive
+    ? `<div class="empty-state">该周没有推荐记录</div>`
+    : `<div class="empty-state"><strong>本周推荐尚未生成</strong>周二更新完成后会显示推荐项目。</div>`;
+  $("#githubGrid").innerHTML = items.map(githubCard).join("") || emptyMsg;
+  if (!activeDigest) { updateGithubWeekNav(); return; }
+  const weekStart = activeDigest.weekStart || "";
   $("#githubWeekBadge").textContent = weekStart ? weekStart.slice(5).replace("-", "/") : "--";
-  $("#githubStatus").textContent = `${weekStart || "本周"} 起 · ${items.length} 个项目 · ${formatAgo(state.githubDigest.generatedAt)}`;
+  const label = isArchive ? `历史 · ${weekStart} 起` : (weekStart ? `${weekStart} 起` : "本周");
+  $("#githubStatus").textContent = `${label} · ${items.length} 个项目 · ${formatAgo(activeDigest.generatedAt)}`;
+  updateGithubWeekNav();
 }
 
 function empty(message) {
@@ -248,7 +271,14 @@ function renderArchive() {
   const date = state.archiveDigest.edition?.date || state.selectedArchiveDate;
   const counts = archiveCounts(state.archiveDigest);
   $("#archiveStatus").textContent = `${date} · AI ${counts.ai || 0} 篇 · 游戏 ${counts.game || 0} 篇 · 美术 ${counts.art || 0} 篇`;
-  grid.innerHTML = (state.archiveDigest.items || []).map(card).join("") || empty("这一天没有新的精选文章");
+  const section = state.archiveSection || "all";
+  const archiveItems = state.archiveDigest.items || [];
+  const sectionFiltered = section === "all" ? archiveItems : archiveItems.filter((item) => item.lane === section);
+  grid.innerHTML = sectionFiltered.map(card).join("") || empty(section === "all" ? "这一天没有新的精选文章" : `这一天没有「${archiveSectionLabel(section)}」文章`);
+}
+
+function archiveSectionLabel(section) {
+  return { ai: "AI 动态", game: "游戏开发", art: "像素美术" }[section] || "全部";
 }
 
 function updateReadProgress() {
@@ -432,11 +462,47 @@ async function loadFeed(force = false) {
   } finally { state.feedLoading = false; $("#refreshButton").disabled = false; }
 }
 
+async function loadGithubArchiveIndex() {
+  try {
+    const response = await fetch(`./data/github/index.json?v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) return;
+    const payload = await response.json();
+    state.githubArchiveIndex = (Array.isArray(payload.entries) ? payload.entries : [])
+      .sort((a, b) => b.weekStart.localeCompare(a.weekStart));
+    if (!state.selectedGithubWeek && state.githubArchiveIndex.length) {
+      state.selectedGithubWeek = state.githubDigest?.weekStart || state.githubArchiveIndex[0].weekStart;
+    }
+    updateGithubWeekNav();
+  } catch { /* archive index may not exist yet */ }
+}
+
+async function loadGithubArchive(weekStart) {
+  if (!weekStart) return;
+  if (state.githubDigest?.weekStart === weekStart) {
+    state.githubArchiveDigest = null;
+    state.selectedGithubWeek = weekStart;
+    renderGithub();
+    return;
+  }
+  state.selectedGithubWeek = weekStart;
+  state.githubArchiveDigest = null;
+  renderGithub();
+  try {
+    const response = await fetch(`./data/github/archive/${encodeURIComponent(weekStart)}.json?v=${Date.now()}`, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    state.githubArchiveDigest = await response.json();
+    renderGithub();
+  } catch (error) {
+    $("#githubStatus").textContent = `历史推荐读取失败：${error.message}`;
+  }
+}
+
 async function loadGithubFeed() {
   try {
     const response = await fetch(`${GITHUB_DATA_URL}?v=${Date.now()}`, { cache: "no-store" });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     state.githubDigest = await response.json();
+    if (!state.selectedGithubWeek) state.selectedGithubWeek = state.githubDigest.weekStart || null;
     renderGithub();
   } catch (error) {
     $("#githubStatus").textContent = "本周推荐暂时无法读取";
@@ -496,6 +562,19 @@ function setupStaticUI() {
   $("#closeAnalysis").addEventListener("click", () => $("#analysisDialog").close());
   $("#previousMonth").addEventListener("click", () => { state.archiveMonth = RenderUtils.shiftMonth(state.archiveMonth, -1); renderCalendar(); });
   $("#nextMonth").addEventListener("click", () => { state.archiveMonth = RenderUtils.shiftMonth(state.archiveMonth, 1); renderCalendar(); });
+  $("#githubPrevWeek")?.addEventListener("click", () => {
+    const idx = state.githubArchiveIndex.findIndex((e) => e.weekStart === state.selectedGithubWeek);
+    if (idx < state.githubArchiveIndex.length - 1) loadGithubArchive(state.githubArchiveIndex[idx + 1].weekStart);
+  });
+  $("#githubNextWeek")?.addEventListener("click", () => {
+    const idx = state.githubArchiveIndex.findIndex((e) => e.weekStart === state.selectedGithubWeek);
+    if (idx > 0) loadGithubArchive(state.githubArchiveIndex[idx - 1].weekStart);
+  });
+  $(".archive-tab").forEach((tab) => tab.addEventListener("click", () => {
+    state.archiveSection = tab.dataset.section || "all";
+    $(".archive-tab").forEach((t) => t.classList.toggle("active", t === tab));
+    renderArchive();
+  }));
   $("#focusButton").addEventListener("click", () => { $("#focusOverlay").hidden = false; });
   $("#closeFocus").addEventListener("click", () => { $("#focusOverlay").hidden = true; });
   $("#timerToggle").addEventListener("click", toggleTimer);
@@ -508,3 +587,4 @@ setupStaticUI();
 loadFeed();
 loadArchiveIndex();
 loadGithubFeed();
+loadGithubArchiveIndex();

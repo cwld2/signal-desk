@@ -1,0 +1,65 @@
+[
+  {
+    "id": "simon-willison",
+    "name": "Simon Willison",
+    "url": "https://simonwillison.net/atom/everything/",
+    "lane": "ai",
+    "language": "en",
+    "enabled": false,
+    "accent": "#b36b00"
+  },
+  {
+    "id": "openai",
+    "name": "OpenAI News",
+    "url": "https://openai.com/news/rss.xml",
+    "lane": "ai",
+    "language": "en",
+    "enabled": false,
+    "accent": "#10a37f"
+  },
+  {
+    "id": "godot",
+    "name": "Godot Engine",
+    "url": "https://godotengine.org/rss.xml",
+    "lane": "game",
+    "language": "en",
+    "enabled": true,
+    "accent": "#478cbf"
+  },
+  {
+    "id": "unity",
+    "name": "Unity Blog",
+    "url": "https://blog.unity.com/feed",
+    "lane": "game",
+    "language": "en",
+    "enabled": true,
+    "accent": "#222c37"
+  },
+  {
+    "id": "lospec",
+    "name": "Lospec Articles",
+    "url": "https://lospec.com/articles",
+    "lane": "art",
+    "language": "en",
+    "enabled": true,
+    "accent": "#3f7f69"
+  },
+  {
+    "id": "aseprite",
+    "name": "Aseprite Blog",
+    "url": "https://blog.aseprite.org/feed.xml",
+    "lane": "art",
+    "language": "en",
+    "enabled": true,
+    "accent": "#7d4db3"
+  },
+  {
+    "id": "b-ms7606mj",
+    "name": "b站",
+    "url": "https://www.bilibili.com/",
+    "lane": "ai",
+    "language": "en",
+    "enabled": false,
+    "accent": "#64748b"
+  }
+]

@@ -1,0 +1,14 @@
+﻿{
+  "name": "miaomiaowu-personal",
+  "version": "1.0.0",
+  "description": "个人版 AI 学习简报，来源全程网页管理，TM 分析本机调用中转站 API",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check src/rss.js && node --check src/ai.js && node --check public/app.js"
+  },
+  "dependencies": {
+    "@mozilla/readability": "^0.6.0",
+    "jsdom": "^25.0.1"
+  }
+}

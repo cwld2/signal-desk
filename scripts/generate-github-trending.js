@@ -1,4 +1,4 @@
-const fs = require("node:fs/promises");
+﻿const fs = require("node:fs/promises");
 const path = require("node:path");
 const { JSDOM, VirtualConsole } = require("jsdom");
 const editorial = require("../config/editorial.json");
@@ -294,7 +294,7 @@ async function writeOutput(output) {
 
 async function main() {
   const settings = editorial.githubWeekly;
-  if (!settings || Number(settings.limit) !== 2) throw new Error("config/editorial.json 缺少有效的 githubWeekly 配置");
+  if (!settings || Number(settings.limit) < 1) throw new Error("config/editorial.json 缺少有效的 githubWeekly 配置");
   const weekStart = weekStartInShanghai();
   const previous = await readJson(OUTPUT_FILE);
   const force = process.env.SIGNAL_GITHUB_FORCE === "1";
@@ -310,7 +310,7 @@ async function main() {
     .filter((item) => item.localScore >= 0)
     .sort((left, right) => right.localScore - left.localScore || right.weeklyStars - left.weeklyStars || right.stars - left.stars)
     .slice(0, Number(settings.candidateLimit || 18));
-  if (ranked.length < settings.limit) throw new Error("相关 GitHub 候选不足 2 个，保留上周推荐");
+  if (ranked.length < settings.limit) throw new Error(`相关 GitHub 候选不足 ${settings.limit} 个，保留上周推荐`);
   await addReadmeExcerpts(ranked, Number(settings.readmeLimit || 10));
   const selection = await client.json(
     githubSelectionPrompt(ranked, settings),
