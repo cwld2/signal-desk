@@ -101,8 +101,8 @@ jobs:
         env:
           DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
           DASHSCOPE_BASE_URL: ${{ vars.DASHSCOPE_BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1' }}
-          DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'deepseek-chat' }}
-          DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'deepseek-chat' }}
+          DASHSCOPE_SELECTION_MODEL: ${{ vars.DASHSCOPE_SELECTION_MODEL || 'deepseek-v4-flash' }}
+          DASHSCOPE_ANALYSIS_MODEL: ${{ vars.DASHSCOPE_ANALYSIS_MODEL || 'deepseek-v4-flash' }}
           SIGNAL_DATA_DIR: ${{ github.workspace }}/content-store/data
           SIGNAL_FORCE_REBUILD: ${{ (inputs.mode == 'force-rebuild-today' || inputs.mode == 'force-weekly-now') && '1' || '0' }}
           SIGNAL_RESELECT: ${{ inputs.mode == 'force-weekly-now' && '1' || '0' }}

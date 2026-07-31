@@ -67,8 +67,8 @@
     "selectionExcerptCharacters": 1800
   },
   "models": {
-    "selection": "deepseek-chat",
-    "analysis": "deepseek-chat",
+    "selection": "deepseek-v4-flash",
+    "analysis": "deepseek-v4-flash",
     "temperature": 0.1,
     "maximumCalls": 10,
     "selectionTimeoutMs": 150000,
