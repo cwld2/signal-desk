@@ -69,7 +69,7 @@
   "models": {
     "selection": "deepseek-v4-flash",
     "analysis": "deepseek-v4-flash",
-    "temperature": 0.1,
+    "temperature": 0.5,
     "maximumCalls": 10,
     "selectionTimeoutMs": 150000,
     "analysisTimeoutMs": 300000
