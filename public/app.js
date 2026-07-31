@@ -1,4 +1,4 @@
-﻿const state = {
+const state = {
   digest: null,
   githubDigest: null,
   githubArchiveIndex: [],
@@ -570,9 +570,9 @@ function setupStaticUI() {
     const idx = state.githubArchiveIndex.findIndex((e) => e.weekStart === state.selectedGithubWeek);
     if (idx > 0) loadGithubArchive(state.githubArchiveIndex[idx - 1].weekStart);
   });
-  $(".archive-tab").forEach((tab) => tab.addEventListener("click", () => {
+  $$(".archive-tab").forEach((tab) => tab.addEventListener("click", () => {
     state.archiveSection = tab.dataset.section || "all";
-    $(".archive-tab").forEach((t) => t.classList.toggle("active", t === tab));
+    $$(".archive-tab").forEach((t) => t.classList.toggle("active", t === tab));
     renderArchive();
   }));
   $("#focusButton").addEventListener("click", () => { $("#focusOverlay").hidden = false; });
