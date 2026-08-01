@@ -3,6 +3,8 @@ on:
   schedule:
     # 05:38 Asia/Shanghai (21:38 UTC on the previous day).
     - cron: "38 21 * * *"
+    # 12:48 Asia/Shanghai (04:48 UTC same day) — afternoon supplement run.
+    - cron: "48 4 * * *"
   push:
     branches: [main]
     paths:
@@ -24,6 +26,7 @@ on:
           - normal
           - force-rebuild-today
           - force-weekly-now
+          - supplement
 
 permissions:
   contents: write
@@ -107,6 +110,7 @@ jobs:
           SIGNAL_FORCE_REBUILD: ${{ (inputs.mode == 'force-rebuild-today' || inputs.mode == 'force-weekly-now') && '1' || '0' }}
           SIGNAL_RESELECT: ${{ inputs.mode == 'force-weekly-now' && '1' || '0' }}
           SIGNAL_FORCE_WEEKLY: ${{ (inputs.mode == 'force-weekly-now' || contains(github.event.head_commit.message, '[weekly-now]')) && '1' || '0' }}
+          SIGNAL_SUPPLEMENT: ${{ (inputs.mode == 'supplement' || (github.event_name == 'schedule' && github.event.schedule == '48 4 * * *')) && '1' || '0' }}
         run: npm run generate
 
       - name: Validate code and data

@@ -319,7 +319,11 @@ function candidateBodyPool(candidates, weeklyEdition) {
   return deduplicate([...practice, ...update, ...game, ...art]);
 }
 
-function selectionPrompt(candidates, editorial, weeklyEdition) {
+function selectionPrompt(candidates, editorial, weeklyEdition, limitOverride) {
+  const practiceLimit = Math.max(0, Number(limitOverride?.practice ?? editorial.automaticQuotas.practice));
+  const updateLimit = Math.max(0, Number(limitOverride?.update ?? editorial.automaticQuotas.update));
+  const gameLimit = weeklyEdition ? Math.max(0, Number(limitOverride?.game ?? editorial.weeklyQuotas.game)) : 0;
+  const artLimit = weeklyEdition ? Math.max(0, Number(limitOverride?.art ?? editorial.weeklyQuotas.art)) : 0;
   const excerptLength = editorial.quality.selectionExcerptCharacters;
   const compact = selectionCandidates(candidates).map((item) => ({
     id: item.id,
@@ -338,11 +342,11 @@ function selectionPrompt(candidates, editorial, weeklyEdition) {
 读者兴趣：${editorial.interestTopics.join("；")}
 排除内容：${editorial.excludeTopics.join("；")}
 硬规则：
-1. AI 自动内容最多 2 篇 practice 和 1 篇 update；宁缺毋滥。
+1. AI 自动内容最多 ${practiceLimit} 篇 practice 和 ${updateLimit} 篇 update；宁缺毋滥。若某栏目配额为 0 表示今日已满，对应数组返回空。
 2. 同一来源最多 1 篇。
 3. practice 必须含机制、代码、实验、步骤、评测或可复现工作流，纯观点不能入选。
 4. update 必须是会影响实际使用的重要模型、API、版本、安全或兼容性变化，普通公关稿不能入选。
-5. 今天${weeklyEdition ? `生成每周内容，目标选满 ${editorial.weeklyQuotas.game} 篇 game 和 ${editorial.weeklyQuotas.art} 篇 art；质量不达标时允许少选` : "不生成每周内容，不选 game/art"}。
+5. 今天${weeklyEdition ? `生成每周内容，目标选满 ${gameLimit} 篇 game 和 ${artLimit} 篇 art；质量不达标时允许少选` : "不生成每周内容，不选 game/art"}。
 
 只返回 JSON：
 {"practiceIds":["id"],"updateIds":["id"],"gameIds":["id"],"artIds":["id"],"reasons":{"id":"简短入选或淘汰理由"}}
@@ -492,14 +496,14 @@ function localSelect(candidates, weeklyEdition, editorial = require("../config/e
   return { practice, update, game, art };
 }
 
-async function chooseItems(candidates, weeklyEdition, editorial, client, runReport) {
-  const choice = await client.json(selectionPrompt(candidates, editorial, weeklyEdition), client.selectionModel, normalizeSelection);
+async function chooseItems(candidates, weeklyEdition, editorial, client, runReport, limitOverride) {
+  const choice = await client.json(selectionPrompt(candidates, editorial, weeklyEdition, limitOverride), client.selectionModel, normalizeSelection);
   const used = new Set();
   const sourceLimit = editorial.sourceDailyLimit;
-  const practice = enforceQuota(candidates, choice.practiceIds, (item) => item.lane === "ai" && item.slot === "practice", editorial.automaticQuotas.practice, used, sourceLimit);
-  const update = enforceQuota(candidates, choice.updateIds, (item) => item.lane === "ai" && item.slot === "update", editorial.automaticQuotas.update, used, sourceLimit);
-  const game = weeklyEdition ? enforceQuota(candidates, choice.gameIds, (item) => item.lane === "game", editorial.weeklyQuotas.game, used, sourceLimit) : [];
-  const art = weeklyEdition ? enforceQuota(candidates, choice.artIds, (item) => item.lane === "art", editorial.weeklyQuotas.art, used, sourceLimit) : [];
+  const practice = enforceQuota(candidates, choice.practiceIds, (item) => item.lane === "ai" && item.slot === "practice", Math.max(0, Number(limitOverride?.practice ?? editorial.automaticQuotas.practice)), used, sourceLimit);
+  const update = enforceQuota(candidates, choice.updateIds, (item) => item.lane === "ai" && item.slot === "update", Math.max(0, Number(limitOverride?.update ?? editorial.automaticQuotas.update)), used, sourceLimit);
+  const game = weeklyEdition ? enforceQuota(candidates, choice.gameIds, (item) => item.lane === "game", Math.max(0, Number(limitOverride?.game ?? editorial.weeklyQuotas.game)), used, sourceLimit) : [];
+  const art = weeklyEdition ? enforceQuota(candidates, choice.artIds, (item) => item.lane === "art", Math.max(0, Number(limitOverride?.art ?? editorial.weeklyQuotas.art)), used, sourceLimit) : [];
   runReport.selectionReasons = choice.reasons && typeof choice.reasons === "object" ? choice.reasons : {};
   const selectedIds = new Set([...practice, ...update, ...game, ...art].map((item) => item.id));
   for (const item of selectionCandidates(candidates)) {
@@ -709,8 +713,8 @@ function editionDate(date = new Date()) {
   return `${parts.year}-${parts.month}-${parts.day}`;
 }
 
-function shouldSkipEdition(previous, date, force = false) {
-  return Boolean(previous?.edition?.date === date && !force);
+function shouldSkipEdition(previous, date, force = false, supplement = false) {
+  return Boolean(previous?.edition?.date === date && !force && !supplement);
 }
 
 function shouldRebuildExistingEdition(previous, date, force, reselect) {
@@ -782,17 +786,20 @@ async function manualCandidates(entries, processedUrls, editorial, runReport, so
   return candidates;
 }
 
-function buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date, weeklyEdition, weeklyReason, rebuildExisting = false, client }) {
+function buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date, weeklyEdition, weeklyReason, rebuildExisting = false, client, priorTodayItems = [], prevDayTotals = {} }) {
   const priorWeekly = weeklyEdition || rebuildExisting ? { game: [], art: [] } : {
     game: deduplicate((previous?.lanes?.game || []).filter((item) => !item.manual)),
     art: deduplicate((previous?.lanes?.art || []).filter((item) => !item.manual))
   };
+  const priorTodayAi = deduplicate((priorTodayItems || []).filter((item) => item.lane === "ai"));
+  const priorTodayGame = deduplicate((priorTodayItems || []).filter((item) => item.lane === "game"));
+  const priorTodayArt = deduplicate((priorTodayItems || []).filter((item) => item.lane === "art"));
   const automaticAiIds = new Set([...selected.practice, ...selected.update].map((item) => item.id));
   const weeklyIds = new Set([...selected.game, ...selected.art].map((item) => item.id));
   const manualIds = new Set(selected.manual.map((item) => item.id));
-  const ai = deduplicate(analyzed.filter((item) => automaticAiIds.has(item.id) || (manualIds.has(item.id) && item.lane === "ai")));
-  const analyzedGame = deduplicate(analyzed.filter((item) => (weeklyIds.has(item.id) || manualIds.has(item.id)) && item.lane === "game"));
-  const analyzedArt = deduplicate(analyzed.filter((item) => (weeklyIds.has(item.id) || manualIds.has(item.id)) && item.lane === "art"));
+  const ai = deduplicate([...priorTodayAi, ...analyzed.filter((item) => automaticAiIds.has(item.id) || (manualIds.has(item.id) && item.lane === "ai"))]);
+  const analyzedGame = deduplicate([...priorTodayGame, ...analyzed.filter((item) => (weeklyIds.has(item.id) || manualIds.has(item.id)) && item.lane === "game")]);
+  const analyzedArt = deduplicate([...priorTodayArt, ...analyzed.filter((item) => (weeklyIds.has(item.id) || manualIds.has(item.id)) && item.lane === "art")]);
   const game = deduplicate([...priorWeekly.game, ...analyzedGame]);
   const art = deduplicate([...priorWeekly.art, ...analyzedArt]);
   const items = deduplicate([...ai, ...game, ...art]);
@@ -817,8 +824,8 @@ function buildOutput({ candidates, selected, analyzed, previous, sourceResults, 
       candidates: candidates.length,
       selected: editionItems.length,
       ai: ai.length,
-      practice: selected.practice.length,
-      update: selected.update.length,
+      practice: (Number(prevDayTotals?.practice) || 0) + selected.practice.length,
+      update: (Number(prevDayTotals?.update) || 0) + selected.update.length,
       manual: selected.manual.length,
       game: editionGame.length,
       art: editionArt.length,
@@ -923,7 +930,8 @@ async function main() {
   const today = editionDate();
   const force = process.env.SIGNAL_FORCE_REBUILD === "1";
   const reselect = process.env.SIGNAL_RESELECT === "1";
-  if (shouldSkipEdition(previous, today, force)) {
+  const supplement = process.env.SIGNAL_SUPPLEMENT === "1";
+  if (shouldSkipEdition(previous, today, force, supplement)) {
     console.log(`今日 ${today} 已成功生成；正常模式不重复调用百炼。`);
     return;
   }
@@ -940,6 +948,9 @@ async function main() {
   const rebuildExisting = shouldRebuildExistingEdition(previous, today, force, reselect);
   let candidates;
   let selected;
+  let priorTodayItems = [];
+  let prevDayTotals = {};
+  let limitOverride;
   if (rebuildExisting) {
     const currentItems = previousItems(previous);
     const hydrated = await hydrateBodies(currentItems, editorial);
@@ -965,7 +976,30 @@ async function main() {
     const hydrated = await hydrateBodies(bodyPool, editorial);
     runReport.rejected.push(...hydrated.rejected);
     candidates = deduplicate(hydrated.candidates);
-    selected = await chooseItems(candidates, weeklyEdition, editorial, client, runReport);
+    const hasPriorToday = Boolean(previous?.edition?.date === today);
+    if (supplement && hasPriorToday) {
+      prevDayTotals = {
+        practice: Number(previous?.stats?.practice || 0),
+        update: Number(previous?.stats?.update || 0),
+        game: weeklyEdition ? Number(previous?.stats?.game || 0) : 0,
+        art: weeklyEdition ? Number(previous?.stats?.art || 0) : 0
+      };
+      limitOverride = {
+        practice: Math.max(0, editorial.automaticQuotas.practice - prevDayTotals.practice),
+        update: Math.max(0, editorial.automaticQuotas.update - prevDayTotals.update),
+        game: weeklyEdition ? Math.max(0, editorial.weeklyQuotas.game - prevDayTotals.game) : 0,
+        art: weeklyEdition ? Math.max(0, editorial.weeklyQuotas.art - prevDayTotals.art) : 0
+      };
+      priorTodayItems = deduplicate(previous?.editionItems || previousItems(previous));
+      if (limitOverride.practice === 0 && limitOverride.update === 0 && limitOverride.game === 0 && limitOverride.art === 0) {
+        selected = { practice: [], update: [], game: [], art: [], manual: [] };
+        console.log(`今日 ${today} 配额已满，补充轮不再调用百炼。`);
+      } else {
+        selected = await chooseItems(candidates, weeklyEdition, editorial, client, runReport, limitOverride);
+      }
+    } else {
+      selected = await chooseItems(candidates, weeklyEdition, editorial, client, runReport);
+    }
 
     const processedManual = new Set(previous?.history?.processedManualUrls || []);
     selected.manual = await manualCandidates(manualEntries, processedManual, editorial, runReport, sources);
@@ -985,10 +1019,10 @@ async function main() {
   const analyzed = [];
   for (const item of toAnalyze) analyzed.push(await analyzeItem(item, previousById, client, editorial, force));
 
-  const output = buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date: today, weeklyEdition, weeklyReason, rebuildExisting, client });
+  const output = buildOutput({ candidates, selected, analyzed, previous, sourceResults, runReport, date: today, weeklyEdition, weeklyReason, rebuildExisting, client, priorTodayItems, prevDayTotals });
   await writeOutput(output);
   await writeRunSummary(runReport, client, sourceResults, selected);
-  console.log(`生成 ${today} 简报：自动 AI ${output.stats.practice}+${output.stats.update}，手动 ${output.stats.manual}，游戏 ${output.stats.game}，美术 ${output.stats.art}，百炼调用 ${client.calls} 次。`);
+  console.log(`生成 ${today}${supplement ? "（补充轮）" : ""} 简报：自动 AI ${output.stats.practice}+${output.stats.update}，手动 ${output.stats.manual}，游戏 ${output.stats.game}，美术 ${output.stats.art}，百炼调用 ${client.calls} 次。`);
 }
 
 if (require.main === module) {

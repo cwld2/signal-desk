@@ -388,6 +388,75 @@ test("same-day rebuild replaces retained weekly lanes without counting them as n
   assert.deepEqual({ game: output.stats.game, art: output.stats.art, selected: output.stats.selected }, { game: 0, art: 0, selected: 3 });
 });
 
+test("shouldSkipEdition does not skip supplement on same-day edition", () => {
+  const previous = { edition: { date: "2026-08-01" } };
+  assert.equal(shouldSkipEdition(previous, "2026-08-01", false, false), true);
+  assert.equal(shouldSkipEdition(previous, "2026-08-01", false, true), false);
+  assert.equal(shouldSkipEdition(previous, "2026-08-02", false, true), false);
+});
+
+test("supplement run keeps morning items and adds new afternoon picks within daily quota", () => {
+  const morning = fixture("m1", { slot: "practice" });
+  morning.analysis = { summary: "morning analysis" };
+  const newPra = fixture("n1", { slot: "practice" });
+  const newUpd = fixture("n2", { slot: "update" });
+  const previous = {
+    edition: { date: "2026-08-01" },
+    stats: { practice: 1, update: 0, game: 0, art: 0 },
+    editionItems: [morning],
+    history: { seenIds: ["m1"], processedManualUrls: [] },
+    lanes: { ai: [morning], game: [], art: [] }
+  };
+  const output = buildOutput({
+    candidates: [newPra, newUpd],
+    selected: { practice: [newPra], update: [newUpd], game: [], art: [], manual: [] },
+    analyzed: [newPra, newUpd],
+    previous,
+    sourceResults: [],
+    runReport: { rejected: [], selectionReasons: {} },
+    date: "2026-08-01",
+    weeklyEdition: false,
+    weeklyReason: null,
+    client: { calls: 4, selectionModel: "flash", analysisModel: "plus" },
+    priorTodayItems: [morning],
+    prevDayTotals: { practice: 1, update: 0, game: 0, art: 0 }
+  });
+  assert.deepEqual(output.study.map((item) => item.id), ["m1", "n1", "n2"]);
+  assert.equal(output.stats.practice, 2);
+  assert.equal(output.stats.update, 1);
+  assert.equal(output.editionItems.length, 3);
+  assert.equal(output.study[0].analysis.summary, "morning analysis");
+  assert.ok(output.history.seenIds.includes("n1"));
+});
+
+test("supplement run with full daily quota preserves morning items and adds nothing", () => {
+  const morning = [fixture("m1", { slot: "practice" }), fixture("m2", { slot: "practice" }), fixture("m3", { slot: "update" })];
+  const previous = {
+    edition: { date: "2026-08-01" },
+    stats: { practice: 2, update: 1, game: 0, art: 0 },
+    editionItems: morning,
+    history: { seenIds: ["m1", "m2", "m3"], processedManualUrls: [] },
+    lanes: { ai: morning, game: [], art: [] }
+  };
+  const output = buildOutput({
+    candidates: [],
+    selected: { practice: [], update: [], game: [], art: [], manual: [] },
+    analyzed: [],
+    previous,
+    sourceResults: [],
+    runReport: { rejected: [], selectionReasons: {} },
+    date: "2026-08-01",
+    weeklyEdition: false,
+    weeklyReason: null,
+    client: { calls: 0, selectionModel: "flash", analysisModel: "plus" },
+    priorTodayItems: morning,
+    prevDayTotals: { practice: 2, update: 1, game: 0, art: 0 }
+  });
+  assert.deepEqual(output.study.map((item) => item.id), ["m1", "m2", "m3"]);
+  assert.equal(output.stats.practice, 2);
+  assert.equal(output.stats.update, 1);
+  assert.equal(output.editionItems.length, 3);
+});
 test("missing Bailian key exits before overwriting previous data", () => {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), "signal-desk-test-"));
   const original = JSON.stringify({ edition: { date: "2000-01-01" }, marker: "keep-me" }, null, 2);

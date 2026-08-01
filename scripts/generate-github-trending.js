@@ -121,8 +121,8 @@ function weekStartInShanghai(date = new Date()) {
   return localDate.toISOString().slice(0, 10);
 }
 
-function shouldSkipGithub(previous, weekStart, force = false) {
-  return Boolean(previous?.weekStart === weekStart && Array.isArray(previous?.items) && previous.items.length === 2 && !force);
+function shouldSkipGithub(previous, weekStart, force = false, limit = 2) {
+  return Boolean(previous?.weekStart === weekStart && Array.isArray(previous?.items) && previous.items.length === limit && !force);
 }
 
 function githubHeaders() {
@@ -298,7 +298,7 @@ async function main() {
   const weekStart = weekStartInShanghai();
   const previous = await readJson(OUTPUT_FILE);
   const force = process.env.SIGNAL_GITHUB_FORCE === "1";
-  if (shouldSkipGithub(previous, weekStart, force)) {
+  if (shouldSkipGithub(previous, weekStart, force, settings.limit)) {
     console.log(`GitHub 热门 ${weekStart} 已生成；正常模式不重复调用百炼。`);
     return;
   }
