@@ -471,6 +471,7 @@ function parseModelJson(content, reasoning) {
 }
 
 function enforceQuota(candidates, ids, predicate, limit, usedSources = new Set(), sourceLimit = 1) {
+  if (limit <= 0) return [];
   const byId = new Map(candidates.map((item) => [item.id, item]));
   const sourceCounts = new Map([...usedSources].map((sourceId) => [sourceId, sourceLimit]));
   const selected = [];

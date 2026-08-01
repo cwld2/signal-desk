@@ -14,6 +14,7 @@ const {
   canReuseAnalysis,
   candidateBodyPool,
   deduplicate,
+  enforceQuota,
   extractReadableArticle,
   isWeeklyEditionInShanghai,
   localSelect,
@@ -456,6 +457,13 @@ test("supplement run with full daily quota preserves morning items and adds noth
   assert.equal(output.stats.practice, 2);
   assert.equal(output.stats.update, 1);
   assert.equal(output.editionItems.length, 3);
+});
+test("enforceQuota selects nothing when limit is zero", () => {
+  const items = [{ id: "a", sourceId: "s1", sourceDailyLimit: 1, lane: "ai", slot: "practice" }, { id: "b", sourceId: "s2", sourceDailyLimit: 1, lane: "ai", slot: "practice" }];
+  const pred = (item) => item.lane === "ai" && item.slot === "practice";
+  assert.deepEqual(enforceQuota(items, ["a", "b"], pred, 0, new Set(), 1), []);
+  assert.equal(enforceQuota(items, ["a", "b"], pred, 1, new Set(), 1).length, 1);
+  assert.equal(enforceQuota(items, ["a", "b"], pred, 2, new Set(), 1).length, 2);
 });
 test("missing Bailian key exits before overwriting previous data", () => {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), "signal-desk-test-"));
