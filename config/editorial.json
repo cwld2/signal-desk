@@ -24,9 +24,10 @@
     "art": 2
   },
   "githubWeekly": {
-    "weekday": "Tue",
+    "weekday": "Mon",
     "time": "04:25",
-    "limit": 5,
+    "limit": 3,
+    "weeklyLimit": 6,
     "candidateLimit": 18,
     "readmeLimit": 16,
     "interestKeywords": [
@@ -60,10 +61,10 @@
     "art": 3650
   },
   "quality": {
-    "minimumCandidateScore": 58,
+    "minimumCandidateScore": 45,
     "minimumBodyCharacters": 500,
     "maximumBodyCharacters": 30000,
-    "candidateFetchPerSource": 4,
+    "candidateFetchPerSource": 12,
     "selectionExcerptCharacters": 1800
   },
   "models": {

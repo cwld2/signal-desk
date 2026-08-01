@@ -99,8 +99,9 @@ test("Shanghai week starts on Monday and same-week normal mode skips", () => {
   assert.equal(weekStartInShanghai(new Date("2026-07-27T20:25:00.000Z")), "2026-07-27");
   assert.equal(weekStartInShanghai(new Date("2026-08-02T15:00:00.000Z")), "2026-07-27");
   assert.equal(weekStartInShanghai(new Date("2026-08-02T20:30:00.000Z")), "2026-08-03");
-  assert.equal(shouldSkipGithub({ weekStart: "2026-07-27", items: [{}, {}] }, "2026-07-27", false), true);
-  assert.equal(shouldSkipGithub({ weekStart: "2026-07-27", items: [{}, {}] }, "2026-07-27", true), false);
+  assert.equal(shouldSkipGithub({ weekStart: "2026-07-27", items: [{}, {}, {}, {}, {}, {}] }, "2026-07-27", false, 6), true);
+  assert.equal(shouldSkipGithub({ weekStart: "2026-07-27", items: [{}, {}, {}] }, "2026-07-27", false, 6), false);
+  assert.equal(shouldSkipGithub({ weekStart: "2026-07-27", items: [{}, {}, {}, {}, {}, {}] }, "2026-07-27", true, 6), false);
 });
 
 test("published GitHub output excludes README text and passes validator", () => {
@@ -118,6 +119,22 @@ test("published GitHub output excludes README text and passes validator", () => 
   const result = spawnSync(process.execPath, [path.join(__dirname, "..", "scripts", "validate-github-feed.js")], { env, encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
 });
+
+test("buildGithubOutput accumulates prior items and deduplicates by id", () => {
+  const prior = [ghItem("o/mon")];
+  const out = buildGithubOutput([ghSel("o/mon"), ghSel("o/thu")], "2026-08-03", { selectionModel: "flash", calls: 1 }, prior);
+  assert.deepEqual(out.items.map((i) => i.id), ["o/mon", "o/thu"]);
+  assert.equal(out.schedule, "Mon & Thu 04:25 Asia/Shanghai");
+  const out2 = buildGithubOutput([ghSel("o/thu"), ghSel("o/fri")], "2026-08-03", { selectionModel: "flash", calls: 1 }, prior);
+  assert.deepEqual(out2.items.map((i) => i.id), ["o/mon", "o/thu", "o/fri"]);
+});
+
+function ghItem(id) {
+  return { id, fullName: id, name: id, url: "https://github.com/" + id, description: "d", language: "R", stars: 1, forks: 0, weeklyStars: 0, topics: [], summary: "x", whyRecommended: "y", firstLook: "z" };
+}
+function ghSel(id) {
+  return { candidate: { id, fullName: id, name: id, url: "https://github.com/" + id, description: "d", language: "R", stars: 5, forks: 1, weeklyStars: 1, topics: [] }, summary: "中文项目简介说明项目的用途和主要能力。", whyRecommended: "推荐理由说明它对实际学习和开发工作的具体价值。", firstLook: "先检查 README 的环境要求和示例。" };
+}
 
 test("missing Bailian key never overwrites the previous GitHub recommendations", () => {
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), "signal-desk-github-failure-"));
@@ -140,9 +157,10 @@ test("README cleanup removes executable markup and keeps useful prose", () => {
   assert.match(cleaned, /Useful setup notes/);
 });
 
-test("weekly GitHub workflow uses Tuesday 04:25 Shanghai and isolated data", () => {
+test("weekly GitHub workflow uses Mon & Thu 04:25 Shanghai and isolated data", () => {
   const workflow = fs.readFileSync(path.join(__dirname, "..", ".github", "workflows", "weekly-github.yml"), "utf8");
-  assert.match(workflow, /cron: "25 20 \* \* 1"/);
+  assert.match(workflow, /cron: "25 20 \* \* 0"/);
+  assert.match(workflow, /cron: "25 20 \* \* 3"/);
   assert.match(workflow, /npm run generate:github/);
   assert.match(workflow, /SIGNAL_GITHUB_FORCE/);
   assert.match(workflow, /git add data\/github\.json data\/github/);

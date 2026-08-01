@@ -121,8 +121,17 @@ function weekStartInShanghai(date = new Date()) {
   return localDate.toISOString().slice(0, 10);
 }
 
-function shouldSkipGithub(previous, weekStart, force = false, limit = 2) {
-  return Boolean(previous?.weekStart === weekStart && Array.isArray(previous?.items) && previous.items.length === limit && !force);
+function deduplicateGithub(items) {
+  const seen = new Set();
+  return (Array.isArray(items) ? items : []).filter((item) => {
+    if (!item || !item.id || seen.has(item.id)) return false;
+    seen.add(item.id);
+    return true;
+  });
+}
+
+function shouldSkipGithub(previous, weekStart, force = false, weeklyLimit = 2) {
+  return Boolean(previous?.weekStart === weekStart && Array.isArray(previous?.items) && previous.items.length >= weeklyLimit && !force);
 }
 
 function githubHeaders() {
@@ -245,16 +254,17 @@ function normalizeGithubSelection(value, candidates, limit = 2) {
   });
 }
 
-function buildGithubOutput(selection, weekStart, client) {
+function buildGithubOutput(selection, weekStart, client, priorItems = []) {
+  const seenIds = new Set(priorItems.map((item) => item.id));
   return {
     schemaVersion: 1,
     generatedAt: new Date().toISOString(),
     timezone: "Asia/Shanghai",
-    schedule: "Tuesday 04:25 Asia/Shanghai",
+    schedule: "Mon & Thu 04:25 Asia/Shanghai",
     weekStart,
     model: client.selectionModel,
     calls: client.calls,
-    items: selection.map(({ candidate, summary, whyRecommended, firstLook }) => ({
+    items: [...priorItems, ...selection.filter((entry) => !seenIds.has(entry.candidate.id) && seenIds.add(entry.candidate.id)).map(({ candidate, summary, whyRecommended, firstLook }) => ({
       id: candidate.id,
       fullName: candidate.fullName,
       name: candidate.name,
@@ -268,7 +278,7 @@ function buildGithubOutput(selection, weekStart, client) {
       summary,
       whyRecommended,
       firstLook
-    }))
+    }))]
   };
 }
 
@@ -295,14 +305,18 @@ async function writeOutput(output) {
 async function main() {
   const settings = editorial.githubWeekly;
   if (!settings || Number(settings.limit) < 1) throw new Error("config/editorial.json 缺少有效的 githubWeekly 配置");
+  const weeklyLimit = Math.max(Number(settings.limit), Number(settings.weeklyLimit || settings.limit));
   const weekStart = weekStartInShanghai();
   const previous = await readJson(OUTPUT_FILE);
   const force = process.env.SIGNAL_GITHUB_FORCE === "1";
-  if (shouldSkipGithub(previous, weekStart, force, settings.limit)) {
+  const sameWeek = previous?.weekStart === weekStart;
+  if (shouldSkipGithub(previous, weekStart, force, weeklyLimit)) {
     console.log(`GitHub 热门 ${weekStart} 已生成；正常模式不重复调用百炼。`);
     return;
   }
 
+  const priorItems = sameWeek ? deduplicateGithub(previous?.items || []) : [];
+  const priorIds = new Set(priorItems.map((item) => item.id));
   const client = new BailianClient(editorial);
   const candidates = await fetchRepositoryCandidates();
   const ranked = candidates
@@ -310,14 +324,15 @@ async function main() {
     .filter((item) => item.localScore >= 0)
     .sort((left, right) => right.localScore - left.localScore || right.weeklyStars - left.weeklyStars || right.stars - left.stars)
     .slice(0, Number(settings.candidateLimit || 18));
-  if (ranked.length < settings.limit) throw new Error(`相关 GitHub 候选不足 ${settings.limit} 个，保留上周推荐`);
-  await addReadmeExcerpts(ranked, Number(settings.readmeLimit || 10));
+  const rankedNew = ranked.filter((item) => !priorIds.has(item.id));
+  if (rankedNew.length < settings.limit) throw new Error(`本周新候选不足 ${settings.limit} 个，保留上一版推荐`);
+  await addReadmeExcerpts(rankedNew, Number(settings.readmeLimit || 10));
   const selection = await client.json(
-    githubSelectionPrompt(ranked, settings),
+    githubSelectionPrompt(rankedNew, settings),
     client.selectionModel,
-    (value) => normalizeGithubSelection(value, ranked, settings.limit)
+    (value) => normalizeGithubSelection(value, rankedNew, settings.limit)
   );
-  const output = buildGithubOutput(selection, weekStart, client);
+  const output = buildGithubOutput(selection, weekStart, client, priorItems);
   await writeOutput(output);
   console.log(`生成 GitHub 热门 ${weekStart}：${output.items.map((item) => item.fullName).join("、")}；百炼调用 ${client.calls} 次。`);
 }
@@ -331,6 +346,7 @@ if (require.main === module) {
 
 module.exports = {
   buildGithubOutput,
+  deduplicateGithub,
   cleanReadme,
   githubSelectionPrompt,
   localRepositoryScore,

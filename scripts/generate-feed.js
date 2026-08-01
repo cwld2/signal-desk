@@ -312,8 +312,8 @@ function selectionCandidates(candidates) {
 }
 
 function candidateBodyPool(candidates, weeklyEdition) {
-  const practice = candidates.filter((item) => item.lane === "ai" && item.slot === "practice").slice(0, 12);
-  const update = candidates.filter((item) => item.lane === "ai" && item.slot === "update").slice(0, 8);
+  const practice = candidates.filter((item) => item.lane === "ai" && item.slot === "practice").slice(0, 20);
+  const update = candidates.filter((item) => item.lane === "ai" && item.slot === "update").slice(0, 14);
   const game = weeklyEdition ? candidates.filter((item) => item.lane === "game").slice(0, 8) : [];
   const art = weeklyEdition ? candidates.filter((item) => item.lane === "art").slice(0, 8) : [];
   return deduplicate([...practice, ...update, ...game, ...art]);

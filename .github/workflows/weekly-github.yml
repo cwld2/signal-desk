@@ -2,8 +2,10 @@ name: 畅神妙妙屋 · GitHub 热门
 
 on:
   schedule:
-    # Tuesday 04:25 Asia/Shanghai (Monday 20:25 UTC).
-    - cron: "25 20 * * 1"
+    # Monday 04:25 Asia/Shanghai (Sunday 20:25 UTC).
+    - cron: "25 20 * * 0"
+    # Thursday 04:25 Asia/Shanghai (Wednesday 20:25 UTC).
+    - cron: "25 20 * * 3"
   workflow_dispatch:
     inputs:
       force:

@@ -1,5 +1,8 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const editorial = require("../config/editorial.json");
+
+const weeklyLimit = Number(editorial.githubWeekly?.weeklyLimit || editorial.githubWeekly?.limit || 6);
 
 const dataDir = path.resolve(process.env.SIGNAL_DATA_DIR || path.join(__dirname, "..", "public", "data"));
 const file = path.join(dataDir, "github.json");
@@ -15,7 +18,7 @@ if (!fs.existsSync(file)) {
   const payload = JSON.parse(fs.readFileSync(file, "utf8"));
   if (payload.schemaVersion !== 1) fail("github.json 必须使用 schemaVersion 1");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(payload.weekStart || "")) fail("github.json 缺少有效 weekStart");
-  if (!Array.isArray(payload.items) || payload.items.length !== 2) fail("GitHub 热门必须恰好推荐 2 个仓库");
+  if (!Array.isArray(payload.items) || payload.items.length < 1 || payload.items.length > weeklyLimit) fail(`GitHub 热门推荐数量应在 1-${weeklyLimit} 个之间，当前 ${payload.items?.length}`);
   const ids = new Set();
   for (const item of payload.items || []) {
     if (!/^[\w.-]+\/[\w.-]+$/.test(item.fullName || "")) fail("GitHub 仓库名称无效");

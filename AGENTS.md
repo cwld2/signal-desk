@@ -11,18 +11,20 @@
 ## 定时规则
 
 - 每天北京时间 05:38：最多发布 2 篇实践文章 + 1 篇重要更新，同一来源每天最多 1 篇。
+- 每天北京时间 12:48：补充轮，只选当天 05:38 后新到的、还没发过的文章，按当天剩余配额补发；复用上午已发项的分析，不重复调用模型；当天配额已满就不会再调用。
 - 每周日北京时间 05:38：额外发布 2 篇游戏开发 + 2 篇像素美术文章。
-- 每周二北京时间 04:25：从 GitHub 周趋势中独立推荐 5 个仓库，不占每日或游戏/美术名额。
+- 每周一、周四北京时间 04:25：从 GitHub 周趋势中各独立推荐 3 个仓库，同一周累积最多 6 个且互不重复（周四只补当周还没推荐过的），不占每日或游戏/美术名额。
 - 手动候选每天最多额外处理 2 篇，不占自动名额。
 
 ## AI 模型
 
 - 使用兼容 OpenAI 格式的 API；公开版与私有版均通过 GitHub Actions Secret `DASHSCOPE_API_KEY` + Variable `DASHSCOPE_BASE_URL` 配置，将 `DASHSCOPE_BASE_URL` 指向中转站地址即可切换为中转 API。
 - 默认 base URL：`https://dashscope.aliyuncs.com/compatible-mode/v1`；中转站时填写中转站对应地址。
-- 筛选模型：glm-5.2
-- 分析模型：glm-5.2
+- 筛选模型：deepseek-v4-flash
+- 分析模型：deepseek-v4-flash
 - 模型名以 config/editorial.json 的 models 为准；可用 Variable `DASHSCOPE_SELECTION_MODEL` / `DASHSCOPE_ANALYSIS_MODEL` 覆盖
-- 温度：0.1，每次任务最多调用 10 次
+- 温度：0.5，每次任务最多调用 10 次
+- 请求体加 `thinking: { type: "disabled" }` 与 max_tokens 16384；解析同时读 content 与 reasoning_content，用括号配平兜底提取 JSON，防止思考模式把推理渗进结构化输出导致解析失败。
 - 失败时保留上一版网站，不覆盖
 
 ## 历史查找规则（分板块独立）
@@ -102,3 +104,13 @@ git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 pus
 9. 公开版改为中转站 API（Secret `DASHSCOPE_API_KEY` + Variable `DASHSCOPE_BASE_URL` 指向中转站），模型改为 glm-5.2
 10. GitHub 热门每周配额从 2 个增至 5 个
 11. 历史查找分板块：GitHub 页面内独立周导航；日常简报历史页增加板块 tab 过滤
+
+最近更新（2026-08-01）：
+12. 公开版模型从 glm-5.2 切换为 deepseek-v4-flash（筛选与分析均用），workflow 与 editorial.json 已同步。
+13. 修复 deepseek-v4-flash 默认思考模式污染 JSON：请求加 `thinking: { type: "disabled" }` + max_tokens 16384；新增健壮解析器读 content 与 reasoning_content、括号配平兜底提取 JSON。日报与周二 GitHub 周报共用同一客户端，一次修复两处受益。实测 7 次调用全过、无重试。
+14. 新增每天北京时间 12:48（UTC 04:48）补充轮：保留上午已发项，只按当天剩余配额从「从没发过的新文章」补发，复用上午分析不重复调用模型；当天配额已满则不再调用。需改 `shouldSkipEdition`、`selectionPrompt`、`chooseItems`、`buildOutput`、`main` 与 `daily-feed.yml`（第二条 cron + `supplement` 模式 + `SIGNAL_SUPPLEMENT` 环境变量）。
+15. 修复 `enforceQuota` 在 limit=0 时 off-by-one（先 push 后才 break，导致补充轮把已满的槽位多塞 1 条、被 validate 拦下）；加 `if (limit <= 0) return []` 守卫 + 回归测试。
+16. 修复 `generate-github-trending.js` 的 `shouldSkipGithub` 硬编码 `items.length === 2` 残留，改为跟随 `settings.limit`（=5），手动重跑 GitHub 雷达现在能正确跳过、不再白白重算。
+17. 日常简报筛选放宽：`minimumCandidateScore` 58 → 45、`candidateFetchPerSource` 4 → 12、`candidateBodyPool` 上限 practice 12 → 20 / update 8 → 14，解决「入选 0 篇、淘汰 368 条」里大量「超过单来源正文候选抓取上限」与「相关度 53-57 低于门槛」的误杀。
+18. GitHub 热门改为每周一、周四各 3 个、当周累积最多 6 个（`githubWeekly.limit=3` + 新增 `weeklyLimit=6`）；`weekly-github.yml` 改为两条 cron（`25 20 * * 0` 周一、`25 20 * * 3` 周四）；`shouldSkipGithub` 改按 `weeklyLimit` 判断，周四不再被当周已有数据误跳过；`buildGithubOutput` 支持累积并按 id 去重。
+19. 修复 `validate-github-feed.js` 硬编码 `items.length !== 2`（「必须恰好推荐 2 个仓库」）——这是此前把 `githubWeekly.limit` 改成 5 却始终没生效的真正原因（生成 5 个会被校验拦下、回滚保留旧的 2 个）。现改为校验 1..weeklyLimit。

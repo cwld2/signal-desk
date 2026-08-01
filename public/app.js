@@ -185,7 +185,7 @@ function renderGithub() {
   $("#githubCount").textContent = items.length;
   const emptyMsg = isArchive
     ? `<div class="empty-state">该周没有推荐记录</div>`
-    : `<div class="empty-state"><strong>本周推荐尚未生成</strong>周二更新完成后会显示推荐项目。</div>`;
+    : `<div class="empty-state"><strong>本周推荐尚未生成</strong>每周一、周四更新完成后会显示推荐项目。</div>`;
   $("#githubGrid").innerHTML = items.map(githubCard).join("") || emptyMsg;
   if (!activeDigest) { updateGithubWeekNav(); return; }
   const weekStart = activeDigest.weekStart || "";
