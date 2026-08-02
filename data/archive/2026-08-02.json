@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-01T22:35:47.793Z",
+  "generatedAt": "2026-08-02T07:20:45.106Z",
   "timezone": "Asia/Shanghai",
   "edition": {
     "date": "2026-08-02",
@@ -19,7 +19,7 @@
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 7
+    "bailianCalls": 1
   },
   "items": [
     {
