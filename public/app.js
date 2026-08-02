@@ -51,25 +51,25 @@ function articleTitle(item) {
 }
 
 function listSummary(item) {
-  return item.analysis?.listSummary || item.analysis?.summary || item.summary;
+  return (item.analysis || {}).listSummary || (item.analysis || {}).summary || item.summary;
 }
 
 function learningPreview(item) {
-  if (Array.isArray(item.analysis?.engineeringPractice) && item.analysis.engineeringPractice[0]?.scenario) {
+  if (Array.isArray((item.analysis || {}).engineeringPractice) && (item.analysis.engineeringPractice[0] || {}).scenario) {
     return `可实践场景：${item.analysis.engineeringPractice[0].scenario}`;
   }
-  if (Array.isArray(item.analysis?.learningValue)) return item.analysis.learningValue.join(" ");
-  if (Array.isArray(item.analysis?.keyPoints)) return item.analysis.keyPoints[0] || item.learningNote || "阅读原文并验证关键结论";
+  if (Array.isArray((item.analysis || {}).learningValue)) return item.analysis.learningValue.join(" ");
+  if (Array.isArray((item.analysis || {}).keyPoints)) return item.analysis.keyPoints[0] || item.learningNote || "阅读原文并验证关键结论";
   return item.learningNote || "阅读原文并验证关键结论";
 }
 
 function allItems() {
   if (!state.digest) return [];
-  return state.digest.items || [...(state.digest.lanes?.ai || []), ...(state.digest.lanes?.game || []), ...(state.digest.lanes?.art || [])];
+  return state.digest.items || [...((state.digest.lanes || {}).ai || []), ...((state.digest.lanes || {}).game || []), ...((state.digest.lanes || {}).art || [])];
 }
 
 function findArticle(id) {
-  return [...allItems(), ...(state.archiveDigest?.items || [])].find((item) => item.id === id);
+  return [...allItems(), ...((state.archiveDigest || {}).items || [])].find((item) => item.id === id);
 }
 
 function persist() {
@@ -110,7 +110,7 @@ function card(item) {
 function renderToday() {
   const study = state.digest.study || [];
   $("#todayCount").textContent = study.length;
-  $("#studyMinutes").textContent = state.digest.stats?.studyMinutes || 30;
+  $("#studyMinutes").textContent = (state.digest.stats || {}).studyMinutes || 30;
   if (!study.length) {
     $("#studyList").innerHTML = `<div class="empty-state"><strong>今天暂时没有精选内容</strong>可以先复习之前的笔记。</div>`;
     updateReadProgress();
@@ -131,15 +131,15 @@ function renderToday() {
 }
 
 function renderFilters() {
-  const topics = ["全部", ...new Set((state.digest.lanes?.ai || []).map((item) => item.topic).filter(Boolean))];
+  const topics = ["全部", ...new Set(((state.digest.lanes || {}).ai || []).map((item) => item.topic).filter(Boolean))];
   $("#aiFilters").innerHTML = topics.map((topic) => `<button class="filter-chip ${topic === state.topic ? "active" : ""}" data-topic="${escapeHtml(topic)}">${escapeHtml(topic)}</button>`).join("");
 }
 
 function renderGrids() {
-  const ai = state.topic === "全部" ? (state.digest.lanes?.ai || []) : (state.digest.lanes?.ai || []).filter((item) => item.topic === state.topic);
+  const ai = state.topic === "全部" ? ((state.digest.lanes || {}).ai || []) : ((state.digest.lanes || {}).ai || []).filter((item) => item.topic === state.topic);
   $("#aiGrid").innerHTML = ai.map(card).join("") || empty("没有匹配的 AI 文章");
-  $("#gameGrid").innerHTML = (state.digest.lanes?.game || []).map(card).join("") || empty("本周暂无新的游戏开发文章");
-  $("#artGrid").innerHTML = (state.digest.lanes?.art || []).map(card).join("") || empty("本周暂无新的美术文章");
+  $("#gameGrid").innerHTML = ((state.digest.lanes || {}).game || []).map(card).join("") || empty("本周暂无新的游戏开发文章");
+  $("#artGrid").innerHTML = ((state.digest.lanes || {}).art || []).map(card).join("") || empty("本周暂无新的美术文章");
   renderSaved();
 }
 
@@ -181,7 +181,7 @@ function updateGithubWeekNav() {
 function renderGithub() {
   const activeDigest = state.githubArchiveDigest || state.githubDigest;
   const isArchive = !!state.githubArchiveDigest;
-  const items = activeDigest?.items || [];
+  const items = (activeDigest || {}).items || [];
   $("#githubCount").textContent = items.length;
   const emptyMsg = isArchive
     ? `<div class="empty-state">该周没有推荐记录</div>`
@@ -210,9 +210,9 @@ function renderSources() {
 }
 
 function archiveCounts(digest) {
-  if (Array.isArray(digest?.editionItems)) return digest.stats || {};
+  if (Array.isArray((digest || {}).editionItems)) return digest.stats || {};
   const unique = new Map();
-  for (const item of digest?.items || []) {
+  for (const item of (digest || {}).items || []) {
     const key = item.id || item.url || `${item.lane}|${articleTitle(item)}`;
     if (!unique.has(key)) unique.set(key, item);
   }
@@ -247,7 +247,7 @@ function renderCalendar() {
   }).join("");
 
   const validDates = state.archiveIndex.map((entry) => RenderUtils.parseDateKey(entry.date)).filter(Boolean);
-  const earliest = validDates.at(-1);
+  const earliest = validDates.length ? validDates[validDates.length - 1] : undefined;
   const latest = validDates[0];
   $("#previousMonth").disabled = !earliest || RenderUtils.compareMonths(month, earliest) <= 0;
   $("#nextMonth").disabled = !latest || RenderUtils.compareMonths(month, latest) >= 0;
@@ -268,7 +268,7 @@ function renderArchive() {
     grid.innerHTML = "";
     return;
   }
-  const date = state.archiveDigest.edition?.date || state.selectedArchiveDate;
+  const date = (state.archiveDigest.edition || {}).date || state.selectedArchiveDate;
   const counts = archiveCounts(state.archiveDigest);
   $("#archiveStatus").textContent = `${date} · AI ${counts.ai || 0} 篇 · 游戏 ${counts.game || 0} 篇 · 美术 ${counts.art || 0} 篇`;
   const section = state.archiveSection || "all";
@@ -282,7 +282,7 @@ function archiveSectionLabel(section) {
 }
 
 function updateReadProgress() {
-  const study = state.digest?.study || [];
+  const study = (state.digest || {}).study || [];
   const count = study.filter((item) => state.read.has(item.id)).length;
   $("#readProgress").textContent = `${count} / ${study.length}`;
 }
@@ -329,7 +329,7 @@ function analysisSection(title) {
 
 function openAnalysis(id) {
   const item = findArticle(id);
-  if (!item?.analysis) return;
+  if (!item || !item.analysis) return;
   const dialog = $("#analysisDialog");
   $("#analysisTitle").textContent = articleTitle(item);
   $("#analysisMeta").innerHTML = `${meta(item)}${item.analysisStatus === "rss-fallback" ? "<span class=\"analysis-warning\">基于 RSS 摘要</span>" : ""}`;
@@ -470,7 +470,7 @@ async function loadGithubArchiveIndex() {
     state.githubArchiveIndex = (Array.isArray(payload.entries) ? payload.entries : [])
       .sort((a, b) => b.weekStart.localeCompare(a.weekStart));
     if (!state.selectedGithubWeek && state.githubArchiveIndex.length) {
-      state.selectedGithubWeek = state.githubDigest?.weekStart || state.githubArchiveIndex[0].weekStart;
+      state.selectedGithubWeek = (state.githubDigest || {}).weekStart || state.githubArchiveIndex[0].weekStart;
     }
     updateGithubWeekNav();
   } catch { /* archive index may not exist yet */ }
@@ -478,7 +478,7 @@ async function loadGithubArchiveIndex() {
 
 async function loadGithubArchive(weekStart) {
   if (!weekStart) return;
-  if (state.githubDigest?.weekStart === weekStart) {
+  if ((state.githubDigest || {}).weekStart === weekStart) {
     state.githubArchiveDigest = null;
     state.selectedGithubWeek = weekStart;
     renderGithub();
@@ -534,7 +534,7 @@ async function loadArchiveIndex() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
     state.archiveIndex = (Array.isArray(payload.entries) ? payload.entries : [])
-      .filter((entry) => RenderUtils.parseDateKey(entry?.date))
+      .filter((entry) => RenderUtils.parseDateKey((entry || {}).date))
       .sort((left, right) => right.date.localeCompare(left.date));
     $("#archiveCount").textContent = state.archiveIndex.length;
     if (state.archiveIndex.length) {
@@ -562,11 +562,13 @@ function setupStaticUI() {
   $("#closeAnalysis").addEventListener("click", () => $("#analysisDialog").close());
   $("#previousMonth").addEventListener("click", () => { state.archiveMonth = RenderUtils.shiftMonth(state.archiveMonth, -1); renderCalendar(); });
   $("#nextMonth").addEventListener("click", () => { state.archiveMonth = RenderUtils.shiftMonth(state.archiveMonth, 1); renderCalendar(); });
-  $("#githubPrevWeek")?.addEventListener("click", () => {
+  var prevWeekBtn = $("#githubPrevWeek");
+  if (prevWeekBtn) prevWeekBtn.addEventListener("click", () => {
     const idx = state.githubArchiveIndex.findIndex((e) => e.weekStart === state.selectedGithubWeek);
     if (idx < state.githubArchiveIndex.length - 1) loadGithubArchive(state.githubArchiveIndex[idx + 1].weekStart);
   });
-  $("#githubNextWeek")?.addEventListener("click", () => {
+  var nextWeekBtn = $("#githubNextWeek");
+  if (nextWeekBtn) nextWeekBtn.addEventListener("click", () => {
     const idx = state.githubArchiveIndex.findIndex((e) => e.weekStart === state.selectedGithubWeek);
     if (idx > 0) loadGithubArchive(state.githubArchiveIndex[idx - 1].weekStart);
   });

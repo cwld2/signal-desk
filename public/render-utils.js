@@ -39,16 +39,16 @@
 
   function normalizeCounts(counts) {
     return {
-      ai: Math.max(0, Number(counts?.ai) || 0),
-      game: Math.max(0, Number(counts?.game) || 0),
-      art: Math.max(0, Number(counts?.art) || 0)
+      ai: Math.max(0, Number((counts || {}).ai) || 0),
+      game: Math.max(0, Number((counts || {}).game) || 0),
+      art: Math.max(0, Number((counts || {}).art) || 0)
     };
   }
 
   function buildCalendarDays(year, monthIndex, archiveEntries = []) {
     const entries = new Map();
     for (const entry of archiveEntries) {
-      const parsed = parseDateKey(entry?.date);
+      const parsed = parseDateKey((entry || {}).date);
       if (parsed) entries.set(parsed.date, { ...entry, counts: normalizeCounts(entry.counts) });
     }
 
@@ -59,7 +59,7 @@
       const value = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + index);
       const key = dateKey(value.getFullYear(), value.getMonth(), value.getDate());
       const entry = entries.get(key) || null;
-      const counts = entry?.counts || normalizeCounts();
+      const counts = (entry || {}).counts || normalizeCounts();
       return {
         date: key,
         day: value.getDate(),
@@ -84,10 +84,10 @@
       phrases.set(key, { ...current, ...values, term: current.term.length >= value.length ? current.term : value });
     };
 
-    const emphasis = Array.isArray(annotations?.emphasis) ? annotations.emphasis : [];
+    const emphasis = Array.isArray((annotations || {}).emphasis) ? annotations.emphasis : [];
     for (const term of emphasis.slice(0, 32)) add(term, { emphasis: true });
 
-    const searchTerms = Array.isArray(annotations?.searchTerms) ? annotations.searchTerms : [];
+    const searchTerms = Array.isArray((annotations || {}).searchTerms) ? annotations.searchTerms : [];
     for (const entry of searchTerms.slice(0, 32)) {
       if (!entry || typeof entry !== "object") continue;
       const query = String(entry.query || "").trim();
