@@ -1,222 +1,479 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-03T22:38:50.801Z",
+  "generatedAt": "2026-08-04T22:42:48.608Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-08-04",
+    "date": "2026-08-05",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
   "stats": {
-    "candidates": 23,
-    "selected": 1,
-    "ai": 1,
-    "practice": 1,
-    "update": 0,
+    "candidates": 24,
+    "selected": 3,
+    "ai": 3,
+    "practice": 2,
+    "update": 1,
     "manual": 0,
     "game": 0,
     "art": 0,
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 2
+    "bailianCalls": 4
   },
   "items": [
     {
-      "id": "dffcfa831a63c676",
-      "title": "NVIDIA Video Codec SDK 13.1: Zero-Copy Transcode, AV1 B-Frames, and Frame-Accurate Seek",
-      "url": "https://developer.nvidia.com/blog/nvidia-video-codec-sdk-13-1-zero-copy-transcode-av1-b-frames-and-frame-accurate-seek/",
-      "summary": "The demand for high-quality video continues to accelerate across industries, powering everything from immersive streaming experiences to remote collaboration,...",
-      "publishedAt": "2026-07-31T15:13:02.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
+      "id": "77c76922427b8b89",
+      "title": "Deploy local agents everywhere with LFM2.5-2.6B",
+      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
+      "summary": "",
+      "publishedAt": "2026-08-04T13:58:29.000Z",
+      "sourceId": "huggingface",
+      "sourceName": "Hugging Face Blog",
+      "sourceSite": "https://huggingface.co/blog",
       "lane": "ai",
-      "accent": "#76b900",
-      "topic": "开发实践",
-      "score": 69,
-      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 25,
+      "accent": "#ff9d00",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 8,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 80,
-      "bodyHash": "6afaa9e786ed12fd8f459a2c",
+      "candidateScore": 92,
+      "bodyHash": "f3958493d9e8876f13ea27d3",
       "extraction": {
         "method": "readability",
-        "length": 17403,
-        "originalLength": 17403,
+        "length": 5932,
+        "originalLength": 5932,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "NVIDIA Video Codec SDK 13.1：零拷贝转码、AV1 B帧与帧精确寻址",
+      "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
       "analysis": {
-        "listSummary": "本文介绍NVIDIA Video Codec SDK 13.1的新特性，包括AV1编码的层级参考模式、UHQ调优信息与迭代编码的结合、H.264/HEVC解码的逐宏块统计、帧精确寻址、MV-HEVC立体增强、零拷贝转码流水线以及Docker开发环境。文章通过图表展示性能提升，并详细解释每个特性的工作原理和适用场景。对于从事视频处理、流媒体或AI视频分析的开发者，这篇文章提供了实用的技术更新和优化方向，值得阅读。",
+        "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "视频处理需求持续增长，从流媒体到AI媒体工具都需要更高效的视频流水线。NVIDIA Video Codec SDK通过GPU硬件视频引擎提供加速编解码能力，帮助开发者应对这一挑战。",
-              "SDK 13.1版本在编码、解码、转码和开发环境方面均有更新。编码方面新增AV1层级参考模式，支持最多31个B帧；解码方面新增逐宏块统计和帧精确寻址；转码方面引入零拷贝CUarray方案；同时提供官方Docker开发环境。",
-              "这些特性旨在解决传统视频流水线中的性能瓶颈，如CPU端位流解析开销、多格式转换和内存拷贝，以及开发环境配置复杂等问题。"
+              "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
+              "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
+              "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "AV1层级参考模式通过树状结构排列B帧，将最大B帧数从7提升到31，利用时间冗余提高编码质量。该模式在7个及以上B帧时效果最佳，且无性能损失，但视频内存消耗会更高。",
-              "UHQ调优信息结合迭代编码，使lookahead level和时域滤波能够与逐迭代重编码协同工作。时域滤波通过运动估计在相邻帧中寻找匹配块来降噪，平均编码增益为4-5%；lookahead level分析未来帧并利用CTU统计信息优化码率分配。",
-              "逐宏块解码统计通过NVDECODE API提供每个16×16块的亮度QP、编码单元类型和运动向量，这些数据是硬件解码的自然副产品，无需额外CPU开销。应用可查询解码器能力、启用统计收集并获取GPU驻留缓冲区。",
-              "帧精确寻址采用GOP感知架构，定位目标帧前的最近IDR帧，跳转后仅解码必要的参考帧，最终只对目标帧执行完整解码和后期处理。NvVideoDecoder类封装了底层SeekUtils引擎，提供类似数组索引的简洁接口。",
-              "零拷贝转码通过共享CUarray池和双注册机制，让NVDEC和NVENC直接操作同一GPU内存，消除中间格式转换和拷贝。流水线使用三线程和令牌流控管理CUarray所有权，并通过共享CUDA流保证顺序。",
-              "重新设计的转码示例采用模块化、队列化架构，每个流水线阶段分配独立CPU线程，通过显式大小的输入输出队列通信。这种设计保证并发性，简化定制，并最大化硬件利用率。"
+              "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
+              "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
+              "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文通过图表展示性能提升：层级参考模式在CQ和VBR模式下均带来比特率节省；零拷贝转码相比传统流水线降低SM利用率和内存带宽利用率。这些图表基于1080p H.264测试。",
-              "层级参考模式目前仅支持AV1，H.264和HEVC将在未来驱动版本中支持。零拷贝转码需要CUDA数组和双注册机制，对开发者有较高的底层API要求。",
-              "Docker开发环境固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，提供可复现的开发环境，但需要NVIDIA GPU、Docker GPU支持和NVIDIA Container Toolkit。",
-              "逐宏块统计功能支持H.264和HEVC，但不包括AV1或VP9。帧精确寻址支持非可寻址流，但反向寻址需要自动解码器重置。"
+              "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
+              "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
+              "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
+              "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
             ]
           }
         ],
         "keyPoints": [
-          "AV1层级参考模式将最大B帧数从7提升到31，通过树状参考结构提高编码质量，无性能损失但增加内存消耗。",
-          "UHQ调优信息结合迭代编码，使lookahead level和时域滤波与逐迭代重编码协同工作，时域滤波平均编码增益4-5%。",
-          "逐宏块解码统计提供每个16×16块的QP、编码单元类型和运动向量，无需额外CPU开销，支持GPU加速视频分析。",
-          "帧精确寻址通过GOP感知架构，仅解码必要的参考帧，实现类似数组索引的帧访问。",
-          "零拷贝转码通过共享CUarray池消除中间格式转换和拷贝，降低SM利用率和内存带宽。",
-          "Docker开发环境提供一致的CUDA、Vulkan、FFmpeg和SDK版本，简化环境配置和CI流程。"
+          "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
+          "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
+          "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
+          "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
+          "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
+          "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
         ],
         "technicalDetails": [
           {
-            "text": "AV1层级参考模式：它是什么——一种将B帧排列成树状参考结构的编码模式，根节点为中间B帧，叶节点为非参考B帧。怎么工作——通过增加参考帧数量（最多31个B帧），让编码器更充分利用时间冗余。为什么重要——在无性能损失的情况下提高编码质量，但需更多视频内存。",
+            "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "UHQ调优信息：它是什么——结合lookahead level和时域滤波的调优方案。怎么工作——时域滤波用运动估计在相邻帧找匹配块降噪，lookahead level分析未来帧优化码率分配。为什么重要——在延迟容忍编码中提供最佳质量-性能权衡，平均编码增益4-5%。",
+            "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "逐宏块解码统计：它是什么——NVDECODE API提供的每个16×16块的解码统计信息。怎么工作——硬件解码时自然产生，应用通过cuvidGetDecoderCaps()查询能力、启用统计收集、通过cuvidMapVideoFrame()获取GPU驻留缓冲区。为什么重要——解锁GPU加速视频分析，无需CPU端位流解析。",
+            "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "帧精确寻址：它是什么——通过NvVideoDecoder类提供的随机帧访问API。怎么工作——定位目标帧前最近IDR帧，跳转后仅解码必要参考帧，最终只对目标帧执行完整解码和后期处理。为什么重要——AI工作流和视频编辑需要特定帧而非顺序解码，此功能使帧访问像数组索引一样简单。",
-            "basis": "source"
-          },
-          {
-            "text": "零拷贝转码：它是什么——NVDEC和NVENC直接操作同一GPU内存的转码方案。怎么工作——应用分配CUarray池（使用CUDA_ARRAY3D_VIDEO_ENCODE_DECODE标志），双注册到解码器和编码器，通过共享CUDA流保证顺序。为什么重要——消除中间拷贝和转换，降低SM利用率和内存带宽，提高并发会话吞吐量。",
-            "basis": "source"
-          },
-          {
-            "text": "Docker开发环境：它是什么——官方提供的容器化开发环境。怎么工作——两阶段构建，builder阶段编译SDK样本并安装Vulkan SDK和FFmpeg，runtime阶段保留运行所需。为什么重要——固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，确保环境可复现，简化CI和云部署。",
+            "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "视频转码流水线优化",
+            "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
             "steps": [
-              "评估现有转码流水线的瓶颈，确定是否适合采用零拷贝方案",
-              "使用AppTransZeroCopy示例作为起点，测试零拷贝转码的性能提升",
-              "根据需求调整队列大小，平衡延迟与吞吐量",
-              "在GPU上运行CUDA预处理或推理，利用释放的SM资源"
+              "安装最新版transformers库：pip install -U transformers",
+              "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
+              "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
+              "运行推理：将用户提示转换为模型输入，生成输出并解码。"
             ],
             "tools": [
-              "AppTransZeroCopy示例",
-              "CUDA",
-              "NVIDIA Nsight Systems"
+              "transformers",
+              "Hugging Face",
+              "llama.cpp"
             ],
             "verification": [
-              "SM利用率下降",
-              "内存带宽利用率下降",
-              "并发转码会话数增加"
-            ]
-          },
-          {
-            "scenario": "AI视频分析管道",
-            "steps": [
-              "启用逐宏块解码统计收集",
-              "使用cuvidMapVideoFrame()获取GPU驻留统计缓冲区",
-              "编写CUDA内核处理运动向量和QP数据",
-              "集成到现有推理管道，实现场景检测或质量监控"
-            ],
-            "tools": [
-              "AppDec-dumpstats示例",
-              "CUDA",
-              "NVDECODE API"
-            ],
-            "verification": [
-              "无需CPU位流解析即可获取运动向量",
-              "实时场景检测延迟降低",
-              "自适应码率优化响应更快"
-            ]
-          },
-          {
-            "scenario": "开发环境标准化",
-            "steps": [
-              "克隆video-codec-sdk-docker仓库",
-              "将SDK zip文件放入Docker构建上下文",
-              "运行docker build并指定SDK_ZIP参数",
-              "使用docker run --gpus all启动容器",
-              "生成测试向量并运行样本"
-            ],
-            "tools": [
-              "Docker",
-              "NVIDIA Container Toolkit",
-              "video-codec-sdk-docker仓库"
-            ],
-            "verification": [
-              "容器内样本可直接运行",
-              "测试向量生成成功",
-              "CI管道使用相同镜像构建成功"
+              "模型成功加载并生成响应",
+              "输出文本符合预期，无错误"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "层级参考模式",
-          "零拷贝转码",
-          "逐宏块解码统计",
-          "帧精确寻址",
-          "UHQ调优信息",
-          "迭代编码",
-          "Docker开发环境"
+          "多步任务",
+          "Agentic RL",
+          "推理速度",
+          "指令遵循"
         ],
         "searchTerms": [
           {
-            "term": "AV1层级参考模式",
-            "query": "AV1 hierarchical reference mode NVENC"
+            "term": "LFM2.5-2.6B",
+            "query": "LFM2.5-2.6B model"
           },
           {
-            "term": "零拷贝转码",
-            "query": "zero-copy transcode CUarray NVDEC NVENC"
+            "term": "Agentic RL",
+            "query": "Agentic reinforcement learning"
           },
           {
-            "term": "逐宏块解码统计",
-            "query": "per-macroblock decode statistics NVDECODE"
+            "term": "MOPD",
+            "query": "Multi-domain on-policy distillation"
           },
           {
-            "term": "帧精确寻址",
-            "query": "frame-accurate seek NvVideoDecoder"
+            "term": "SFT",
+            "query": "Supervised fine-tuning"
           },
           {
-            "term": "UHQ调优信息",
-            "query": "UHQ tuning info iterative encoding NVENC"
-          },
-          {
-            "term": "Docker开发环境",
-            "query": "NVIDIA Video Codec SDK Docker development environment"
+            "term": "token/s",
+            "query": "tokens per second inference speed"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-03T22:38:50.801Z",
+      "analyzedAt": "2026-08-04T22:41:59.768Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "ec7ec4e957d37bf3",
+      "title": "How to Evaluate Voice Agents with LangSmith",
+      "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
+      "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
+      "publishedAt": "2026-08-04T17:19:58.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 90,
+      "bodyHash": "0eb1fd108da52d3cbdd35f37",
+      "extraction": {
+        "method": "readability",
+        "length": 14193,
+        "originalLength": 14193,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+      "analysis": {
+        "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
+              "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
+              "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
+              "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
+              "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
+              "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
+              "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
+              "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
+              "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
+              "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
+              "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
+              "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
+              "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
+              "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
+              "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
+              "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
+              "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
+              "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
+              "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
+              "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
+          "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
+          "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
+          "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
+          "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
+          "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+            "basis": "source"
+          },
+          {
+            "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+            "basis": "source"
+          },
+          {
+            "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+            "basis": "source"
+          },
+          {
+            "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+            "basis": "source"
+          },
+          {
+            "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+            "steps": [
+              "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
+              "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
+              "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
+              "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
+              "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
+              "定期使用注释队列进行人工审核，以校准评估器。"
+            ],
+            "tools": [
+              "LangSmith",
+              "代码评估器",
+              "LLM 评判",
+              "音频感知模型",
+              "注释队列"
+            ],
+            "verification": [
+              "观察追踪中工具调用顺序是否正确，无多余调用。",
+              "LLM 评判分数稳定，且与人工审核结果一致性高。",
+              "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
+              "预订成功率提高，且重开率或放弃率下降。",
+              "人工审核发现的问题数量减少，且评估器误报率降低。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "执行",
+          "结果",
+          "体验",
+          "代码评估器",
+          "LLM 评判"
+        ],
+        "searchTerms": [
+          {
+            "term": "LangSmith",
+            "query": "LangSmith 语音代理评估"
+          },
+          {
+            "term": "代码评估器",
+            "query": "LangSmith 代码评估器"
+          },
+          {
+            "term": "LLM 评判",
+            "query": "LLM judge 评估语音代理"
+          },
+          {
+            "term": "音频感知 LLM 评判",
+            "query": "audio-aware LLM judge"
+          },
+          {
+            "term": "注释队列",
+            "query": "LangSmith annotation queue"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-04T22:42:26.465Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "bc5c9a3bbdf77c0c",
+      "title": "The latest AI news we announced in July 2026",
+      "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
+      "summary": "Here are Google’s latest AI updates from July 2026",
+      "publishedAt": "2026-08-04T13:00:00.000Z",
+      "sourceId": "google-ai",
+      "sourceName": "Google AI",
+      "sourceSite": "https://blog.google/technology/ai/",
+      "lane": "ai",
+      "accent": "#4285f4",
+      "topic": "AI 动态",
+      "score": 70,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 12,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 74,
+      "bodyHash": "5c9385eb750dcb1fed23a62c",
+      "extraction": {
+        "method": "readability",
+        "length": 8505,
+        "originalLength": 8505,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+      "analysis": {
+        "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
+              "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
+              "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
+              "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
+              "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
+              "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
+              "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
+          "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
+          "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
+          "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
+          "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
+          "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+            "basis": "source"
+          },
+          {
+            "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+            "basis": "source"
+          },
+          {
+            "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+            "basis": "source"
+          },
+          {
+            "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+            "basis": "source"
+          },
+          {
+            "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+            "steps": [
+              "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
+              "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
+              "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
+              "部署到生产环境，监控延迟和 token 消耗。"
+            ],
+            "tools": [
+              "Google AI Studio",
+              "Vertex AI",
+              "Gemini API"
+            ],
+            "verification": [
+              "观察响应时间是否低于 500 毫秒",
+              "检查 token 消耗是否比旧模型降低 20%"
+            ]
+          },
+          {
+            "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+            "steps": [
+              "访问 Google Flow Music 平台。",
+              "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
+              "生成多个版本，选择最符合需求的。",
+              "导出音频并导入视频编辑器。"
+            ],
+            "tools": [
+              "Google Flow Music",
+              "Lyria 3.5"
+            ],
+            "verification": [
+              "生成音乐时长是否满足视频需要",
+              "歌词和音质是否达到发布标准"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "具身推理",
+          "token 效率",
+          "早期火灾检测"
+        ],
+        "searchTerms": [
+          {
+            "term": "Gemini 3.6 Flash",
+            "query": "Gemini 3.6 Flash model"
+          },
+          {
+            "term": "Gemini Robotics ER 2",
+            "query": "Gemini Robotics ER 2 embodied reasoning"
+          },
+          {
+            "term": "AlphaEvolve",
+            "query": "AlphaEvolve Google Cloud code optimization"
+          },
+          {
+            "term": "FireSat",
+            "query": "FireSat satellite wildfire detection"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-04T22:42:48.607Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -737,596 +994,1367 @@
   ],
   "editionItems": [
     {
-      "id": "dffcfa831a63c676",
-      "title": "NVIDIA Video Codec SDK 13.1: Zero-Copy Transcode, AV1 B-Frames, and Frame-Accurate Seek",
-      "url": "https://developer.nvidia.com/blog/nvidia-video-codec-sdk-13-1-zero-copy-transcode-av1-b-frames-and-frame-accurate-seek/",
-      "summary": "The demand for high-quality video continues to accelerate across industries, powering everything from immersive streaming experiences to remote collaboration,...",
-      "publishedAt": "2026-07-31T15:13:02.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
+      "id": "77c76922427b8b89",
+      "title": "Deploy local agents everywhere with LFM2.5-2.6B",
+      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
+      "summary": "",
+      "publishedAt": "2026-08-04T13:58:29.000Z",
+      "sourceId": "huggingface",
+      "sourceName": "Hugging Face Blog",
+      "sourceSite": "https://huggingface.co/blog",
       "lane": "ai",
-      "accent": "#76b900",
-      "topic": "开发实践",
-      "score": 69,
-      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 25,
+      "accent": "#ff9d00",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 8,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 80,
-      "bodyHash": "6afaa9e786ed12fd8f459a2c",
+      "candidateScore": 92,
+      "bodyHash": "f3958493d9e8876f13ea27d3",
       "extraction": {
         "method": "readability",
-        "length": 17403,
-        "originalLength": 17403,
+        "length": 5932,
+        "originalLength": 5932,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "NVIDIA Video Codec SDK 13.1：零拷贝转码、AV1 B帧与帧精确寻址",
+      "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
       "analysis": {
-        "listSummary": "本文介绍NVIDIA Video Codec SDK 13.1的新特性，包括AV1编码的层级参考模式、UHQ调优信息与迭代编码的结合、H.264/HEVC解码的逐宏块统计、帧精确寻址、MV-HEVC立体增强、零拷贝转码流水线以及Docker开发环境。文章通过图表展示性能提升，并详细解释每个特性的工作原理和适用场景。对于从事视频处理、流媒体或AI视频分析的开发者，这篇文章提供了实用的技术更新和优化方向，值得阅读。",
+        "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "视频处理需求持续增长，从流媒体到AI媒体工具都需要更高效的视频流水线。NVIDIA Video Codec SDK通过GPU硬件视频引擎提供加速编解码能力，帮助开发者应对这一挑战。",
-              "SDK 13.1版本在编码、解码、转码和开发环境方面均有更新。编码方面新增AV1层级参考模式，支持最多31个B帧；解码方面新增逐宏块统计和帧精确寻址；转码方面引入零拷贝CUarray方案；同时提供官方Docker开发环境。",
-              "这些特性旨在解决传统视频流水线中的性能瓶颈，如CPU端位流解析开销、多格式转换和内存拷贝，以及开发环境配置复杂等问题。"
+              "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
+              "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
+              "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "AV1层级参考模式通过树状结构排列B帧，将最大B帧数从7提升到31，利用时间冗余提高编码质量。该模式在7个及以上B帧时效果最佳，且无性能损失，但视频内存消耗会更高。",
-              "UHQ调优信息结合迭代编码，使lookahead level和时域滤波能够与逐迭代重编码协同工作。时域滤波通过运动估计在相邻帧中寻找匹配块来降噪，平均编码增益为4-5%；lookahead level分析未来帧并利用CTU统计信息优化码率分配。",
-              "逐宏块解码统计通过NVDECODE API提供每个16×16块的亮度QP、编码单元类型和运动向量，这些数据是硬件解码的自然副产品，无需额外CPU开销。应用可查询解码器能力、启用统计收集并获取GPU驻留缓冲区。",
-              "帧精确寻址采用GOP感知架构，定位目标帧前的最近IDR帧，跳转后仅解码必要的参考帧，最终只对目标帧执行完整解码和后期处理。NvVideoDecoder类封装了底层SeekUtils引擎，提供类似数组索引的简洁接口。",
-              "零拷贝转码通过共享CUarray池和双注册机制，让NVDEC和NVENC直接操作同一GPU内存，消除中间格式转换和拷贝。流水线使用三线程和令牌流控管理CUarray所有权，并通过共享CUDA流保证顺序。",
-              "重新设计的转码示例采用模块化、队列化架构，每个流水线阶段分配独立CPU线程，通过显式大小的输入输出队列通信。这种设计保证并发性，简化定制，并最大化硬件利用率。"
+              "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
+              "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
+              "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文通过图表展示性能提升：层级参考模式在CQ和VBR模式下均带来比特率节省；零拷贝转码相比传统流水线降低SM利用率和内存带宽利用率。这些图表基于1080p H.264测试。",
-              "层级参考模式目前仅支持AV1，H.264和HEVC将在未来驱动版本中支持。零拷贝转码需要CUDA数组和双注册机制，对开发者有较高的底层API要求。",
-              "Docker开发环境固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，提供可复现的开发环境，但需要NVIDIA GPU、Docker GPU支持和NVIDIA Container Toolkit。",
-              "逐宏块统计功能支持H.264和HEVC，但不包括AV1或VP9。帧精确寻址支持非可寻址流，但反向寻址需要自动解码器重置。"
+              "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
+              "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
+              "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
+              "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
             ]
           }
         ],
         "keyPoints": [
-          "AV1层级参考模式将最大B帧数从7提升到31，通过树状参考结构提高编码质量，无性能损失但增加内存消耗。",
-          "UHQ调优信息结合迭代编码，使lookahead level和时域滤波与逐迭代重编码协同工作，时域滤波平均编码增益4-5%。",
-          "逐宏块解码统计提供每个16×16块的QP、编码单元类型和运动向量，无需额外CPU开销，支持GPU加速视频分析。",
-          "帧精确寻址通过GOP感知架构，仅解码必要的参考帧，实现类似数组索引的帧访问。",
-          "零拷贝转码通过共享CUarray池消除中间格式转换和拷贝，降低SM利用率和内存带宽。",
-          "Docker开发环境提供一致的CUDA、Vulkan、FFmpeg和SDK版本，简化环境配置和CI流程。"
+          "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
+          "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
+          "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
+          "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
+          "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
+          "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
         ],
         "technicalDetails": [
           {
-            "text": "AV1层级参考模式：它是什么——一种将B帧排列成树状参考结构的编码模式，根节点为中间B帧，叶节点为非参考B帧。怎么工作——通过增加参考帧数量（最多31个B帧），让编码器更充分利用时间冗余。为什么重要——在无性能损失的情况下提高编码质量，但需更多视频内存。",
+            "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "UHQ调优信息：它是什么——结合lookahead level和时域滤波的调优方案。怎么工作——时域滤波用运动估计在相邻帧找匹配块降噪，lookahead level分析未来帧优化码率分配。为什么重要——在延迟容忍编码中提供最佳质量-性能权衡，平均编码增益4-5%。",
+            "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "逐宏块解码统计：它是什么——NVDECODE API提供的每个16×16块的解码统计信息。怎么工作——硬件解码时自然产生，应用通过cuvidGetDecoderCaps()查询能力、启用统计收集、通过cuvidMapVideoFrame()获取GPU驻留缓冲区。为什么重要——解锁GPU加速视频分析，无需CPU端位流解析。",
+            "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "帧精确寻址：它是什么——通过NvVideoDecoder类提供的随机帧访问API。怎么工作——定位目标帧前最近IDR帧，跳转后仅解码必要参考帧，最终只对目标帧执行完整解码和后期处理。为什么重要——AI工作流和视频编辑需要特定帧而非顺序解码，此功能使帧访问像数组索引一样简单。",
-            "basis": "source"
-          },
-          {
-            "text": "零拷贝转码：它是什么——NVDEC和NVENC直接操作同一GPU内存的转码方案。怎么工作——应用分配CUarray池（使用CUDA_ARRAY3D_VIDEO_ENCODE_DECODE标志），双注册到解码器和编码器，通过共享CUDA流保证顺序。为什么重要——消除中间拷贝和转换，降低SM利用率和内存带宽，提高并发会话吞吐量。",
-            "basis": "source"
-          },
-          {
-            "text": "Docker开发环境：它是什么——官方提供的容器化开发环境。怎么工作——两阶段构建，builder阶段编译SDK样本并安装Vulkan SDK和FFmpeg，runtime阶段保留运行所需。为什么重要——固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，确保环境可复现，简化CI和云部署。",
+            "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "视频转码流水线优化",
+            "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
             "steps": [
-              "评估现有转码流水线的瓶颈，确定是否适合采用零拷贝方案",
-              "使用AppTransZeroCopy示例作为起点，测试零拷贝转码的性能提升",
-              "根据需求调整队列大小，平衡延迟与吞吐量",
-              "在GPU上运行CUDA预处理或推理，利用释放的SM资源"
+              "安装最新版transformers库：pip install -U transformers",
+              "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
+              "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
+              "运行推理：将用户提示转换为模型输入，生成输出并解码。"
             ],
             "tools": [
-              "AppTransZeroCopy示例",
-              "CUDA",
-              "NVIDIA Nsight Systems"
+              "transformers",
+              "Hugging Face",
+              "llama.cpp"
             ],
             "verification": [
-              "SM利用率下降",
-              "内存带宽利用率下降",
-              "并发转码会话数增加"
-            ]
-          },
-          {
-            "scenario": "AI视频分析管道",
-            "steps": [
-              "启用逐宏块解码统计收集",
-              "使用cuvidMapVideoFrame()获取GPU驻留统计缓冲区",
-              "编写CUDA内核处理运动向量和QP数据",
-              "集成到现有推理管道，实现场景检测或质量监控"
-            ],
-            "tools": [
-              "AppDec-dumpstats示例",
-              "CUDA",
-              "NVDECODE API"
-            ],
-            "verification": [
-              "无需CPU位流解析即可获取运动向量",
-              "实时场景检测延迟降低",
-              "自适应码率优化响应更快"
-            ]
-          },
-          {
-            "scenario": "开发环境标准化",
-            "steps": [
-              "克隆video-codec-sdk-docker仓库",
-              "将SDK zip文件放入Docker构建上下文",
-              "运行docker build并指定SDK_ZIP参数",
-              "使用docker run --gpus all启动容器",
-              "生成测试向量并运行样本"
-            ],
-            "tools": [
-              "Docker",
-              "NVIDIA Container Toolkit",
-              "video-codec-sdk-docker仓库"
-            ],
-            "verification": [
-              "容器内样本可直接运行",
-              "测试向量生成成功",
-              "CI管道使用相同镜像构建成功"
+              "模型成功加载并生成响应",
+              "输出文本符合预期，无错误"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "层级参考模式",
-          "零拷贝转码",
-          "逐宏块解码统计",
-          "帧精确寻址",
-          "UHQ调优信息",
-          "迭代编码",
-          "Docker开发环境"
+          "多步任务",
+          "Agentic RL",
+          "推理速度",
+          "指令遵循"
         ],
         "searchTerms": [
           {
-            "term": "AV1层级参考模式",
-            "query": "AV1 hierarchical reference mode NVENC"
+            "term": "LFM2.5-2.6B",
+            "query": "LFM2.5-2.6B model"
           },
           {
-            "term": "零拷贝转码",
-            "query": "zero-copy transcode CUarray NVDEC NVENC"
+            "term": "Agentic RL",
+            "query": "Agentic reinforcement learning"
           },
           {
-            "term": "逐宏块解码统计",
-            "query": "per-macroblock decode statistics NVDECODE"
+            "term": "MOPD",
+            "query": "Multi-domain on-policy distillation"
           },
           {
-            "term": "帧精确寻址",
-            "query": "frame-accurate seek NvVideoDecoder"
+            "term": "SFT",
+            "query": "Supervised fine-tuning"
           },
           {
-            "term": "UHQ调优信息",
-            "query": "UHQ tuning info iterative encoding NVENC"
-          },
-          {
-            "term": "Docker开发环境",
-            "query": "NVIDIA Video Codec SDK Docker development environment"
+            "term": "token/s",
+            "query": "tokens per second inference speed"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-03T22:38:50.801Z",
+      "analyzedAt": "2026-08-04T22:41:59.768Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "ec7ec4e957d37bf3",
+      "title": "How to Evaluate Voice Agents with LangSmith",
+      "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
+      "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
+      "publishedAt": "2026-08-04T17:19:58.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 90,
+      "bodyHash": "0eb1fd108da52d3cbdd35f37",
+      "extraction": {
+        "method": "readability",
+        "length": 14193,
+        "originalLength": 14193,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+      "analysis": {
+        "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
+              "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
+              "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
+              "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
+              "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
+              "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
+              "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
+              "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
+              "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
+              "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
+              "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
+              "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
+              "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
+              "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
+              "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
+              "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
+              "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
+              "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
+              "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
+              "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
+          "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
+          "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
+          "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
+          "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
+          "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+            "basis": "source"
+          },
+          {
+            "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+            "basis": "source"
+          },
+          {
+            "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+            "basis": "source"
+          },
+          {
+            "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+            "basis": "source"
+          },
+          {
+            "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+            "steps": [
+              "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
+              "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
+              "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
+              "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
+              "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
+              "定期使用注释队列进行人工审核，以校准评估器。"
+            ],
+            "tools": [
+              "LangSmith",
+              "代码评估器",
+              "LLM 评判",
+              "音频感知模型",
+              "注释队列"
+            ],
+            "verification": [
+              "观察追踪中工具调用顺序是否正确，无多余调用。",
+              "LLM 评判分数稳定，且与人工审核结果一致性高。",
+              "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
+              "预订成功率提高，且重开率或放弃率下降。",
+              "人工审核发现的问题数量减少，且评估器误报率降低。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "执行",
+          "结果",
+          "体验",
+          "代码评估器",
+          "LLM 评判"
+        ],
+        "searchTerms": [
+          {
+            "term": "LangSmith",
+            "query": "LangSmith 语音代理评估"
+          },
+          {
+            "term": "代码评估器",
+            "query": "LangSmith 代码评估器"
+          },
+          {
+            "term": "LLM 评判",
+            "query": "LLM judge 评估语音代理"
+          },
+          {
+            "term": "音频感知 LLM 评判",
+            "query": "audio-aware LLM judge"
+          },
+          {
+            "term": "注释队列",
+            "query": "LangSmith annotation queue"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-04T22:42:26.465Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "bc5c9a3bbdf77c0c",
+      "title": "The latest AI news we announced in July 2026",
+      "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
+      "summary": "Here are Google’s latest AI updates from July 2026",
+      "publishedAt": "2026-08-04T13:00:00.000Z",
+      "sourceId": "google-ai",
+      "sourceName": "Google AI",
+      "sourceSite": "https://blog.google/technology/ai/",
+      "lane": "ai",
+      "accent": "#4285f4",
+      "topic": "AI 动态",
+      "score": 70,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 12,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 74,
+      "bodyHash": "5c9385eb750dcb1fed23a62c",
+      "extraction": {
+        "method": "readability",
+        "length": 8505,
+        "originalLength": 8505,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+      "analysis": {
+        "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
+              "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
+              "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
+              "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
+              "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
+              "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
+              "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
+          "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
+          "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
+          "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
+          "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
+          "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+            "basis": "source"
+          },
+          {
+            "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+            "basis": "source"
+          },
+          {
+            "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+            "basis": "source"
+          },
+          {
+            "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+            "basis": "source"
+          },
+          {
+            "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+            "steps": [
+              "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
+              "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
+              "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
+              "部署到生产环境，监控延迟和 token 消耗。"
+            ],
+            "tools": [
+              "Google AI Studio",
+              "Vertex AI",
+              "Gemini API"
+            ],
+            "verification": [
+              "观察响应时间是否低于 500 毫秒",
+              "检查 token 消耗是否比旧模型降低 20%"
+            ]
+          },
+          {
+            "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+            "steps": [
+              "访问 Google Flow Music 平台。",
+              "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
+              "生成多个版本，选择最符合需求的。",
+              "导出音频并导入视频编辑器。"
+            ],
+            "tools": [
+              "Google Flow Music",
+              "Lyria 3.5"
+            ],
+            "verification": [
+              "生成音乐时长是否满足视频需要",
+              "歌词和音质是否达到发布标准"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "具身推理",
+          "token 效率",
+          "早期火灾检测"
+        ],
+        "searchTerms": [
+          {
+            "term": "Gemini 3.6 Flash",
+            "query": "Gemini 3.6 Flash model"
+          },
+          {
+            "term": "Gemini Robotics ER 2",
+            "query": "Gemini Robotics ER 2 embodied reasoning"
+          },
+          {
+            "term": "AlphaEvolve",
+            "query": "AlphaEvolve Google Cloud code optimization"
+          },
+          {
+            "term": "FireSat",
+            "query": "FireSat satellite wildfire detection"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-04T22:42:48.607Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "dffcfa831a63c676",
-      "title": "NVIDIA Video Codec SDK 13.1: Zero-Copy Transcode, AV1 B-Frames, and Frame-Accurate Seek",
-      "url": "https://developer.nvidia.com/blog/nvidia-video-codec-sdk-13-1-zero-copy-transcode-av1-b-frames-and-frame-accurate-seek/",
-      "summary": "The demand for high-quality video continues to accelerate across industries, powering everything from immersive streaming experiences to remote collaboration,...",
-      "publishedAt": "2026-07-31T15:13:02.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
+      "id": "77c76922427b8b89",
+      "title": "Deploy local agents everywhere with LFM2.5-2.6B",
+      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
+      "summary": "",
+      "publishedAt": "2026-08-04T13:58:29.000Z",
+      "sourceId": "huggingface",
+      "sourceName": "Hugging Face Blog",
+      "sourceSite": "https://huggingface.co/blog",
       "lane": "ai",
-      "accent": "#76b900",
-      "topic": "开发实践",
-      "score": 69,
-      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 25,
+      "accent": "#ff9d00",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 8,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 80,
-      "bodyHash": "6afaa9e786ed12fd8f459a2c",
+      "candidateScore": 92,
+      "bodyHash": "f3958493d9e8876f13ea27d3",
       "extraction": {
         "method": "readability",
-        "length": 17403,
-        "originalLength": 17403,
+        "length": 5932,
+        "originalLength": 5932,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "NVIDIA Video Codec SDK 13.1：零拷贝转码、AV1 B帧与帧精确寻址",
+      "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
       "analysis": {
-        "listSummary": "本文介绍NVIDIA Video Codec SDK 13.1的新特性，包括AV1编码的层级参考模式、UHQ调优信息与迭代编码的结合、H.264/HEVC解码的逐宏块统计、帧精确寻址、MV-HEVC立体增强、零拷贝转码流水线以及Docker开发环境。文章通过图表展示性能提升，并详细解释每个特性的工作原理和适用场景。对于从事视频处理、流媒体或AI视频分析的开发者，这篇文章提供了实用的技术更新和优化方向，值得阅读。",
+        "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "视频处理需求持续增长，从流媒体到AI媒体工具都需要更高效的视频流水线。NVIDIA Video Codec SDK通过GPU硬件视频引擎提供加速编解码能力，帮助开发者应对这一挑战。",
-              "SDK 13.1版本在编码、解码、转码和开发环境方面均有更新。编码方面新增AV1层级参考模式，支持最多31个B帧；解码方面新增逐宏块统计和帧精确寻址；转码方面引入零拷贝CUarray方案；同时提供官方Docker开发环境。",
-              "这些特性旨在解决传统视频流水线中的性能瓶颈，如CPU端位流解析开销、多格式转换和内存拷贝，以及开发环境配置复杂等问题。"
+              "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
+              "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
+              "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "AV1层级参考模式通过树状结构排列B帧，将最大B帧数从7提升到31，利用时间冗余提高编码质量。该模式在7个及以上B帧时效果最佳，且无性能损失，但视频内存消耗会更高。",
-              "UHQ调优信息结合迭代编码，使lookahead level和时域滤波能够与逐迭代重编码协同工作。时域滤波通过运动估计在相邻帧中寻找匹配块来降噪，平均编码增益为4-5%；lookahead level分析未来帧并利用CTU统计信息优化码率分配。",
-              "逐宏块解码统计通过NVDECODE API提供每个16×16块的亮度QP、编码单元类型和运动向量，这些数据是硬件解码的自然副产品，无需额外CPU开销。应用可查询解码器能力、启用统计收集并获取GPU驻留缓冲区。",
-              "帧精确寻址采用GOP感知架构，定位目标帧前的最近IDR帧，跳转后仅解码必要的参考帧，最终只对目标帧执行完整解码和后期处理。NvVideoDecoder类封装了底层SeekUtils引擎，提供类似数组索引的简洁接口。",
-              "零拷贝转码通过共享CUarray池和双注册机制，让NVDEC和NVENC直接操作同一GPU内存，消除中间格式转换和拷贝。流水线使用三线程和令牌流控管理CUarray所有权，并通过共享CUDA流保证顺序。",
-              "重新设计的转码示例采用模块化、队列化架构，每个流水线阶段分配独立CPU线程，通过显式大小的输入输出队列通信。这种设计保证并发性，简化定制，并最大化硬件利用率。"
+              "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
+              "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
+              "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文通过图表展示性能提升：层级参考模式在CQ和VBR模式下均带来比特率节省；零拷贝转码相比传统流水线降低SM利用率和内存带宽利用率。这些图表基于1080p H.264测试。",
-              "层级参考模式目前仅支持AV1，H.264和HEVC将在未来驱动版本中支持。零拷贝转码需要CUDA数组和双注册机制，对开发者有较高的底层API要求。",
-              "Docker开发环境固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，提供可复现的开发环境，但需要NVIDIA GPU、Docker GPU支持和NVIDIA Container Toolkit。",
-              "逐宏块统计功能支持H.264和HEVC，但不包括AV1或VP9。帧精确寻址支持非可寻址流，但反向寻址需要自动解码器重置。"
+              "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
+              "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
+              "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
+              "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
             ]
           }
         ],
         "keyPoints": [
-          "AV1层级参考模式将最大B帧数从7提升到31，通过树状参考结构提高编码质量，无性能损失但增加内存消耗。",
-          "UHQ调优信息结合迭代编码，使lookahead level和时域滤波与逐迭代重编码协同工作，时域滤波平均编码增益4-5%。",
-          "逐宏块解码统计提供每个16×16块的QP、编码单元类型和运动向量，无需额外CPU开销，支持GPU加速视频分析。",
-          "帧精确寻址通过GOP感知架构，仅解码必要的参考帧，实现类似数组索引的帧访问。",
-          "零拷贝转码通过共享CUarray池消除中间格式转换和拷贝，降低SM利用率和内存带宽。",
-          "Docker开发环境提供一致的CUDA、Vulkan、FFmpeg和SDK版本，简化环境配置和CI流程。"
+          "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
+          "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
+          "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
+          "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
+          "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
+          "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
         ],
         "technicalDetails": [
           {
-            "text": "AV1层级参考模式：它是什么——一种将B帧排列成树状参考结构的编码模式，根节点为中间B帧，叶节点为非参考B帧。怎么工作——通过增加参考帧数量（最多31个B帧），让编码器更充分利用时间冗余。为什么重要——在无性能损失的情况下提高编码质量，但需更多视频内存。",
+            "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "UHQ调优信息：它是什么——结合lookahead level和时域滤波的调优方案。怎么工作——时域滤波用运动估计在相邻帧找匹配块降噪，lookahead level分析未来帧优化码率分配。为什么重要——在延迟容忍编码中提供最佳质量-性能权衡，平均编码增益4-5%。",
+            "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "逐宏块解码统计：它是什么——NVDECODE API提供的每个16×16块的解码统计信息。怎么工作——硬件解码时自然产生，应用通过cuvidGetDecoderCaps()查询能力、启用统计收集、通过cuvidMapVideoFrame()获取GPU驻留缓冲区。为什么重要——解锁GPU加速视频分析，无需CPU端位流解析。",
+            "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
             "basis": "source"
           },
           {
-            "text": "帧精确寻址：它是什么——通过NvVideoDecoder类提供的随机帧访问API。怎么工作——定位目标帧前最近IDR帧，跳转后仅解码必要参考帧，最终只对目标帧执行完整解码和后期处理。为什么重要——AI工作流和视频编辑需要特定帧而非顺序解码，此功能使帧访问像数组索引一样简单。",
-            "basis": "source"
-          },
-          {
-            "text": "零拷贝转码：它是什么——NVDEC和NVENC直接操作同一GPU内存的转码方案。怎么工作——应用分配CUarray池（使用CUDA_ARRAY3D_VIDEO_ENCODE_DECODE标志），双注册到解码器和编码器，通过共享CUDA流保证顺序。为什么重要——消除中间拷贝和转换，降低SM利用率和内存带宽，提高并发会话吞吐量。",
-            "basis": "source"
-          },
-          {
-            "text": "Docker开发环境：它是什么——官方提供的容器化开发环境。怎么工作——两阶段构建，builder阶段编译SDK样本并安装Vulkan SDK和FFmpeg，runtime阶段保留运行所需。为什么重要——固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，确保环境可复现，简化CI和云部署。",
+            "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "视频转码流水线优化",
+            "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
             "steps": [
-              "评估现有转码流水线的瓶颈，确定是否适合采用零拷贝方案",
-              "使用AppTransZeroCopy示例作为起点，测试零拷贝转码的性能提升",
-              "根据需求调整队列大小，平衡延迟与吞吐量",
-              "在GPU上运行CUDA预处理或推理，利用释放的SM资源"
+              "安装最新版transformers库：pip install -U transformers",
+              "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
+              "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
+              "运行推理：将用户提示转换为模型输入，生成输出并解码。"
             ],
             "tools": [
-              "AppTransZeroCopy示例",
-              "CUDA",
-              "NVIDIA Nsight Systems"
+              "transformers",
+              "Hugging Face",
+              "llama.cpp"
             ],
             "verification": [
-              "SM利用率下降",
-              "内存带宽利用率下降",
-              "并发转码会话数增加"
-            ]
-          },
-          {
-            "scenario": "AI视频分析管道",
-            "steps": [
-              "启用逐宏块解码统计收集",
-              "使用cuvidMapVideoFrame()获取GPU驻留统计缓冲区",
-              "编写CUDA内核处理运动向量和QP数据",
-              "集成到现有推理管道，实现场景检测或质量监控"
-            ],
-            "tools": [
-              "AppDec-dumpstats示例",
-              "CUDA",
-              "NVDECODE API"
-            ],
-            "verification": [
-              "无需CPU位流解析即可获取运动向量",
-              "实时场景检测延迟降低",
-              "自适应码率优化响应更快"
-            ]
-          },
-          {
-            "scenario": "开发环境标准化",
-            "steps": [
-              "克隆video-codec-sdk-docker仓库",
-              "将SDK zip文件放入Docker构建上下文",
-              "运行docker build并指定SDK_ZIP参数",
-              "使用docker run --gpus all启动容器",
-              "生成测试向量并运行样本"
-            ],
-            "tools": [
-              "Docker",
-              "NVIDIA Container Toolkit",
-              "video-codec-sdk-docker仓库"
-            ],
-            "verification": [
-              "容器内样本可直接运行",
-              "测试向量生成成功",
-              "CI管道使用相同镜像构建成功"
+              "模型成功加载并生成响应",
+              "输出文本符合预期，无错误"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "层级参考模式",
-          "零拷贝转码",
-          "逐宏块解码统计",
-          "帧精确寻址",
-          "UHQ调优信息",
-          "迭代编码",
-          "Docker开发环境"
+          "多步任务",
+          "Agentic RL",
+          "推理速度",
+          "指令遵循"
         ],
         "searchTerms": [
           {
-            "term": "AV1层级参考模式",
-            "query": "AV1 hierarchical reference mode NVENC"
+            "term": "LFM2.5-2.6B",
+            "query": "LFM2.5-2.6B model"
           },
           {
-            "term": "零拷贝转码",
-            "query": "zero-copy transcode CUarray NVDEC NVENC"
+            "term": "Agentic RL",
+            "query": "Agentic reinforcement learning"
           },
           {
-            "term": "逐宏块解码统计",
-            "query": "per-macroblock decode statistics NVDECODE"
+            "term": "MOPD",
+            "query": "Multi-domain on-policy distillation"
           },
           {
-            "term": "帧精确寻址",
-            "query": "frame-accurate seek NvVideoDecoder"
+            "term": "SFT",
+            "query": "Supervised fine-tuning"
           },
           {
-            "term": "UHQ调优信息",
-            "query": "UHQ tuning info iterative encoding NVENC"
-          },
-          {
-            "term": "Docker开发环境",
-            "query": "NVIDIA Video Codec SDK Docker development environment"
+            "term": "token/s",
+            "query": "tokens per second inference speed"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-03T22:38:50.801Z",
+      "analyzedAt": "2026-08-04T22:41:59.768Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "ec7ec4e957d37bf3",
+      "title": "How to Evaluate Voice Agents with LangSmith",
+      "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
+      "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
+      "publishedAt": "2026-08-04T17:19:58.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "AI 辅助学习",
+      "score": 69,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 90,
+      "bodyHash": "0eb1fd108da52d3cbdd35f37",
+      "extraction": {
+        "method": "readability",
+        "length": 14193,
+        "originalLength": 14193,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+      "analysis": {
+        "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
+              "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
+              "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
+              "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
+              "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
+              "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
+              "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
+              "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
+              "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
+              "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
+              "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
+              "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
+              "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
+              "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
+              "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
+              "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
+              "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
+              "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
+              "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
+              "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
+          "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
+          "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
+          "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
+          "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
+          "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+            "basis": "source"
+          },
+          {
+            "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+            "basis": "source"
+          },
+          {
+            "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+            "basis": "source"
+          },
+          {
+            "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+            "basis": "source"
+          },
+          {
+            "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+            "steps": [
+              "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
+              "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
+              "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
+              "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
+              "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
+              "定期使用注释队列进行人工审核，以校准评估器。"
+            ],
+            "tools": [
+              "LangSmith",
+              "代码评估器",
+              "LLM 评判",
+              "音频感知模型",
+              "注释队列"
+            ],
+            "verification": [
+              "观察追踪中工具调用顺序是否正确，无多余调用。",
+              "LLM 评判分数稳定，且与人工审核结果一致性高。",
+              "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
+              "预订成功率提高，且重开率或放弃率下降。",
+              "人工审核发现的问题数量减少，且评估器误报率降低。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "执行",
+          "结果",
+          "体验",
+          "代码评估器",
+          "LLM 评判"
+        ],
+        "searchTerms": [
+          {
+            "term": "LangSmith",
+            "query": "LangSmith 语音代理评估"
+          },
+          {
+            "term": "代码评估器",
+            "query": "LangSmith 代码评估器"
+          },
+          {
+            "term": "LLM 评判",
+            "query": "LLM judge 评估语音代理"
+          },
+          {
+            "term": "音频感知 LLM 评判",
+            "query": "audio-aware LLM judge"
+          },
+          {
+            "term": "注释队列",
+            "query": "LangSmith annotation queue"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-04T22:42:26.465Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "bc5c9a3bbdf77c0c",
+      "title": "The latest AI news we announced in July 2026",
+      "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
+      "summary": "Here are Google’s latest AI updates from July 2026",
+      "publishedAt": "2026-08-04T13:00:00.000Z",
+      "sourceId": "google-ai",
+      "sourceName": "Google AI",
+      "sourceSite": "https://blog.google/technology/ai/",
+      "lane": "ai",
+      "accent": "#4285f4",
+      "topic": "AI 动态",
+      "score": 70,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 12,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 74,
+      "bodyHash": "5c9385eb750dcb1fed23a62c",
+      "extraction": {
+        "method": "readability",
+        "length": 8505,
+        "originalLength": 8505,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+      "analysis": {
+        "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
+              "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
+              "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
+              "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
+              "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
+              "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
+              "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
+          "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
+          "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
+          "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
+          "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
+          "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+            "basis": "source"
+          },
+          {
+            "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+            "basis": "source"
+          },
+          {
+            "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+            "basis": "source"
+          },
+          {
+            "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+            "basis": "source"
+          },
+          {
+            "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+            "steps": [
+              "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
+              "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
+              "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
+              "部署到生产环境，监控延迟和 token 消耗。"
+            ],
+            "tools": [
+              "Google AI Studio",
+              "Vertex AI",
+              "Gemini API"
+            ],
+            "verification": [
+              "观察响应时间是否低于 500 毫秒",
+              "检查 token 消耗是否比旧模型降低 20%"
+            ]
+          },
+          {
+            "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+            "steps": [
+              "访问 Google Flow Music 平台。",
+              "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
+              "生成多个版本，选择最符合需求的。",
+              "导出音频并导入视频编辑器。"
+            ],
+            "tools": [
+              "Google Flow Music",
+              "Lyria 3.5"
+            ],
+            "verification": [
+              "生成音乐时长是否满足视频需要",
+              "歌词和音质是否达到发布标准"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "具身推理",
+          "token 效率",
+          "早期火灾检测"
+        ],
+        "searchTerms": [
+          {
+            "term": "Gemini 3.6 Flash",
+            "query": "Gemini 3.6 Flash model"
+          },
+          {
+            "term": "Gemini Robotics ER 2",
+            "query": "Gemini Robotics ER 2 embodied reasoning"
+          },
+          {
+            "term": "AlphaEvolve",
+            "query": "AlphaEvolve Google Cloud code optimization"
+          },
+          {
+            "term": "FireSat",
+            "query": "FireSat satellite wildfire detection"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-04T22:42:48.607Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "dffcfa831a63c676",
-        "title": "NVIDIA Video Codec SDK 13.1: Zero-Copy Transcode, AV1 B-Frames, and Frame-Accurate Seek",
-        "url": "https://developer.nvidia.com/blog/nvidia-video-codec-sdk-13-1-zero-copy-transcode-av1-b-frames-and-frame-accurate-seek/",
-        "summary": "The demand for high-quality video continues to accelerate across industries, powering everything from immersive streaming experiences to remote collaboration,...",
-        "publishedAt": "2026-07-31T15:13:02.000Z",
-        "sourceId": "nvidia-dev",
-        "sourceName": "NVIDIA Developer",
-        "sourceSite": "https://developer.nvidia.com/blog/",
+        "id": "77c76922427b8b89",
+        "title": "Deploy local agents everywhere with LFM2.5-2.6B",
+        "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
+        "summary": "",
+        "publishedAt": "2026-08-04T13:58:29.000Z",
+        "sourceId": "huggingface",
+        "sourceName": "Hugging Face Blog",
+        "sourceSite": "https://huggingface.co/blog",
         "lane": "ai",
-        "accent": "#76b900",
-        "topic": "开发实践",
-        "score": 69,
-        "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-        "readMinutes": 25,
+        "accent": "#ff9d00",
+        "topic": "Agent 与自动化",
+        "score": 70,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 8,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 80,
-        "bodyHash": "6afaa9e786ed12fd8f459a2c",
+        "candidateScore": 92,
+        "bodyHash": "f3958493d9e8876f13ea27d3",
         "extraction": {
           "method": "readability",
-          "length": 17403,
-          "originalLength": 17403,
+          "length": 5932,
+          "originalLength": 5932,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "NVIDIA Video Codec SDK 13.1：零拷贝转码、AV1 B帧与帧精确寻址",
+        "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
         "analysis": {
-          "listSummary": "本文介绍NVIDIA Video Codec SDK 13.1的新特性，包括AV1编码的层级参考模式、UHQ调优信息与迭代编码的结合、H.264/HEVC解码的逐宏块统计、帧精确寻址、MV-HEVC立体增强、零拷贝转码流水线以及Docker开发环境。文章通过图表展示性能提升，并详细解释每个特性的工作原理和适用场景。对于从事视频处理、流媒体或AI视频分析的开发者，这篇文章提供了实用的技术更新和优化方向，值得阅读。",
+          "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "视频处理需求持续增长，从流媒体到AI媒体工具都需要更高效的视频流水线。NVIDIA Video Codec SDK通过GPU硬件视频引擎提供加速编解码能力，帮助开发者应对这一挑战。",
-                "SDK 13.1版本在编码、解码、转码和开发环境方面均有更新。编码方面新增AV1层级参考模式，支持最多31个B帧；解码方面新增逐宏块统计和帧精确寻址；转码方面引入零拷贝CUarray方案；同时提供官方Docker开发环境。",
-                "这些特性旨在解决传统视频流水线中的性能瓶颈，如CPU端位流解析开销、多格式转换和内存拷贝，以及开发环境配置复杂等问题。"
+                "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
+                "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
+                "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "AV1层级参考模式通过树状结构排列B帧，将最大B帧数从7提升到31，利用时间冗余提高编码质量。该模式在7个及以上B帧时效果最佳，且无性能损失，但视频内存消耗会更高。",
-                "UHQ调优信息结合迭代编码，使lookahead level和时域滤波能够与逐迭代重编码协同工作。时域滤波通过运动估计在相邻帧中寻找匹配块来降噪，平均编码增益为4-5%；lookahead level分析未来帧并利用CTU统计信息优化码率分配。",
-                "逐宏块解码统计通过NVDECODE API提供每个16×16块的亮度QP、编码单元类型和运动向量，这些数据是硬件解码的自然副产品，无需额外CPU开销。应用可查询解码器能力、启用统计收集并获取GPU驻留缓冲区。",
-                "帧精确寻址采用GOP感知架构，定位目标帧前的最近IDR帧，跳转后仅解码必要的参考帧，最终只对目标帧执行完整解码和后期处理。NvVideoDecoder类封装了底层SeekUtils引擎，提供类似数组索引的简洁接口。",
-                "零拷贝转码通过共享CUarray池和双注册机制，让NVDEC和NVENC直接操作同一GPU内存，消除中间格式转换和拷贝。流水线使用三线程和令牌流控管理CUarray所有权，并通过共享CUDA流保证顺序。",
-                "重新设计的转码示例采用模块化、队列化架构，每个流水线阶段分配独立CPU线程，通过显式大小的输入输出队列通信。这种设计保证并发性，简化定制，并最大化硬件利用率。"
+                "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
+                "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
+                "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文通过图表展示性能提升：层级参考模式在CQ和VBR模式下均带来比特率节省；零拷贝转码相比传统流水线降低SM利用率和内存带宽利用率。这些图表基于1080p H.264测试。",
-                "层级参考模式目前仅支持AV1，H.264和HEVC将在未来驱动版本中支持。零拷贝转码需要CUDA数组和双注册机制，对开发者有较高的底层API要求。",
-                "Docker开发环境固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，提供可复现的开发环境，但需要NVIDIA GPU、Docker GPU支持和NVIDIA Container Toolkit。",
-                "逐宏块统计功能支持H.264和HEVC，但不包括AV1或VP9。帧精确寻址支持非可寻址流，但反向寻址需要自动解码器重置。"
+                "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
+                "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
+                "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
+                "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
               ]
             }
           ],
           "keyPoints": [
-            "AV1层级参考模式将最大B帧数从7提升到31，通过树状参考结构提高编码质量，无性能损失但增加内存消耗。",
-            "UHQ调优信息结合迭代编码，使lookahead level和时域滤波与逐迭代重编码协同工作，时域滤波平均编码增益4-5%。",
-            "逐宏块解码统计提供每个16×16块的QP、编码单元类型和运动向量，无需额外CPU开销，支持GPU加速视频分析。",
-            "帧精确寻址通过GOP感知架构，仅解码必要的参考帧，实现类似数组索引的帧访问。",
-            "零拷贝转码通过共享CUarray池消除中间格式转换和拷贝，降低SM利用率和内存带宽。",
-            "Docker开发环境提供一致的CUDA、Vulkan、FFmpeg和SDK版本，简化环境配置和CI流程。"
+            "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
+            "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
+            "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
+            "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
+            "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
+            "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
           ],
           "technicalDetails": [
             {
-              "text": "AV1层级参考模式：它是什么——一种将B帧排列成树状参考结构的编码模式，根节点为中间B帧，叶节点为非参考B帧。怎么工作——通过增加参考帧数量（最多31个B帧），让编码器更充分利用时间冗余。为什么重要——在无性能损失的情况下提高编码质量，但需更多视频内存。",
+              "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
               "basis": "source"
             },
             {
-              "text": "UHQ调优信息：它是什么——结合lookahead level和时域滤波的调优方案。怎么工作——时域滤波用运动估计在相邻帧找匹配块降噪，lookahead level分析未来帧优化码率分配。为什么重要——在延迟容忍编码中提供最佳质量-性能权衡，平均编码增益4-5%。",
+              "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
               "basis": "source"
             },
             {
-              "text": "逐宏块解码统计：它是什么——NVDECODE API提供的每个16×16块的解码统计信息。怎么工作——硬件解码时自然产生，应用通过cuvidGetDecoderCaps()查询能力、启用统计收集、通过cuvidMapVideoFrame()获取GPU驻留缓冲区。为什么重要——解锁GPU加速视频分析，无需CPU端位流解析。",
+              "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
               "basis": "source"
             },
             {
-              "text": "帧精确寻址：它是什么——通过NvVideoDecoder类提供的随机帧访问API。怎么工作——定位目标帧前最近IDR帧，跳转后仅解码必要参考帧，最终只对目标帧执行完整解码和后期处理。为什么重要——AI工作流和视频编辑需要特定帧而非顺序解码，此功能使帧访问像数组索引一样简单。",
-              "basis": "source"
-            },
-            {
-              "text": "零拷贝转码：它是什么——NVDEC和NVENC直接操作同一GPU内存的转码方案。怎么工作——应用分配CUarray池（使用CUDA_ARRAY3D_VIDEO_ENCODE_DECODE标志），双注册到解码器和编码器，通过共享CUDA流保证顺序。为什么重要——消除中间拷贝和转换，降低SM利用率和内存带宽，提高并发会话吞吐量。",
-              "basis": "source"
-            },
-            {
-              "text": "Docker开发环境：它是什么——官方提供的容器化开发环境。怎么工作——两阶段构建，builder阶段编译SDK样本并安装Vulkan SDK和FFmpeg，runtime阶段保留运行所需。为什么重要——固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，确保环境可复现，简化CI和云部署。",
+              "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "视频转码流水线优化",
+              "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
               "steps": [
-                "评估现有转码流水线的瓶颈，确定是否适合采用零拷贝方案",
-                "使用AppTransZeroCopy示例作为起点，测试零拷贝转码的性能提升",
-                "根据需求调整队列大小，平衡延迟与吞吐量",
-                "在GPU上运行CUDA预处理或推理，利用释放的SM资源"
+                "安装最新版transformers库：pip install -U transformers",
+                "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
+                "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
+                "运行推理：将用户提示转换为模型输入，生成输出并解码。"
               ],
               "tools": [
-                "AppTransZeroCopy示例",
-                "CUDA",
-                "NVIDIA Nsight Systems"
+                "transformers",
+                "Hugging Face",
+                "llama.cpp"
               ],
               "verification": [
-                "SM利用率下降",
-                "内存带宽利用率下降",
-                "并发转码会话数增加"
-              ]
-            },
-            {
-              "scenario": "AI视频分析管道",
-              "steps": [
-                "启用逐宏块解码统计收集",
-                "使用cuvidMapVideoFrame()获取GPU驻留统计缓冲区",
-                "编写CUDA内核处理运动向量和QP数据",
-                "集成到现有推理管道，实现场景检测或质量监控"
-              ],
-              "tools": [
-                "AppDec-dumpstats示例",
-                "CUDA",
-                "NVDECODE API"
-              ],
-              "verification": [
-                "无需CPU位流解析即可获取运动向量",
-                "实时场景检测延迟降低",
-                "自适应码率优化响应更快"
-              ]
-            },
-            {
-              "scenario": "开发环境标准化",
-              "steps": [
-                "克隆video-codec-sdk-docker仓库",
-                "将SDK zip文件放入Docker构建上下文",
-                "运行docker build并指定SDK_ZIP参数",
-                "使用docker run --gpus all启动容器",
-                "生成测试向量并运行样本"
-              ],
-              "tools": [
-                "Docker",
-                "NVIDIA Container Toolkit",
-                "video-codec-sdk-docker仓库"
-              ],
-              "verification": [
-                "容器内样本可直接运行",
-                "测试向量生成成功",
-                "CI管道使用相同镜像构建成功"
+                "模型成功加载并生成响应",
+                "输出文本符合预期，无错误"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "层级参考模式",
-            "零拷贝转码",
-            "逐宏块解码统计",
-            "帧精确寻址",
-            "UHQ调优信息",
-            "迭代编码",
-            "Docker开发环境"
+            "多步任务",
+            "Agentic RL",
+            "推理速度",
+            "指令遵循"
           ],
           "searchTerms": [
             {
-              "term": "AV1层级参考模式",
-              "query": "AV1 hierarchical reference mode NVENC"
+              "term": "LFM2.5-2.6B",
+              "query": "LFM2.5-2.6B model"
             },
             {
-              "term": "零拷贝转码",
-              "query": "zero-copy transcode CUarray NVDEC NVENC"
+              "term": "Agentic RL",
+              "query": "Agentic reinforcement learning"
             },
             {
-              "term": "逐宏块解码统计",
-              "query": "per-macroblock decode statistics NVDECODE"
+              "term": "MOPD",
+              "query": "Multi-domain on-policy distillation"
             },
             {
-              "term": "帧精确寻址",
-              "query": "frame-accurate seek NvVideoDecoder"
+              "term": "SFT",
+              "query": "Supervised fine-tuning"
             },
             {
-              "term": "UHQ调优信息",
-              "query": "UHQ tuning info iterative encoding NVENC"
-            },
-            {
-              "term": "Docker开发环境",
-              "query": "NVIDIA Video Codec SDK Docker development environment"
+              "term": "token/s",
+              "query": "tokens per second inference speed"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-03T22:38:50.801Z",
+        "analyzedAt": "2026-08-04T22:41:59.768Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "ec7ec4e957d37bf3",
+        "title": "How to Evaluate Voice Agents with LangSmith",
+        "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
+        "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
+        "publishedAt": "2026-08-04T17:19:58.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "AI 辅助学习",
+        "score": 69,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 20,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 90,
+        "bodyHash": "0eb1fd108da52d3cbdd35f37",
+        "extraction": {
+          "method": "readability",
+          "length": 14193,
+          "originalLength": 14193,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+        "analysis": {
+          "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
+                "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
+                "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
+                "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
+                "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
+                "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
+                "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
+                "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
+                "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
+                "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
+                "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
+                "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
+                "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
+                "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
+                "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
+                "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
+                "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
+                "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
+                "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
+                "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
+            "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
+            "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
+            "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
+            "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
+            "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+              "basis": "source"
+            },
+            {
+              "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+              "basis": "source"
+            },
+            {
+              "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+              "basis": "source"
+            },
+            {
+              "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+              "basis": "source"
+            },
+            {
+              "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+              "steps": [
+                "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
+                "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
+                "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
+                "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
+                "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
+                "定期使用注释队列进行人工审核，以校准评估器。"
+              ],
+              "tools": [
+                "LangSmith",
+                "代码评估器",
+                "LLM 评判",
+                "音频感知模型",
+                "注释队列"
+              ],
+              "verification": [
+                "观察追踪中工具调用顺序是否正确，无多余调用。",
+                "LLM 评判分数稳定，且与人工审核结果一致性高。",
+                "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
+                "预订成功率提高，且重开率或放弃率下降。",
+                "人工审核发现的问题数量减少，且评估器误报率降低。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "执行",
+            "结果",
+            "体验",
+            "代码评估器",
+            "LLM 评判"
+          ],
+          "searchTerms": [
+            {
+              "term": "LangSmith",
+              "query": "LangSmith 语音代理评估"
+            },
+            {
+              "term": "代码评估器",
+              "query": "LangSmith 代码评估器"
+            },
+            {
+              "term": "LLM 评判",
+              "query": "LLM judge 评估语音代理"
+            },
+            {
+              "term": "音频感知 LLM 评判",
+              "query": "audio-aware LLM judge"
+            },
+            {
+              "term": "注释队列",
+              "query": "LangSmith annotation queue"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-04T22:42:26.465Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "bc5c9a3bbdf77c0c",
+        "title": "The latest AI news we announced in July 2026",
+        "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
+        "summary": "Here are Google’s latest AI updates from July 2026",
+        "publishedAt": "2026-08-04T13:00:00.000Z",
+        "sourceId": "google-ai",
+        "sourceName": "Google AI",
+        "sourceSite": "https://blog.google/technology/ai/",
+        "lane": "ai",
+        "accent": "#4285f4",
+        "topic": "AI 动态",
+        "score": 70,
+        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+        "readMinutes": 12,
+        "category": "update",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 74,
+        "bodyHash": "5c9385eb750dcb1fed23a62c",
+        "extraction": {
+          "method": "readability",
+          "length": 8505,
+          "originalLength": 8505,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+        "analysis": {
+          "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
+                "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
+                "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
+                "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
+                "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
+                "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
+                "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
+            "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
+            "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
+            "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
+            "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
+            "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+              "basis": "source"
+            },
+            {
+              "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+              "basis": "source"
+            },
+            {
+              "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+              "basis": "source"
+            },
+            {
+              "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+              "basis": "source"
+            },
+            {
+              "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+              "steps": [
+                "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
+                "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
+                "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
+                "部署到生产环境，监控延迟和 token 消耗。"
+              ],
+              "tools": [
+                "Google AI Studio",
+                "Vertex AI",
+                "Gemini API"
+              ],
+              "verification": [
+                "观察响应时间是否低于 500 毫秒",
+                "检查 token 消耗是否比旧模型降低 20%"
+              ]
+            },
+            {
+              "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+              "steps": [
+                "访问 Google Flow Music 平台。",
+                "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
+                "生成多个版本，选择最符合需求的。",
+                "导出音频并导入视频编辑器。"
+              ],
+              "tools": [
+                "Google Flow Music",
+                "Lyria 3.5"
+              ],
+              "verification": [
+                "生成音乐时长是否满足视频需要",
+                "歌词和音质是否达到发布标准"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "具身推理",
+            "token 效率",
+            "早期火灾检测"
+          ],
+          "searchTerms": [
+            {
+              "term": "Gemini 3.6 Flash",
+              "query": "Gemini 3.6 Flash model"
+            },
+            {
+              "term": "Gemini Robotics ER 2",
+              "query": "Gemini Robotics ER 2 embodied reasoning"
+            },
+            {
+              "term": "AlphaEvolve",
+              "query": "AlphaEvolve Google Cloud code optimization"
+            },
+            {
+              "term": "FireSat",
+              "query": "FireSat satellite wildfire detection"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-04T22:42:48.607Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -1853,199 +2881,456 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "dffcfa831a63c676",
-        "title": "NVIDIA Video Codec SDK 13.1: Zero-Copy Transcode, AV1 B-Frames, and Frame-Accurate Seek",
-        "url": "https://developer.nvidia.com/blog/nvidia-video-codec-sdk-13-1-zero-copy-transcode-av1-b-frames-and-frame-accurate-seek/",
-        "summary": "The demand for high-quality video continues to accelerate across industries, powering everything from immersive streaming experiences to remote collaboration,...",
-        "publishedAt": "2026-07-31T15:13:02.000Z",
-        "sourceId": "nvidia-dev",
-        "sourceName": "NVIDIA Developer",
-        "sourceSite": "https://developer.nvidia.com/blog/",
+        "id": "77c76922427b8b89",
+        "title": "Deploy local agents everywhere with LFM2.5-2.6B",
+        "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
+        "summary": "",
+        "publishedAt": "2026-08-04T13:58:29.000Z",
+        "sourceId": "huggingface",
+        "sourceName": "Hugging Face Blog",
+        "sourceSite": "https://huggingface.co/blog",
         "lane": "ai",
-        "accent": "#76b900",
-        "topic": "开发实践",
-        "score": 69,
-        "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-        "readMinutes": 25,
+        "accent": "#ff9d00",
+        "topic": "Agent 与自动化",
+        "score": 70,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 8,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 80,
-        "bodyHash": "6afaa9e786ed12fd8f459a2c",
+        "candidateScore": 92,
+        "bodyHash": "f3958493d9e8876f13ea27d3",
         "extraction": {
           "method": "readability",
-          "length": 17403,
-          "originalLength": 17403,
+          "length": 5932,
+          "originalLength": 5932,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "NVIDIA Video Codec SDK 13.1：零拷贝转码、AV1 B帧与帧精确寻址",
+        "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
         "analysis": {
-          "listSummary": "本文介绍NVIDIA Video Codec SDK 13.1的新特性，包括AV1编码的层级参考模式、UHQ调优信息与迭代编码的结合、H.264/HEVC解码的逐宏块统计、帧精确寻址、MV-HEVC立体增强、零拷贝转码流水线以及Docker开发环境。文章通过图表展示性能提升，并详细解释每个特性的工作原理和适用场景。对于从事视频处理、流媒体或AI视频分析的开发者，这篇文章提供了实用的技术更新和优化方向，值得阅读。",
+          "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "视频处理需求持续增长，从流媒体到AI媒体工具都需要更高效的视频流水线。NVIDIA Video Codec SDK通过GPU硬件视频引擎提供加速编解码能力，帮助开发者应对这一挑战。",
-                "SDK 13.1版本在编码、解码、转码和开发环境方面均有更新。编码方面新增AV1层级参考模式，支持最多31个B帧；解码方面新增逐宏块统计和帧精确寻址；转码方面引入零拷贝CUarray方案；同时提供官方Docker开发环境。",
-                "这些特性旨在解决传统视频流水线中的性能瓶颈，如CPU端位流解析开销、多格式转换和内存拷贝，以及开发环境配置复杂等问题。"
+                "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
+                "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
+                "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "AV1层级参考模式通过树状结构排列B帧，将最大B帧数从7提升到31，利用时间冗余提高编码质量。该模式在7个及以上B帧时效果最佳，且无性能损失，但视频内存消耗会更高。",
-                "UHQ调优信息结合迭代编码，使lookahead level和时域滤波能够与逐迭代重编码协同工作。时域滤波通过运动估计在相邻帧中寻找匹配块来降噪，平均编码增益为4-5%；lookahead level分析未来帧并利用CTU统计信息优化码率分配。",
-                "逐宏块解码统计通过NVDECODE API提供每个16×16块的亮度QP、编码单元类型和运动向量，这些数据是硬件解码的自然副产品，无需额外CPU开销。应用可查询解码器能力、启用统计收集并获取GPU驻留缓冲区。",
-                "帧精确寻址采用GOP感知架构，定位目标帧前的最近IDR帧，跳转后仅解码必要的参考帧，最终只对目标帧执行完整解码和后期处理。NvVideoDecoder类封装了底层SeekUtils引擎，提供类似数组索引的简洁接口。",
-                "零拷贝转码通过共享CUarray池和双注册机制，让NVDEC和NVENC直接操作同一GPU内存，消除中间格式转换和拷贝。流水线使用三线程和令牌流控管理CUarray所有权，并通过共享CUDA流保证顺序。",
-                "重新设计的转码示例采用模块化、队列化架构，每个流水线阶段分配独立CPU线程，通过显式大小的输入输出队列通信。这种设计保证并发性，简化定制，并最大化硬件利用率。"
+                "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
+                "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
+                "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文通过图表展示性能提升：层级参考模式在CQ和VBR模式下均带来比特率节省；零拷贝转码相比传统流水线降低SM利用率和内存带宽利用率。这些图表基于1080p H.264测试。",
-                "层级参考模式目前仅支持AV1，H.264和HEVC将在未来驱动版本中支持。零拷贝转码需要CUDA数组和双注册机制，对开发者有较高的底层API要求。",
-                "Docker开发环境固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，提供可复现的开发环境，但需要NVIDIA GPU、Docker GPU支持和NVIDIA Container Toolkit。",
-                "逐宏块统计功能支持H.264和HEVC，但不包括AV1或VP9。帧精确寻址支持非可寻址流，但反向寻址需要自动解码器重置。"
+                "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
+                "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
+                "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
+                "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
               ]
             }
           ],
           "keyPoints": [
-            "AV1层级参考模式将最大B帧数从7提升到31，通过树状参考结构提高编码质量，无性能损失但增加内存消耗。",
-            "UHQ调优信息结合迭代编码，使lookahead level和时域滤波与逐迭代重编码协同工作，时域滤波平均编码增益4-5%。",
-            "逐宏块解码统计提供每个16×16块的QP、编码单元类型和运动向量，无需额外CPU开销，支持GPU加速视频分析。",
-            "帧精确寻址通过GOP感知架构，仅解码必要的参考帧，实现类似数组索引的帧访问。",
-            "零拷贝转码通过共享CUarray池消除中间格式转换和拷贝，降低SM利用率和内存带宽。",
-            "Docker开发环境提供一致的CUDA、Vulkan、FFmpeg和SDK版本，简化环境配置和CI流程。"
+            "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
+            "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
+            "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
+            "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
+            "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
+            "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
           ],
           "technicalDetails": [
             {
-              "text": "AV1层级参考模式：它是什么——一种将B帧排列成树状参考结构的编码模式，根节点为中间B帧，叶节点为非参考B帧。怎么工作——通过增加参考帧数量（最多31个B帧），让编码器更充分利用时间冗余。为什么重要——在无性能损失的情况下提高编码质量，但需更多视频内存。",
+              "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
               "basis": "source"
             },
             {
-              "text": "UHQ调优信息：它是什么——结合lookahead level和时域滤波的调优方案。怎么工作——时域滤波用运动估计在相邻帧找匹配块降噪，lookahead level分析未来帧优化码率分配。为什么重要——在延迟容忍编码中提供最佳质量-性能权衡，平均编码增益4-5%。",
+              "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
               "basis": "source"
             },
             {
-              "text": "逐宏块解码统计：它是什么——NVDECODE API提供的每个16×16块的解码统计信息。怎么工作——硬件解码时自然产生，应用通过cuvidGetDecoderCaps()查询能力、启用统计收集、通过cuvidMapVideoFrame()获取GPU驻留缓冲区。为什么重要——解锁GPU加速视频分析，无需CPU端位流解析。",
+              "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
               "basis": "source"
             },
             {
-              "text": "帧精确寻址：它是什么——通过NvVideoDecoder类提供的随机帧访问API。怎么工作——定位目标帧前最近IDR帧，跳转后仅解码必要参考帧，最终只对目标帧执行完整解码和后期处理。为什么重要——AI工作流和视频编辑需要特定帧而非顺序解码，此功能使帧访问像数组索引一样简单。",
-              "basis": "source"
-            },
-            {
-              "text": "零拷贝转码：它是什么——NVDEC和NVENC直接操作同一GPU内存的转码方案。怎么工作——应用分配CUarray池（使用CUDA_ARRAY3D_VIDEO_ENCODE_DECODE标志），双注册到解码器和编码器，通过共享CUDA流保证顺序。为什么重要——消除中间拷贝和转换，降低SM利用率和内存带宽，提高并发会话吞吐量。",
-              "basis": "source"
-            },
-            {
-              "text": "Docker开发环境：它是什么——官方提供的容器化开发环境。怎么工作——两阶段构建，builder阶段编译SDK样本并安装Vulkan SDK和FFmpeg，runtime阶段保留运行所需。为什么重要——固定CUDA 12.3.2、Vulkan SDK 1.4.304.1和Ubuntu 22.04 LTS，确保环境可复现，简化CI和云部署。",
+              "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "视频转码流水线优化",
+              "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
               "steps": [
-                "评估现有转码流水线的瓶颈，确定是否适合采用零拷贝方案",
-                "使用AppTransZeroCopy示例作为起点，测试零拷贝转码的性能提升",
-                "根据需求调整队列大小，平衡延迟与吞吐量",
-                "在GPU上运行CUDA预处理或推理，利用释放的SM资源"
+                "安装最新版transformers库：pip install -U transformers",
+                "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
+                "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
+                "运行推理：将用户提示转换为模型输入，生成输出并解码。"
               ],
               "tools": [
-                "AppTransZeroCopy示例",
-                "CUDA",
-                "NVIDIA Nsight Systems"
+                "transformers",
+                "Hugging Face",
+                "llama.cpp"
               ],
               "verification": [
-                "SM利用率下降",
-                "内存带宽利用率下降",
-                "并发转码会话数增加"
-              ]
-            },
-            {
-              "scenario": "AI视频分析管道",
-              "steps": [
-                "启用逐宏块解码统计收集",
-                "使用cuvidMapVideoFrame()获取GPU驻留统计缓冲区",
-                "编写CUDA内核处理运动向量和QP数据",
-                "集成到现有推理管道，实现场景检测或质量监控"
-              ],
-              "tools": [
-                "AppDec-dumpstats示例",
-                "CUDA",
-                "NVDECODE API"
-              ],
-              "verification": [
-                "无需CPU位流解析即可获取运动向量",
-                "实时场景检测延迟降低",
-                "自适应码率优化响应更快"
-              ]
-            },
-            {
-              "scenario": "开发环境标准化",
-              "steps": [
-                "克隆video-codec-sdk-docker仓库",
-                "将SDK zip文件放入Docker构建上下文",
-                "运行docker build并指定SDK_ZIP参数",
-                "使用docker run --gpus all启动容器",
-                "生成测试向量并运行样本"
-              ],
-              "tools": [
-                "Docker",
-                "NVIDIA Container Toolkit",
-                "video-codec-sdk-docker仓库"
-              ],
-              "verification": [
-                "容器内样本可直接运行",
-                "测试向量生成成功",
-                "CI管道使用相同镜像构建成功"
+                "模型成功加载并生成响应",
+                "输出文本符合预期，无错误"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "层级参考模式",
-            "零拷贝转码",
-            "逐宏块解码统计",
-            "帧精确寻址",
-            "UHQ调优信息",
-            "迭代编码",
-            "Docker开发环境"
+            "多步任务",
+            "Agentic RL",
+            "推理速度",
+            "指令遵循"
           ],
           "searchTerms": [
             {
-              "term": "AV1层级参考模式",
-              "query": "AV1 hierarchical reference mode NVENC"
+              "term": "LFM2.5-2.6B",
+              "query": "LFM2.5-2.6B model"
             },
             {
-              "term": "零拷贝转码",
-              "query": "zero-copy transcode CUarray NVDEC NVENC"
+              "term": "Agentic RL",
+              "query": "Agentic reinforcement learning"
             },
             {
-              "term": "逐宏块解码统计",
-              "query": "per-macroblock decode statistics NVDECODE"
+              "term": "MOPD",
+              "query": "Multi-domain on-policy distillation"
             },
             {
-              "term": "帧精确寻址",
-              "query": "frame-accurate seek NvVideoDecoder"
+              "term": "SFT",
+              "query": "Supervised fine-tuning"
             },
             {
-              "term": "UHQ调优信息",
-              "query": "UHQ tuning info iterative encoding NVENC"
-            },
-            {
-              "term": "Docker开发环境",
-              "query": "NVIDIA Video Codec SDK Docker development environment"
+              "term": "token/s",
+              "query": "tokens per second inference speed"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-03T22:38:50.801Z",
+        "analyzedAt": "2026-08-04T22:41:59.768Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "ec7ec4e957d37bf3",
+        "title": "How to Evaluate Voice Agents with LangSmith",
+        "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
+        "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
+        "publishedAt": "2026-08-04T17:19:58.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "AI 辅助学习",
+        "score": 69,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 20,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 90,
+        "bodyHash": "0eb1fd108da52d3cbdd35f37",
+        "extraction": {
+          "method": "readability",
+          "length": 14193,
+          "originalLength": 14193,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+        "analysis": {
+          "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
+                "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
+                "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
+                "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
+                "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
+                "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
+                "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
+                "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
+                "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
+                "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
+                "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
+                "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
+                "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
+                "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
+                "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
+                "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
+                "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
+                "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
+                "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
+                "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
+            "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
+            "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
+            "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
+            "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
+            "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+              "basis": "source"
+            },
+            {
+              "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+              "basis": "source"
+            },
+            {
+              "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+              "basis": "source"
+            },
+            {
+              "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+              "basis": "source"
+            },
+            {
+              "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+              "steps": [
+                "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
+                "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
+                "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
+                "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
+                "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
+                "定期使用注释队列进行人工审核，以校准评估器。"
+              ],
+              "tools": [
+                "LangSmith",
+                "代码评估器",
+                "LLM 评判",
+                "音频感知模型",
+                "注释队列"
+              ],
+              "verification": [
+                "观察追踪中工具调用顺序是否正确，无多余调用。",
+                "LLM 评判分数稳定，且与人工审核结果一致性高。",
+                "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
+                "预订成功率提高，且重开率或放弃率下降。",
+                "人工审核发现的问题数量减少，且评估器误报率降低。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "执行",
+            "结果",
+            "体验",
+            "代码评估器",
+            "LLM 评判"
+          ],
+          "searchTerms": [
+            {
+              "term": "LangSmith",
+              "query": "LangSmith 语音代理评估"
+            },
+            {
+              "term": "代码评估器",
+              "query": "LangSmith 代码评估器"
+            },
+            {
+              "term": "LLM 评判",
+              "query": "LLM judge 评估语音代理"
+            },
+            {
+              "term": "音频感知 LLM 评判",
+              "query": "audio-aware LLM judge"
+            },
+            {
+              "term": "注释队列",
+              "query": "LangSmith annotation queue"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-04T22:42:26.465Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "bc5c9a3bbdf77c0c",
+        "title": "The latest AI news we announced in July 2026",
+        "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
+        "summary": "Here are Google’s latest AI updates from July 2026",
+        "publishedAt": "2026-08-04T13:00:00.000Z",
+        "sourceId": "google-ai",
+        "sourceName": "Google AI",
+        "sourceSite": "https://blog.google/technology/ai/",
+        "lane": "ai",
+        "accent": "#4285f4",
+        "topic": "AI 动态",
+        "score": 70,
+        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+        "readMinutes": 12,
+        "category": "update",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 74,
+        "bodyHash": "5c9385eb750dcb1fed23a62c",
+        "extraction": {
+          "method": "readability",
+          "length": 8505,
+          "originalLength": 8505,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+        "analysis": {
+          "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
+                "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
+                "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
+                "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
+                "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
+                "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
+                "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
+            "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
+            "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
+            "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
+            "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
+            "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+              "basis": "source"
+            },
+            {
+              "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+              "basis": "source"
+            },
+            {
+              "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+              "basis": "source"
+            },
+            {
+              "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+              "basis": "source"
+            },
+            {
+              "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+              "steps": [
+                "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
+                "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
+                "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
+                "部署到生产环境，监控延迟和 token 消耗。"
+              ],
+              "tools": [
+                "Google AI Studio",
+                "Vertex AI",
+                "Gemini API"
+              ],
+              "verification": [
+                "观察响应时间是否低于 500 毫秒",
+                "检查 token 消耗是否比旧模型降低 20%"
+              ]
+            },
+            {
+              "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+              "steps": [
+                "访问 Google Flow Music 平台。",
+                "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
+                "生成多个版本，选择最符合需求的。",
+                "导出音频并导入视频编辑器。"
+              ],
+              "tools": [
+                "Google Flow Music",
+                "Lyria 3.5"
+              ],
+              "verification": [
+                "生成音乐时长是否满足视频需要",
+                "歌词和音质是否达到发布标准"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "具身推理",
+            "token 效率",
+            "早期火灾检测"
+          ],
+          "searchTerms": [
+            {
+              "term": "Gemini 3.6 Flash",
+              "query": "Gemini 3.6 Flash model"
+            },
+            {
+              "term": "Gemini Robotics ER 2",
+              "query": "Gemini Robotics ER 2 embodied reasoning"
+            },
+            {
+              "term": "AlphaEvolve",
+              "query": "AlphaEvolve Google Cloud code optimization"
+            },
+            {
+              "term": "FireSat",
+              "query": "FireSat satellite wildfire detection"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-04T22:42:48.607Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2067,7 +3352,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 305,
+      "latencyMs": 270,
       "itemCount": 35
     },
     {
@@ -2084,7 +3369,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 245,
+      "latencyMs": 797,
       "itemCount": 10
     },
     {
@@ -2101,7 +3386,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 821,
+      "latencyMs": 935,
       "itemCount": 32
     },
     {
@@ -2118,7 +3403,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1366,
+      "latencyMs": 894,
       "itemCount": 10
     },
     {
@@ -2135,7 +3420,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 237,
+      "latencyMs": 172,
       "itemCount": 35
     },
     {
@@ -2152,7 +3437,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 329,
+      "latencyMs": 243,
       "itemCount": 35
     },
     {
@@ -2169,7 +3454,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 600,
+      "latencyMs": 300,
       "itemCount": 35
     },
     {
@@ -2186,7 +3471,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 295,
+      "latencyMs": 261,
       "itemCount": 30
     },
     {
@@ -2203,7 +3488,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 351,
+      "latencyMs": 246,
       "itemCount": 35
     },
     {
@@ -2220,7 +3505,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 846,
+      "latencyMs": 960,
       "itemCount": 20
     },
     {
@@ -2237,7 +3522,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 679,
+      "latencyMs": 549,
       "itemCount": 35
     },
     {
@@ -2254,7 +3539,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 408,
+      "latencyMs": 528,
       "itemCount": 15
     },
     {
@@ -2271,7 +3556,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1278,
+      "latencyMs": 1403,
       "itemCount": 15
     },
     {
@@ -2287,10 +3572,9 @@
       "weight": 1.05,
       "dailyLimit": 1,
       "accent": "#222c37",
-      "ok": false,
-      "latencyMs": 20000,
-      "error": "The operation was aborted due to timeout",
-      "itemCount": 0
+      "ok": true,
+      "latencyMs": 19052,
+      "itemCount": 35
     },
     {
       "id": "red-blob",
@@ -2306,7 +3590,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 727,
+      "latencyMs": 762,
       "itemCount": 35
     },
     {
@@ -2328,7 +3612,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1254,
+      "latencyMs": 1252,
       "itemCount": 4
     },
     {
@@ -2345,7 +3629,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 849,
+      "latencyMs": 967,
       "itemCount": 10
     }
   ],
@@ -2384,7 +3668,10 @@
       "49c5b3fdd7770323",
       "227d664b7c7f4738",
       "f4cd88a6fa7bdcf0",
-      "dffcfa831a63c676"
+      "dffcfa831a63c676",
+      "77c76922427b8b89",
+      "ec7ec4e957d37bf3",
+      "bc5c9a3bbdf77c0c"
     ],
     "processedManualUrls": []
   },
@@ -2393,10 +3680,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 2,
-    "rejectedCount": 268,
-    "sourceFailureCount": 1
+    "calls": 4,
+    "rejectedCount": 288,
+    "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-03T08:05:30.666Z"
+  "previousGeneratedAt": "2026-08-03T22:38:50.801Z"
 }
