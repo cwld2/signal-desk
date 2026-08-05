@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-05T07:27:13.900Z",
+  "generatedAt": "2026-08-05T22:41:13.411Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-08-05",
+    "date": "2026-08-06",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
@@ -20,460 +20,460 @@
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 0
+    "bailianCalls": 4
   },
   "items": [
     {
-      "id": "77c76922427b8b89",
-      "title": "Deploy local agents everywhere with LFM2.5-2.6B",
-      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
-      "summary": "",
-      "publishedAt": "2026-08-04T13:58:29.000Z",
-      "sourceId": "huggingface",
-      "sourceName": "Hugging Face Blog",
-      "sourceSite": "https://huggingface.co/blog",
-      "lane": "ai",
-      "accent": "#ff9d00",
-      "topic": "Agent 与自动化",
-      "score": 70,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 8,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "f3958493d9e8876f13ea27d3",
-      "extraction": {
-        "method": "readability",
-        "length": 5932,
-        "originalLength": 5932,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
-      "analysis": {
-        "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
-              "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
-              "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
-              "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
-              "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
-              "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
-              "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
-              "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
-          "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
-          "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
-          "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
-          "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
-          "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
-            "steps": [
-              "安装最新版transformers库：pip install -U transformers",
-              "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
-              "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
-              "运行推理：将用户提示转换为模型输入，生成输出并解码。"
-            ],
-            "tools": [
-              "transformers",
-              "Hugging Face",
-              "llama.cpp"
-            ],
-            "verification": [
-              "模型成功加载并生成响应",
-              "输出文本符合预期，无错误"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "多步任务",
-          "Agentic RL",
-          "推理速度",
-          "指令遵循"
-        ],
-        "searchTerms": [
-          {
-            "term": "LFM2.5-2.6B",
-            "query": "LFM2.5-2.6B model"
-          },
-          {
-            "term": "Agentic RL",
-            "query": "Agentic reinforcement learning"
-          },
-          {
-            "term": "MOPD",
-            "query": "Multi-domain on-policy distillation"
-          },
-          {
-            "term": "SFT",
-            "query": "Supervised fine-tuning"
-          },
-          {
-            "term": "token/s",
-            "query": "tokens per second inference speed"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:41:59.768Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "ec7ec4e957d37bf3",
-      "title": "How to Evaluate Voice Agents with LangSmith",
-      "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
-      "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
-      "publishedAt": "2026-08-04T17:19:58.000Z",
+      "id": "b316c39525a495cb",
+      "title": "How we built an autonomous SRE agent for Kubernetes",
+      "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
+      "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
+      "publishedAt": "2026-08-05T16:24:31.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "AI 辅助学习",
-      "score": 69,
+      "score": 60,
       "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 20,
+      "readMinutes": 15,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 90,
-      "bodyHash": "0eb1fd108da52d3cbdd35f37",
+      "candidateScore": 86,
+      "bodyHash": "ab78ff2333e242e9232b05ba",
       "extraction": {
         "method": "readability",
-        "length": 14193,
-        "originalLength": 14193,
+        "length": 10461,
+        "originalLength": 10461,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+      "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
       "analysis": {
-        "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+        "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
-              "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
-              "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
-              "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
-              "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
-              "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+              "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
+              "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
+              "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
+              "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
-              "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
-              "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
-              "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
-              "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
-              "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
-              "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
-              "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+              "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
+              "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
+              "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
+              "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
+              "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
+              "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
+              "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
+              "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
-              "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
-              "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
-              "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
-              "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
-              "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
-              "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
-              "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+              "LangSmith 追踪是调试和改进智能体的关键工具。",
+              "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
+              "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
+              "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
+              "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
+              "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
+              "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
             ]
           }
         ],
         "keyPoints": [
-          "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
-          "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
-          "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
-          "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
-          "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
-          "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+          "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
+          "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
+          "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
+          "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
+          "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
+          "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
         ],
         "technicalDetails": [
           {
-            "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+            "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
             "basis": "source"
           },
           {
-            "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+            "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
             "basis": "source"
           },
           {
-            "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+            "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
             "basis": "source"
           },
           {
-            "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+            "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
             "basis": "source"
           },
           {
-            "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+            "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
+            "basis": "source"
+          },
+          {
+            "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+            "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
             "steps": [
-              "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
-              "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
-              "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
-              "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
-              "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
-              "定期使用注释队列进行人工审核，以校准评估器。"
+              "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
+              "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
+              "实现 HITL 审批机制，通过 Slack 消息交互。",
+              "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
+              "根据追踪数据优化调度器，减少不必要的模型调用。",
+              "利用 LangSmith Engine 自动检测和修复问题。"
             ],
             "tools": [
+              "Kubernetes Python client",
+              "LangGraph",
+              "Deep Agents",
               "LangSmith",
-              "代码评估器",
-              "LLM 评判",
-              "音频感知模型",
-              "注释队列"
+              "Slack"
             ],
             "verification": [
-              "观察追踪中工具调用顺序是否正确，无多余调用。",
-              "LLM 评判分数稳定，且与人工审核结果一致性高。",
-              "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
-              "预订成功率提高，且重开率或放弃率下降。",
-              "人工审核发现的问题数量减少，且评估器误报率降低。"
+              "检查调度器运行成本是否降低 95% 以上。",
+              "观察 HITL 审批流程是否正常。",
+              "通过 LangSmith 查看追踪，确认无失控循环。",
+              "运行回归测试，确保修改不引入新问题。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "执行",
-          "结果",
-          "体验",
-          "代码评估器",
-          "LLM 评判"
+          "自主 SRE 智能体",
+          "人工审批",
+          "成本降低 95% 至 99%",
+          "LangSmith 追踪",
+          "回归测试",
+          "LangSmith Engine"
         ],
         "searchTerms": [
           {
+            "term": "Deep Agents",
+            "query": "LangChain Deep Agents framework"
+          },
+          {
             "term": "LangSmith",
-            "query": "LangSmith 语音代理评估"
+            "query": "LangSmith tracing evaluation"
           },
           {
-            "term": "代码评估器",
-            "query": "LangSmith 代码评估器"
+            "term": "HITL",
+            "query": "human-in-the-loop AI approval"
           },
           {
-            "term": "LLM 评判",
-            "query": "LLM judge 评估语音代理"
-          },
-          {
-            "term": "音频感知 LLM 评判",
-            "query": "audio-aware LLM judge"
-          },
-          {
-            "term": "注释队列",
-            "query": "LangSmith annotation queue"
+            "term": "Claude Haiku",
+            "query": "Claude Haiku model cost"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:42:26.465Z",
+      "analyzedAt": "2026-08-05T22:40:47.961Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "bc5c9a3bbdf77c0c",
-      "title": "The latest AI news we announced in July 2026",
-      "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
-      "summary": "Here are Google’s latest AI updates from July 2026",
-      "publishedAt": "2026-08-04T13:00:00.000Z",
-      "sourceId": "google-ai",
-      "sourceName": "Google AI",
-      "sourceSite": "https://blog.google/technology/ai/",
+      "id": "233901218759cc32",
+      "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
+      "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
+      "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
+      "publishedAt": "2026-08-04T23:58:24.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
       "lane": "ai",
-      "accent": "#4285f4",
-      "topic": "AI 动态",
-      "score": 70,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 12,
-      "category": "update",
-      "slot": "update",
+      "accent": "#b36b00",
+      "topic": "AI 辅助学习",
+      "score": 57,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 9,
+      "category": "opinion",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 74,
-      "bodyHash": "5c9385eb750dcb1fed23a62c",
+      "candidateScore": 79,
+      "bodyHash": "35579b315dc9aa917749a9dc",
       "extraction": {
         "method": "readability",
-        "length": 8505,
-        "originalLength": 8505,
+        "length": 6294,
+        "originalLength": 6294,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+      "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
       "analysis": {
-        "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+        "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
-              "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
-              "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+              "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
+              "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
+              "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
-              "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
-              "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+              "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
+              "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
+              "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
+              "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
-              "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
-              "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+              "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
+              "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
+              "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
             ]
           }
         ],
         "keyPoints": [
-          "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
-          "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
-          "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
-          "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
-          "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
-          "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+          "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
+          "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
+          "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
+          "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
+          "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
+          "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
         ],
         "technicalDetails": [
           {
-            "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+            "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
             "basis": "source"
           },
           {
-            "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+            "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
             "basis": "source"
           },
           {
-            "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+            "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
             "basis": "source"
           },
           {
-            "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+            "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
             "basis": "source"
           },
           {
-            "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+            "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+            "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
             "steps": [
-              "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
-              "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
-              "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
-              "部署到生产环境，监控延迟和 token 消耗。"
+              "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
+              "如果不想显示，添加 `-R` 参数隐藏。",
+              "将标准输出重定向到文件，确保推理轨迹不混入。"
             ],
             "tools": [
-              "Google AI Studio",
-              "Vertex AI",
-              "Gemini API"
+              "LLM CLI",
+              "gpt-5.6-luna 模型"
             ],
             "verification": [
-              "观察响应时间是否低于 500 毫秒",
-              "检查 token 消耗是否比旧模型降低 20%"
+              "标准错误显示推理文本，标准输出仅包含最终答案。"
             ]
           },
           {
-            "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+            "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
             "steps": [
-              "访问 Google Flow Music 平台。",
-              "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
-              "生成多个版本，选择最符合需求的。",
-              "导出音频并导入视频编辑器。"
+              "启动本地 API 服务（如 LM Studio），记下端口。",
+              "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
+              "检查输出结果，确认工具调用正常。"
             ],
             "tools": [
-              "Google Flow Music",
-              "Lyria 3.5"
+              "uvx",
+              "LM Studio",
+              "llm-tools-quickjs"
             ],
             "verification": [
-              "生成音乐时长是否满足视频需要",
-              "歌词和音质是否达到发布标准"
+              "命令成功返回结果，且无错误日志。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "具身推理",
-          "token 效率",
-          "早期火灾检测"
+          "推理轨迹",
+          "服务端工具",
+          "内容寻址存储",
+          "流式事件",
+          "llm openai endpoint"
         ],
         "searchTerms": [
           {
-            "term": "Gemini 3.6 Flash",
-            "query": "Gemini 3.6 Flash model"
+            "term": "推理轨迹",
+            "query": "LLM 推理轨迹 显示"
           },
           {
-            "term": "Gemini Robotics ER 2",
-            "query": "Gemini Robotics ER 2 embodied reasoning"
+            "term": "服务端工具",
+            "query": "OpenAI 服务端工具 CodeInterpreter"
           },
           {
-            "term": "AlphaEvolve",
-            "query": "AlphaEvolve Google Cloud code optimization"
+            "term": "内容寻址存储",
+            "query": "内容寻址存储 日志 Git"
           },
           {
-            "term": "FireSat",
-            "query": "FireSat satellite wildfire detection"
+            "term": "流式事件",
+            "query": "LLM Python API stream_events"
+          },
+          {
+            "term": "OpenAI Responses API",
+            "query": "OpenAI Responses API 介绍"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:42:48.607Z",
+      "analyzedAt": "2026-08-05T22:41:01.143Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "9a3d9f7b007c1d55",
+      "title": "llamafile v0.10.5",
+      "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
+      "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
+      "publishedAt": "2026-08-05T10:01:51.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
+      "lane": "ai",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 61,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 6,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 69,
+      "bodyHash": "2b9625eaf43bf185592cf032",
+      "extraction": {
+        "method": "readability",
+        "length": 3917,
+        "originalLength": 3917,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+      "analysis": {
+        "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
+              "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
+              "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
+              "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
+              "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
+              "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
+              "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
+          "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
+          "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
+          "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
+          "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+            "basis": "source"
+          },
+          {
+            "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+            "basis": "source"
+          },
+          {
+            "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+            "basis": "source"
+          },
+          {
+            "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+            "steps": [
+              "下载 llamafile v0.10.5 的最新发布版本。",
+              "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
+              "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
+              "测试模型响应速度，确保满足交互需求。"
+            ],
+            "tools": [
+              "llamafile",
+              "Hugging Face",
+              "GGUF 权重"
+            ],
+            "verification": [
+              "模型成功加载并响应提示，无内存溢出错误。",
+              "生成速度达到交互级别（如每 token 少于 1 秒）。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "llamafile",
+          "llama.cpp",
+          "Ternary Bonsai 27B",
+          "Laguna-S-2.1",
+          "混合专家",
+          "量化"
+        ],
+        "searchTerms": [
+          {
+            "term": "llamafile",
+            "query": "llamafile 是什么"
+          },
+          {
+            "term": "llama.cpp",
+            "query": "llama.cpp 核心"
+          },
+          {
+            "term": "Ternary Bonsai 27B",
+            "query": "Ternary Bonsai 27B 模型"
+          },
+          {
+            "term": "Laguna-S-2.1",
+            "query": "Laguna-S-2.1 编码模型"
+          },
+          {
+            "term": "混合专家",
+            "query": "Mixture of Experts 模型"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-05T22:41:13.410Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -994,1367 +994,1367 @@
   ],
   "editionItems": [
     {
-      "id": "77c76922427b8b89",
-      "title": "Deploy local agents everywhere with LFM2.5-2.6B",
-      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
-      "summary": "",
-      "publishedAt": "2026-08-04T13:58:29.000Z",
-      "sourceId": "huggingface",
-      "sourceName": "Hugging Face Blog",
-      "sourceSite": "https://huggingface.co/blog",
-      "lane": "ai",
-      "accent": "#ff9d00",
-      "topic": "Agent 与自动化",
-      "score": 70,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 8,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "f3958493d9e8876f13ea27d3",
-      "extraction": {
-        "method": "readability",
-        "length": 5932,
-        "originalLength": 5932,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
-      "analysis": {
-        "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
-              "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
-              "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
-              "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
-              "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
-              "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
-              "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
-              "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
-          "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
-          "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
-          "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
-          "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
-          "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
-            "steps": [
-              "安装最新版transformers库：pip install -U transformers",
-              "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
-              "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
-              "运行推理：将用户提示转换为模型输入，生成输出并解码。"
-            ],
-            "tools": [
-              "transformers",
-              "Hugging Face",
-              "llama.cpp"
-            ],
-            "verification": [
-              "模型成功加载并生成响应",
-              "输出文本符合预期，无错误"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "多步任务",
-          "Agentic RL",
-          "推理速度",
-          "指令遵循"
-        ],
-        "searchTerms": [
-          {
-            "term": "LFM2.5-2.6B",
-            "query": "LFM2.5-2.6B model"
-          },
-          {
-            "term": "Agentic RL",
-            "query": "Agentic reinforcement learning"
-          },
-          {
-            "term": "MOPD",
-            "query": "Multi-domain on-policy distillation"
-          },
-          {
-            "term": "SFT",
-            "query": "Supervised fine-tuning"
-          },
-          {
-            "term": "token/s",
-            "query": "tokens per second inference speed"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:41:59.768Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "ec7ec4e957d37bf3",
-      "title": "How to Evaluate Voice Agents with LangSmith",
-      "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
-      "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
-      "publishedAt": "2026-08-04T17:19:58.000Z",
+      "id": "b316c39525a495cb",
+      "title": "How we built an autonomous SRE agent for Kubernetes",
+      "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
+      "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
+      "publishedAt": "2026-08-05T16:24:31.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "AI 辅助学习",
-      "score": 69,
+      "score": 60,
       "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 20,
+      "readMinutes": 15,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 90,
-      "bodyHash": "0eb1fd108da52d3cbdd35f37",
+      "candidateScore": 86,
+      "bodyHash": "ab78ff2333e242e9232b05ba",
       "extraction": {
         "method": "readability",
-        "length": 14193,
-        "originalLength": 14193,
+        "length": 10461,
+        "originalLength": 10461,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+      "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
       "analysis": {
-        "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+        "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
-              "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
-              "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
-              "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
-              "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
-              "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+              "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
+              "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
+              "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
+              "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
-              "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
-              "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
-              "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
-              "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
-              "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
-              "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
-              "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+              "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
+              "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
+              "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
+              "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
+              "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
+              "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
+              "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
+              "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
-              "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
-              "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
-              "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
-              "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
-              "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
-              "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
-              "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+              "LangSmith 追踪是调试和改进智能体的关键工具。",
+              "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
+              "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
+              "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
+              "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
+              "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
+              "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
             ]
           }
         ],
         "keyPoints": [
-          "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
-          "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
-          "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
-          "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
-          "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
-          "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+          "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
+          "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
+          "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
+          "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
+          "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
+          "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
         ],
         "technicalDetails": [
           {
-            "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+            "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
             "basis": "source"
           },
           {
-            "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+            "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
             "basis": "source"
           },
           {
-            "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+            "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
             "basis": "source"
           },
           {
-            "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+            "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
             "basis": "source"
           },
           {
-            "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+            "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
+            "basis": "source"
+          },
+          {
+            "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+            "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
             "steps": [
-              "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
-              "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
-              "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
-              "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
-              "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
-              "定期使用注释队列进行人工审核，以校准评估器。"
+              "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
+              "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
+              "实现 HITL 审批机制，通过 Slack 消息交互。",
+              "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
+              "根据追踪数据优化调度器，减少不必要的模型调用。",
+              "利用 LangSmith Engine 自动检测和修复问题。"
             ],
             "tools": [
+              "Kubernetes Python client",
+              "LangGraph",
+              "Deep Agents",
               "LangSmith",
-              "代码评估器",
-              "LLM 评判",
-              "音频感知模型",
-              "注释队列"
+              "Slack"
             ],
             "verification": [
-              "观察追踪中工具调用顺序是否正确，无多余调用。",
-              "LLM 评判分数稳定，且与人工审核结果一致性高。",
-              "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
-              "预订成功率提高，且重开率或放弃率下降。",
-              "人工审核发现的问题数量减少，且评估器误报率降低。"
+              "检查调度器运行成本是否降低 95% 以上。",
+              "观察 HITL 审批流程是否正常。",
+              "通过 LangSmith 查看追踪，确认无失控循环。",
+              "运行回归测试，确保修改不引入新问题。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "执行",
-          "结果",
-          "体验",
-          "代码评估器",
-          "LLM 评判"
+          "自主 SRE 智能体",
+          "人工审批",
+          "成本降低 95% 至 99%",
+          "LangSmith 追踪",
+          "回归测试",
+          "LangSmith Engine"
         ],
         "searchTerms": [
           {
+            "term": "Deep Agents",
+            "query": "LangChain Deep Agents framework"
+          },
+          {
             "term": "LangSmith",
-            "query": "LangSmith 语音代理评估"
+            "query": "LangSmith tracing evaluation"
           },
           {
-            "term": "代码评估器",
-            "query": "LangSmith 代码评估器"
+            "term": "HITL",
+            "query": "human-in-the-loop AI approval"
           },
           {
-            "term": "LLM 评判",
-            "query": "LLM judge 评估语音代理"
-          },
-          {
-            "term": "音频感知 LLM 评判",
-            "query": "audio-aware LLM judge"
-          },
-          {
-            "term": "注释队列",
-            "query": "LangSmith annotation queue"
+            "term": "Claude Haiku",
+            "query": "Claude Haiku model cost"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:42:26.465Z",
+      "analyzedAt": "2026-08-05T22:40:47.961Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "bc5c9a3bbdf77c0c",
-      "title": "The latest AI news we announced in July 2026",
-      "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
-      "summary": "Here are Google’s latest AI updates from July 2026",
-      "publishedAt": "2026-08-04T13:00:00.000Z",
-      "sourceId": "google-ai",
-      "sourceName": "Google AI",
-      "sourceSite": "https://blog.google/technology/ai/",
+      "id": "233901218759cc32",
+      "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
+      "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
+      "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
+      "publishedAt": "2026-08-04T23:58:24.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
       "lane": "ai",
-      "accent": "#4285f4",
-      "topic": "AI 动态",
-      "score": 70,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 12,
-      "category": "update",
-      "slot": "update",
+      "accent": "#b36b00",
+      "topic": "AI 辅助学习",
+      "score": 57,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 9,
+      "category": "opinion",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 74,
-      "bodyHash": "5c9385eb750dcb1fed23a62c",
+      "candidateScore": 79,
+      "bodyHash": "35579b315dc9aa917749a9dc",
       "extraction": {
         "method": "readability",
-        "length": 8505,
-        "originalLength": 8505,
+        "length": 6294,
+        "originalLength": 6294,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+      "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
       "analysis": {
-        "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+        "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
-              "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
-              "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+              "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
+              "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
+              "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
-              "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
-              "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+              "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
+              "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
+              "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
+              "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
-              "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
-              "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+              "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
+              "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
+              "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
             ]
           }
         ],
         "keyPoints": [
-          "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
-          "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
-          "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
-          "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
-          "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
-          "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+          "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
+          "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
+          "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
+          "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
+          "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
+          "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
         ],
         "technicalDetails": [
           {
-            "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+            "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
             "basis": "source"
           },
           {
-            "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+            "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
             "basis": "source"
           },
           {
-            "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+            "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
             "basis": "source"
           },
           {
-            "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+            "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
             "basis": "source"
           },
           {
-            "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+            "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+            "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
             "steps": [
-              "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
-              "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
-              "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
-              "部署到生产环境，监控延迟和 token 消耗。"
+              "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
+              "如果不想显示，添加 `-R` 参数隐藏。",
+              "将标准输出重定向到文件，确保推理轨迹不混入。"
             ],
             "tools": [
-              "Google AI Studio",
-              "Vertex AI",
-              "Gemini API"
+              "LLM CLI",
+              "gpt-5.6-luna 模型"
             ],
             "verification": [
-              "观察响应时间是否低于 500 毫秒",
-              "检查 token 消耗是否比旧模型降低 20%"
+              "标准错误显示推理文本，标准输出仅包含最终答案。"
             ]
           },
           {
-            "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+            "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
             "steps": [
-              "访问 Google Flow Music 平台。",
-              "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
-              "生成多个版本，选择最符合需求的。",
-              "导出音频并导入视频编辑器。"
+              "启动本地 API 服务（如 LM Studio），记下端口。",
+              "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
+              "检查输出结果，确认工具调用正常。"
             ],
             "tools": [
-              "Google Flow Music",
-              "Lyria 3.5"
+              "uvx",
+              "LM Studio",
+              "llm-tools-quickjs"
             ],
             "verification": [
-              "生成音乐时长是否满足视频需要",
-              "歌词和音质是否达到发布标准"
+              "命令成功返回结果，且无错误日志。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "具身推理",
-          "token 效率",
-          "早期火灾检测"
+          "推理轨迹",
+          "服务端工具",
+          "内容寻址存储",
+          "流式事件",
+          "llm openai endpoint"
         ],
         "searchTerms": [
           {
-            "term": "Gemini 3.6 Flash",
-            "query": "Gemini 3.6 Flash model"
+            "term": "推理轨迹",
+            "query": "LLM 推理轨迹 显示"
           },
           {
-            "term": "Gemini Robotics ER 2",
-            "query": "Gemini Robotics ER 2 embodied reasoning"
+            "term": "服务端工具",
+            "query": "OpenAI 服务端工具 CodeInterpreter"
           },
           {
-            "term": "AlphaEvolve",
-            "query": "AlphaEvolve Google Cloud code optimization"
+            "term": "内容寻址存储",
+            "query": "内容寻址存储 日志 Git"
           },
           {
-            "term": "FireSat",
-            "query": "FireSat satellite wildfire detection"
+            "term": "流式事件",
+            "query": "LLM Python API stream_events"
+          },
+          {
+            "term": "OpenAI Responses API",
+            "query": "OpenAI Responses API 介绍"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:42:48.607Z",
+      "analyzedAt": "2026-08-05T22:41:01.143Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "9a3d9f7b007c1d55",
+      "title": "llamafile v0.10.5",
+      "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
+      "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
+      "publishedAt": "2026-08-05T10:01:51.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
+      "lane": "ai",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 61,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 6,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 69,
+      "bodyHash": "2b9625eaf43bf185592cf032",
+      "extraction": {
+        "method": "readability",
+        "length": 3917,
+        "originalLength": 3917,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+      "analysis": {
+        "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
+              "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
+              "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
+              "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
+              "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
+              "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
+              "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
+          "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
+          "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
+          "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
+          "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+            "basis": "source"
+          },
+          {
+            "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+            "basis": "source"
+          },
+          {
+            "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+            "basis": "source"
+          },
+          {
+            "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+            "steps": [
+              "下载 llamafile v0.10.5 的最新发布版本。",
+              "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
+              "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
+              "测试模型响应速度，确保满足交互需求。"
+            ],
+            "tools": [
+              "llamafile",
+              "Hugging Face",
+              "GGUF 权重"
+            ],
+            "verification": [
+              "模型成功加载并响应提示，无内存溢出错误。",
+              "生成速度达到交互级别（如每 token 少于 1 秒）。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "llamafile",
+          "llama.cpp",
+          "Ternary Bonsai 27B",
+          "Laguna-S-2.1",
+          "混合专家",
+          "量化"
+        ],
+        "searchTerms": [
+          {
+            "term": "llamafile",
+            "query": "llamafile 是什么"
+          },
+          {
+            "term": "llama.cpp",
+            "query": "llama.cpp 核心"
+          },
+          {
+            "term": "Ternary Bonsai 27B",
+            "query": "Ternary Bonsai 27B 模型"
+          },
+          {
+            "term": "Laguna-S-2.1",
+            "query": "Laguna-S-2.1 编码模型"
+          },
+          {
+            "term": "混合专家",
+            "query": "Mixture of Experts 模型"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-05T22:41:13.410Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "77c76922427b8b89",
-      "title": "Deploy local agents everywhere with LFM2.5-2.6B",
-      "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
-      "summary": "",
-      "publishedAt": "2026-08-04T13:58:29.000Z",
-      "sourceId": "huggingface",
-      "sourceName": "Hugging Face Blog",
-      "sourceSite": "https://huggingface.co/blog",
-      "lane": "ai",
-      "accent": "#ff9d00",
-      "topic": "Agent 与自动化",
-      "score": 70,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 8,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "f3958493d9e8876f13ea27d3",
-      "extraction": {
-        "method": "readability",
-        "length": 5932,
-        "originalLength": 5932,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
-      "analysis": {
-        "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
-              "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
-              "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
-              "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
-              "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
-              "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
-              "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
-              "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
-          "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
-          "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
-          "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
-          "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
-          "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
-            "basis": "source"
-          },
-          {
-            "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
-            "steps": [
-              "安装最新版transformers库：pip install -U transformers",
-              "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
-              "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
-              "运行推理：将用户提示转换为模型输入，生成输出并解码。"
-            ],
-            "tools": [
-              "transformers",
-              "Hugging Face",
-              "llama.cpp"
-            ],
-            "verification": [
-              "模型成功加载并生成响应",
-              "输出文本符合预期，无错误"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "多步任务",
-          "Agentic RL",
-          "推理速度",
-          "指令遵循"
-        ],
-        "searchTerms": [
-          {
-            "term": "LFM2.5-2.6B",
-            "query": "LFM2.5-2.6B model"
-          },
-          {
-            "term": "Agentic RL",
-            "query": "Agentic reinforcement learning"
-          },
-          {
-            "term": "MOPD",
-            "query": "Multi-domain on-policy distillation"
-          },
-          {
-            "term": "SFT",
-            "query": "Supervised fine-tuning"
-          },
-          {
-            "term": "token/s",
-            "query": "tokens per second inference speed"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:41:59.768Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "ec7ec4e957d37bf3",
-      "title": "How to Evaluate Voice Agents with LangSmith",
-      "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
-      "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
-      "publishedAt": "2026-08-04T17:19:58.000Z",
+      "id": "b316c39525a495cb",
+      "title": "How we built an autonomous SRE agent for Kubernetes",
+      "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
+      "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
+      "publishedAt": "2026-08-05T16:24:31.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "AI 辅助学习",
-      "score": 69,
+      "score": 60,
       "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 20,
+      "readMinutes": 15,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 90,
-      "bodyHash": "0eb1fd108da52d3cbdd35f37",
+      "candidateScore": 86,
+      "bodyHash": "ab78ff2333e242e9232b05ba",
       "extraction": {
         "method": "readability",
-        "length": 14193,
-        "originalLength": 14193,
+        "length": 10461,
+        "originalLength": 10461,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+      "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
       "analysis": {
-        "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+        "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
-              "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
-              "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
-              "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
-              "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
-              "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+              "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
+              "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
+              "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
+              "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
-              "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
-              "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
-              "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
-              "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
-              "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
-              "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
-              "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+              "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
+              "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
+              "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
+              "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
+              "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
+              "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
+              "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
+              "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
-              "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
-              "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
-              "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
-              "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
-              "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
-              "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
-              "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+              "LangSmith 追踪是调试和改进智能体的关键工具。",
+              "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
+              "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
+              "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
+              "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
+              "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
+              "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
             ]
           }
         ],
         "keyPoints": [
-          "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
-          "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
-          "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
-          "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
-          "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
-          "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+          "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
+          "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
+          "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
+          "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
+          "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
+          "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
         ],
         "technicalDetails": [
           {
-            "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+            "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
             "basis": "source"
           },
           {
-            "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+            "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
             "basis": "source"
           },
           {
-            "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+            "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
             "basis": "source"
           },
           {
-            "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+            "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
             "basis": "source"
           },
           {
-            "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+            "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
+            "basis": "source"
+          },
+          {
+            "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+            "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
             "steps": [
-              "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
-              "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
-              "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
-              "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
-              "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
-              "定期使用注释队列进行人工审核，以校准评估器。"
+              "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
+              "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
+              "实现 HITL 审批机制，通过 Slack 消息交互。",
+              "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
+              "根据追踪数据优化调度器，减少不必要的模型调用。",
+              "利用 LangSmith Engine 自动检测和修复问题。"
             ],
             "tools": [
+              "Kubernetes Python client",
+              "LangGraph",
+              "Deep Agents",
               "LangSmith",
-              "代码评估器",
-              "LLM 评判",
-              "音频感知模型",
-              "注释队列"
+              "Slack"
             ],
             "verification": [
-              "观察追踪中工具调用顺序是否正确，无多余调用。",
-              "LLM 评判分数稳定，且与人工审核结果一致性高。",
-              "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
-              "预订成功率提高，且重开率或放弃率下降。",
-              "人工审核发现的问题数量减少，且评估器误报率降低。"
+              "检查调度器运行成本是否降低 95% 以上。",
+              "观察 HITL 审批流程是否正常。",
+              "通过 LangSmith 查看追踪，确认无失控循环。",
+              "运行回归测试，确保修改不引入新问题。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "执行",
-          "结果",
-          "体验",
-          "代码评估器",
-          "LLM 评判"
+          "自主 SRE 智能体",
+          "人工审批",
+          "成本降低 95% 至 99%",
+          "LangSmith 追踪",
+          "回归测试",
+          "LangSmith Engine"
         ],
         "searchTerms": [
           {
+            "term": "Deep Agents",
+            "query": "LangChain Deep Agents framework"
+          },
+          {
             "term": "LangSmith",
-            "query": "LangSmith 语音代理评估"
+            "query": "LangSmith tracing evaluation"
           },
           {
-            "term": "代码评估器",
-            "query": "LangSmith 代码评估器"
+            "term": "HITL",
+            "query": "human-in-the-loop AI approval"
           },
           {
-            "term": "LLM 评判",
-            "query": "LLM judge 评估语音代理"
-          },
-          {
-            "term": "音频感知 LLM 评判",
-            "query": "audio-aware LLM judge"
-          },
-          {
-            "term": "注释队列",
-            "query": "LangSmith annotation queue"
+            "term": "Claude Haiku",
+            "query": "Claude Haiku model cost"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:42:26.465Z",
+      "analyzedAt": "2026-08-05T22:40:47.961Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "bc5c9a3bbdf77c0c",
-      "title": "The latest AI news we announced in July 2026",
-      "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
-      "summary": "Here are Google’s latest AI updates from July 2026",
-      "publishedAt": "2026-08-04T13:00:00.000Z",
-      "sourceId": "google-ai",
-      "sourceName": "Google AI",
-      "sourceSite": "https://blog.google/technology/ai/",
+      "id": "233901218759cc32",
+      "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
+      "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
+      "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
+      "publishedAt": "2026-08-04T23:58:24.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
       "lane": "ai",
-      "accent": "#4285f4",
-      "topic": "AI 动态",
-      "score": 70,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 12,
-      "category": "update",
-      "slot": "update",
+      "accent": "#b36b00",
+      "topic": "AI 辅助学习",
+      "score": 57,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 9,
+      "category": "opinion",
+      "slot": "practice",
       "language": "en",
-      "candidateScore": 74,
-      "bodyHash": "5c9385eb750dcb1fed23a62c",
+      "candidateScore": 79,
+      "bodyHash": "35579b315dc9aa917749a9dc",
       "extraction": {
         "method": "readability",
-        "length": 8505,
-        "originalLength": 8505,
+        "length": 6294,
+        "originalLength": 6294,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+      "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
       "analysis": {
-        "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+        "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
-              "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
-              "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+              "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
+              "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
+              "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
-              "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
-              "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+              "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
+              "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
+              "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
+              "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
-              "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
-              "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+              "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
+              "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
+              "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
             ]
           }
         ],
         "keyPoints": [
-          "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
-          "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
-          "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
-          "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
-          "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
-          "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+          "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
+          "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
+          "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
+          "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
+          "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
+          "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
         ],
         "technicalDetails": [
           {
-            "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+            "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
             "basis": "source"
           },
           {
-            "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+            "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
             "basis": "source"
           },
           {
-            "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+            "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
             "basis": "source"
           },
           {
-            "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+            "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
             "basis": "source"
           },
           {
-            "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+            "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+            "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
             "steps": [
-              "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
-              "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
-              "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
-              "部署到生产环境，监控延迟和 token 消耗。"
+              "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
+              "如果不想显示，添加 `-R` 参数隐藏。",
+              "将标准输出重定向到文件，确保推理轨迹不混入。"
             ],
             "tools": [
-              "Google AI Studio",
-              "Vertex AI",
-              "Gemini API"
+              "LLM CLI",
+              "gpt-5.6-luna 模型"
             ],
             "verification": [
-              "观察响应时间是否低于 500 毫秒",
-              "检查 token 消耗是否比旧模型降低 20%"
+              "标准错误显示推理文本，标准输出仅包含最终答案。"
             ]
           },
           {
-            "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+            "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
             "steps": [
-              "访问 Google Flow Music 平台。",
-              "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
-              "生成多个版本，选择最符合需求的。",
-              "导出音频并导入视频编辑器。"
+              "启动本地 API 服务（如 LM Studio），记下端口。",
+              "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
+              "检查输出结果，确认工具调用正常。"
             ],
             "tools": [
-              "Google Flow Music",
-              "Lyria 3.5"
+              "uvx",
+              "LM Studio",
+              "llm-tools-quickjs"
             ],
             "verification": [
-              "生成音乐时长是否满足视频需要",
-              "歌词和音质是否达到发布标准"
+              "命令成功返回结果，且无错误日志。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "具身推理",
-          "token 效率",
-          "早期火灾检测"
+          "推理轨迹",
+          "服务端工具",
+          "内容寻址存储",
+          "流式事件",
+          "llm openai endpoint"
         ],
         "searchTerms": [
           {
-            "term": "Gemini 3.6 Flash",
-            "query": "Gemini 3.6 Flash model"
+            "term": "推理轨迹",
+            "query": "LLM 推理轨迹 显示"
           },
           {
-            "term": "Gemini Robotics ER 2",
-            "query": "Gemini Robotics ER 2 embodied reasoning"
+            "term": "服务端工具",
+            "query": "OpenAI 服务端工具 CodeInterpreter"
           },
           {
-            "term": "AlphaEvolve",
-            "query": "AlphaEvolve Google Cloud code optimization"
+            "term": "内容寻址存储",
+            "query": "内容寻址存储 日志 Git"
           },
           {
-            "term": "FireSat",
-            "query": "FireSat satellite wildfire detection"
+            "term": "流式事件",
+            "query": "LLM Python API stream_events"
+          },
+          {
+            "term": "OpenAI Responses API",
+            "query": "OpenAI Responses API 介绍"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-04T22:42:48.607Z",
+      "analyzedAt": "2026-08-05T22:41:01.143Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "9a3d9f7b007c1d55",
+      "title": "llamafile v0.10.5",
+      "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
+      "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
+      "publishedAt": "2026-08-05T10:01:51.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
+      "lane": "ai",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 61,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 6,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 69,
+      "bodyHash": "2b9625eaf43bf185592cf032",
+      "extraction": {
+        "method": "readability",
+        "length": 3917,
+        "originalLength": 3917,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+      "analysis": {
+        "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
+              "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
+              "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
+              "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
+              "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
+              "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
+              "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
+          "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
+          "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
+          "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
+          "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+            "basis": "source"
+          },
+          {
+            "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+            "basis": "source"
+          },
+          {
+            "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+            "basis": "source"
+          },
+          {
+            "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+            "steps": [
+              "下载 llamafile v0.10.5 的最新发布版本。",
+              "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
+              "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
+              "测试模型响应速度，确保满足交互需求。"
+            ],
+            "tools": [
+              "llamafile",
+              "Hugging Face",
+              "GGUF 权重"
+            ],
+            "verification": [
+              "模型成功加载并响应提示，无内存溢出错误。",
+              "生成速度达到交互级别（如每 token 少于 1 秒）。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "llamafile",
+          "llama.cpp",
+          "Ternary Bonsai 27B",
+          "Laguna-S-2.1",
+          "混合专家",
+          "量化"
+        ],
+        "searchTerms": [
+          {
+            "term": "llamafile",
+            "query": "llamafile 是什么"
+          },
+          {
+            "term": "llama.cpp",
+            "query": "llama.cpp 核心"
+          },
+          {
+            "term": "Ternary Bonsai 27B",
+            "query": "Ternary Bonsai 27B 模型"
+          },
+          {
+            "term": "Laguna-S-2.1",
+            "query": "Laguna-S-2.1 编码模型"
+          },
+          {
+            "term": "混合专家",
+            "query": "Mixture of Experts 模型"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-05T22:41:13.410Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "77c76922427b8b89",
-        "title": "Deploy local agents everywhere with LFM2.5-2.6B",
-        "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
-        "summary": "",
-        "publishedAt": "2026-08-04T13:58:29.000Z",
-        "sourceId": "huggingface",
-        "sourceName": "Hugging Face Blog",
-        "sourceSite": "https://huggingface.co/blog",
-        "lane": "ai",
-        "accent": "#ff9d00",
-        "topic": "Agent 与自动化",
-        "score": 70,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 8,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 92,
-        "bodyHash": "f3958493d9e8876f13ea27d3",
-        "extraction": {
-          "method": "readability",
-          "length": 5932,
-          "originalLength": 5932,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
-        "analysis": {
-          "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
-                "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
-                "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
-                "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
-                "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
-                "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
-                "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
-                "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
-            "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
-            "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
-            "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
-            "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
-            "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
-              "basis": "source"
-            },
-            {
-              "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
-              "basis": "source"
-            },
-            {
-              "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
-              "basis": "source"
-            },
-            {
-              "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
-              "steps": [
-                "安装最新版transformers库：pip install -U transformers",
-                "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
-                "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
-                "运行推理：将用户提示转换为模型输入，生成输出并解码。"
-              ],
-              "tools": [
-                "transformers",
-                "Hugging Face",
-                "llama.cpp"
-              ],
-              "verification": [
-                "模型成功加载并生成响应",
-                "输出文本符合预期，无错误"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "多步任务",
-            "Agentic RL",
-            "推理速度",
-            "指令遵循"
-          ],
-          "searchTerms": [
-            {
-              "term": "LFM2.5-2.6B",
-              "query": "LFM2.5-2.6B model"
-            },
-            {
-              "term": "Agentic RL",
-              "query": "Agentic reinforcement learning"
-            },
-            {
-              "term": "MOPD",
-              "query": "Multi-domain on-policy distillation"
-            },
-            {
-              "term": "SFT",
-              "query": "Supervised fine-tuning"
-            },
-            {
-              "term": "token/s",
-              "query": "tokens per second inference speed"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-04T22:41:59.768Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "ec7ec4e957d37bf3",
-        "title": "How to Evaluate Voice Agents with LangSmith",
-        "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
-        "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
-        "publishedAt": "2026-08-04T17:19:58.000Z",
+        "id": "b316c39525a495cb",
+        "title": "How we built an autonomous SRE agent for Kubernetes",
+        "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
+        "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
+        "publishedAt": "2026-08-05T16:24:31.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
         "topic": "AI 辅助学习",
-        "score": 69,
+        "score": 60,
         "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 20,
+        "readMinutes": 15,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 90,
-        "bodyHash": "0eb1fd108da52d3cbdd35f37",
+        "candidateScore": 86,
+        "bodyHash": "ab78ff2333e242e9232b05ba",
         "extraction": {
           "method": "readability",
-          "length": 14193,
-          "originalLength": 14193,
+          "length": 10461,
+          "originalLength": 10461,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+        "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
         "analysis": {
-          "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+          "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
-                "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
-                "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
-                "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
-                "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
-                "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+                "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
+                "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
+                "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
+                "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
-                "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
-                "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
-                "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
-                "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
-                "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
-                "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
-                "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+                "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
+                "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
+                "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
+                "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
+                "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
+                "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
+                "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
+                "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
-                "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
-                "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
-                "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
-                "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
-                "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
-                "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
-                "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+                "LangSmith 追踪是调试和改进智能体的关键工具。",
+                "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
+                "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
+                "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
+                "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
+                "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
+                "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
               ]
             }
           ],
           "keyPoints": [
-            "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
-            "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
-            "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
-            "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
-            "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
-            "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+            "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
+            "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
+            "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
+            "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
+            "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
+            "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
           ],
           "technicalDetails": [
             {
-              "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+              "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
               "basis": "source"
             },
             {
-              "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+              "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
               "basis": "source"
             },
             {
-              "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+              "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
               "basis": "source"
             },
             {
-              "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+              "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
               "basis": "source"
             },
             {
-              "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+              "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
+              "basis": "source"
+            },
+            {
+              "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+              "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
               "steps": [
-                "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
-                "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
-                "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
-                "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
-                "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
-                "定期使用注释队列进行人工审核，以校准评估器。"
+                "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
+                "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
+                "实现 HITL 审批机制，通过 Slack 消息交互。",
+                "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
+                "根据追踪数据优化调度器，减少不必要的模型调用。",
+                "利用 LangSmith Engine 自动检测和修复问题。"
               ],
               "tools": [
+                "Kubernetes Python client",
+                "LangGraph",
+                "Deep Agents",
                 "LangSmith",
-                "代码评估器",
-                "LLM 评判",
-                "音频感知模型",
-                "注释队列"
+                "Slack"
               ],
               "verification": [
-                "观察追踪中工具调用顺序是否正确，无多余调用。",
-                "LLM 评判分数稳定，且与人工审核结果一致性高。",
-                "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
-                "预订成功率提高，且重开率或放弃率下降。",
-                "人工审核发现的问题数量减少，且评估器误报率降低。"
+                "检查调度器运行成本是否降低 95% 以上。",
+                "观察 HITL 审批流程是否正常。",
+                "通过 LangSmith 查看追踪，确认无失控循环。",
+                "运行回归测试，确保修改不引入新问题。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "执行",
-            "结果",
-            "体验",
-            "代码评估器",
-            "LLM 评判"
+            "自主 SRE 智能体",
+            "人工审批",
+            "成本降低 95% 至 99%",
+            "LangSmith 追踪",
+            "回归测试",
+            "LangSmith Engine"
           ],
           "searchTerms": [
             {
+              "term": "Deep Agents",
+              "query": "LangChain Deep Agents framework"
+            },
+            {
               "term": "LangSmith",
-              "query": "LangSmith 语音代理评估"
+              "query": "LangSmith tracing evaluation"
             },
             {
-              "term": "代码评估器",
-              "query": "LangSmith 代码评估器"
+              "term": "HITL",
+              "query": "human-in-the-loop AI approval"
             },
             {
-              "term": "LLM 评判",
-              "query": "LLM judge 评估语音代理"
-            },
-            {
-              "term": "音频感知 LLM 评判",
-              "query": "audio-aware LLM judge"
-            },
-            {
-              "term": "注释队列",
-              "query": "LangSmith annotation queue"
+              "term": "Claude Haiku",
+              "query": "Claude Haiku model cost"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-04T22:42:26.465Z",
+        "analyzedAt": "2026-08-05T22:40:47.961Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "bc5c9a3bbdf77c0c",
-        "title": "The latest AI news we announced in July 2026",
-        "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
-        "summary": "Here are Google’s latest AI updates from July 2026",
-        "publishedAt": "2026-08-04T13:00:00.000Z",
-        "sourceId": "google-ai",
-        "sourceName": "Google AI",
-        "sourceSite": "https://blog.google/technology/ai/",
+        "id": "233901218759cc32",
+        "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
+        "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
+        "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
+        "publishedAt": "2026-08-04T23:58:24.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
         "lane": "ai",
-        "accent": "#4285f4",
-        "topic": "AI 动态",
-        "score": 70,
-        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-        "readMinutes": 12,
-        "category": "update",
-        "slot": "update",
+        "accent": "#b36b00",
+        "topic": "AI 辅助学习",
+        "score": 57,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 9,
+        "category": "opinion",
+        "slot": "practice",
         "language": "en",
-        "candidateScore": 74,
-        "bodyHash": "5c9385eb750dcb1fed23a62c",
+        "candidateScore": 79,
+        "bodyHash": "35579b315dc9aa917749a9dc",
         "extraction": {
           "method": "readability",
-          "length": 8505,
-          "originalLength": 8505,
+          "length": 6294,
+          "originalLength": 6294,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+        "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
         "analysis": {
-          "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+          "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
-                "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
-                "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+                "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
+                "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
+                "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
-                "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
-                "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+                "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
+                "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
+                "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
+                "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
-                "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
-                "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+                "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
+                "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
+                "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
               ]
             }
           ],
           "keyPoints": [
-            "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
-            "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
-            "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
-            "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
-            "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
-            "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+            "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
+            "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
+            "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
+            "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
+            "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
+            "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
           ],
           "technicalDetails": [
             {
-              "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+              "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
               "basis": "source"
             },
             {
-              "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+              "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
               "basis": "source"
             },
             {
-              "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+              "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
               "basis": "source"
             },
             {
-              "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+              "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
               "basis": "source"
             },
             {
-              "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+              "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+              "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
               "steps": [
-                "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
-                "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
-                "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
-                "部署到生产环境，监控延迟和 token 消耗。"
+                "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
+                "如果不想显示，添加 `-R` 参数隐藏。",
+                "将标准输出重定向到文件，确保推理轨迹不混入。"
               ],
               "tools": [
-                "Google AI Studio",
-                "Vertex AI",
-                "Gemini API"
+                "LLM CLI",
+                "gpt-5.6-luna 模型"
               ],
               "verification": [
-                "观察响应时间是否低于 500 毫秒",
-                "检查 token 消耗是否比旧模型降低 20%"
+                "标准错误显示推理文本，标准输出仅包含最终答案。"
               ]
             },
             {
-              "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+              "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
               "steps": [
-                "访问 Google Flow Music 平台。",
-                "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
-                "生成多个版本，选择最符合需求的。",
-                "导出音频并导入视频编辑器。"
+                "启动本地 API 服务（如 LM Studio），记下端口。",
+                "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
+                "检查输出结果，确认工具调用正常。"
               ],
               "tools": [
-                "Google Flow Music",
-                "Lyria 3.5"
+                "uvx",
+                "LM Studio",
+                "llm-tools-quickjs"
               ],
               "verification": [
-                "生成音乐时长是否满足视频需要",
-                "歌词和音质是否达到发布标准"
+                "命令成功返回结果，且无错误日志。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "具身推理",
-            "token 效率",
-            "早期火灾检测"
+            "推理轨迹",
+            "服务端工具",
+            "内容寻址存储",
+            "流式事件",
+            "llm openai endpoint"
           ],
           "searchTerms": [
             {
-              "term": "Gemini 3.6 Flash",
-              "query": "Gemini 3.6 Flash model"
+              "term": "推理轨迹",
+              "query": "LLM 推理轨迹 显示"
             },
             {
-              "term": "Gemini Robotics ER 2",
-              "query": "Gemini Robotics ER 2 embodied reasoning"
+              "term": "服务端工具",
+              "query": "OpenAI 服务端工具 CodeInterpreter"
             },
             {
-              "term": "AlphaEvolve",
-              "query": "AlphaEvolve Google Cloud code optimization"
+              "term": "内容寻址存储",
+              "query": "内容寻址存储 日志 Git"
             },
             {
-              "term": "FireSat",
-              "query": "FireSat satellite wildfire detection"
+              "term": "流式事件",
+              "query": "LLM Python API stream_events"
+            },
+            {
+              "term": "OpenAI Responses API",
+              "query": "OpenAI Responses API 介绍"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-04T22:42:48.607Z",
+        "analyzedAt": "2026-08-05T22:41:01.143Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "9a3d9f7b007c1d55",
+        "title": "llamafile v0.10.5",
+        "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
+        "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
+        "publishedAt": "2026-08-05T10:01:51.000Z",
+        "sourceId": "mozilla-ai",
+        "sourceName": "Mozilla AI",
+        "sourceSite": "https://blog.mozilla.ai/",
+        "lane": "ai",
+        "accent": "#ff7139",
+        "topic": "模型与研究",
+        "score": 61,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 6,
+        "category": "research",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 69,
+        "bodyHash": "2b9625eaf43bf185592cf032",
+        "extraction": {
+          "method": "readability",
+          "length": 3917,
+          "originalLength": 3917,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+        "analysis": {
+          "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
+                "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
+                "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
+                "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
+                "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
+                "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
+                "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
+            "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
+            "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
+            "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
+            "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+              "basis": "source"
+            },
+            {
+              "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+              "basis": "source"
+            },
+            {
+              "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+              "basis": "source"
+            },
+            {
+              "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+              "steps": [
+                "下载 llamafile v0.10.5 的最新发布版本。",
+                "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
+                "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
+                "测试模型响应速度，确保满足交互需求。"
+              ],
+              "tools": [
+                "llamafile",
+                "Hugging Face",
+                "GGUF 权重"
+              ],
+              "verification": [
+                "模型成功加载并响应提示，无内存溢出错误。",
+                "生成速度达到交互级别（如每 token 少于 1 秒）。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "llamafile",
+            "llama.cpp",
+            "Ternary Bonsai 27B",
+            "Laguna-S-2.1",
+            "混合专家",
+            "量化"
+          ],
+          "searchTerms": [
+            {
+              "term": "llamafile",
+              "query": "llamafile 是什么"
+            },
+            {
+              "term": "llama.cpp",
+              "query": "llama.cpp 核心"
+            },
+            {
+              "term": "Ternary Bonsai 27B",
+              "query": "Ternary Bonsai 27B 模型"
+            },
+            {
+              "term": "Laguna-S-2.1",
+              "query": "Laguna-S-2.1 编码模型"
+            },
+            {
+              "term": "混合专家",
+              "query": "Mixture of Experts 模型"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-05T22:41:13.410Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2881,456 +2881,456 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "77c76922427b8b89",
-        "title": "Deploy local agents everywhere with LFM2.5-2.6B",
-        "url": "https://huggingface.co/blog/LiquidAI/lfm2-5-2-6b",
-        "summary": "",
-        "publishedAt": "2026-08-04T13:58:29.000Z",
-        "sourceId": "huggingface",
-        "sourceName": "Hugging Face Blog",
-        "sourceSite": "https://huggingface.co/blog",
-        "lane": "ai",
-        "accent": "#ff9d00",
-        "topic": "Agent 与自动化",
-        "score": 70,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 8,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 92,
-        "bodyHash": "f3958493d9e8876f13ea27d3",
-        "extraction": {
-          "method": "readability",
-          "length": 5932,
-          "originalLength": 5932,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "LFM2.5-2.6B：让智能体在本地设备上随处运行",
-        "analysis": {
-          "listSummary": "本文介绍LFM2.5-2.6B，一个专为端侧设备设计的小型语言模型，它能支持工具调用和多步任务，同时保持低内存占用和高推理速度。文章详细说明了该模型的训练方法（包括四阶段后训练）、基准测试结果以及如何使用。对于开发者来说，这意味着可以在手机或笔记本上部署智能体，保护数据隐私并节省云端成本。文章值得一读，尤其适合关注边缘AI和本地部署的入门学习者。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "大型语言模型通常需要强大的云端服务器来运行，这带来了高成本和隐私问题。LFM2.5-2.6B的目标是解决这个问题，让AI智能体完全在本地设备上运行。",
-                "智能体（Agent）是能自主执行任务的AI程序，例如自动搜索信息或调用工具。传统上，这些智能体依赖云端，但LFM2.5-2.6B让它们可以在普通硬件上运行。",
-                "该模型只有2.6B参数（参数是模型内部的可调数字，影响模型大小和能力），比许多大模型小得多，但声称在工具使用和指令遵循方面表现优异。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "LFM2.5-2.6B通过预训练和四阶段后训练构建。预训练使用约34万亿个token（文本单位），并扩展上下文窗口到128K（可处理长文本）。",
-                "后训练包括四个阶段：监督微调（SFT）、教师专业化、多领域策略蒸馏（MOPD）和智能体强化学习（Agentic RL）。SFT用大量智能体数据训练，教师专业化针对不同领域训练专家模型，MOPD将专家知识合并到学生模型，Agentic RL在真实环境中优化多步任务。",
-                "Agentic RL管道将模型优化、推理和环境执行分离，使用沙盒服务执行动作，并通过Harness Proxy捕获轨迹，确保训练数据可重建和验证。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "基准测试显示，LFM2.5-2.6B在指令遵循和工具使用上优于或接近更大的模型，如gemma-4-E2B-it和Qwen3.5-4B。例如，在IFBench上得分59.17，高于其他模型。",
-                "在智能体任务上，它击败了Gemma模型，与Qwen模型持平。但在编程任务上，更大模型仍占优势，作者建议编程场景使用更大模型。",
-                "推理速度方面，在Apple M5 Max上达到220 token/s，在AMD Ryzen CPU上为113 token/s，内存占用低于2.5GB。这使其适合手机等设备。",
-                "结论是，LFM2.5-2.6B适合高吞吐量、本地部署的智能体应用，但编程任务需谨慎。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "LFM2.5-2.6B是一个2.6B参数的小型语言模型，专为端侧设备设计，支持工具调用和多步任务。",
-            "该模型通过四阶段后训练（SFT、教师专业化、MOPD、Agentic RL）优化，使其在指令遵循和工具使用上表现突出。",
-            "在基准测试中，LFM2.5-2.6B在指令遵循和工具使用上超越或接近更大的模型，但编程能力不如大模型。",
-            "推理效率高：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。",
-            "模型支持多种推理框架，包括llama.cpp、MLX、vLLM等，并可通过Hugging Face下载。",
-            "适合高吞吐量、本地部署的智能体应用，保护数据隐私并降低云端成本。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "LFM2.5-2.6B是一个语言模型，通过预训练和四阶段后训练构建。预训练使用34万亿token，后训练包括SFT、教师专业化、MOPD和Agentic RL，旨在优化工具使用和多步任务。这是原文事实。",
-              "basis": "source"
-            },
-            {
-              "text": "Agentic RL管道分离模型优化、推理和环境执行。训练引擎优化模型，Rollout引擎生成动作，RL框架协调训练循环，沙盒服务执行动作，Harness Proxy捕获轨迹。这是原文事实。",
-              "basis": "source"
-            },
-            {
-              "text": "推理速度：在Apple M5 Max上220 token/s，在AMD Ryzen CPU上113 token/s，内存占用低于2.5GB。这是原文事实。",
-              "basis": "source"
-            },
-            {
-              "text": "模型支持多种推理框架，包括llama.cpp、MLX、vLLM、SGLang和ONNX。这是原文事实。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在本地设备上部署智能体，用于自动化任务，如研究助手。",
-              "steps": [
-                "安装最新版transformers库：pip install -U transformers",
-                "加载模型：使用AutoModelForCausalLM和AutoTokenizer，指定模型ID为'LiquidAI/LFM2.5-2.6B'。",
-                "设置生成参数：温度0.2，top_k=80，repetition_penalty=1.05，max_new_tokens=512。",
-                "运行推理：将用户提示转换为模型输入，生成输出并解码。"
-              ],
-              "tools": [
-                "transformers",
-                "Hugging Face",
-                "llama.cpp"
-              ],
-              "verification": [
-                "模型成功加载并生成响应",
-                "输出文本符合预期，无错误"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "多步任务",
-            "Agentic RL",
-            "推理速度",
-            "指令遵循"
-          ],
-          "searchTerms": [
-            {
-              "term": "LFM2.5-2.6B",
-              "query": "LFM2.5-2.6B model"
-            },
-            {
-              "term": "Agentic RL",
-              "query": "Agentic reinforcement learning"
-            },
-            {
-              "term": "MOPD",
-              "query": "Multi-domain on-policy distillation"
-            },
-            {
-              "term": "SFT",
-              "query": "Supervised fine-tuning"
-            },
-            {
-              "term": "token/s",
-              "query": "tokens per second inference speed"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-04T22:41:59.768Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "ec7ec4e957d37bf3",
-        "title": "How to Evaluate Voice Agents with LangSmith",
-        "url": "https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience",
-        "summary": "Learn how to evaluate voice agents across execution, outcomes, and caller experience using LangSmith traces, code evaluators, LLM judges, and human review.",
-        "publishedAt": "2026-08-04T17:19:58.000Z",
+        "id": "b316c39525a495cb",
+        "title": "How we built an autonomous SRE agent for Kubernetes",
+        "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
+        "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
+        "publishedAt": "2026-08-05T16:24:31.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
         "topic": "AI 辅助学习",
-        "score": 69,
+        "score": 60,
         "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 20,
+        "readMinutes": 15,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 90,
-        "bodyHash": "0eb1fd108da52d3cbdd35f37",
+        "candidateScore": 86,
+        "bodyHash": "ab78ff2333e242e9232b05ba",
         "extraction": {
           "method": "readability",
-          "length": 14193,
-          "originalLength": 14193,
+          "length": 10461,
+          "originalLength": 10461,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "如何用 LangSmith 评估语音代理：执行、结果与体验",
+        "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
         "analysis": {
-          "listSummary": "本文介绍如何评估语音代理（即通过语音交互的 AI 系统），强调从执行、结果和体验三个维度进行。它解释了为什么仅看对话文本不够，以及如何使用 LangSmith 的追踪、代码评估器、LLM 评判和人工审核来全面评估。对于构建或优化语音代理的开发者，本文提供了实用的评估框架和工具指南，值得一读。",
+          "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "构建语音代理很难，因为一个好的语音代理不仅要听起来自然，还要能解决用户问题并达成业务目标。",
-                "例如，代理可能长时间停顿，听起来尴尬，但最终解决了问题；或者代理严格遵循指令，却因缺少上下文而无法满足客户。",
-                "这两种情况都表明需要改进，而评估能帮助团队识别弱点，并衡量改动是否真的让代理变得更好。",
-                "因此，作者建议从三个维度评估语音代理：执行（是否遵循指令）、结果（是否达成目标）和体验（对话是否顺畅）。",
-                "这三个维度相互关联，但不可互换，且评估它们需要的不只是对话文本。",
-                "在 LangSmith 中，你可以追踪完整交互，用多个评估器打分，检查录音和工具活动，并比较随时间的变化。"
+                "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
+                "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
+                "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
+                "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "执行维度衡量代理是否遵守设计，包括是否以正确参数和顺序调用工具、是否遵循提示中的隐私和同意政策、是否在行动前收集并确认必要信息，以及是否基于可用上下文提供准确信息。",
-                "执行不仅看最终响应，还看代理产生响应的路径。例如，代理可能最终给出正确答案，但调用了不必要的工具或跳过了必要的确认，这在单次调用中可能无碍，但重复交互会累积成糟糕的用户体验。",
-                "对于明确的执行要求，可以使用确定性评估器，即基于简单规则的检查，如检查工具调用顺序或必需字段是否存在。这些检查快速且廉价，因为不需要额外的模型调用。",
-                "在 LangSmith 中，代码评估器特别适合此类检查，你可以追踪调用并针对追踪运行确定性规则。",
-                "对于依赖语义的要求，如是否遵循自然语言策略或是否清晰解释下一步，LLM 评判（即用语言模型评估输出）更为合适。",
-                "LLM 评判在任务狭窄且标准明确时效果最佳，例如，一个具体的评分标准是：如果代理在调用预订工具前确认了日期、时间和时区则通过，否则失败。",
-                "LLM 评判之所以有效，是因为狭窄的评判任务比生成原始响应更容易，尤其是当评判者收到明确标准和完整追踪时。",
-                "结果维度关注交互是否达成预期目标，这不同于指令遵循。例如，调度代理可能完成了所有步骤，但工作流未要求确认时区，导致预订错误时间，这属于结果失败。"
+                "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
+                "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
+                "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
+                "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
+                "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
+                "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
+                "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
+                "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者建议构建持续评估循环，将代表性对话转化为数据集，包括常见请求、已知失败、模糊请求、工具错误、转接和升级、边缘案例以及音频条件困难的通话。",
-                "然后，可以运行实验来比较提示、模型、工具或工作流更改对同一数据集的影响。",
-                "由于执行、结果和体验保持分离，实验可以揭示新提示提高指令遵循但降低解决率，或工作流更改增加成功预订但引入更多政策违规。",
-                "生产评估可以揭示单个通话审查遗漏的模式，评估器可以将结构化反馈附加到追踪中，包括意图、解决状态、失败原因、情感或摩擦指标。",
-                "实用工作流包括：追踪完整交互、评估生产对话、跟踪指标趋势、比较更改、在上下文中检查失败、添加人工审核，并重复此循环。",
-                "作者强调，评估在开发循环中最有用，而不是一次性启动检查清单。",
-                "LangSmith 支持跨框架和平台一致地评分语音代理，因此即使底层技术栈变化，也能比较行为。",
-                "语音代理同时是软件系统、目标导向的工作流和客户体验，要理解代理是否真正有效，需要评估所有三个维度。"
+                "LangSmith 追踪是调试和改进智能体的关键工具。",
+                "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
+                "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
+                "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
+                "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
+                "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
+                "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
               ]
             }
           ],
           "keyPoints": [
-            "语音代理评估需从执行、结果和体验三个独立维度进行，缺一不可。",
-            "执行维度关注代理是否遵循指令和调用工具，可用确定性代码评估器快速检查。",
-            "结果维度关注是否达成业务目标，应优先测量下游结果而非仅依赖对话文本。",
-            "体验维度关注延迟、自然度和对话摩擦，需结合音频和文本信号。",
-            "LLM 评判适用于狭窄语义标准，但需明确评分规则以避免噪声。",
-            "人工审核用于校准自动评估器，并处理模糊或高风险案例。"
+            "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
+            "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
+            "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
+            "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
+            "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
+            "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
           ],
           "technicalDetails": [
             {
-              "text": "LangSmith 是一个可观测性平台，用于追踪 AI 应用运行。它通过记录完整交互（包括语音转文字、模型推理、工具调用和文字转语音）来工作，使开发者能检查每个组件的性能。这很重要，因为它提供了单一事实来源，便于定位延迟或错误来源。",
+              "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
               "basis": "source"
             },
             {
-              "text": "代码评估器是确定性规则检查器，用于验证明确行为，如工具调用顺序或必需参数存在。它们通过直接检查追踪数据来工作，无需额外模型调用。这很重要，因为快速且廉价，适合频繁运行。",
+              "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
               "basis": "source"
             },
             {
-              "text": "LLM 评判是使用语言模型评估输出质量的机制。它通过提供明确标准和完整追踪来工作，例如检查代理是否确认了时区。这很重要，因为能处理语义要求，但需要狭窄任务以避免噪声。",
+              "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
               "basis": "source"
             },
             {
-              "text": "音频感知 LLM 评判是能处理录音的模型，用于评估发音、语速和重叠语音等属性。它通过分析音频文件来工作，而不是仅依赖文本。这很重要，因为语音质量无法从文本可靠推断。",
+              "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
               "basis": "source"
             },
             {
-              "text": "注释队列是 LangSmith 中用于人工审核的工具。它允许评审者标记和评估特定追踪，以验证自动评估器。这很重要，因为有助于校准 LLM 评判并改进评分标准。",
+              "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
+              "basis": "source"
+            },
+            {
+              "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "开发一个预约调度语音代理，需要评估其性能并优化。",
+              "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
               "steps": [
-                "使用 LangSmith 追踪代理的完整交互，包括语音转文字、模型推理、工具调用和文字转语音。",
-                "定义确定性规则，例如检查 check_availability 是否在 book_appointment 之前调用，以及是否确认了日期、时间和时区。",
-                "设置 LLM 评判，使用具体标准如“如果代理在调用预订工具前确认了所有字段则通过，否则失败”。",
-                "测量端到端延迟和组件延迟，记录 P50、P95 和 P99 百分位数。",
-                "收集业务结果数据，如实际预订是否成功，并与追踪关联。",
-                "定期使用注释队列进行人工审核，以校准评估器。"
+                "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
+                "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
+                "实现 HITL 审批机制，通过 Slack 消息交互。",
+                "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
+                "根据追踪数据优化调度器，减少不必要的模型调用。",
+                "利用 LangSmith Engine 自动检测和修复问题。"
               ],
               "tools": [
+                "Kubernetes Python client",
+                "LangGraph",
+                "Deep Agents",
                 "LangSmith",
-                "代码评估器",
-                "LLM 评判",
-                "音频感知模型",
-                "注释队列"
+                "Slack"
               ],
               "verification": [
-                "观察追踪中工具调用顺序是否正确，无多余调用。",
-                "LLM 评判分数稳定，且与人工审核结果一致性高。",
-                "延迟百分位数在目标范围内，如 P95 低于 2 秒。",
-                "预订成功率提高，且重开率或放弃率下降。",
-                "人工审核发现的问题数量减少，且评估器误报率降低。"
+                "检查调度器运行成本是否降低 95% 以上。",
+                "观察 HITL 审批流程是否正常。",
+                "通过 LangSmith 查看追踪，确认无失控循环。",
+                "运行回归测试，确保修改不引入新问题。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "执行",
-            "结果",
-            "体验",
-            "代码评估器",
-            "LLM 评判"
+            "自主 SRE 智能体",
+            "人工审批",
+            "成本降低 95% 至 99%",
+            "LangSmith 追踪",
+            "回归测试",
+            "LangSmith Engine"
           ],
           "searchTerms": [
             {
+              "term": "Deep Agents",
+              "query": "LangChain Deep Agents framework"
+            },
+            {
               "term": "LangSmith",
-              "query": "LangSmith 语音代理评估"
+              "query": "LangSmith tracing evaluation"
             },
             {
-              "term": "代码评估器",
-              "query": "LangSmith 代码评估器"
+              "term": "HITL",
+              "query": "human-in-the-loop AI approval"
             },
             {
-              "term": "LLM 评判",
-              "query": "LLM judge 评估语音代理"
-            },
-            {
-              "term": "音频感知 LLM 评判",
-              "query": "audio-aware LLM judge"
-            },
-            {
-              "term": "注释队列",
-              "query": "LangSmith annotation queue"
+              "term": "Claude Haiku",
+              "query": "Claude Haiku model cost"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-04T22:42:26.465Z",
+        "analyzedAt": "2026-08-05T22:40:47.961Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "bc5c9a3bbdf77c0c",
-        "title": "The latest AI news we announced in July 2026",
-        "url": "https://blog.google/innovation-and-ai/technology/ai/google-ai-updates-july-2026/",
-        "summary": "Here are Google’s latest AI updates from July 2026",
-        "publishedAt": "2026-08-04T13:00:00.000Z",
-        "sourceId": "google-ai",
-        "sourceName": "Google AI",
-        "sourceSite": "https://blog.google/technology/ai/",
+        "id": "233901218759cc32",
+        "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
+        "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
+        "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
+        "publishedAt": "2026-08-04T23:58:24.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
         "lane": "ai",
-        "accent": "#4285f4",
-        "topic": "AI 动态",
-        "score": 70,
-        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-        "readMinutes": 12,
-        "category": "update",
-        "slot": "update",
+        "accent": "#b36b00",
+        "topic": "AI 辅助学习",
+        "score": 57,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 9,
+        "category": "opinion",
+        "slot": "practice",
         "language": "en",
-        "candidateScore": 74,
-        "bodyHash": "5c9385eb750dcb1fed23a62c",
+        "candidateScore": 79,
+        "bodyHash": "35579b315dc9aa917749a9dc",
         "extraction": {
           "method": "readability",
-          "length": 8505,
-          "originalLength": 8505,
+          "length": 6294,
+          "originalLength": 6294,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Google 2026 年 7 月 AI 更新速览：新模型、机器人、搜索与创意工具",
+        "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
         "analysis": {
-          "listSummary": "本文是 Google 官方对 2026 年 7 月 AI 相关发布的月度总结，涵盖三个新 Gemini 模型、机器人推理模型 Gemini Robotics ER 2、Android 17 的 iPhone 数据迁移、Gemini Notebook 升级、AI 经济研究、技能培训联盟、AlphaEvolve 代码优化、搜索与 Gemini Spark 新功能、视频生成、音乐生成、天气预测、火灾预警和生物安全等。内容适合开发者、创作者和普通用户快速了解 Google AI 的最新方向，但每条新闻较简短，深度有限，适合作为入门概览而非技术教程。",
+          "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "本文是 Google 的月度 AI 新闻汇总，目的是让读者快速了解 2026 年 7 月的重要更新。文章开头强调 Google 在 AI 领域投入超过 20 年，并希望展示 AI 在医疗、危机响应和教育等领域的实际应用。",
-                "对于读者来说，这篇文章的价值在于提供一个全景式快照：哪些产品发布了、哪些技术方向被强调、以及 Google 如何将 AI 融入日常生活。它不深入技术细节，但能帮助读者建立对当前 AI 发展重点的初步认识。",
-                "文章覆盖多个领域，从开发者工具（如 Gemini 模型）到消费者应用（如搜索和视频），再到社会公益（如火灾预警和技能培训），体现了 Google 试图展示 AI 的广泛影响。"
+                "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
+                "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
+                "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "文章采用新闻稿式的罗列方法，每一条新闻独立成段，没有深入的技术解释或对比分析。例如，关于三个新 Gemini 模型，只提到它们提供更高的 token 效率（即处理文本时更省资源）、更低的延迟和更可靠的性能，但没有说明具体架构或基准测试。",
-                "对于机器人模型 Gemini Robotics ER 2，文章强调它具备“具身推理”能力（即让 AI 理解物理世界并执行多步骤任务），但未提供实际案例或性能数据。这种描述方式适合宣传，但缺乏可验证的细节。",
-                "文章还提到一些社会项目，如与 NOAA 合作改进天气预报、FireSat 卫星用于早期火灾检测，以及生物安全计划。这些内容展示了 AI 在公共领域的应用，但同样没有提供技术实现或效果评估。"
+                "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
+                "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
+                "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
+                "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文的“证据”主要是产品发布和合作声明，而非实验结果。例如，AlphaEvolve 被描述为能自动搜索更优算法并返回可读代码，但未给出性能提升的量化数据。",
-                "结论是 Google 认为这些更新让 AI 更实用、更有创意和更有帮助，但这一结论是公司自我评价，需要读者自行判断。文章没有讨论潜在风险或局限性，如隐私问题（Gemini Spark 使用登录账号和密码）或模型偏见。",
-                "适用边界：本文适合作为新闻摘要，不适合作为技术参考。读者如果需要深入理解某个模型或工具，应查阅官方文档或独立研究。"
+                "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
+                "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
+                "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
               ]
             }
           ],
           "keyPoints": [
-            "2026 年 7 月，Google 发布了三个新 Gemini 模型（3.6 Flash、3.5 Flash-Lite、3.5 Flash Cyber），旨在提升生产级 AI 代理的效率和质量。",
-            "Gemini Robotics ER 2 是 Google 最先进的具身推理模型，能让机器人理解环境并执行复杂任务，但原文未提供具体性能数据。",
-            "Android 17 新增原生迁移体验，允许 iPhone 用户无线传输更多数据类型，无需下载额外应用。",
-            "Gemini Notebook（原 NotebookLM）已集成到 Gemini 应用和 Google 搜索，并新增安全云计算机功能。",
-            "AlphaEvolve 是 Gemini 驱动的代码优化代理，现已向所有 Google Cloud 客户开放，能自动搜索更优算法并返回可读代码。",
-            "Google 与 NOAA 合作，首次将数值天气预报直接运行在公共云上，以加速气象模拟和预警。"
+            "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
+            "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
+            "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
+            "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
+            "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
+            "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
           ],
           "technicalDetails": [
             {
-              "text": "Gemini 3.6 Flash、3.5 Flash-Lite 和 3.5 Flash Cyber 是三个新模型，它们是什么：用于构建生产级 AI 代理（即能自主执行任务的 AI 系统）的版本。怎么工作：它们优化了 token 效率（处理文本时消耗更少资源）、降低延迟（响应更快）并提高可靠性。为什么重要：这使开发者能更经济地扩展代理工作流，即让 AI 处理更多任务而不增加成本。",
+              "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
               "basis": "source"
             },
             {
-              "text": "Gemini Robotics ER 2 是具身推理模型，它是什么：让 AI 理解物理世界并与之交互的模型。怎么工作：它允许系统与人类自然对话、感知环境并执行多步骤任务（如整理房间）。为什么重要：它弥合了数字智能与物理世界的差距，是开发实用机器人的关键。",
+              "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
               "basis": "source"
             },
             {
-              "text": "AlphaEvolve 是代码优化代理，它是什么：一个基于 Gemini 的 AI 工具，帮助开发者优化算法。怎么工作：用户提供基线算法和目标，AlphaEvolve 自动搜索更好的解决方案，并返回人类可读的代码。为什么重要：它降低了优化算法的门槛，让非专家也能改进代码性能。",
+              "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
               "basis": "source"
             },
             {
-              "text": "FireSat 卫星是火灾检测系统，它是什么：由地球火灾联盟（EFA）和 Google Research 领导的全球倡议的一部分。怎么工作：三颗新卫星从加州范登堡太空军基地发射，用于在野火蔓延前检测到它们。为什么重要：早期检测能挽救生命和财产，是 AI 在环境监测中的应用。",
+              "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
               "basis": "source"
             },
             {
-              "text": "Gemini Spark 的新功能是处理复杂网页任务，它是什么：一个能代表用户执行在线操作的 AI 工具。怎么工作：在用户许可下，Spark 使用已登录的账号和保存的密码来安排公寓看房或研究航班并开始预订。为什么重要：这自动化了繁琐的日常任务，但涉及隐私和安全风险。",
+              "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "开发者希望用 Gemini 模型构建一个生产级 AI 代理，例如一个自动回答客户问题的聊天机器人。",
+              "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
               "steps": [
-                "访问 Google AI Studio 或 Vertex AI，选择 Gemini 3.6 Flash 或 3.5 Flash-Lite 模型。",
-                "定义代理的目标和输入输出格式，例如输入用户问题，输出答案。",
-                "使用模型 API 进行测试，调整温度参数（控制随机性）以平衡创造性和准确性。",
-                "部署到生产环境，监控延迟和 token 消耗。"
+                "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
+                "如果不想显示，添加 `-R` 参数隐藏。",
+                "将标准输出重定向到文件，确保推理轨迹不混入。"
               ],
               "tools": [
-                "Google AI Studio",
-                "Vertex AI",
-                "Gemini API"
+                "LLM CLI",
+                "gpt-5.6-luna 模型"
               ],
               "verification": [
-                "观察响应时间是否低于 500 毫秒",
-                "检查 token 消耗是否比旧模型降低 20%"
+                "标准错误显示推理文本，标准输出仅包含最终答案。"
               ]
             },
             {
-              "scenario": "内容创作者希望用 Lyria 3.5 生成音乐，例如为视频制作背景音乐。",
+              "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
               "steps": [
-                "访问 Google Flow Music 平台。",
-                "输入描述性提示，如“轻快的电子乐，适合旅行视频”。",
-                "生成多个版本，选择最符合需求的。",
-                "导出音频并导入视频编辑器。"
+                "启动本地 API 服务（如 LM Studio），记下端口。",
+                "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
+                "检查输出结果，确认工具调用正常。"
               ],
               "tools": [
-                "Google Flow Music",
-                "Lyria 3.5"
+                "uvx",
+                "LM Studio",
+                "llm-tools-quickjs"
               ],
               "verification": [
-                "生成音乐时长是否满足视频需要",
-                "歌词和音质是否达到发布标准"
+                "命令成功返回结果，且无错误日志。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "具身推理",
-            "token 效率",
-            "早期火灾检测"
+            "推理轨迹",
+            "服务端工具",
+            "内容寻址存储",
+            "流式事件",
+            "llm openai endpoint"
           ],
           "searchTerms": [
             {
-              "term": "Gemini 3.6 Flash",
-              "query": "Gemini 3.6 Flash model"
+              "term": "推理轨迹",
+              "query": "LLM 推理轨迹 显示"
             },
             {
-              "term": "Gemini Robotics ER 2",
-              "query": "Gemini Robotics ER 2 embodied reasoning"
+              "term": "服务端工具",
+              "query": "OpenAI 服务端工具 CodeInterpreter"
             },
             {
-              "term": "AlphaEvolve",
-              "query": "AlphaEvolve Google Cloud code optimization"
+              "term": "内容寻址存储",
+              "query": "内容寻址存储 日志 Git"
             },
             {
-              "term": "FireSat",
-              "query": "FireSat satellite wildfire detection"
+              "term": "流式事件",
+              "query": "LLM Python API stream_events"
+            },
+            {
+              "term": "OpenAI Responses API",
+              "query": "OpenAI Responses API 介绍"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-04T22:42:48.607Z",
+        "analyzedAt": "2026-08-05T22:41:01.143Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "9a3d9f7b007c1d55",
+        "title": "llamafile v0.10.5",
+        "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
+        "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
+        "publishedAt": "2026-08-05T10:01:51.000Z",
+        "sourceId": "mozilla-ai",
+        "sourceName": "Mozilla AI",
+        "sourceSite": "https://blog.mozilla.ai/",
+        "lane": "ai",
+        "accent": "#ff7139",
+        "topic": "模型与研究",
+        "score": 61,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 6,
+        "category": "research",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 69,
+        "bodyHash": "2b9625eaf43bf185592cf032",
+        "extraction": {
+          "method": "readability",
+          "length": 3917,
+          "originalLength": 3917,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+        "analysis": {
+          "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
+                "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
+                "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
+                "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
+                "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
+                "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
+                "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
+            "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
+            "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
+            "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
+            "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+              "basis": "source"
+            },
+            {
+              "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+              "basis": "source"
+            },
+            {
+              "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+              "basis": "source"
+            },
+            {
+              "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+              "steps": [
+                "下载 llamafile v0.10.5 的最新发布版本。",
+                "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
+                "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
+                "测试模型响应速度，确保满足交互需求。"
+              ],
+              "tools": [
+                "llamafile",
+                "Hugging Face",
+                "GGUF 权重"
+              ],
+              "verification": [
+                "模型成功加载并响应提示，无内存溢出错误。",
+                "生成速度达到交互级别（如每 token 少于 1 秒）。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "llamafile",
+            "llama.cpp",
+            "Ternary Bonsai 27B",
+            "Laguna-S-2.1",
+            "混合专家",
+            "量化"
+          ],
+          "searchTerms": [
+            {
+              "term": "llamafile",
+              "query": "llamafile 是什么"
+            },
+            {
+              "term": "llama.cpp",
+              "query": "llama.cpp 核心"
+            },
+            {
+              "term": "Ternary Bonsai 27B",
+              "query": "Ternary Bonsai 27B 模型"
+            },
+            {
+              "term": "Laguna-S-2.1",
+              "query": "Laguna-S-2.1 编码模型"
+            },
+            {
+              "term": "混合专家",
+              "query": "Mixture of Experts 模型"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-05T22:41:13.410Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -3352,7 +3352,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 192,
+      "latencyMs": 187,
       "itemCount": 35
     },
     {
@@ -3369,7 +3369,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 160,
+      "latencyMs": 146,
       "itemCount": 10
     },
     {
@@ -3386,7 +3386,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 473,
+      "latencyMs": 589,
       "itemCount": 32
     },
     {
@@ -3403,7 +3403,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 784,
+      "latencyMs": 1143,
       "itemCount": 10
     },
     {
@@ -3420,7 +3420,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 113,
+      "latencyMs": 189,
       "itemCount": 35
     },
     {
@@ -3437,7 +3437,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 126,
+      "latencyMs": 211,
       "itemCount": 35
     },
     {
@@ -3454,7 +3454,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 217,
+      "latencyMs": 421,
       "itemCount": 35
     },
     {
@@ -3471,7 +3471,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 147,
+      "latencyMs": 167,
       "itemCount": 30
     },
     {
@@ -3488,7 +3488,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 167,
+      "latencyMs": 180,
       "itemCount": 35
     },
     {
@@ -3505,7 +3505,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 502,
+      "latencyMs": 660,
       "itemCount": 20
     },
     {
@@ -3522,7 +3522,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 390,
+      "latencyMs": 596,
       "itemCount": 35
     },
     {
@@ -3539,7 +3539,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 219,
+      "latencyMs": 315,
       "itemCount": 15
     },
     {
@@ -3556,7 +3556,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 902,
+      "latencyMs": 1587,
       "itemCount": 15
     },
     {
@@ -3573,7 +3573,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 19570,
+      "latencyMs": 17782,
       "itemCount": 35
     },
     {
@@ -3590,7 +3590,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 364,
+      "latencyMs": 844,
       "itemCount": 35
     },
     {
@@ -3612,7 +3612,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 734,
+      "latencyMs": 1302,
       "itemCount": 4
     },
     {
@@ -3629,7 +3629,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 797,
+      "latencyMs": 868,
       "itemCount": 10
     }
   ],
@@ -3671,7 +3671,10 @@
       "dffcfa831a63c676",
       "77c76922427b8b89",
       "ec7ec4e957d37bf3",
-      "bc5c9a3bbdf77c0c"
+      "bc5c9a3bbdf77c0c",
+      "b316c39525a495cb",
+      "233901218759cc32",
+      "9a3d9f7b007c1d55"
     ],
     "processedManualUrls": []
   },
@@ -3680,10 +3683,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 0,
-    "rejectedCount": 273,
+    "calls": 4,
+    "rejectedCount": 288,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-04T22:42:48.608Z"
+  "previousGeneratedAt": "2026-08-05T07:27:13.900Z"
 }
