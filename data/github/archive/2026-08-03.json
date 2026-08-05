@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-02T21:14:13.947Z",
+  "generatedAt": "2026-08-05T21:39:27.176Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Mon & Thu 04:25 Asia/Shanghai",
   "weekStart": "2026-08-03",
@@ -51,6 +51,60 @@
       "summary": "OpenCodeReview 是阿里巴巴开源的AI代码审查CLI工具，采用确定性管道+LLM Agent的混合架构，能生成行级精确的审查评论，内置多语言规则集，支持OpenAI和Anthropic兼容接口。",
       "whyRecommended": "对于关注编程自动化和代码质量的读者，这个工具展示了如何将LLM与确定性规则结合，实现高效、低误报的代码审查，其基准测试和设计思路有很高的学习价值。",
       "firstLook": "建议先查看README中的“What is Open Code Review”和“Benchmark”部分，了解其架构和性能对比，然后尝试配置一个模型端点，对一个小型代码库运行审查。"
+    },
+    {
+      "id": "microsoft/ai-for-beginners",
+      "fullName": "microsoft/AI-For-Beginners",
+      "name": "AI-For-Beginners",
+      "url": "https://github.com/microsoft/AI-For-Beginners",
+      "description": "12 Weeks, 24 Lessons, AI for All!",
+      "language": "Jupyter Notebook",
+      "stars": 62072,
+      "forks": 12060,
+      "weeklyStars": 8582,
+      "topics": [],
+      "summary": "微软出品的 AI 入门课程，共 12 周 24 课，涵盖神经网络、深度学习、PyTorch 和 TensorFlow 等，配有测验和实验，适合初学者系统学习 AI 基础。",
+      "whyRecommended": "作为 AI 学习者的首选课程，内容全面且免费，提供多语言支持，实践性强，能帮助读者快速建立 AI 知识体系，为后续深入 Agent、RAG 等主题打下基础。",
+      "firstLook": "建议先查看 README 中的课程大纲和思维导图，了解学习路径，然后选择感兴趣的章节开始，注意使用稀疏检出以减小下载体积。"
+    },
+    {
+      "id": "esengine/deepseek-reasonix",
+      "fullName": "esengine/DeepSeek-Reasonix",
+      "name": "DeepSeek-Reasonix",
+      "url": "https://github.com/esengine/DeepSeek-Reasonix",
+      "description": "DeepSeek-native AI coding agent for your terminal. Engineered around prefix-cache stability — leave it running.",
+      "language": "Go",
+      "stars": 31535,
+      "forks": 2026,
+      "weeklyStars": 2857,
+      "topics": [],
+      "summary": "专为 DeepSeek 优化的终端 AI 编程代理，基于 Go 实现，利用前缀缓存降低 token 成本，支持多模型协作和插件扩展，配置驱动，可长时间运行。",
+      "whyRecommended": "契合编程自动化和本地模型主题，其缓存优化和插件机制对 AI 代理开发有借鉴意义，且 Go 实现便于学习性能优化和架构设计。",
+      "firstLook": "建议先阅读 README 中的 Features 和 Install 部分，了解其配置驱动和缓存机制，然后尝试安装并运行，验证其实际效果。"
+    },
+    {
+      "id": "img2threejs/img2threejs",
+      "fullName": "img2threejs/img2threejs",
+      "name": "img2threejs",
+      "url": "https://github.com/img2threejs/img2threejs",
+      "description": "Rebuild the object in a reference image as a code-only, procedural, quality-gated, animation-ready Three.js model. Token-efficient image-to-3D.",
+      "language": "Python",
+      "stars": 9882,
+      "forks": 736,
+      "weeklyStars": 0,
+      "topics": [
+        "3d",
+        "ai-agents",
+        "claude-code",
+        "computer-graphics",
+        "generative",
+        "image-to-3d",
+        "procedural-generation",
+        "threejs"
+      ],
+      "summary": "将参考图像重建为代码化、程序化、动画就绪的 Three.js 模型，注重 token 效率，支持在浏览器中实时预览，适合生成式 3D 内容创作。",
+      "whyRecommended": "结合 AI 代理和 3D 开发，为游戏和动画制作提供新思路，其代码生成和程序化建模方法对创意编程和内容制作有启发，且可运行演示直观。",
+      "firstLook": "建议先打开 Live Demo Gallery 查看示例模型，然后阅读 README 了解其工作原理和 agent 使用方式，验证生成的模型质量。"
     }
   ]
 }
