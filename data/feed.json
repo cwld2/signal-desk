@@ -1,15 +1,15 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-06T07:28:09.953Z",
+  "generatedAt": "2026-08-07T01:06:05.259Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-08-06",
+    "date": "2026-08-07",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
   "stats": {
-    "candidates": 23,
+    "candidates": 24,
     "selected": 3,
     "ai": 3,
     "practice": 2,
@@ -20,460 +20,430 @@
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 0
+    "bailianCalls": 4
   },
   "items": [
     {
-      "id": "b316c39525a495cb",
-      "title": "How we built an autonomous SRE agent for Kubernetes",
-      "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
-      "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
-      "publishedAt": "2026-08-05T16:24:31.000Z",
+      "id": "73c17eab972dc83e",
+      "title": "Deep Agents vs LangChain vs LangGraph",
+      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+      "publishedAt": "2026-08-06T18:15:51.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
-      "topic": "AI 辅助学习",
-      "score": 60,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 15,
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 14,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 86,
-      "bodyHash": "ab78ff2333e242e9232b05ba",
+      "candidateScore": 91,
+      "bodyHash": "45d4f8cb3e254c28df3ce084",
       "extraction": {
         "method": "readability",
-        "length": 10461,
-        "originalLength": 10461,
+        "length": 9973,
+        "originalLength": 9973,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
+      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
       "analysis": {
-        "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
+        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
-              "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
-              "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
-              "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
+              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
-              "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
-              "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
-              "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
-              "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
-              "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
-              "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
-              "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
+              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "LangSmith 追踪是调试和改进智能体的关键工具。",
-              "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
-              "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
-              "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
-              "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
-              "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
-              "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
+              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
             ]
           }
         ],
         "keyPoints": [
-          "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
-          "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
-          "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
-          "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
-          "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
-          "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
+          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
         ],
         "technicalDetails": [
           {
-            "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
+            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
             "basis": "source"
           },
           {
-            "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
+            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
             "basis": "source"
           },
           {
-            "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
+            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
+            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
             "basis": "source"
           },
           {
-            "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
-            "basis": "source"
-          },
-          {
-            "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
+            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
+            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
             "steps": [
-              "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
-              "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
-              "实现 HITL 审批机制，通过 Slack 消息交互。",
-              "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
-              "根据追踪数据优化调度器，减少不必要的模型调用。",
-              "利用 LangSmith Engine 自动检测和修复问题。"
+              "安装 deepagents 包并导入 create_deep_agent。",
+              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+              "定义系统提示词，指定代理的角色和任务。",
+              "运行代理并测试基本功能。"
             ],
             "tools": [
-              "Kubernetes Python client",
-              "LangGraph",
-              "Deep Agents",
-              "LangSmith",
-              "Slack"
+              "deepagents",
+              "LangSmith"
             ],
             "verification": [
-              "检查调度器运行成本是否降低 95% 以上。",
-              "观察 HITL 审批流程是否正常。",
-              "通过 LangSmith 查看追踪，确认无失控循环。",
-              "运行回归测试，确保修改不引入新问题。"
+              "代理能正确调用工具并返回结果。",
+              "在 LangSmith 中看到日志和调用轨迹。"
+            ]
+          },
+          {
+            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+            "steps": [
+              "使用 LangChain 的 create_agent 创建基础代理。",
+              "编写中间件函数，在循环中插入检查逻辑。",
+              "将中间件传递给 create_agent 的 middleware 参数。",
+              "测试代理在特定条件下触发检查。"
+            ],
+            "tools": [
+              "langchain",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理在每次调用后执行检查。",
+              "检查失败时代理停止或请求人工介入。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "自主 SRE 智能体",
-          "人工审批",
-          "成本降低 95% 至 99%",
-          "LangSmith 追踪",
-          "回归测试",
-          "LangSmith Engine"
+          "上下文工程",
+          "LangGraph",
+          "中间件"
         ],
         "searchTerms": [
           {
             "term": "Deep Agents",
-            "query": "LangChain Deep Agents framework"
+            "query": "Deep Agents LangChain 代理框架"
           },
           {
-            "term": "LangSmith",
-            "query": "LangSmith tracing evaluation"
+            "term": "LangGraph",
+            "query": "LangGraph 图运行时 代理"
           },
           {
-            "term": "HITL",
-            "query": "human-in-the-loop AI approval"
+            "term": "上下文工程",
+            "query": "上下文工程 大语言模型 代理"
           },
           {
-            "term": "Claude Haiku",
-            "query": "Claude Haiku model cost"
+            "term": "中间件",
+            "query": "LangChain middleware 代理循环"
+          },
+          {
+            "term": "确定性",
+            "query": "AI 代理 确定性 自主性 权衡"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:40:47.961Z",
+      "analyzedAt": "2026-08-07T01:05:26.923Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "233901218759cc32",
-      "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
-      "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
-      "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
-      "publishedAt": "2026-08-04T23:58:24.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "931e9d981faf6201",
+      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+      "publishedAt": "2026-08-03T16:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "AI 辅助学习",
-      "score": 57,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 9,
-      "category": "opinion",
+      "accent": "#76b900",
+      "topic": "AI 动态",
+      "score": 69,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 21,
+      "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "35579b315dc9aa917749a9dc",
+      "candidateScore": 80,
+      "bodyHash": "f054540066a7b4e0cbbee48b",
       "extraction": {
         "method": "readability",
-        "length": 6294,
-        "originalLength": 6294,
+        "length": 14493,
+        "originalLength": 14493,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
+      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
       "analysis": {
-        "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
+        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
-              "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
-              "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
+              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
-              "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
-              "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
-              "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
+              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
-              "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
-              "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
+              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
             ]
           }
         ],
         "keyPoints": [
-          "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
-          "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
-          "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
-          "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
-          "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
-          "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
+          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
         ],
         "technicalDetails": [
           {
-            "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
+            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
             "basis": "source"
           },
           {
-            "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
+            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
             "basis": "source"
           },
           {
-            "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
+            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
             "basis": "source"
           },
           {
-            "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
-            "basis": "source"
-          },
-          {
-            "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
+            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
+            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
             "steps": [
-              "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
-              "如果不想显示，添加 `-R` 参数隐藏。",
-              "将标准输出重定向到文件，确保推理轨迹不混入。"
+              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
             ],
             "tools": [
-              "LLM CLI",
-              "gpt-5.6-luna 模型"
+              "kubectl",
+              "helm",
+              "vCluster CLI",
+              "KAI Scheduler",
+              "NVIDIA GPU Operator"
             ],
             "verification": [
-              "标准错误显示推理文本，标准输出仅包含最终答案。"
-            ]
-          },
-          {
-            "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
-            "steps": [
-              "启动本地 API 服务（如 LM Studio），记下端口。",
-              "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
-              "检查输出结果，确认工具调用正常。"
-            ],
-            "tools": [
-              "uvx",
-              "LM Studio",
-              "llm-tools-quickjs"
-            ],
-            "verification": [
-              "命令成功返回结果，且无错误日志。"
+              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "推理轨迹",
-          "服务端工具",
-          "内容寻址存储",
-          "流式事件",
-          "llm openai endpoint"
+          "KAI Scheduler",
+          "vCluster",
+          "setOwner: false",
+          "schedulerName: kai-scheduler",
+          "GPU 共享",
+          "Queue CRD",
+          "配额"
         ],
         "searchTerms": [
           {
-            "term": "推理轨迹",
-            "query": "LLM 推理轨迹 显示"
+            "term": "KAI Scheduler",
+            "query": "KAI Scheduler Kubernetes GPU scheduling"
           },
           {
-            "term": "服务端工具",
-            "query": "OpenAI 服务端工具 CodeInterpreter"
+            "term": "vCluster",
+            "query": "vCluster Kubernetes virtual cluster"
           },
           {
-            "term": "内容寻址存储",
-            "query": "内容寻址存储 日志 Git"
+            "term": "GPU 共享",
+            "query": "Kubernetes GPU sharing time slicing"
           },
           {
-            "term": "流式事件",
-            "query": "LLM Python API stream_events"
+            "term": "Queue CRD",
+            "query": "KAI Scheduler Queue CRD"
           },
           {
-            "term": "OpenAI Responses API",
-            "query": "OpenAI Responses API 介绍"
+            "term": "NVIDIA MIG",
+            "query": "NVIDIA Multi-Instance GPU MIG"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:41:01.143Z",
+      "analyzedAt": "2026-08-07T01:05:48.339Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "9a3d9f7b007c1d55",
-      "title": "llamafile v0.10.5",
-      "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
-      "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
-      "publishedAt": "2026-08-05T10:01:51.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
+      "id": "80c316db95a4c2c6",
+      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+      "summary": "",
+      "publishedAt": "2026-08-06T15:06:15.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
       "lane": "ai",
-      "accent": "#ff7139",
+      "accent": "#5c6bc0",
       "topic": "模型与研究",
-      "score": 61,
+      "score": 70,
       "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 6,
+      "readMinutes": 12,
       "category": "research",
       "slot": "update",
       "language": "en",
-      "candidateScore": 69,
-      "bodyHash": "2b9625eaf43bf185592cf032",
+      "candidateScore": 75,
+      "bodyHash": "c6283d508f4bf715698d9e8d",
       "extraction": {
         "method": "readability",
-        "length": 3917,
-        "originalLength": 3917,
+        "length": 8731,
+        "originalLength": 8731,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
       "analysis": {
-        "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
-              "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
-              "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
-              "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
-              "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
-              "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
-              "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
             ]
           }
         ],
         "keyPoints": [
-          "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
-          "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
-          "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
-          "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
-          "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+          "模型代码和权重已开源，支持学术研究和运营预测。",
+          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
         ],
         "technicalDetails": [
           {
-            "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
             "basis": "source"
           },
           {
-            "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
             "basis": "source"
           },
           {
-            "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
             "basis": "source"
           },
           {
-            "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
             "steps": [
-              "下载 llamafile v0.10.5 的最新发布版本。",
-              "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
-              "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
-              "测试模型响应速度，确保满足交互需求。"
+              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
             ],
             "tools": [
-              "llamafile",
-              "Hugging Face",
-              "GGUF 权重"
+              "Google Colab（免费笔记本）",
+              "TPU 或 GPU 硬件",
+              "Python 编程环境"
             ],
             "verification": [
-              "模型成功加载并响应提示，无内存溢出错误。",
-              "生成速度达到交互级别（如每 token 少于 1 秒）。"
+              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+              "预测结果与历史数据对比，误差在可接受范围内。"
             ]
           }
         ]
       },
       "annotations": {
-        "emphasis": [
-          "llamafile",
-          "llama.cpp",
-          "Ternary Bonsai 27B",
-          "Laguna-S-2.1",
-          "混合专家",
-          "量化"
-        ],
+        "emphasis": [],
         "searchTerms": [
           {
-            "term": "llamafile",
-            "query": "llamafile 是什么"
-          },
-          {
-            "term": "llama.cpp",
-            "query": "llama.cpp 核心"
-          },
-          {
-            "term": "Ternary Bonsai 27B",
-            "query": "Ternary Bonsai 27B 模型"
-          },
-          {
-            "term": "Laguna-S-2.1",
-            "query": "Laguna-S-2.1 编码模型"
-          },
-          {
-            "term": "混合专家",
-            "query": "Mixture of Experts 模型"
+            "term": "WeatherNext",
+            "query": "WeatherNext Google DeepMind"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:41:13.410Z",
+      "analyzedAt": "2026-08-07T01:06:05.259Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -994,1367 +964,1277 @@
   ],
   "editionItems": [
     {
-      "id": "b316c39525a495cb",
-      "title": "How we built an autonomous SRE agent for Kubernetes",
-      "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
-      "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
-      "publishedAt": "2026-08-05T16:24:31.000Z",
+      "id": "73c17eab972dc83e",
+      "title": "Deep Agents vs LangChain vs LangGraph",
+      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+      "publishedAt": "2026-08-06T18:15:51.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
-      "topic": "AI 辅助学习",
-      "score": 60,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 15,
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 14,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 86,
-      "bodyHash": "ab78ff2333e242e9232b05ba",
+      "candidateScore": 91,
+      "bodyHash": "45d4f8cb3e254c28df3ce084",
       "extraction": {
         "method": "readability",
-        "length": 10461,
-        "originalLength": 10461,
+        "length": 9973,
+        "originalLength": 9973,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
+      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
       "analysis": {
-        "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
+        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
-              "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
-              "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
-              "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
+              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
-              "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
-              "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
-              "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
-              "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
-              "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
-              "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
-              "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
+              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "LangSmith 追踪是调试和改进智能体的关键工具。",
-              "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
-              "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
-              "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
-              "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
-              "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
-              "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
+              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
             ]
           }
         ],
         "keyPoints": [
-          "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
-          "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
-          "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
-          "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
-          "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
-          "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
+          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
         ],
         "technicalDetails": [
           {
-            "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
+            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
             "basis": "source"
           },
           {
-            "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
+            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
             "basis": "source"
           },
           {
-            "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
+            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
+            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
             "basis": "source"
           },
           {
-            "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
-            "basis": "source"
-          },
-          {
-            "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
+            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
+            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
             "steps": [
-              "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
-              "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
-              "实现 HITL 审批机制，通过 Slack 消息交互。",
-              "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
-              "根据追踪数据优化调度器，减少不必要的模型调用。",
-              "利用 LangSmith Engine 自动检测和修复问题。"
+              "安装 deepagents 包并导入 create_deep_agent。",
+              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+              "定义系统提示词，指定代理的角色和任务。",
+              "运行代理并测试基本功能。"
             ],
             "tools": [
-              "Kubernetes Python client",
-              "LangGraph",
-              "Deep Agents",
-              "LangSmith",
-              "Slack"
+              "deepagents",
+              "LangSmith"
             ],
             "verification": [
-              "检查调度器运行成本是否降低 95% 以上。",
-              "观察 HITL 审批流程是否正常。",
-              "通过 LangSmith 查看追踪，确认无失控循环。",
-              "运行回归测试，确保修改不引入新问题。"
+              "代理能正确调用工具并返回结果。",
+              "在 LangSmith 中看到日志和调用轨迹。"
+            ]
+          },
+          {
+            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+            "steps": [
+              "使用 LangChain 的 create_agent 创建基础代理。",
+              "编写中间件函数，在循环中插入检查逻辑。",
+              "将中间件传递给 create_agent 的 middleware 参数。",
+              "测试代理在特定条件下触发检查。"
+            ],
+            "tools": [
+              "langchain",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理在每次调用后执行检查。",
+              "检查失败时代理停止或请求人工介入。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "自主 SRE 智能体",
-          "人工审批",
-          "成本降低 95% 至 99%",
-          "LangSmith 追踪",
-          "回归测试",
-          "LangSmith Engine"
+          "上下文工程",
+          "LangGraph",
+          "中间件"
         ],
         "searchTerms": [
           {
             "term": "Deep Agents",
-            "query": "LangChain Deep Agents framework"
+            "query": "Deep Agents LangChain 代理框架"
           },
           {
-            "term": "LangSmith",
-            "query": "LangSmith tracing evaluation"
+            "term": "LangGraph",
+            "query": "LangGraph 图运行时 代理"
           },
           {
-            "term": "HITL",
-            "query": "human-in-the-loop AI approval"
+            "term": "上下文工程",
+            "query": "上下文工程 大语言模型 代理"
           },
           {
-            "term": "Claude Haiku",
-            "query": "Claude Haiku model cost"
+            "term": "中间件",
+            "query": "LangChain middleware 代理循环"
+          },
+          {
+            "term": "确定性",
+            "query": "AI 代理 确定性 自主性 权衡"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:40:47.961Z",
+      "analyzedAt": "2026-08-07T01:05:26.923Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "233901218759cc32",
-      "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
-      "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
-      "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
-      "publishedAt": "2026-08-04T23:58:24.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "931e9d981faf6201",
+      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+      "publishedAt": "2026-08-03T16:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "AI 辅助学习",
-      "score": 57,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 9,
-      "category": "opinion",
+      "accent": "#76b900",
+      "topic": "AI 动态",
+      "score": 69,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 21,
+      "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "35579b315dc9aa917749a9dc",
+      "candidateScore": 80,
+      "bodyHash": "f054540066a7b4e0cbbee48b",
       "extraction": {
         "method": "readability",
-        "length": 6294,
-        "originalLength": 6294,
+        "length": 14493,
+        "originalLength": 14493,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
+      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
       "analysis": {
-        "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
+        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
-              "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
-              "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
+              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
-              "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
-              "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
-              "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
+              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
-              "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
-              "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
+              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
             ]
           }
         ],
         "keyPoints": [
-          "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
-          "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
-          "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
-          "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
-          "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
-          "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
+          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
         ],
         "technicalDetails": [
           {
-            "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
+            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
             "basis": "source"
           },
           {
-            "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
+            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
             "basis": "source"
           },
           {
-            "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
+            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
             "basis": "source"
           },
           {
-            "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
-            "basis": "source"
-          },
-          {
-            "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
+            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
+            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
             "steps": [
-              "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
-              "如果不想显示，添加 `-R` 参数隐藏。",
-              "将标准输出重定向到文件，确保推理轨迹不混入。"
+              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
             ],
             "tools": [
-              "LLM CLI",
-              "gpt-5.6-luna 模型"
+              "kubectl",
+              "helm",
+              "vCluster CLI",
+              "KAI Scheduler",
+              "NVIDIA GPU Operator"
             ],
             "verification": [
-              "标准错误显示推理文本，标准输出仅包含最终答案。"
-            ]
-          },
-          {
-            "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
-            "steps": [
-              "启动本地 API 服务（如 LM Studio），记下端口。",
-              "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
-              "检查输出结果，确认工具调用正常。"
-            ],
-            "tools": [
-              "uvx",
-              "LM Studio",
-              "llm-tools-quickjs"
-            ],
-            "verification": [
-              "命令成功返回结果，且无错误日志。"
+              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "推理轨迹",
-          "服务端工具",
-          "内容寻址存储",
-          "流式事件",
-          "llm openai endpoint"
+          "KAI Scheduler",
+          "vCluster",
+          "setOwner: false",
+          "schedulerName: kai-scheduler",
+          "GPU 共享",
+          "Queue CRD",
+          "配额"
         ],
         "searchTerms": [
           {
-            "term": "推理轨迹",
-            "query": "LLM 推理轨迹 显示"
+            "term": "KAI Scheduler",
+            "query": "KAI Scheduler Kubernetes GPU scheduling"
           },
           {
-            "term": "服务端工具",
-            "query": "OpenAI 服务端工具 CodeInterpreter"
+            "term": "vCluster",
+            "query": "vCluster Kubernetes virtual cluster"
           },
           {
-            "term": "内容寻址存储",
-            "query": "内容寻址存储 日志 Git"
+            "term": "GPU 共享",
+            "query": "Kubernetes GPU sharing time slicing"
           },
           {
-            "term": "流式事件",
-            "query": "LLM Python API stream_events"
+            "term": "Queue CRD",
+            "query": "KAI Scheduler Queue CRD"
           },
           {
-            "term": "OpenAI Responses API",
-            "query": "OpenAI Responses API 介绍"
+            "term": "NVIDIA MIG",
+            "query": "NVIDIA Multi-Instance GPU MIG"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:41:01.143Z",
+      "analyzedAt": "2026-08-07T01:05:48.339Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "9a3d9f7b007c1d55",
-      "title": "llamafile v0.10.5",
-      "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
-      "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
-      "publishedAt": "2026-08-05T10:01:51.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
+      "id": "80c316db95a4c2c6",
+      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+      "summary": "",
+      "publishedAt": "2026-08-06T15:06:15.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
       "lane": "ai",
-      "accent": "#ff7139",
+      "accent": "#5c6bc0",
       "topic": "模型与研究",
-      "score": 61,
+      "score": 70,
       "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 6,
+      "readMinutes": 12,
       "category": "research",
       "slot": "update",
       "language": "en",
-      "candidateScore": 69,
-      "bodyHash": "2b9625eaf43bf185592cf032",
+      "candidateScore": 75,
+      "bodyHash": "c6283d508f4bf715698d9e8d",
       "extraction": {
         "method": "readability",
-        "length": 3917,
-        "originalLength": 3917,
+        "length": 8731,
+        "originalLength": 8731,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
       "analysis": {
-        "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
-              "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
-              "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
-              "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
-              "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
-              "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
-              "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
             ]
           }
         ],
         "keyPoints": [
-          "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
-          "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
-          "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
-          "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
-          "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+          "模型代码和权重已开源，支持学术研究和运营预测。",
+          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
         ],
         "technicalDetails": [
           {
-            "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
             "basis": "source"
           },
           {
-            "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
             "basis": "source"
           },
           {
-            "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
             "basis": "source"
           },
           {
-            "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
             "steps": [
-              "下载 llamafile v0.10.5 的最新发布版本。",
-              "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
-              "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
-              "测试模型响应速度，确保满足交互需求。"
+              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
             ],
             "tools": [
-              "llamafile",
-              "Hugging Face",
-              "GGUF 权重"
+              "Google Colab（免费笔记本）",
+              "TPU 或 GPU 硬件",
+              "Python 编程环境"
             ],
             "verification": [
-              "模型成功加载并响应提示，无内存溢出错误。",
-              "生成速度达到交互级别（如每 token 少于 1 秒）。"
+              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+              "预测结果与历史数据对比，误差在可接受范围内。"
             ]
           }
         ]
       },
       "annotations": {
-        "emphasis": [
-          "llamafile",
-          "llama.cpp",
-          "Ternary Bonsai 27B",
-          "Laguna-S-2.1",
-          "混合专家",
-          "量化"
-        ],
+        "emphasis": [],
         "searchTerms": [
           {
-            "term": "llamafile",
-            "query": "llamafile 是什么"
-          },
-          {
-            "term": "llama.cpp",
-            "query": "llama.cpp 核心"
-          },
-          {
-            "term": "Ternary Bonsai 27B",
-            "query": "Ternary Bonsai 27B 模型"
-          },
-          {
-            "term": "Laguna-S-2.1",
-            "query": "Laguna-S-2.1 编码模型"
-          },
-          {
-            "term": "混合专家",
-            "query": "Mixture of Experts 模型"
+            "term": "WeatherNext",
+            "query": "WeatherNext Google DeepMind"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:41:13.410Z",
+      "analyzedAt": "2026-08-07T01:06:05.259Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "b316c39525a495cb",
-      "title": "How we built an autonomous SRE agent for Kubernetes",
-      "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
-      "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
-      "publishedAt": "2026-08-05T16:24:31.000Z",
+      "id": "73c17eab972dc83e",
+      "title": "Deep Agents vs LangChain vs LangGraph",
+      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+      "publishedAt": "2026-08-06T18:15:51.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
-      "topic": "AI 辅助学习",
-      "score": 60,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 15,
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 14,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 86,
-      "bodyHash": "ab78ff2333e242e9232b05ba",
+      "candidateScore": 91,
+      "bodyHash": "45d4f8cb3e254c28df3ce084",
       "extraction": {
         "method": "readability",
-        "length": 10461,
-        "originalLength": 10461,
+        "length": 9973,
+        "originalLength": 9973,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
+      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
       "analysis": {
-        "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
+        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
-              "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
-              "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
-              "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
+              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
-              "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
-              "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
-              "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
-              "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
-              "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
-              "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
-              "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
+              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "LangSmith 追踪是调试和改进智能体的关键工具。",
-              "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
-              "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
-              "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
-              "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
-              "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
-              "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
+              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
             ]
           }
         ],
         "keyPoints": [
-          "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
-          "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
-          "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
-          "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
-          "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
-          "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
+          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
         ],
         "technicalDetails": [
           {
-            "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
+            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
             "basis": "source"
           },
           {
-            "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
+            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
             "basis": "source"
           },
           {
-            "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
+            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
+            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
             "basis": "source"
           },
           {
-            "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
-            "basis": "source"
-          },
-          {
-            "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
+            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
+            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
             "steps": [
-              "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
-              "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
-              "实现 HITL 审批机制，通过 Slack 消息交互。",
-              "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
-              "根据追踪数据优化调度器，减少不必要的模型调用。",
-              "利用 LangSmith Engine 自动检测和修复问题。"
+              "安装 deepagents 包并导入 create_deep_agent。",
+              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+              "定义系统提示词，指定代理的角色和任务。",
+              "运行代理并测试基本功能。"
             ],
             "tools": [
-              "Kubernetes Python client",
-              "LangGraph",
-              "Deep Agents",
-              "LangSmith",
-              "Slack"
+              "deepagents",
+              "LangSmith"
             ],
             "verification": [
-              "检查调度器运行成本是否降低 95% 以上。",
-              "观察 HITL 审批流程是否正常。",
-              "通过 LangSmith 查看追踪，确认无失控循环。",
-              "运行回归测试，确保修改不引入新问题。"
+              "代理能正确调用工具并返回结果。",
+              "在 LangSmith 中看到日志和调用轨迹。"
+            ]
+          },
+          {
+            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+            "steps": [
+              "使用 LangChain 的 create_agent 创建基础代理。",
+              "编写中间件函数，在循环中插入检查逻辑。",
+              "将中间件传递给 create_agent 的 middleware 参数。",
+              "测试代理在特定条件下触发检查。"
+            ],
+            "tools": [
+              "langchain",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理在每次调用后执行检查。",
+              "检查失败时代理停止或请求人工介入。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "自主 SRE 智能体",
-          "人工审批",
-          "成本降低 95% 至 99%",
-          "LangSmith 追踪",
-          "回归测试",
-          "LangSmith Engine"
+          "上下文工程",
+          "LangGraph",
+          "中间件"
         ],
         "searchTerms": [
           {
             "term": "Deep Agents",
-            "query": "LangChain Deep Agents framework"
+            "query": "Deep Agents LangChain 代理框架"
           },
           {
-            "term": "LangSmith",
-            "query": "LangSmith tracing evaluation"
+            "term": "LangGraph",
+            "query": "LangGraph 图运行时 代理"
           },
           {
-            "term": "HITL",
-            "query": "human-in-the-loop AI approval"
+            "term": "上下文工程",
+            "query": "上下文工程 大语言模型 代理"
           },
           {
-            "term": "Claude Haiku",
-            "query": "Claude Haiku model cost"
+            "term": "中间件",
+            "query": "LangChain middleware 代理循环"
+          },
+          {
+            "term": "确定性",
+            "query": "AI 代理 确定性 自主性 权衡"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:40:47.961Z",
+      "analyzedAt": "2026-08-07T01:05:26.923Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "233901218759cc32",
-      "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
-      "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
-      "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
-      "publishedAt": "2026-08-04T23:58:24.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "931e9d981faf6201",
+      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+      "publishedAt": "2026-08-03T16:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "AI 辅助学习",
-      "score": 57,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 9,
-      "category": "opinion",
+      "accent": "#76b900",
+      "topic": "AI 动态",
+      "score": 69,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 21,
+      "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "35579b315dc9aa917749a9dc",
+      "candidateScore": 80,
+      "bodyHash": "f054540066a7b4e0cbbee48b",
       "extraction": {
         "method": "readability",
-        "length": 6294,
-        "originalLength": 6294,
+        "length": 14493,
+        "originalLength": 14493,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
+      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
       "analysis": {
-        "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
+        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
-              "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
-              "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
+              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
-              "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
-              "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
-              "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
+              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
-              "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
-              "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
+              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
             ]
           }
         ],
         "keyPoints": [
-          "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
-          "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
-          "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
-          "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
-          "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
-          "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
+          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
         ],
         "technicalDetails": [
           {
-            "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
+            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
             "basis": "source"
           },
           {
-            "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
+            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
             "basis": "source"
           },
           {
-            "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
+            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
             "basis": "source"
           },
           {
-            "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
-            "basis": "source"
-          },
-          {
-            "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
+            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
+            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
             "steps": [
-              "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
-              "如果不想显示，添加 `-R` 参数隐藏。",
-              "将标准输出重定向到文件，确保推理轨迹不混入。"
+              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
             ],
             "tools": [
-              "LLM CLI",
-              "gpt-5.6-luna 模型"
+              "kubectl",
+              "helm",
+              "vCluster CLI",
+              "KAI Scheduler",
+              "NVIDIA GPU Operator"
             ],
             "verification": [
-              "标准错误显示推理文本，标准输出仅包含最终答案。"
-            ]
-          },
-          {
-            "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
-            "steps": [
-              "启动本地 API 服务（如 LM Studio），记下端口。",
-              "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
-              "检查输出结果，确认工具调用正常。"
-            ],
-            "tools": [
-              "uvx",
-              "LM Studio",
-              "llm-tools-quickjs"
-            ],
-            "verification": [
-              "命令成功返回结果，且无错误日志。"
+              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "推理轨迹",
-          "服务端工具",
-          "内容寻址存储",
-          "流式事件",
-          "llm openai endpoint"
+          "KAI Scheduler",
+          "vCluster",
+          "setOwner: false",
+          "schedulerName: kai-scheduler",
+          "GPU 共享",
+          "Queue CRD",
+          "配额"
         ],
         "searchTerms": [
           {
-            "term": "推理轨迹",
-            "query": "LLM 推理轨迹 显示"
+            "term": "KAI Scheduler",
+            "query": "KAI Scheduler Kubernetes GPU scheduling"
           },
           {
-            "term": "服务端工具",
-            "query": "OpenAI 服务端工具 CodeInterpreter"
+            "term": "vCluster",
+            "query": "vCluster Kubernetes virtual cluster"
           },
           {
-            "term": "内容寻址存储",
-            "query": "内容寻址存储 日志 Git"
+            "term": "GPU 共享",
+            "query": "Kubernetes GPU sharing time slicing"
           },
           {
-            "term": "流式事件",
-            "query": "LLM Python API stream_events"
+            "term": "Queue CRD",
+            "query": "KAI Scheduler Queue CRD"
           },
           {
-            "term": "OpenAI Responses API",
-            "query": "OpenAI Responses API 介绍"
+            "term": "NVIDIA MIG",
+            "query": "NVIDIA Multi-Instance GPU MIG"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:41:01.143Z",
+      "analyzedAt": "2026-08-07T01:05:48.339Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "9a3d9f7b007c1d55",
-      "title": "llamafile v0.10.5",
-      "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
-      "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
-      "publishedAt": "2026-08-05T10:01:51.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
+      "id": "80c316db95a4c2c6",
+      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+      "summary": "",
+      "publishedAt": "2026-08-06T15:06:15.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
       "lane": "ai",
-      "accent": "#ff7139",
+      "accent": "#5c6bc0",
       "topic": "模型与研究",
-      "score": 61,
+      "score": 70,
       "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 6,
+      "readMinutes": 12,
       "category": "research",
       "slot": "update",
       "language": "en",
-      "candidateScore": 69,
-      "bodyHash": "2b9625eaf43bf185592cf032",
+      "candidateScore": 75,
+      "bodyHash": "c6283d508f4bf715698d9e8d",
       "extraction": {
         "method": "readability",
-        "length": 3917,
-        "originalLength": 3917,
+        "length": 8731,
+        "originalLength": 8731,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
       "analysis": {
-        "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
-              "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
-              "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
-              "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
-              "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
-              "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
-              "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
             ]
           }
         ],
         "keyPoints": [
-          "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
-          "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
-          "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
-          "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
-          "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+          "模型代码和权重已开源，支持学术研究和运营预测。",
+          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
         ],
         "technicalDetails": [
           {
-            "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
             "basis": "source"
           },
           {
-            "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
             "basis": "source"
           },
           {
-            "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
             "basis": "source"
           },
           {
-            "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
             "steps": [
-              "下载 llamafile v0.10.5 的最新发布版本。",
-              "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
-              "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
-              "测试模型响应速度，确保满足交互需求。"
+              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
             ],
             "tools": [
-              "llamafile",
-              "Hugging Face",
-              "GGUF 权重"
+              "Google Colab（免费笔记本）",
+              "TPU 或 GPU 硬件",
+              "Python 编程环境"
             ],
             "verification": [
-              "模型成功加载并响应提示，无内存溢出错误。",
-              "生成速度达到交互级别（如每 token 少于 1 秒）。"
+              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+              "预测结果与历史数据对比，误差在可接受范围内。"
             ]
           }
         ]
       },
       "annotations": {
-        "emphasis": [
-          "llamafile",
-          "llama.cpp",
-          "Ternary Bonsai 27B",
-          "Laguna-S-2.1",
-          "混合专家",
-          "量化"
-        ],
+        "emphasis": [],
         "searchTerms": [
           {
-            "term": "llamafile",
-            "query": "llamafile 是什么"
-          },
-          {
-            "term": "llama.cpp",
-            "query": "llama.cpp 核心"
-          },
-          {
-            "term": "Ternary Bonsai 27B",
-            "query": "Ternary Bonsai 27B 模型"
-          },
-          {
-            "term": "Laguna-S-2.1",
-            "query": "Laguna-S-2.1 编码模型"
-          },
-          {
-            "term": "混合专家",
-            "query": "Mixture of Experts 模型"
+            "term": "WeatherNext",
+            "query": "WeatherNext Google DeepMind"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-05T22:41:13.410Z",
+      "analyzedAt": "2026-08-07T01:06:05.259Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "b316c39525a495cb",
-        "title": "How we built an autonomous SRE agent for Kubernetes",
-        "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
-        "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
-        "publishedAt": "2026-08-05T16:24:31.000Z",
+        "id": "73c17eab972dc83e",
+        "title": "Deep Agents vs LangChain vs LangGraph",
+        "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+        "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+        "publishedAt": "2026-08-06T18:15:51.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
-        "topic": "AI 辅助学习",
-        "score": 60,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 15,
+        "topic": "Agent 与自动化",
+        "score": 72,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 14,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 86,
-        "bodyHash": "ab78ff2333e242e9232b05ba",
+        "candidateScore": 91,
+        "bodyHash": "45d4f8cb3e254c28df3ce084",
         "extraction": {
           "method": "readability",
-          "length": 10461,
-          "originalLength": 10461,
+          "length": 9973,
+          "originalLength": 9973,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
+        "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
         "analysis": {
-          "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
+          "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
-                "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
-                "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
-                "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
+                "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+                "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+                "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
-                "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
-                "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
-                "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
-                "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
-                "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
-                "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
-                "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
+                "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+                "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+                "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "LangSmith 追踪是调试和改进智能体的关键工具。",
-                "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
-                "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
-                "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
-                "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
-                "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
-                "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
+                "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+                "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+                "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
               ]
             }
           ],
           "keyPoints": [
-            "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
-            "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
-            "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
-            "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
-            "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
-            "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
+            "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+            "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+            "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+            "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+            "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
           ],
           "technicalDetails": [
             {
-              "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
+              "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
               "basis": "source"
             },
             {
-              "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
+              "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
               "basis": "source"
             },
             {
-              "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
+              "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
               "basis": "source"
             },
             {
-              "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
+              "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
               "basis": "source"
             },
             {
-              "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
-              "basis": "source"
-            },
-            {
-              "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
+              "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
+              "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
               "steps": [
-                "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
-                "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
-                "实现 HITL 审批机制，通过 Slack 消息交互。",
-                "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
-                "根据追踪数据优化调度器，减少不必要的模型调用。",
-                "利用 LangSmith Engine 自动检测和修复问题。"
+                "安装 deepagents 包并导入 create_deep_agent。",
+                "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+                "定义系统提示词，指定代理的角色和任务。",
+                "运行代理并测试基本功能。"
               ],
               "tools": [
-                "Kubernetes Python client",
-                "LangGraph",
-                "Deep Agents",
-                "LangSmith",
-                "Slack"
+                "deepagents",
+                "LangSmith"
               ],
               "verification": [
-                "检查调度器运行成本是否降低 95% 以上。",
-                "观察 HITL 审批流程是否正常。",
-                "通过 LangSmith 查看追踪，确认无失控循环。",
-                "运行回归测试，确保修改不引入新问题。"
+                "代理能正确调用工具并返回结果。",
+                "在 LangSmith 中看到日志和调用轨迹。"
+              ]
+            },
+            {
+              "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+              "steps": [
+                "使用 LangChain 的 create_agent 创建基础代理。",
+                "编写中间件函数，在循环中插入检查逻辑。",
+                "将中间件传递给 create_agent 的 middleware 参数。",
+                "测试代理在特定条件下触发检查。"
+              ],
+              "tools": [
+                "langchain",
+                "LangSmith"
+              ],
+              "verification": [
+                "代理在每次调用后执行检查。",
+                "检查失败时代理停止或请求人工介入。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "自主 SRE 智能体",
-            "人工审批",
-            "成本降低 95% 至 99%",
-            "LangSmith 追踪",
-            "回归测试",
-            "LangSmith Engine"
+            "上下文工程",
+            "LangGraph",
+            "中间件"
           ],
           "searchTerms": [
             {
               "term": "Deep Agents",
-              "query": "LangChain Deep Agents framework"
+              "query": "Deep Agents LangChain 代理框架"
             },
             {
-              "term": "LangSmith",
-              "query": "LangSmith tracing evaluation"
+              "term": "LangGraph",
+              "query": "LangGraph 图运行时 代理"
             },
             {
-              "term": "HITL",
-              "query": "human-in-the-loop AI approval"
+              "term": "上下文工程",
+              "query": "上下文工程 大语言模型 代理"
             },
             {
-              "term": "Claude Haiku",
-              "query": "Claude Haiku model cost"
+              "term": "中间件",
+              "query": "LangChain middleware 代理循环"
+            },
+            {
+              "term": "确定性",
+              "query": "AI 代理 确定性 自主性 权衡"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-05T22:40:47.961Z",
+        "analyzedAt": "2026-08-07T01:05:26.923Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "233901218759cc32",
-        "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
-        "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
-        "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
-        "publishedAt": "2026-08-04T23:58:24.000Z",
-        "sourceId": "simon-willison",
-        "sourceName": "Simon Willison",
-        "sourceSite": "https://simonwillison.net/",
+        "id": "931e9d981faf6201",
+        "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+        "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+        "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+        "publishedAt": "2026-08-03T16:00:00.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
         "lane": "ai",
-        "accent": "#b36b00",
-        "topic": "AI 辅助学习",
-        "score": 57,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 9,
-        "category": "opinion",
+        "accent": "#76b900",
+        "topic": "AI 动态",
+        "score": 69,
+        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+        "readMinutes": 21,
+        "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 79,
-        "bodyHash": "35579b315dc9aa917749a9dc",
+        "candidateScore": 80,
+        "bodyHash": "f054540066a7b4e0cbbee48b",
         "extraction": {
           "method": "readability",
-          "length": 6294,
-          "originalLength": 6294,
+          "length": 14493,
+          "originalLength": 14493,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
+        "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
         "analysis": {
-          "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
+          "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
-                "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
-                "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
+                "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+                "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+                "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+                "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
-                "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
-                "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
-                "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
+                "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+                "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+                "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+                "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+                "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
-                "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
-                "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
+                "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+                "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+                "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+                "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
               ]
             }
           ],
           "keyPoints": [
-            "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
-            "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
-            "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
-            "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
-            "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
-            "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
+            "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+            "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+            "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+            "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+            "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+            "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
           ],
           "technicalDetails": [
             {
-              "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
+              "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
               "basis": "source"
             },
             {
-              "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
+              "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
               "basis": "source"
             },
             {
-              "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
+              "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
               "basis": "source"
             },
             {
-              "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
-              "basis": "source"
-            },
-            {
-              "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
+              "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
+              "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
               "steps": [
-                "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
-                "如果不想显示，添加 `-R` 参数隐藏。",
-                "将标准输出重定向到文件，确保推理轨迹不混入。"
+                "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+                "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+                "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+                "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+                "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+                "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+                "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+                "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
               ],
               "tools": [
-                "LLM CLI",
-                "gpt-5.6-luna 模型"
+                "kubectl",
+                "helm",
+                "vCluster CLI",
+                "KAI Scheduler",
+                "NVIDIA GPU Operator"
               ],
               "verification": [
-                "标准错误显示推理文本，标准输出仅包含最终答案。"
-              ]
-            },
-            {
-              "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
-              "steps": [
-                "启动本地 API 服务（如 LM Studio），记下端口。",
-                "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
-                "检查输出结果，确认工具调用正常。"
-              ],
-              "tools": [
-                "uvx",
-                "LM Studio",
-                "llm-tools-quickjs"
-              ],
-              "verification": [
-                "命令成功返回结果，且无错误日志。"
+                "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+                "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+                "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+                "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "推理轨迹",
-            "服务端工具",
-            "内容寻址存储",
-            "流式事件",
-            "llm openai endpoint"
+            "KAI Scheduler",
+            "vCluster",
+            "setOwner: false",
+            "schedulerName: kai-scheduler",
+            "GPU 共享",
+            "Queue CRD",
+            "配额"
           ],
           "searchTerms": [
             {
-              "term": "推理轨迹",
-              "query": "LLM 推理轨迹 显示"
+              "term": "KAI Scheduler",
+              "query": "KAI Scheduler Kubernetes GPU scheduling"
             },
             {
-              "term": "服务端工具",
-              "query": "OpenAI 服务端工具 CodeInterpreter"
+              "term": "vCluster",
+              "query": "vCluster Kubernetes virtual cluster"
             },
             {
-              "term": "内容寻址存储",
-              "query": "内容寻址存储 日志 Git"
+              "term": "GPU 共享",
+              "query": "Kubernetes GPU sharing time slicing"
             },
             {
-              "term": "流式事件",
-              "query": "LLM Python API stream_events"
+              "term": "Queue CRD",
+              "query": "KAI Scheduler Queue CRD"
             },
             {
-              "term": "OpenAI Responses API",
-              "query": "OpenAI Responses API 介绍"
+              "term": "NVIDIA MIG",
+              "query": "NVIDIA Multi-Instance GPU MIG"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-05T22:41:01.143Z",
+        "analyzedAt": "2026-08-07T01:05:48.339Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "9a3d9f7b007c1d55",
-        "title": "llamafile v0.10.5",
-        "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
-        "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
-        "publishedAt": "2026-08-05T10:01:51.000Z",
-        "sourceId": "mozilla-ai",
-        "sourceName": "Mozilla AI",
-        "sourceSite": "https://blog.mozilla.ai/",
+        "id": "80c316db95a4c2c6",
+        "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+        "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+        "summary": "",
+        "publishedAt": "2026-08-06T15:06:15.000Z",
+        "sourceId": "deepmind",
+        "sourceName": "Google DeepMind",
+        "sourceSite": "https://deepmind.google/discover/blog/",
         "lane": "ai",
-        "accent": "#ff7139",
+        "accent": "#5c6bc0",
         "topic": "模型与研究",
-        "score": 61,
+        "score": 70,
         "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 6,
+        "readMinutes": 12,
         "category": "research",
         "slot": "update",
         "language": "en",
-        "candidateScore": 69,
-        "bodyHash": "2b9625eaf43bf185592cf032",
+        "candidateScore": 75,
+        "bodyHash": "c6283d508f4bf715698d9e8d",
         "extraction": {
           "method": "readability",
-          "length": 3917,
-          "originalLength": 3917,
+          "length": 8731,
+          "originalLength": 8731,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+        "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
         "analysis": {
-          "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+          "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
-                "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
-                "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+                "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+                "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+                "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
-                "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
-                "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+                "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+                "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+                "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
-                "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
-                "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+                "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+                "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+                "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
               ]
             }
           ],
           "keyPoints": [
-            "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
-            "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
-            "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
-            "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
-            "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+            "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+            "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+            "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+            "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+            "模型代码和权重已开源，支持学术研究和运营预测。",
+            "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
           ],
           "technicalDetails": [
             {
-              "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+              "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
               "basis": "source"
             },
             {
-              "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+              "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
               "basis": "source"
             },
             {
-              "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+              "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
               "basis": "source"
             },
             {
-              "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+              "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+              "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
               "steps": [
-                "下载 llamafile v0.10.5 的最新发布版本。",
-                "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
-                "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
-                "测试模型响应速度，确保满足交互需求。"
+                "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+                "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+                "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+                "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
               ],
               "tools": [
-                "llamafile",
-                "Hugging Face",
-                "GGUF 权重"
+                "Google Colab（免费笔记本）",
+                "TPU 或 GPU 硬件",
+                "Python 编程环境"
               ],
               "verification": [
-                "模型成功加载并响应提示，无内存溢出错误。",
-                "生成速度达到交互级别（如每 token 少于 1 秒）。"
+                "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+                "预测结果与历史数据对比，误差在可接受范围内。"
               ]
             }
           ]
         },
         "annotations": {
-          "emphasis": [
-            "llamafile",
-            "llama.cpp",
-            "Ternary Bonsai 27B",
-            "Laguna-S-2.1",
-            "混合专家",
-            "量化"
-          ],
+          "emphasis": [],
           "searchTerms": [
             {
-              "term": "llamafile",
-              "query": "llamafile 是什么"
-            },
-            {
-              "term": "llama.cpp",
-              "query": "llama.cpp 核心"
-            },
-            {
-              "term": "Ternary Bonsai 27B",
-              "query": "Ternary Bonsai 27B 模型"
-            },
-            {
-              "term": "Laguna-S-2.1",
-              "query": "Laguna-S-2.1 编码模型"
-            },
-            {
-              "term": "混合专家",
-              "query": "Mixture of Experts 模型"
+              "term": "WeatherNext",
+              "query": "WeatherNext Google DeepMind"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-05T22:41:13.410Z",
+        "analyzedAt": "2026-08-07T01:06:05.259Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2881,456 +2761,426 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "b316c39525a495cb",
-        "title": "How we built an autonomous SRE agent for Kubernetes",
-        "url": "https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments",
-        "summary": "Learn how LangChain built an autonomous SRE agent for Kubernetes deployments with Deep Agents, human approval for changes, LangSmith tracing, and evals.",
-        "publishedAt": "2026-08-05T16:24:31.000Z",
+        "id": "73c17eab972dc83e",
+        "title": "Deep Agents vs LangChain vs LangGraph",
+        "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+        "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+        "publishedAt": "2026-08-06T18:15:51.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
-        "topic": "AI 辅助学习",
-        "score": 60,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 15,
+        "topic": "Agent 与自动化",
+        "score": 72,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 14,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 86,
-        "bodyHash": "ab78ff2333e242e9232b05ba",
+        "candidateScore": 91,
+        "bodyHash": "45d4f8cb3e254c28df3ce084",
         "extraction": {
           "method": "readability",
-          "length": 10461,
-          "originalLength": 10461,
+          "length": 9973,
+          "originalLength": 9973,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "如何构建 Kubernetes 自主 SRE 智能体：LangChain 的实践与经验",
+        "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
         "analysis": {
-          "listSummary": "本文介绍 LangChain 如何构建一个自主 SRE（站点可靠性工程）智能体，用于 Kubernetes 集群的监控、故障排查和修复建议。它通过定时健康检查、按需并行调查和人工审批的写入机制，显著降低了运维负担和成本。文章详细阐述了架构设计、LangSmith 追踪与评估的作用，以及实际收益。对于关注 AI 运维、智能体安全或成本优化的读者，这是一份极具参考价值的实战案例。",
+          "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "Kubernetes 集群会持续产生海量信号，但缺乏自动综合，导致运维人员需要手动筛选和判断。",
-                "这些信号包括 Pod 状态、重启次数、HPA（水平 Pod 自动伸缩）状态、节点条件、警告事件等，分布在多个命名空间。运维工程师需要回答三个问题：当前是否有故障（如崩溃循环、OOM 杀死、零就绪端点）、是否即将出现问题（如 HPA 达到上限、单副本服务、使用 :latest 镜像标签）、以及如何应对。",
-                "虽然这些问题需要专业知识，但 90% 的工作是机械性的分类，通常结果正常。这种重复劳动导致运维人员疲劳，甚至可能忽略重要警报。",
-                "作者作为 LangChain 的部署工程师，负责内部集群和客户环境，深感这种持续监控的负担，因此决定构建一个自主 SRE 智能体来减少故障分类和修复时间，降低团队认知负荷。"
+                "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+                "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+                "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "智能体采用主动监控与按需调查相结合的方式，并严格区分读操作与写操作，确保安全。",
-                "主动监控：调度器每隔 N 分钟检查一次集群健康，但不唤醒完整智能体。它通过 Kubernetes Python 客户端收集原始集群状态（零 LLM 令牌消耗），然后调用一次 Claude Haiku（一个轻量级模型）生成结构化健康报告，按严重性排序并发送到 Slack。",
-                "按需调查：当需要诊断问题时，编排器并行调用多个专业子智能体，如 pod-inspector、scaling-analyzer、performance-analyzer 等。每个子智能体独立读取集群状态，然后综合生成优先排序的报告。",
-                "安全模型：智能体可以读取整个集群，但不能自行更改任何内容。所有写操作（如扩展部署、重启 rollout、修补 HPA）都封装在单个 change-executor 子智能体中，并通过人工审批（HITL）中断。人类通过 Slack 消息批准、拒绝或编辑提议。读操作是自动的，写操作始终经过人工审批，并通过集群内 RBAC（基于角色的访问控制）强制执行。",
-                "架构选择：使用 Deep Agents（基于 LangGraph 的 create_deep_agent()）提供规划循环、子智能体和内置 HITL 中断。采用窄子智能体而非单一大型提示，以获得并行性、更紧凑的上下文（减少幻觉）和成本效益。编排器使用 Claude Sonnet（更强大），只读子智能体和定时检查使用 Claude Haiku（更便宜）。",
-                "成本优化：调度器绕过完整智能体，仅用 Python 收集状态并调用一次 Haiku，将每次检查成本降低 95% 至 99%，且不影响问题发现能力。",
-                "可读性设计：提议的更改必须清晰易懂，例如将部署扩展到 3 个副本是直观的，而 helm 升级可能涉及多个不可见资源，因此故意限制高影响范围的写工具，确保人类能真正判断。",
-                "可移植性：Kubernetes 客户端自动检测集群内或本地环境，Slack 使用 Socket Mode（出站 WebSocket），无需公开入站端点，容器以非 root 用户运行，根文件系统只读。"
+                "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+                "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+                "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "LangSmith 追踪是调试和改进智能体的关键工具。",
-                "通过追踪发现，定时检查原本约 20 次模型调用，但大部分是浪费，因为“全部健康”的结果只需一次 Haiku 调用即可完成。这促使了成本优化。",
-                "追踪还揭示了失控循环（如文件系统工具重复调用）和误报（如 scaling-analyzer 将单副本服务标记为 CRITICAL），并提供了修复依据。",
-                "每次人工审批的编辑都作为反馈数据，用于改进智能体。这些数据被整理成数据集，用于回归测试，确保每次修改不会引入新问题。",
-                "LangSmith Engine 进一步自动化了改进循环，包括检测问题、生成修复 PR、建议在线评估器，但作者指出这仍依赖人工启动。",
-                "结论：该智能体在内部使用效果良好，已开始向部分客户推广，未来计划增强 HITL 状态持久性和监控循环的记忆能力。",
-                "边界：文章未提供具体性能指标或大规模部署的详细数据，且智能体主要针对 Kubernetes 场景，可能不适用于其他基础设施。"
+                "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+                "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+                "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
               ]
             }
           ],
           "keyPoints": [
-            "智能体通过定时健康检查和按需并行调查，显著减少了运维人员的重复劳动。",
-            "所有写操作都经过人工审批，确保安全，读操作则完全自动化。",
-            "使用窄子智能体而非单一大型提示，提高了并行性和准确性，同时降低了成本。",
-            "LangSmith 追踪提供了详细的运行数据，帮助识别和修复问题，并支持回归测试。",
-            "调度器优化将检查成本降低 95% 至 99%，且不影响问题发现。",
-            "LangSmith Engine 能自动聚类问题、生成修复 PR，但需人工监督。"
+            "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+            "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+            "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+            "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+            "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
           ],
           "technicalDetails": [
             {
-              "text": "Deep Agents 是基于 LangGraph 的框架，提供 create_deep_agent() 函数，支持规划循环、子智能体和 HITL 中断。它是什么：高层级智能体框架。怎么工作：通过 write_todos 规划任务，子智能体并行执行，HITL 中断允许人工介入。为什么重要：简化了复杂智能体的构建，避免从头实现。",
+              "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
               "basis": "source"
             },
             {
-              "text": "Claude Haiku 是轻量级模型，用于定时检查和只读子智能体；Claude Sonnet 是更强大的模型，用于编排器。它是什么：不同能力的 LLM。怎么工作：根据任务复杂度选择模型，节省成本。为什么重要：在保证性能的同时降低费用。",
+              "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
               "basis": "source"
             },
             {
-              "text": "RBAC（基于角色的访问控制）在集群内强制执行读/写分离。它是什么：Kubernetes 的权限控制机制。怎么工作：集群级读权限，写权限严格限定。为什么重要：确保智能体无法越权操作。",
+              "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
               "basis": "source"
             },
             {
-              "text": "LangSmith 追踪记录每次运行，包括定时检查、子智能体调查和写操作。它是什么：可观测性工具。怎么工作：Deep Agents 自动追踪，调度器通过 @traceable 包装。为什么重要：提供调试和评估数据。",
+              "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
               "basis": "source"
             },
             {
-              "text": "LangSmith Engine 自动聚类相关追踪为问题，生成修复 PR，并建议评估器。它是什么：自动化改进工具。怎么工作：检测、修复、预防三个阶段。为什么重要：减少人工干预，但需人工审查。",
-              "basis": "source"
-            },
-            {
-              "text": "调度器使用 Kubernetes Python 客户端收集状态，零 LLM 令牌消耗。它是什么：直接 API 调用。怎么工作：收集节点、Pod、事件等，然后一次 Haiku 调用生成报告。为什么重要：大幅降低成本。",
+              "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在 Kubernetes 集群中部署类似 SRE 智能体",
+              "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
               "steps": [
-                "使用 Kubernetes Python 客户端编写状态收集脚本，定期执行。",
-                "集成 LangGraph 和 Deep Agents 构建编排器，配置子智能体。",
-                "实现 HITL 审批机制，通过 Slack 消息交互。",
-                "使用 LangSmith 追踪所有运行，设置 @traceable 装饰器。",
-                "根据追踪数据优化调度器，减少不必要的模型调用。",
-                "利用 LangSmith Engine 自动检测和修复问题。"
+                "安装 deepagents 包并导入 create_deep_agent。",
+                "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+                "定义系统提示词，指定代理的角色和任务。",
+                "运行代理并测试基本功能。"
               ],
               "tools": [
-                "Kubernetes Python client",
-                "LangGraph",
-                "Deep Agents",
-                "LangSmith",
-                "Slack"
+                "deepagents",
+                "LangSmith"
               ],
               "verification": [
-                "检查调度器运行成本是否降低 95% 以上。",
-                "观察 HITL 审批流程是否正常。",
-                "通过 LangSmith 查看追踪，确认无失控循环。",
-                "运行回归测试，确保修改不引入新问题。"
+                "代理能正确调用工具并返回结果。",
+                "在 LangSmith 中看到日志和调用轨迹。"
+              ]
+            },
+            {
+              "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+              "steps": [
+                "使用 LangChain 的 create_agent 创建基础代理。",
+                "编写中间件函数，在循环中插入检查逻辑。",
+                "将中间件传递给 create_agent 的 middleware 参数。",
+                "测试代理在特定条件下触发检查。"
+              ],
+              "tools": [
+                "langchain",
+                "LangSmith"
+              ],
+              "verification": [
+                "代理在每次调用后执行检查。",
+                "检查失败时代理停止或请求人工介入。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "自主 SRE 智能体",
-            "人工审批",
-            "成本降低 95% 至 99%",
-            "LangSmith 追踪",
-            "回归测试",
-            "LangSmith Engine"
+            "上下文工程",
+            "LangGraph",
+            "中间件"
           ],
           "searchTerms": [
             {
               "term": "Deep Agents",
-              "query": "LangChain Deep Agents framework"
+              "query": "Deep Agents LangChain 代理框架"
             },
             {
-              "term": "LangSmith",
-              "query": "LangSmith tracing evaluation"
+              "term": "LangGraph",
+              "query": "LangGraph 图运行时 代理"
             },
             {
-              "term": "HITL",
-              "query": "human-in-the-loop AI approval"
+              "term": "上下文工程",
+              "query": "上下文工程 大语言模型 代理"
             },
             {
-              "term": "Claude Haiku",
-              "query": "Claude Haiku model cost"
+              "term": "中间件",
+              "query": "LangChain middleware 代理循环"
+            },
+            {
+              "term": "确定性",
+              "query": "AI 代理 确定性 自主性 权衡"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-05T22:40:47.961Z",
+        "analyzedAt": "2026-08-07T01:05:26.923Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "233901218759cc32",
-        "title": "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
-        "url": "https://simonwillison.net/2026/Aug/4/new-release-of-llm/",
-        "summary": "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQLite logs, new models, and new features enabled by the OpenAI Responses API. I also released a new version of the llm-anthropic plugin with substantial updates of its own. Headline features for LLM CLI users Running LLM against reasoning models now displays their reasoning traces to standard error, so you can see what they are \"thinking\" without that information being included in the standard output that you might pipe to another tool. Add -R/--hide-reasoning to turn this off. LLM includes support out-of-the-box for the GPT-5.6 model family , and the new default model used with llm \"prompt\" is now the inexpensive but capable GPT-5.6 Luna . LLM calls can",
-        "publishedAt": "2026-08-04T23:58:24.000Z",
-        "sourceId": "simon-willison",
-        "sourceName": "Simon Willison",
-        "sourceSite": "https://simonwillison.net/",
+        "id": "931e9d981faf6201",
+        "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+        "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+        "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+        "publishedAt": "2026-08-03T16:00:00.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
         "lane": "ai",
-        "accent": "#b36b00",
-        "topic": "AI 辅助学习",
-        "score": 57,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 9,
-        "category": "opinion",
+        "accent": "#76b900",
+        "topic": "AI 动态",
+        "score": 69,
+        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+        "readMinutes": 21,
+        "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 79,
-        "bodyHash": "35579b315dc9aa917749a9dc",
+        "candidateScore": 80,
+        "bodyHash": "f054540066a7b4e0cbbee48b",
         "extraction": {
           "method": "readability",
-          "length": 6294,
-          "originalLength": 6294,
+          "length": 14493,
+          "originalLength": 14493,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LLM 0.32 发布：推理过程可见、服务端工具与更智能的日志",
+        "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
         "analysis": {
-          "listSummary": "本文介绍了 LLM 0.32 版本的主要更新，包括推理轨迹显示、服务端工具支持、内容寻址日志存储、新模型及 OpenAI Responses API 集成。对于使用 LLM 命令行或 Python API 的开发者，这些功能能提升调试效率、简化工具调用，并优化日志管理。文章内容详实，适合希望深入了解 LLM 工具链最新进展的读者。",
+          "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "LLM 0.32 是自项目启动以来最重要的版本更新，它解决的核心问题是：如何让命令行工具更好地适应现代 LLM 的复杂输出和工具调用需求。",
-                "旧版 LLM 假设模型只返回文本，但现在的模型会输出推理过程、工具调用、甚至图片，这需要新的处理方式。",
-                "同时，日志记录也面临挑战：每次请求都携带完整历史，导致重复 JSON 数据占用大量空间，需要更高效的存储方案。"
+                "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+                "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+                "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+                "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "作者通过引入推理轨迹显示功能，让用户能看到模型的“思考”过程，但默认输出到标准错误，避免干扰管道处理。",
-                "服务端工具支持（如 OpenAI 的 CodeInterpreter 和 WebSearch）允许模型在服务端执行代码或搜索，简化了客户端逻辑。",
-                "Python API 重构为支持结构化消息和流式事件，使开发者能处理混合内容（如推理文本、工具调用）。",
-                "日志系统采用内容寻址存储（类似 Git），通过去重减少重复数据，提升存储效率。"
+                "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+                "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+                "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+                "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+                "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者提供了具体示例，如使用 `llm --tool CodeInterpreter` 查询版本，以及通过 `llm openai endpoint` 连接本地模型，验证了新功能的实用性。",
-                "作者承认 LLM 正在演变为“代理框架”，但强调“代理”定义已逐渐清晰，未来可能将代理概念集成到核心库中。",
-                "边界在于：现有插件需要升级才能完全支持流式事件，且部分插件（如 llm-gemini）仍在更新中。"
+                "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+                "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+                "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+                "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
               ]
             }
           ],
           "keyPoints": [
-            "LLM 0.32 新增推理轨迹显示，默认输出到标准错误，可用 `-R` 隐藏。",
-            "支持服务端工具（如 OpenAI CodeInterpreter、WebSearch），通过 `--tool` 参数调用。",
-            "Python API 新增 `model.prompt(messages=[])` 和 `stream_events()`，处理混合输出。",
-            "日志改用内容寻址存储（类似 Git），减少重复数据，`llm logs` 命令已适配。",
-            "新默认模型为 GPT-5.6 Luna，性价比高，适合日常提示。",
-            "`llm openai endpoint` 命令可快速连接任意 OpenAI 兼容 API，无需完整安装。"
+            "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+            "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+            "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+            "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+            "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+            "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
           ],
           "technicalDetails": [
             {
-              "text": "推理轨迹（reasoning traces）：模型在生成最终答案前的内部思考过程，LLM 0.32 将其输出到标准错误，便于调试且不影响管道输出。",
+              "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
               "basis": "source"
             },
             {
-              "text": "服务端工具（server-side tools）：由模型提供商在服务器端执行的工具，如 OpenAI 的 CodeInterpreter 和 WebSearch，通过 `--tool` 参数调用。",
+              "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
               "basis": "source"
             },
             {
-              "text": "内容寻址存储（content-addressable store）：类似 Git 的日志存储方式，根据内容生成唯一标识，避免重复存储相同 JSON 数据。",
+              "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
               "basis": "source"
             },
             {
-              "text": "流式事件（stream_events）：Python API 中用于处理模型输出的迭代器，可区分推理、文本、工具调用等事件类型。",
-              "basis": "source"
-            },
-            {
-              "text": "OpenAI Responses API：OpenAI 的新一代 API，支持服务端工具和推理轨迹，LLM 0.32 利用其特性实现新功能。",
+              "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "调试一个使用推理模型的提示词，希望查看模型的思考过程但不想污染输出文件。",
+              "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
               "steps": [
-                "运行 `llm -m gpt-5.6-luna '你的提示词'`，观察标准错误中的推理轨迹。",
-                "如果不想显示，添加 `-R` 参数隐藏。",
-                "将标准输出重定向到文件，确保推理轨迹不混入。"
+                "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+                "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+                "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+                "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+                "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+                "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+                "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+                "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
               ],
               "tools": [
-                "LLM CLI",
-                "gpt-5.6-luna 模型"
+                "kubectl",
+                "helm",
+                "vCluster CLI",
+                "KAI Scheduler",
+                "NVIDIA GPU Operator"
               ],
               "verification": [
-                "标准错误显示推理文本，标准输出仅包含最终答案。"
-              ]
-            },
-            {
-              "scenario": "在本地运行一个 OpenAI 兼容模型，并快速测试提示词。",
-              "steps": [
-                "启动本地 API 服务（如 LM Studio），记下端口。",
-                "使用 `uvx --with llm-tools-quickjs llm openai endpoint http://localhost:1234/v1 -m google/gemma-4-12b -T QuickJS '你的提示词'` 执行。",
-                "检查输出结果，确认工具调用正常。"
-              ],
-              "tools": [
-                "uvx",
-                "LM Studio",
-                "llm-tools-quickjs"
-              ],
-              "verification": [
-                "命令成功返回结果，且无错误日志。"
+                "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+                "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+                "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+                "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "推理轨迹",
-            "服务端工具",
-            "内容寻址存储",
-            "流式事件",
-            "llm openai endpoint"
+            "KAI Scheduler",
+            "vCluster",
+            "setOwner: false",
+            "schedulerName: kai-scheduler",
+            "GPU 共享",
+            "Queue CRD",
+            "配额"
           ],
           "searchTerms": [
             {
-              "term": "推理轨迹",
-              "query": "LLM 推理轨迹 显示"
+              "term": "KAI Scheduler",
+              "query": "KAI Scheduler Kubernetes GPU scheduling"
             },
             {
-              "term": "服务端工具",
-              "query": "OpenAI 服务端工具 CodeInterpreter"
+              "term": "vCluster",
+              "query": "vCluster Kubernetes virtual cluster"
             },
             {
-              "term": "内容寻址存储",
-              "query": "内容寻址存储 日志 Git"
+              "term": "GPU 共享",
+              "query": "Kubernetes GPU sharing time slicing"
             },
             {
-              "term": "流式事件",
-              "query": "LLM Python API stream_events"
+              "term": "Queue CRD",
+              "query": "KAI Scheduler Queue CRD"
             },
             {
-              "term": "OpenAI Responses API",
-              "query": "OpenAI Responses API 介绍"
+              "term": "NVIDIA MIG",
+              "query": "NVIDIA Multi-Instance GPU MIG"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-05T22:41:01.143Z",
+        "analyzedAt": "2026-08-07T01:05:48.339Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "9a3d9f7b007c1d55",
-        "title": "llamafile v0.10.5",
-        "url": "https://blog.mozilla.ai/llamafile-v0-10-5/",
-        "summary": "llamafile v0.10.5 is out! Updated llama.cpp core support lets you run two huge models locally: the compressed 6GB Ternary Bonsai 27B and the fast 118B Laguna-S-2.1 coding MoE. This release also fixes docs and adds pre-built transcribefile speech-to-text binaries.",
-        "publishedAt": "2026-08-05T10:01:51.000Z",
-        "sourceId": "mozilla-ai",
-        "sourceName": "Mozilla AI",
-        "sourceSite": "https://blog.mozilla.ai/",
+        "id": "80c316db95a4c2c6",
+        "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+        "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+        "summary": "",
+        "publishedAt": "2026-08-06T15:06:15.000Z",
+        "sourceId": "deepmind",
+        "sourceName": "Google DeepMind",
+        "sourceSite": "https://deepmind.google/discover/blog/",
         "lane": "ai",
-        "accent": "#ff7139",
+        "accent": "#5c6bc0",
         "topic": "模型与研究",
-        "score": 61,
+        "score": 70,
         "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 6,
+        "readMinutes": 12,
         "category": "research",
         "slot": "update",
         "language": "en",
-        "candidateScore": 69,
-        "bodyHash": "2b9625eaf43bf185592cf032",
+        "candidateScore": 75,
+        "bodyHash": "c6283d508f4bf715698d9e8d",
         "extraction": {
           "method": "readability",
-          "length": 3917,
-          "originalLength": 3917,
+          "length": 8731,
+          "originalLength": 8731,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "llamafile v0.10.5：本地运行大模型的新突破",
+        "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
         "analysis": {
-          "listSummary": "本文介绍 llamafile v0.10.5 版本更新，重点在于它通过同步最新 llama.cpp 核心，让用户能在本地运行两个大型模型：压缩的 6GB Ternary Bonsai 27B 和快速的 118B Laguna-S-2.1 编码 MoE。文章解释了这些模型为何能在个人电脑上运行，以及版本更新背后的工程细节。对想了解本地 AI 部署和模型压缩技术的读者，本文提供了实用的技术洞察和更新摘要，值得一读。",
+          "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "llamafile 是一个工具，它把大语言模型打包成单个可执行文件，让用户无需复杂配置就能在本地运行。",
-                "但 llamafile 内置的 llama.cpp 核心（负责模型推理的底层库）版本有限，导致一些新模型无法加载。",
-                "v0.10.5 版本通过同步最新的 llama.cpp，解决了这一瓶颈，让两个新模型可以在本地运行。"
+                "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+                "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+                "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "Ternary Bonsai 27B 是一个压缩模型，权重被限制为三个值（-1, 0, +1），每个权重仅需约 1.58 位，比传统的 16 位小得多，因此 27B 参数只占 6GB 磁盘空间，适合在笔记本电脑上运行。",
-                "Laguna-S-2.1 是一个 118B 参数的编码模型，但采用混合专家（MoE）架构，每次只激活 8B 参数，所以生成速度只受 8B 影响，量化后能在消费级内存中运行。",
-                "llamafile 团队在两周内进行了三次同步，改进了自动同步流程，减少了人工干预，从而更快地支持新模型。"
+                "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+                "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+                "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "文章提到，这两个模型在旧版 llamafile 中无法运行，因为内置 llama.cpp 不支持其架构和量化方式，这证明了同步核心的重要性。",
-                "Laguna-S-2.1 的量化版本配置了 256K 上下文，而非 BF16 权重支持的 1M，这是一个限制条件。",
-                "作者认为，同步工作比解锁两个模型更有价值，因为它是项目长期发展的基础，但这不是绝对结论，而是作者判断。"
+                "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+                "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+                "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
               ]
             }
           ],
           "keyPoints": [
-            "llamafile v0.10.5 通过更新 llama.cpp 核心，支持了 Ternary Bonsai 27B 和 Laguna-S-2.1 两个新模型。",
-            "Ternary Bonsai 27B 使用三元权重（-1, 0, +1），压缩到 6GB，适合笔记本运行。",
-            "Laguna-S-2.1 是 MoE 架构，118B 参数但每次仅激活 8B，生成速度快。",
-            "llamafile 团队通过自动化同步流程，加快了新模型支持速度。",
-            "transcribefile 工具现在提供预构建二进制，无需手动编译。"
+            "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+            "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+            "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+            "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+            "模型代码和权重已开源，支持学术研究和运营预测。",
+            "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
           ],
           "technicalDetails": [
             {
-              "text": "llamafile 是一个将大语言模型打包成可执行文件的工具，它内置 llama.cpp 核心来处理模型推理。更新核心版本是支持新模型的关键。",
+              "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
               "basis": "source"
             },
             {
-              "text": "Ternary Bonsai 27B 的权重被约束为三个值（-1, 0, +1），每个权重约 1.58 位，相比 16 位大幅压缩，因此 27B 模型仅占 6GB 磁盘空间。",
+              "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
               "basis": "source"
             },
             {
-              "text": "Laguna-S-2.1 是混合专家（MoE）模型，总参数 118B，但每次生成只激活 8B 参数，所以计算成本低，量化后可在消费级硬件运行。",
+              "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
               "basis": "source"
             },
             {
-              "text": "llamafile v0.10.5 在两周内同步了三次 llama.cpp 上游版本，并改进了自动同步代理，减少了合并前的人工修改。",
+              "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在本地部署大语言模型，特别是资源有限的个人电脑上",
+              "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
               "steps": [
-                "下载 llamafile v0.10.5 的最新发布版本。",
-                "从 Hugging Face 获取 Ternary Bonsai 27B 或 Laguna-S-2.1 的 GGUF 权重文件。",
-                "将权重文件与 llamafile 可执行文件放在同一目录，运行命令加载模型。",
-                "测试模型响应速度，确保满足交互需求。"
+                "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+                "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+                "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+                "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
               ],
               "tools": [
-                "llamafile",
-                "Hugging Face",
-                "GGUF 权重"
+                "Google Colab（免费笔记本）",
+                "TPU 或 GPU 硬件",
+                "Python 编程环境"
               ],
               "verification": [
-                "模型成功加载并响应提示，无内存溢出错误。",
-                "生成速度达到交互级别（如每 token 少于 1 秒）。"
+                "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+                "预测结果与历史数据对比，误差在可接受范围内。"
               ]
             }
           ]
         },
         "annotations": {
-          "emphasis": [
-            "llamafile",
-            "llama.cpp",
-            "Ternary Bonsai 27B",
-            "Laguna-S-2.1",
-            "混合专家",
-            "量化"
-          ],
+          "emphasis": [],
           "searchTerms": [
             {
-              "term": "llamafile",
-              "query": "llamafile 是什么"
-            },
-            {
-              "term": "llama.cpp",
-              "query": "llama.cpp 核心"
-            },
-            {
-              "term": "Ternary Bonsai 27B",
-              "query": "Ternary Bonsai 27B 模型"
-            },
-            {
-              "term": "Laguna-S-2.1",
-              "query": "Laguna-S-2.1 编码模型"
-            },
-            {
-              "term": "混合专家",
-              "query": "Mixture of Experts 模型"
+              "term": "WeatherNext",
+              "query": "WeatherNext Google DeepMind"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-05T22:41:13.410Z",
+        "analyzedAt": "2026-08-07T01:06:05.259Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -3352,7 +3202,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 220,
+      "latencyMs": 229,
       "itemCount": 35
     },
     {
@@ -3369,7 +3219,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 131,
+      "latencyMs": 214,
       "itemCount": 10
     },
     {
@@ -3386,7 +3236,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 694,
+      "latencyMs": 673,
       "itemCount": 32
     },
     {
@@ -3403,7 +3253,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1425,
+      "latencyMs": 929,
       "itemCount": 10
     },
     {
@@ -3420,7 +3270,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 166,
+      "latencyMs": 160,
       "itemCount": 35
     },
     {
@@ -3437,7 +3287,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 219,
+      "latencyMs": 193,
       "itemCount": 35
     },
     {
@@ -3454,7 +3304,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 621,
+      "latencyMs": 230,
       "itemCount": 35
     },
     {
@@ -3471,7 +3321,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 248,
+      "latencyMs": 260,
       "itemCount": 30
     },
     {
@@ -3488,7 +3338,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 288,
+      "latencyMs": 250,
       "itemCount": 35
     },
     {
@@ -3505,7 +3355,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 732,
+      "latencyMs": 640,
       "itemCount": 20
     },
     {
@@ -3522,7 +3372,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 569,
+      "latencyMs": 597,
       "itemCount": 35
     },
     {
@@ -3539,7 +3389,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 392,
+      "latencyMs": 342,
       "itemCount": 15
     },
     {
@@ -3556,7 +3406,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1314,
+      "latencyMs": 958,
       "itemCount": 15
     },
     {
@@ -3572,9 +3422,10 @@
       "weight": 1.05,
       "dailyLimit": 1,
       "accent": "#222c37",
-      "ok": true,
-      "latencyMs": 19855,
-      "itemCount": 35
+      "ok": false,
+      "latencyMs": 20001,
+      "error": "The operation was aborted due to timeout",
+      "itemCount": 0
     },
     {
       "id": "red-blob",
@@ -3590,7 +3441,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 718,
+      "latencyMs": 511,
       "itemCount": 35
     },
     {
@@ -3612,7 +3463,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1245,
+      "latencyMs": 845,
       "itemCount": 4
     },
     {
@@ -3629,7 +3480,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 910,
+      "latencyMs": 854,
       "itemCount": 10
     }
   ],
@@ -3674,7 +3525,10 @@
       "bc5c9a3bbdf77c0c",
       "b316c39525a495cb",
       "233901218759cc32",
-      "9a3d9f7b007c1d55"
+      "9a3d9f7b007c1d55",
+      "73c17eab972dc83e",
+      "931e9d981faf6201",
+      "80c316db95a4c2c6"
     ],
     "processedManualUrls": []
   },
@@ -3683,10 +3537,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 0,
-    "rejectedCount": 273,
-    "sourceFailureCount": 0
+    "calls": 4,
+    "rejectedCount": 263,
+    "sourceFailureCount": 1
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-05T22:41:13.411Z"
+  "previousGeneratedAt": "2026-08-06T07:28:09.953Z"
 }

@@ -1,0 +1,1728 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-07T01:06:05.259Z",
+  "timezone": "Asia/Shanghai",
+  "edition": {
+    "date": "2026-08-07",
+    "isWeeklyEdition": false,
+    "weeklyReason": null
+  },
+  "stats": {
+    "candidates": 24,
+    "selected": 3,
+    "ai": 3,
+    "practice": 2,
+    "update": 1,
+    "manual": 0,
+    "game": 0,
+    "art": 0,
+    "currentGame": 2,
+    "currentArt": 2,
+    "studyMinutes": 30,
+    "bailianCalls": 4
+  },
+  "items": [
+    {
+      "id": "73c17eab972dc83e",
+      "title": "Deep Agents vs LangChain vs LangGraph",
+      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+      "publishedAt": "2026-08-06T18:15:51.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 14,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "45d4f8cb3e254c28df3ce084",
+      "extraction": {
+        "method": "readability",
+        "length": 9973,
+        "originalLength": 9973,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+      "analysis": {
+        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+            "basis": "source"
+          },
+          {
+            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+            "basis": "source"
+          },
+          {
+            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+            "basis": "source"
+          },
+          {
+            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+            "basis": "source"
+          },
+          {
+            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+            "steps": [
+              "安装 deepagents 包并导入 create_deep_agent。",
+              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+              "定义系统提示词，指定代理的角色和任务。",
+              "运行代理并测试基本功能。"
+            ],
+            "tools": [
+              "deepagents",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理能正确调用工具并返回结果。",
+              "在 LangSmith 中看到日志和调用轨迹。"
+            ]
+          },
+          {
+            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+            "steps": [
+              "使用 LangChain 的 create_agent 创建基础代理。",
+              "编写中间件函数，在循环中插入检查逻辑。",
+              "将中间件传递给 create_agent 的 middleware 参数。",
+              "测试代理在特定条件下触发检查。"
+            ],
+            "tools": [
+              "langchain",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理在每次调用后执行检查。",
+              "检查失败时代理停止或请求人工介入。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "上下文工程",
+          "LangGraph",
+          "中间件"
+        ],
+        "searchTerms": [
+          {
+            "term": "Deep Agents",
+            "query": "Deep Agents LangChain 代理框架"
+          },
+          {
+            "term": "LangGraph",
+            "query": "LangGraph 图运行时 代理"
+          },
+          {
+            "term": "上下文工程",
+            "query": "上下文工程 大语言模型 代理"
+          },
+          {
+            "term": "中间件",
+            "query": "LangChain middleware 代理循环"
+          },
+          {
+            "term": "确定性",
+            "query": "AI 代理 确定性 自主性 权衡"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:05:26.923Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "931e9d981faf6201",
+      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+      "publishedAt": "2026-08-03T16:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "AI 动态",
+      "score": 69,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 21,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 80,
+      "bodyHash": "f054540066a7b4e0cbbee48b",
+      "extraction": {
+        "method": "readability",
+        "length": 14493,
+        "originalLength": 14493,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
+      "analysis": {
+        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
+            "basis": "source"
+          },
+          {
+            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
+            "basis": "source"
+          },
+          {
+            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
+            "basis": "source"
+          },
+          {
+            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
+            "steps": [
+              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
+            ],
+            "tools": [
+              "kubectl",
+              "helm",
+              "vCluster CLI",
+              "KAI Scheduler",
+              "NVIDIA GPU Operator"
+            ],
+            "verification": [
+              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "KAI Scheduler",
+          "vCluster",
+          "setOwner: false",
+          "schedulerName: kai-scheduler",
+          "GPU 共享",
+          "Queue CRD",
+          "配额"
+        ],
+        "searchTerms": [
+          {
+            "term": "KAI Scheduler",
+            "query": "KAI Scheduler Kubernetes GPU scheduling"
+          },
+          {
+            "term": "vCluster",
+            "query": "vCluster Kubernetes virtual cluster"
+          },
+          {
+            "term": "GPU 共享",
+            "query": "Kubernetes GPU sharing time slicing"
+          },
+          {
+            "term": "Queue CRD",
+            "query": "KAI Scheduler Queue CRD"
+          },
+          {
+            "term": "NVIDIA MIG",
+            "query": "NVIDIA Multi-Instance GPU MIG"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:05:48.339Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "80c316db95a4c2c6",
+      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+      "summary": "",
+      "publishedAt": "2026-08-06T15:06:15.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
+      "lane": "ai",
+      "accent": "#5c6bc0",
+      "topic": "模型与研究",
+      "score": 70,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 12,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 75,
+      "bodyHash": "c6283d508f4bf715698d9e8d",
+      "extraction": {
+        "method": "readability",
+        "length": 8731,
+        "originalLength": 8731,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
+      "analysis": {
+        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+          "模型代码和权重已开源，支持学术研究和运营预测。",
+          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
+            "basis": "source"
+          },
+          {
+            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
+            "basis": "source"
+          },
+          {
+            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
+            "basis": "source"
+          },
+          {
+            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
+            "steps": [
+              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
+            ],
+            "tools": [
+              "Google Colab（免费笔记本）",
+              "TPU 或 GPU 硬件",
+              "Python 编程环境"
+            ],
+            "verification": [
+              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+              "预测结果与历史数据对比，误差在可接受范围内。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [],
+        "searchTerms": [
+          {
+            "term": "WeatherNext",
+            "query": "WeatherNext Google DeepMind"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:06:05.259Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "editionItems": [
+    {
+      "id": "73c17eab972dc83e",
+      "title": "Deep Agents vs LangChain vs LangGraph",
+      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+      "publishedAt": "2026-08-06T18:15:51.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 14,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "45d4f8cb3e254c28df3ce084",
+      "extraction": {
+        "method": "readability",
+        "length": 9973,
+        "originalLength": 9973,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+      "analysis": {
+        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+            "basis": "source"
+          },
+          {
+            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+            "basis": "source"
+          },
+          {
+            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+            "basis": "source"
+          },
+          {
+            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+            "basis": "source"
+          },
+          {
+            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+            "steps": [
+              "安装 deepagents 包并导入 create_deep_agent。",
+              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+              "定义系统提示词，指定代理的角色和任务。",
+              "运行代理并测试基本功能。"
+            ],
+            "tools": [
+              "deepagents",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理能正确调用工具并返回结果。",
+              "在 LangSmith 中看到日志和调用轨迹。"
+            ]
+          },
+          {
+            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+            "steps": [
+              "使用 LangChain 的 create_agent 创建基础代理。",
+              "编写中间件函数，在循环中插入检查逻辑。",
+              "将中间件传递给 create_agent 的 middleware 参数。",
+              "测试代理在特定条件下触发检查。"
+            ],
+            "tools": [
+              "langchain",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理在每次调用后执行检查。",
+              "检查失败时代理停止或请求人工介入。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "上下文工程",
+          "LangGraph",
+          "中间件"
+        ],
+        "searchTerms": [
+          {
+            "term": "Deep Agents",
+            "query": "Deep Agents LangChain 代理框架"
+          },
+          {
+            "term": "LangGraph",
+            "query": "LangGraph 图运行时 代理"
+          },
+          {
+            "term": "上下文工程",
+            "query": "上下文工程 大语言模型 代理"
+          },
+          {
+            "term": "中间件",
+            "query": "LangChain middleware 代理循环"
+          },
+          {
+            "term": "确定性",
+            "query": "AI 代理 确定性 自主性 权衡"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:05:26.923Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "931e9d981faf6201",
+      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+      "publishedAt": "2026-08-03T16:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "AI 动态",
+      "score": 69,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 21,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 80,
+      "bodyHash": "f054540066a7b4e0cbbee48b",
+      "extraction": {
+        "method": "readability",
+        "length": 14493,
+        "originalLength": 14493,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
+      "analysis": {
+        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
+            "basis": "source"
+          },
+          {
+            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
+            "basis": "source"
+          },
+          {
+            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
+            "basis": "source"
+          },
+          {
+            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
+            "steps": [
+              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
+            ],
+            "tools": [
+              "kubectl",
+              "helm",
+              "vCluster CLI",
+              "KAI Scheduler",
+              "NVIDIA GPU Operator"
+            ],
+            "verification": [
+              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "KAI Scheduler",
+          "vCluster",
+          "setOwner: false",
+          "schedulerName: kai-scheduler",
+          "GPU 共享",
+          "Queue CRD",
+          "配额"
+        ],
+        "searchTerms": [
+          {
+            "term": "KAI Scheduler",
+            "query": "KAI Scheduler Kubernetes GPU scheduling"
+          },
+          {
+            "term": "vCluster",
+            "query": "vCluster Kubernetes virtual cluster"
+          },
+          {
+            "term": "GPU 共享",
+            "query": "Kubernetes GPU sharing time slicing"
+          },
+          {
+            "term": "Queue CRD",
+            "query": "KAI Scheduler Queue CRD"
+          },
+          {
+            "term": "NVIDIA MIG",
+            "query": "NVIDIA Multi-Instance GPU MIG"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:05:48.339Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "80c316db95a4c2c6",
+      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+      "summary": "",
+      "publishedAt": "2026-08-06T15:06:15.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
+      "lane": "ai",
+      "accent": "#5c6bc0",
+      "topic": "模型与研究",
+      "score": 70,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 12,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 75,
+      "bodyHash": "c6283d508f4bf715698d9e8d",
+      "extraction": {
+        "method": "readability",
+        "length": 8731,
+        "originalLength": 8731,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
+      "analysis": {
+        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+          "模型代码和权重已开源，支持学术研究和运营预测。",
+          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
+            "basis": "source"
+          },
+          {
+            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
+            "basis": "source"
+          },
+          {
+            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
+            "basis": "source"
+          },
+          {
+            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
+            "steps": [
+              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
+            ],
+            "tools": [
+              "Google Colab（免费笔记本）",
+              "TPU 或 GPU 硬件",
+              "Python 编程环境"
+            ],
+            "verification": [
+              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+              "预测结果与历史数据对比，误差在可接受范围内。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [],
+        "searchTerms": [
+          {
+            "term": "WeatherNext",
+            "query": "WeatherNext Google DeepMind"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:06:05.259Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "study": [
+    {
+      "id": "73c17eab972dc83e",
+      "title": "Deep Agents vs LangChain vs LangGraph",
+      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+      "publishedAt": "2026-08-06T18:15:51.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 14,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "45d4f8cb3e254c28df3ce084",
+      "extraction": {
+        "method": "readability",
+        "length": 9973,
+        "originalLength": 9973,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+      "analysis": {
+        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+            "basis": "source"
+          },
+          {
+            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+            "basis": "source"
+          },
+          {
+            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+            "basis": "source"
+          },
+          {
+            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+            "basis": "source"
+          },
+          {
+            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+            "steps": [
+              "安装 deepagents 包并导入 create_deep_agent。",
+              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+              "定义系统提示词，指定代理的角色和任务。",
+              "运行代理并测试基本功能。"
+            ],
+            "tools": [
+              "deepagents",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理能正确调用工具并返回结果。",
+              "在 LangSmith 中看到日志和调用轨迹。"
+            ]
+          },
+          {
+            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+            "steps": [
+              "使用 LangChain 的 create_agent 创建基础代理。",
+              "编写中间件函数，在循环中插入检查逻辑。",
+              "将中间件传递给 create_agent 的 middleware 参数。",
+              "测试代理在特定条件下触发检查。"
+            ],
+            "tools": [
+              "langchain",
+              "LangSmith"
+            ],
+            "verification": [
+              "代理在每次调用后执行检查。",
+              "检查失败时代理停止或请求人工介入。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "上下文工程",
+          "LangGraph",
+          "中间件"
+        ],
+        "searchTerms": [
+          {
+            "term": "Deep Agents",
+            "query": "Deep Agents LangChain 代理框架"
+          },
+          {
+            "term": "LangGraph",
+            "query": "LangGraph 图运行时 代理"
+          },
+          {
+            "term": "上下文工程",
+            "query": "上下文工程 大语言模型 代理"
+          },
+          {
+            "term": "中间件",
+            "query": "LangChain middleware 代理循环"
+          },
+          {
+            "term": "确定性",
+            "query": "AI 代理 确定性 自主性 权衡"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:05:26.923Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "931e9d981faf6201",
+      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+      "publishedAt": "2026-08-03T16:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "AI 动态",
+      "score": 69,
+      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+      "readMinutes": 21,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 80,
+      "bodyHash": "f054540066a7b4e0cbbee48b",
+      "extraction": {
+        "method": "readability",
+        "length": 14493,
+        "originalLength": 14493,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
+      "analysis": {
+        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
+            "basis": "source"
+          },
+          {
+            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
+            "basis": "source"
+          },
+          {
+            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
+            "basis": "source"
+          },
+          {
+            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
+            "steps": [
+              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
+            ],
+            "tools": [
+              "kubectl",
+              "helm",
+              "vCluster CLI",
+              "KAI Scheduler",
+              "NVIDIA GPU Operator"
+            ],
+            "verification": [
+              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "KAI Scheduler",
+          "vCluster",
+          "setOwner: false",
+          "schedulerName: kai-scheduler",
+          "GPU 共享",
+          "Queue CRD",
+          "配额"
+        ],
+        "searchTerms": [
+          {
+            "term": "KAI Scheduler",
+            "query": "KAI Scheduler Kubernetes GPU scheduling"
+          },
+          {
+            "term": "vCluster",
+            "query": "vCluster Kubernetes virtual cluster"
+          },
+          {
+            "term": "GPU 共享",
+            "query": "Kubernetes GPU sharing time slicing"
+          },
+          {
+            "term": "Queue CRD",
+            "query": "KAI Scheduler Queue CRD"
+          },
+          {
+            "term": "NVIDIA MIG",
+            "query": "NVIDIA Multi-Instance GPU MIG"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:05:48.339Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "80c316db95a4c2c6",
+      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+      "summary": "",
+      "publishedAt": "2026-08-06T15:06:15.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
+      "lane": "ai",
+      "accent": "#5c6bc0",
+      "topic": "模型与研究",
+      "score": 70,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 12,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 75,
+      "bodyHash": "c6283d508f4bf715698d9e8d",
+      "extraction": {
+        "method": "readability",
+        "length": 8731,
+        "originalLength": 8731,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
+      "analysis": {
+        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+          "模型代码和权重已开源，支持学术研究和运营预测。",
+          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
+            "basis": "source"
+          },
+          {
+            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
+            "basis": "source"
+          },
+          {
+            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
+            "basis": "source"
+          },
+          {
+            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
+            "steps": [
+              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
+            ],
+            "tools": [
+              "Google Colab（免费笔记本）",
+              "TPU 或 GPU 硬件",
+              "Python 编程环境"
+            ],
+            "verification": [
+              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+              "预测结果与历史数据对比，误差在可接受范围内。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [],
+        "searchTerms": [
+          {
+            "term": "WeatherNext",
+            "query": "WeatherNext Google DeepMind"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T01:06:05.259Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "lanes": {
+    "ai": [
+      {
+        "id": "73c17eab972dc83e",
+        "title": "Deep Agents vs LangChain vs LangGraph",
+        "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
+        "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
+        "publishedAt": "2026-08-06T18:15:51.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "Agent 与自动化",
+        "score": 72,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 14,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 91,
+        "bodyHash": "45d4f8cb3e254c28df3ce084",
+        "extraction": {
+          "method": "readability",
+          "length": 9973,
+          "originalLength": 9973,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+        "analysis": {
+          "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
+                "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
+                "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
+                "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
+                "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
+                "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
+                "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
+            "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
+            "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
+            "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
+            "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+              "basis": "source"
+            },
+            {
+              "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+              "basis": "source"
+            },
+            {
+              "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+              "basis": "source"
+            },
+            {
+              "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+              "basis": "source"
+            },
+            {
+              "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+              "steps": [
+                "安装 deepagents 包并导入 create_deep_agent。",
+                "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
+                "定义系统提示词，指定代理的角色和任务。",
+                "运行代理并测试基本功能。"
+              ],
+              "tools": [
+                "deepagents",
+                "LangSmith"
+              ],
+              "verification": [
+                "代理能正确调用工具并返回结果。",
+                "在 LangSmith 中看到日志和调用轨迹。"
+              ]
+            },
+            {
+              "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
+              "steps": [
+                "使用 LangChain 的 create_agent 创建基础代理。",
+                "编写中间件函数，在循环中插入检查逻辑。",
+                "将中间件传递给 create_agent 的 middleware 参数。",
+                "测试代理在特定条件下触发检查。"
+              ],
+              "tools": [
+                "langchain",
+                "LangSmith"
+              ],
+              "verification": [
+                "代理在每次调用后执行检查。",
+                "检查失败时代理停止或请求人工介入。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "上下文工程",
+            "LangGraph",
+            "中间件"
+          ],
+          "searchTerms": [
+            {
+              "term": "Deep Agents",
+              "query": "Deep Agents LangChain 代理框架"
+            },
+            {
+              "term": "LangGraph",
+              "query": "LangGraph 图运行时 代理"
+            },
+            {
+              "term": "上下文工程",
+              "query": "上下文工程 大语言模型 代理"
+            },
+            {
+              "term": "中间件",
+              "query": "LangChain middleware 代理循环"
+            },
+            {
+              "term": "确定性",
+              "query": "AI 代理 确定性 自主性 权衡"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-07T01:05:26.923Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "931e9d981faf6201",
+        "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
+        "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
+        "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
+        "publishedAt": "2026-08-03T16:00:00.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
+        "lane": "ai",
+        "accent": "#76b900",
+        "topic": "AI 动态",
+        "score": 69,
+        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
+        "readMinutes": 21,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 80,
+        "bodyHash": "f054540066a7b4e0cbbee48b",
+        "extraction": {
+          "method": "readability",
+          "length": 14493,
+          "originalLength": 14493,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
+        "analysis": {
+          "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
+                "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
+                "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
+                "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
+                "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
+                "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
+                "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
+                "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
+                "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
+                "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
+                "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
+            "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
+            "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
+            "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
+            "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
+            "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
+              "basis": "source"
+            },
+            {
+              "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
+              "basis": "source"
+            },
+            {
+              "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
+              "basis": "source"
+            },
+            {
+              "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
+              "steps": [
+                "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
+                "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
+                "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
+                "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
+                "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
+                "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
+                "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
+                "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
+              ],
+              "tools": [
+                "kubectl",
+                "helm",
+                "vCluster CLI",
+                "KAI Scheduler",
+                "NVIDIA GPU Operator"
+              ],
+              "verification": [
+                "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
+                "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
+                "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
+                "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "KAI Scheduler",
+            "vCluster",
+            "setOwner: false",
+            "schedulerName: kai-scheduler",
+            "GPU 共享",
+            "Queue CRD",
+            "配额"
+          ],
+          "searchTerms": [
+            {
+              "term": "KAI Scheduler",
+              "query": "KAI Scheduler Kubernetes GPU scheduling"
+            },
+            {
+              "term": "vCluster",
+              "query": "vCluster Kubernetes virtual cluster"
+            },
+            {
+              "term": "GPU 共享",
+              "query": "Kubernetes GPU sharing time slicing"
+            },
+            {
+              "term": "Queue CRD",
+              "query": "KAI Scheduler Queue CRD"
+            },
+            {
+              "term": "NVIDIA MIG",
+              "query": "NVIDIA Multi-Instance GPU MIG"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-07T01:05:48.339Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "80c316db95a4c2c6",
+        "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
+        "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
+        "summary": "",
+        "publishedAt": "2026-08-06T15:06:15.000Z",
+        "sourceId": "deepmind",
+        "sourceName": "Google DeepMind",
+        "sourceSite": "https://deepmind.google/discover/blog/",
+        "lane": "ai",
+        "accent": "#5c6bc0",
+        "topic": "模型与研究",
+        "score": 70,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 12,
+        "category": "research",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 75,
+        "bodyHash": "c6283d508f4bf715698d9e8d",
+        "extraction": {
+          "method": "readability",
+          "length": 8731,
+          "originalLength": 8731,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
+        "analysis": {
+          "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
+                "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
+                "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
+                "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
+                "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
+                "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
+                "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
+            "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
+            "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
+            "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
+            "模型代码和权重已开源，支持学术研究和运营预测。",
+            "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
+              "basis": "source"
+            },
+            {
+              "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
+              "basis": "source"
+            },
+            {
+              "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
+              "basis": "source"
+            },
+            {
+              "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
+              "steps": [
+                "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
+                "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
+                "使用公开的全球大气数据或本地数据，运行模型生成预测。",
+                "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
+              ],
+              "tools": [
+                "Google Colab（免费笔记本）",
+                "TPU 或 GPU 硬件",
+                "Python 编程环境"
+              ],
+              "verification": [
+                "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
+                "预测结果与历史数据对比，误差在可接受范围内。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [],
+          "searchTerms": [
+            {
+              "term": "WeatherNext",
+              "query": "WeatherNext Google DeepMind"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-07T01:06:05.259Z",
+        "model": "deepseek-v4-flash"
+      }
+    ],
+    "game": [],
+    "art": []
+  }
+}
