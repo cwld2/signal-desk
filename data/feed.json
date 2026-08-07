@@ -1,449 +1,345 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-07T06:01:26.353Z",
+  "generatedAt": "2026-08-07T22:17:16.278Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-08-07",
+    "date": "2026-08-08",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
   "stats": {
     "candidates": 23,
-    "selected": 3,
-    "ai": 3,
+    "selected": 2,
+    "ai": 2,
     "practice": 2,
-    "update": 1,
+    "update": 0,
     "manual": 0,
     "game": 0,
     "art": 0,
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 0
+    "bailianCalls": 3
   },
   "items": [
     {
-      "id": "73c17eab972dc83e",
-      "title": "Deep Agents vs LangChain vs LangGraph",
-      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
-      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
-      "publishedAt": "2026-08-06T18:15:51.000Z",
+      "id": "9421ee793dabb6d0",
+      "title": "A guide to slash commands in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+      "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-06T19:49:34.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "Agent 与自动化",
+      "score": 78,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 15,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "68342bf5df2bf062516477fe",
+      "extraction": {
+        "method": "readability",
+        "length": 10819,
+        "originalLength": 10819,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+              "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+              "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+              "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+              "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+              "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+              "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+              "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+              "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+          "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+          "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+          "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+          "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+          "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+            "basis": "source"
+          },
+          {
+            "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+            "basis": "source"
+          },
+          {
+            "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+            "basis": "source"
+          },
+          {
+            "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+            "basis": "source"
+          },
+          {
+            "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+            "basis": "source"
+          },
+          {
+            "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发新功能前进行规划",
+            "steps": [
+              "打开 GitHub Copilot 应用，进入聊天界面。",
+              "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+              "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+              "根据计划开始编码，或调整计划后执行。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+            ]
+          },
+          {
+            "scenario": "验证架构决策",
+            "steps": [
+              "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+              "阅读 Copilot 的质疑和风险点。",
+              "根据反馈调整方案或进一步调研。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 输出至少三个潜在风险或替代方案。"
+            ]
+          },
+          {
+            "scenario": "自动实现多步骤任务",
+            "steps": [
+              "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+              "观察 Copilot 自动修改代码和测试。",
+              "运行测试套件确认通过。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用",
+              "测试框架"
+            ],
+            "verification": [
+              "测试全部通过，且代码变更符合预期。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "斜杠命令",
+          "自动补全菜单",
+          "Plan 模式",
+          "不同模型",
+          "交互式界面",
+          "跨仓库"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot 应用",
+            "query": "GitHub Copilot app slash commands"
+          },
+          {
+            "term": "斜杠命令",
+            "query": "slash commands GitHub Copilot"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot plan mode"
+          },
+          {
+            "term": "Autopilot 模式",
+            "query": "GitHub Copilot autopilot mode"
+          },
+          {
+            "term": "rubber-duck",
+            "query": "GitHub Copilot rubber-duck command"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:02.900Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f1faf21a724d223d",
+      "title": "Managed Deep Agents is now in public beta",
+      "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+      "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+      "publishedAt": "2026-08-07T18:32:35.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 72,
+      "score": 62,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 14,
+      "readMinutes": 17,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 91,
-      "bodyHash": "45d4f8cb3e254c28df3ce084",
+      "candidateScore": 88,
+      "bodyHash": "db61abf40d6431b520abf1a6",
       "extraction": {
         "method": "readability",
-        "length": 9973,
-        "originalLength": 9973,
+        "length": 12139,
+        "originalLength": 12139,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+      "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
       "analysis": {
-        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+        "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
-              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
-              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+              "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+              "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+              "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+              "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
-              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
-              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+              "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+              "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+              "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+              "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+              "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+              "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
-              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
-              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+              "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+              "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+              "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+              "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
             ]
           }
         ],
         "keyPoints": [
-          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
-          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
-          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
-          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
-          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+          "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+          "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+          "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+          "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+          "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+          "当前测试版限于美国区域，且仅支持命令行操作。"
         ],
         "technicalDetails": [
           {
-            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+            "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
             "basis": "source"
           },
           {
-            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+            "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
             "basis": "source"
           },
           {
-            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+            "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
             "basis": "source"
           },
           {
-            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+            "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+            "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+            "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
             "steps": [
-              "安装 deepagents 包并导入 create_deep_agent。",
-              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
-              "定义系统提示词，指定代理的角色和任务。",
-              "运行代理并测试基本功能。"
+              "使用uv tool install managed-deepagents安装CLI工具。",
+              "运行mda init research-assistant创建项目结构。",
+              "在agent.py中定义代理逻辑，包括工具和指令。",
+              "在sandbox.py中配置provider为langsmith，scope为thread。",
+              "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+              "运行mda dev本地测试，然后mda deploy部署。",
+              "在LangSmith中监控运行和评估结果。"
             ],
             "tools": [
-              "deepagents",
-              "LangSmith"
+              "managed-deepagents CLI",
+              "LangSmith Studio",
+              "Harbor"
             ],
             "verification": [
-              "代理能正确调用工具并返回结果。",
-              "在 LangSmith 中看到日志和调用轨迹。"
-            ]
-          },
-          {
-            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
-            "steps": [
-              "使用 LangChain 的 create_agent 创建基础代理。",
-              "编写中间件函数，在循环中插入检查逻辑。",
-              "将中间件传递给 create_agent 的 middleware 参数。",
-              "测试代理在特定条件下触发检查。"
-            ],
-            "tools": [
-              "langchain",
-              "LangSmith"
-            ],
-            "verification": [
-              "代理在每次调用后执行检查。",
-              "检查失败时代理停止或请求人工介入。"
+              "本地运行mda dev时，代理能响应测试消息。",
+              "部署后，在Slack中提及代理能收到回复。",
+              "LangSmith中能看到每次运行的追踪日志。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "上下文工程",
-          "LangGraph",
-          "中间件"
+          "Managed Deep Agents",
+          "evals"
         ],
         "searchTerms": [
           {
-            "term": "Deep Agents",
-            "query": "Deep Agents LangChain 代理框架"
+            "term": "Managed Deep Agents",
+            "query": "Managed Deep Agents LangChain"
           },
           {
-            "term": "LangGraph",
-            "query": "LangGraph 图运行时 代理"
+            "term": "evals",
+            "query": "Harbor agent evals LangChain"
           },
           {
-            "term": "上下文工程",
-            "query": "上下文工程 大语言模型 代理"
+            "term": "channels",
+            "query": "LangChain channels Slack integration"
           },
           {
-            "term": "中间件",
-            "query": "LangChain middleware 代理循环"
-          },
-          {
-            "term": "确定性",
-            "query": "AI 代理 确定性 自主性 权衡"
+            "term": "memory",
+            "query": "agent memory persistence LangChain"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:05:26.923Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "931e9d981faf6201",
-      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
-      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
-      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
-      "publishedAt": "2026-08-03T16:00:00.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
-      "lane": "ai",
-      "accent": "#76b900",
-      "topic": "AI 动态",
-      "score": 69,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 21,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 80,
-      "bodyHash": "f054540066a7b4e0cbbee48b",
-      "extraction": {
-        "method": "readability",
-        "length": 14493,
-        "originalLength": 14493,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
-      "analysis": {
-        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
-              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
-              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
-              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
-              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
-              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
-              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
-              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
-              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
-              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
-              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
-          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
-          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
-          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
-          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
-          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
-            "basis": "source"
-          },
-          {
-            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
-            "basis": "source"
-          },
-          {
-            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
-            "basis": "source"
-          },
-          {
-            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
-            "steps": [
-              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
-              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
-              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
-              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
-              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
-              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
-              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
-              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
-            ],
-            "tools": [
-              "kubectl",
-              "helm",
-              "vCluster CLI",
-              "KAI Scheduler",
-              "NVIDIA GPU Operator"
-            ],
-            "verification": [
-              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
-              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
-              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
-              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "KAI Scheduler",
-          "vCluster",
-          "setOwner: false",
-          "schedulerName: kai-scheduler",
-          "GPU 共享",
-          "Queue CRD",
-          "配额"
-        ],
-        "searchTerms": [
-          {
-            "term": "KAI Scheduler",
-            "query": "KAI Scheduler Kubernetes GPU scheduling"
-          },
-          {
-            "term": "vCluster",
-            "query": "vCluster Kubernetes virtual cluster"
-          },
-          {
-            "term": "GPU 共享",
-            "query": "Kubernetes GPU sharing time slicing"
-          },
-          {
-            "term": "Queue CRD",
-            "query": "KAI Scheduler Queue CRD"
-          },
-          {
-            "term": "NVIDIA MIG",
-            "query": "NVIDIA Multi-Instance GPU MIG"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:05:48.339Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "80c316db95a4c2c6",
-      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
-      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
-      "summary": "",
-      "publishedAt": "2026-08-06T15:06:15.000Z",
-      "sourceId": "deepmind",
-      "sourceName": "Google DeepMind",
-      "sourceSite": "https://deepmind.google/discover/blog/",
-      "lane": "ai",
-      "accent": "#5c6bc0",
-      "topic": "模型与研究",
-      "score": 70,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 12,
-      "category": "research",
-      "slot": "update",
-      "language": "en",
-      "candidateScore": 75,
-      "bodyHash": "c6283d508f4bf715698d9e8d",
-      "extraction": {
-        "method": "readability",
-        "length": 8731,
-        "originalLength": 8731,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
-      "analysis": {
-        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
-              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
-              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
-              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
-              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
-              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
-              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
-          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
-          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
-          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
-          "模型代码和权重已开源，支持学术研究和运营预测。",
-          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
-            "basis": "source"
-          },
-          {
-            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
-            "basis": "source"
-          },
-          {
-            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
-            "basis": "source"
-          },
-          {
-            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
-            "steps": [
-              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
-              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
-              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
-              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
-            ],
-            "tools": [
-              "Google Colab（免费笔记本）",
-              "TPU 或 GPU 硬件",
-              "Python 编程环境"
-            ],
-            "verification": [
-              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
-              "预测结果与历史数据对比，误差在可接受范围内。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [],
-        "searchTerms": [
-          {
-            "term": "WeatherNext",
-            "query": "WeatherNext Google DeepMind"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:06:05.259Z",
+      "analyzedAt": "2026-08-07T22:17:16.278Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -964,1277 +860,965 @@
   ],
   "editionItems": [
     {
-      "id": "73c17eab972dc83e",
-      "title": "Deep Agents vs LangChain vs LangGraph",
-      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
-      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
-      "publishedAt": "2026-08-06T18:15:51.000Z",
+      "id": "9421ee793dabb6d0",
+      "title": "A guide to slash commands in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+      "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-06T19:49:34.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "Agent 与自动化",
+      "score": 78,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 15,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "68342bf5df2bf062516477fe",
+      "extraction": {
+        "method": "readability",
+        "length": 10819,
+        "originalLength": 10819,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+              "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+              "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+              "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+              "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+              "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+              "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+              "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+              "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+          "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+          "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+          "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+          "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+          "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+            "basis": "source"
+          },
+          {
+            "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+            "basis": "source"
+          },
+          {
+            "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+            "basis": "source"
+          },
+          {
+            "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+            "basis": "source"
+          },
+          {
+            "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+            "basis": "source"
+          },
+          {
+            "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发新功能前进行规划",
+            "steps": [
+              "打开 GitHub Copilot 应用，进入聊天界面。",
+              "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+              "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+              "根据计划开始编码，或调整计划后执行。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+            ]
+          },
+          {
+            "scenario": "验证架构决策",
+            "steps": [
+              "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+              "阅读 Copilot 的质疑和风险点。",
+              "根据反馈调整方案或进一步调研。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 输出至少三个潜在风险或替代方案。"
+            ]
+          },
+          {
+            "scenario": "自动实现多步骤任务",
+            "steps": [
+              "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+              "观察 Copilot 自动修改代码和测试。",
+              "运行测试套件确认通过。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用",
+              "测试框架"
+            ],
+            "verification": [
+              "测试全部通过，且代码变更符合预期。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "斜杠命令",
+          "自动补全菜单",
+          "Plan 模式",
+          "不同模型",
+          "交互式界面",
+          "跨仓库"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot 应用",
+            "query": "GitHub Copilot app slash commands"
+          },
+          {
+            "term": "斜杠命令",
+            "query": "slash commands GitHub Copilot"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot plan mode"
+          },
+          {
+            "term": "Autopilot 模式",
+            "query": "GitHub Copilot autopilot mode"
+          },
+          {
+            "term": "rubber-duck",
+            "query": "GitHub Copilot rubber-duck command"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:02.900Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f1faf21a724d223d",
+      "title": "Managed Deep Agents is now in public beta",
+      "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+      "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+      "publishedAt": "2026-08-07T18:32:35.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 72,
+      "score": 62,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 14,
+      "readMinutes": 17,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 91,
-      "bodyHash": "45d4f8cb3e254c28df3ce084",
+      "candidateScore": 88,
+      "bodyHash": "db61abf40d6431b520abf1a6",
       "extraction": {
         "method": "readability",
-        "length": 9973,
-        "originalLength": 9973,
+        "length": 12139,
+        "originalLength": 12139,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+      "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
       "analysis": {
-        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+        "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
-              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
-              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+              "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+              "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+              "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+              "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
-              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
-              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+              "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+              "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+              "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+              "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+              "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+              "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
-              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
-              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+              "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+              "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+              "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+              "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
             ]
           }
         ],
         "keyPoints": [
-          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
-          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
-          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
-          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
-          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+          "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+          "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+          "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+          "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+          "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+          "当前测试版限于美国区域，且仅支持命令行操作。"
         ],
         "technicalDetails": [
           {
-            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+            "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
             "basis": "source"
           },
           {
-            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+            "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
             "basis": "source"
           },
           {
-            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+            "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
             "basis": "source"
           },
           {
-            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+            "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+            "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+            "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
             "steps": [
-              "安装 deepagents 包并导入 create_deep_agent。",
-              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
-              "定义系统提示词，指定代理的角色和任务。",
-              "运行代理并测试基本功能。"
+              "使用uv tool install managed-deepagents安装CLI工具。",
+              "运行mda init research-assistant创建项目结构。",
+              "在agent.py中定义代理逻辑，包括工具和指令。",
+              "在sandbox.py中配置provider为langsmith，scope为thread。",
+              "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+              "运行mda dev本地测试，然后mda deploy部署。",
+              "在LangSmith中监控运行和评估结果。"
             ],
             "tools": [
-              "deepagents",
-              "LangSmith"
+              "managed-deepagents CLI",
+              "LangSmith Studio",
+              "Harbor"
             ],
             "verification": [
-              "代理能正确调用工具并返回结果。",
-              "在 LangSmith 中看到日志和调用轨迹。"
-            ]
-          },
-          {
-            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
-            "steps": [
-              "使用 LangChain 的 create_agent 创建基础代理。",
-              "编写中间件函数，在循环中插入检查逻辑。",
-              "将中间件传递给 create_agent 的 middleware 参数。",
-              "测试代理在特定条件下触发检查。"
-            ],
-            "tools": [
-              "langchain",
-              "LangSmith"
-            ],
-            "verification": [
-              "代理在每次调用后执行检查。",
-              "检查失败时代理停止或请求人工介入。"
+              "本地运行mda dev时，代理能响应测试消息。",
+              "部署后，在Slack中提及代理能收到回复。",
+              "LangSmith中能看到每次运行的追踪日志。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "上下文工程",
-          "LangGraph",
-          "中间件"
+          "Managed Deep Agents",
+          "evals"
         ],
         "searchTerms": [
           {
-            "term": "Deep Agents",
-            "query": "Deep Agents LangChain 代理框架"
+            "term": "Managed Deep Agents",
+            "query": "Managed Deep Agents LangChain"
           },
           {
-            "term": "LangGraph",
-            "query": "LangGraph 图运行时 代理"
+            "term": "evals",
+            "query": "Harbor agent evals LangChain"
           },
           {
-            "term": "上下文工程",
-            "query": "上下文工程 大语言模型 代理"
+            "term": "channels",
+            "query": "LangChain channels Slack integration"
           },
           {
-            "term": "中间件",
-            "query": "LangChain middleware 代理循环"
-          },
-          {
-            "term": "确定性",
-            "query": "AI 代理 确定性 自主性 权衡"
+            "term": "memory",
+            "query": "agent memory persistence LangChain"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:05:26.923Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "931e9d981faf6201",
-      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
-      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
-      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
-      "publishedAt": "2026-08-03T16:00:00.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
-      "lane": "ai",
-      "accent": "#76b900",
-      "topic": "AI 动态",
-      "score": 69,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 21,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 80,
-      "bodyHash": "f054540066a7b4e0cbbee48b",
-      "extraction": {
-        "method": "readability",
-        "length": 14493,
-        "originalLength": 14493,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
-      "analysis": {
-        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
-              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
-              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
-              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
-              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
-              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
-              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
-              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
-              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
-              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
-              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
-          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
-          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
-          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
-          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
-          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
-            "basis": "source"
-          },
-          {
-            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
-            "basis": "source"
-          },
-          {
-            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
-            "basis": "source"
-          },
-          {
-            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
-            "steps": [
-              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
-              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
-              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
-              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
-              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
-              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
-              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
-              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
-            ],
-            "tools": [
-              "kubectl",
-              "helm",
-              "vCluster CLI",
-              "KAI Scheduler",
-              "NVIDIA GPU Operator"
-            ],
-            "verification": [
-              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
-              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
-              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
-              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "KAI Scheduler",
-          "vCluster",
-          "setOwner: false",
-          "schedulerName: kai-scheduler",
-          "GPU 共享",
-          "Queue CRD",
-          "配额"
-        ],
-        "searchTerms": [
-          {
-            "term": "KAI Scheduler",
-            "query": "KAI Scheduler Kubernetes GPU scheduling"
-          },
-          {
-            "term": "vCluster",
-            "query": "vCluster Kubernetes virtual cluster"
-          },
-          {
-            "term": "GPU 共享",
-            "query": "Kubernetes GPU sharing time slicing"
-          },
-          {
-            "term": "Queue CRD",
-            "query": "KAI Scheduler Queue CRD"
-          },
-          {
-            "term": "NVIDIA MIG",
-            "query": "NVIDIA Multi-Instance GPU MIG"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:05:48.339Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "80c316db95a4c2c6",
-      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
-      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
-      "summary": "",
-      "publishedAt": "2026-08-06T15:06:15.000Z",
-      "sourceId": "deepmind",
-      "sourceName": "Google DeepMind",
-      "sourceSite": "https://deepmind.google/discover/blog/",
-      "lane": "ai",
-      "accent": "#5c6bc0",
-      "topic": "模型与研究",
-      "score": 70,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 12,
-      "category": "research",
-      "slot": "update",
-      "language": "en",
-      "candidateScore": 75,
-      "bodyHash": "c6283d508f4bf715698d9e8d",
-      "extraction": {
-        "method": "readability",
-        "length": 8731,
-        "originalLength": 8731,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
-      "analysis": {
-        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
-              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
-              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
-              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
-              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
-              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
-              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
-          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
-          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
-          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
-          "模型代码和权重已开源，支持学术研究和运营预测。",
-          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
-            "basis": "source"
-          },
-          {
-            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
-            "basis": "source"
-          },
-          {
-            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
-            "basis": "source"
-          },
-          {
-            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
-            "steps": [
-              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
-              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
-              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
-              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
-            ],
-            "tools": [
-              "Google Colab（免费笔记本）",
-              "TPU 或 GPU 硬件",
-              "Python 编程环境"
-            ],
-            "verification": [
-              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
-              "预测结果与历史数据对比，误差在可接受范围内。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [],
-        "searchTerms": [
-          {
-            "term": "WeatherNext",
-            "query": "WeatherNext Google DeepMind"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:06:05.259Z",
+      "analyzedAt": "2026-08-07T22:17:16.278Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "73c17eab972dc83e",
-      "title": "Deep Agents vs LangChain vs LangGraph",
-      "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
-      "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
-      "publishedAt": "2026-08-06T18:15:51.000Z",
+      "id": "9421ee793dabb6d0",
+      "title": "A guide to slash commands in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+      "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-06T19:49:34.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "Agent 与自动化",
+      "score": 78,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 15,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "68342bf5df2bf062516477fe",
+      "extraction": {
+        "method": "readability",
+        "length": 10819,
+        "originalLength": 10819,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+              "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+              "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+              "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+              "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+              "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+              "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+              "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+              "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+          "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+          "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+          "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+          "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+          "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+            "basis": "source"
+          },
+          {
+            "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+            "basis": "source"
+          },
+          {
+            "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+            "basis": "source"
+          },
+          {
+            "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+            "basis": "source"
+          },
+          {
+            "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+            "basis": "source"
+          },
+          {
+            "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发新功能前进行规划",
+            "steps": [
+              "打开 GitHub Copilot 应用，进入聊天界面。",
+              "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+              "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+              "根据计划开始编码，或调整计划后执行。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+            ]
+          },
+          {
+            "scenario": "验证架构决策",
+            "steps": [
+              "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+              "阅读 Copilot 的质疑和风险点。",
+              "根据反馈调整方案或进一步调研。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 输出至少三个潜在风险或替代方案。"
+            ]
+          },
+          {
+            "scenario": "自动实现多步骤任务",
+            "steps": [
+              "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+              "观察 Copilot 自动修改代码和测试。",
+              "运行测试套件确认通过。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用",
+              "测试框架"
+            ],
+            "verification": [
+              "测试全部通过，且代码变更符合预期。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "斜杠命令",
+          "自动补全菜单",
+          "Plan 模式",
+          "不同模型",
+          "交互式界面",
+          "跨仓库"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot 应用",
+            "query": "GitHub Copilot app slash commands"
+          },
+          {
+            "term": "斜杠命令",
+            "query": "slash commands GitHub Copilot"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot plan mode"
+          },
+          {
+            "term": "Autopilot 模式",
+            "query": "GitHub Copilot autopilot mode"
+          },
+          {
+            "term": "rubber-duck",
+            "query": "GitHub Copilot rubber-duck command"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:02.900Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f1faf21a724d223d",
+      "title": "Managed Deep Agents is now in public beta",
+      "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+      "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+      "publishedAt": "2026-08-07T18:32:35.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 72,
+      "score": 62,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 14,
+      "readMinutes": 17,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 91,
-      "bodyHash": "45d4f8cb3e254c28df3ce084",
+      "candidateScore": 88,
+      "bodyHash": "db61abf40d6431b520abf1a6",
       "extraction": {
         "method": "readability",
-        "length": 9973,
-        "originalLength": 9973,
+        "length": 12139,
+        "originalLength": 12139,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+      "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
       "analysis": {
-        "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+        "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
-              "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
-              "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+              "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+              "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+              "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+              "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
-              "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
-              "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+              "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+              "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+              "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+              "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+              "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+              "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
-              "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
-              "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+              "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+              "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+              "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+              "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
             ]
           }
         ],
         "keyPoints": [
-          "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
-          "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
-          "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
-          "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
-          "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+          "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+          "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+          "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+          "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+          "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+          "当前测试版限于美国区域，且仅支持命令行操作。"
         ],
         "technicalDetails": [
           {
-            "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+            "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
             "basis": "source"
           },
           {
-            "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+            "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
             "basis": "source"
           },
           {
-            "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+            "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
             "basis": "source"
           },
           {
-            "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+            "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+            "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+            "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
             "steps": [
-              "安装 deepagents 包并导入 create_deep_agent。",
-              "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
-              "定义系统提示词，指定代理的角色和任务。",
-              "运行代理并测试基本功能。"
+              "使用uv tool install managed-deepagents安装CLI工具。",
+              "运行mda init research-assistant创建项目结构。",
+              "在agent.py中定义代理逻辑，包括工具和指令。",
+              "在sandbox.py中配置provider为langsmith，scope为thread。",
+              "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+              "运行mda dev本地测试，然后mda deploy部署。",
+              "在LangSmith中监控运行和评估结果。"
             ],
             "tools": [
-              "deepagents",
-              "LangSmith"
+              "managed-deepagents CLI",
+              "LangSmith Studio",
+              "Harbor"
             ],
             "verification": [
-              "代理能正确调用工具并返回结果。",
-              "在 LangSmith 中看到日志和调用轨迹。"
-            ]
-          },
-          {
-            "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
-            "steps": [
-              "使用 LangChain 的 create_agent 创建基础代理。",
-              "编写中间件函数，在循环中插入检查逻辑。",
-              "将中间件传递给 create_agent 的 middleware 参数。",
-              "测试代理在特定条件下触发检查。"
-            ],
-            "tools": [
-              "langchain",
-              "LangSmith"
-            ],
-            "verification": [
-              "代理在每次调用后执行检查。",
-              "检查失败时代理停止或请求人工介入。"
+              "本地运行mda dev时，代理能响应测试消息。",
+              "部署后，在Slack中提及代理能收到回复。",
+              "LangSmith中能看到每次运行的追踪日志。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "上下文工程",
-          "LangGraph",
-          "中间件"
+          "Managed Deep Agents",
+          "evals"
         ],
         "searchTerms": [
           {
-            "term": "Deep Agents",
-            "query": "Deep Agents LangChain 代理框架"
+            "term": "Managed Deep Agents",
+            "query": "Managed Deep Agents LangChain"
           },
           {
-            "term": "LangGraph",
-            "query": "LangGraph 图运行时 代理"
+            "term": "evals",
+            "query": "Harbor agent evals LangChain"
           },
           {
-            "term": "上下文工程",
-            "query": "上下文工程 大语言模型 代理"
+            "term": "channels",
+            "query": "LangChain channels Slack integration"
           },
           {
-            "term": "中间件",
-            "query": "LangChain middleware 代理循环"
-          },
-          {
-            "term": "确定性",
-            "query": "AI 代理 确定性 自主性 权衡"
+            "term": "memory",
+            "query": "agent memory persistence LangChain"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:05:26.923Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "931e9d981faf6201",
-      "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
-      "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
-      "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
-      "publishedAt": "2026-08-03T16:00:00.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
-      "lane": "ai",
-      "accent": "#76b900",
-      "topic": "AI 动态",
-      "score": 69,
-      "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-      "readMinutes": 21,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 80,
-      "bodyHash": "f054540066a7b4e0cbbee48b",
-      "extraction": {
-        "method": "readability",
-        "length": 14493,
-        "originalLength": 14493,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
-      "analysis": {
-        "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
-              "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
-              "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
-              "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
-              "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
-              "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
-              "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
-              "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
-              "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
-              "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
-              "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
-          "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
-          "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
-          "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
-          "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
-          "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
-            "basis": "source"
-          },
-          {
-            "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
-            "basis": "source"
-          },
-          {
-            "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
-            "basis": "source"
-          },
-          {
-            "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
-            "steps": [
-              "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
-              "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
-              "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
-              "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
-              "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
-              "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
-              "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
-              "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
-            ],
-            "tools": [
-              "kubectl",
-              "helm",
-              "vCluster CLI",
-              "KAI Scheduler",
-              "NVIDIA GPU Operator"
-            ],
-            "verification": [
-              "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
-              "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
-              "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
-              "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "KAI Scheduler",
-          "vCluster",
-          "setOwner: false",
-          "schedulerName: kai-scheduler",
-          "GPU 共享",
-          "Queue CRD",
-          "配额"
-        ],
-        "searchTerms": [
-          {
-            "term": "KAI Scheduler",
-            "query": "KAI Scheduler Kubernetes GPU scheduling"
-          },
-          {
-            "term": "vCluster",
-            "query": "vCluster Kubernetes virtual cluster"
-          },
-          {
-            "term": "GPU 共享",
-            "query": "Kubernetes GPU sharing time slicing"
-          },
-          {
-            "term": "Queue CRD",
-            "query": "KAI Scheduler Queue CRD"
-          },
-          {
-            "term": "NVIDIA MIG",
-            "query": "NVIDIA Multi-Instance GPU MIG"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:05:48.339Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "80c316db95a4c2c6",
-      "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
-      "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
-      "summary": "",
-      "publishedAt": "2026-08-06T15:06:15.000Z",
-      "sourceId": "deepmind",
-      "sourceName": "Google DeepMind",
-      "sourceSite": "https://deepmind.google/discover/blog/",
-      "lane": "ai",
-      "accent": "#5c6bc0",
-      "topic": "模型与研究",
-      "score": 70,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 12,
-      "category": "research",
-      "slot": "update",
-      "language": "en",
-      "candidateScore": 75,
-      "bodyHash": "c6283d508f4bf715698d9e8d",
-      "extraction": {
-        "method": "readability",
-        "length": 8731,
-        "originalLength": 8731,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
-      "analysis": {
-        "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
-              "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
-              "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
-              "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
-              "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
-              "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
-              "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
-          "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
-          "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
-          "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
-          "模型代码和权重已开源，支持学术研究和运营预测。",
-          "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
-            "basis": "source"
-          },
-          {
-            "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
-            "basis": "source"
-          },
-          {
-            "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
-            "basis": "source"
-          },
-          {
-            "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
-            "steps": [
-              "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
-              "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
-              "使用公开的全球大气数据或本地数据，运行模型生成预测。",
-              "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
-            ],
-            "tools": [
-              "Google Colab（免费笔记本）",
-              "TPU 或 GPU 硬件",
-              "Python 编程环境"
-            ],
-            "verification": [
-              "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
-              "预测结果与历史数据对比，误差在可接受范围内。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [],
-        "searchTerms": [
-          {
-            "term": "WeatherNext",
-            "query": "WeatherNext Google DeepMind"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-07T01:06:05.259Z",
+      "analyzedAt": "2026-08-07T22:17:16.278Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "73c17eab972dc83e",
-        "title": "Deep Agents vs LangChain vs LangGraph",
-        "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
-        "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
-        "publishedAt": "2026-08-06T18:15:51.000Z",
+        "id": "9421ee793dabb6d0",
+        "title": "A guide to slash commands in the GitHub Copilot app",
+        "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+        "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+        "publishedAt": "2026-08-06T19:49:34.000Z",
+        "sourceId": "github-ai",
+        "sourceName": "GitHub AI & ML",
+        "sourceSite": "https://github.blog/ai-and-ml/",
+        "lane": "ai",
+        "accent": "#24292f",
+        "topic": "Agent 与自动化",
+        "score": 78,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 15,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 89,
+        "bodyHash": "68342bf5df2bf062516477fe",
+        "extraction": {
+          "method": "readability",
+          "length": 10819,
+          "originalLength": 10819,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+        "analysis": {
+          "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+                "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+                "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+                "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+                "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+                "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+                "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+                "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+                "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+            "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+            "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+            "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+            "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+            "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+              "basis": "source"
+            },
+            {
+              "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+              "basis": "source"
+            },
+            {
+              "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+              "basis": "source"
+            },
+            {
+              "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+              "basis": "source"
+            },
+            {
+              "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+              "basis": "source"
+            },
+            {
+              "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在开发新功能前进行规划",
+              "steps": [
+                "打开 GitHub Copilot 应用，进入聊天界面。",
+                "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+                "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+                "根据计划开始编码，或调整计划后执行。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用"
+              ],
+              "verification": [
+                "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+              ]
+            },
+            {
+              "scenario": "验证架构决策",
+              "steps": [
+                "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+                "阅读 Copilot 的质疑和风险点。",
+                "根据反馈调整方案或进一步调研。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用"
+              ],
+              "verification": [
+                "Copilot 输出至少三个潜在风险或替代方案。"
+              ]
+            },
+            {
+              "scenario": "自动实现多步骤任务",
+              "steps": [
+                "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+                "观察 Copilot 自动修改代码和测试。",
+                "运行测试套件确认通过。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用",
+                "测试框架"
+              ],
+              "verification": [
+                "测试全部通过，且代码变更符合预期。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "斜杠命令",
+            "自动补全菜单",
+            "Plan 模式",
+            "不同模型",
+            "交互式界面",
+            "跨仓库"
+          ],
+          "searchTerms": [
+            {
+              "term": "GitHub Copilot 应用",
+              "query": "GitHub Copilot app slash commands"
+            },
+            {
+              "term": "斜杠命令",
+              "query": "slash commands GitHub Copilot"
+            },
+            {
+              "term": "Plan 模式",
+              "query": "GitHub Copilot plan mode"
+            },
+            {
+              "term": "Autopilot 模式",
+              "query": "GitHub Copilot autopilot mode"
+            },
+            {
+              "term": "rubber-duck",
+              "query": "GitHub Copilot rubber-duck command"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-07T22:17:02.900Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "f1faf21a724d223d",
+        "title": "Managed Deep Agents is now in public beta",
+        "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+        "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+        "publishedAt": "2026-08-07T18:32:35.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
         "topic": "Agent 与自动化",
-        "score": 72,
+        "score": 62,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 14,
+        "readMinutes": 17,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 91,
-        "bodyHash": "45d4f8cb3e254c28df3ce084",
+        "candidateScore": 88,
+        "bodyHash": "db61abf40d6431b520abf1a6",
         "extraction": {
           "method": "readability",
-          "length": 9973,
-          "originalLength": 9973,
+          "length": 12139,
+          "originalLength": 12139,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+        "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
         "analysis": {
-          "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+          "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
-                "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
-                "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+                "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+                "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+                "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+                "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
-                "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
-                "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+                "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+                "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+                "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+                "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+                "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+                "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
-                "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
-                "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+                "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+                "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+                "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+                "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
               ]
             }
           ],
           "keyPoints": [
-            "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
-            "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
-            "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
-            "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
-            "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+            "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+            "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+            "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+            "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+            "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+            "当前测试版限于美国区域，且仅支持命令行操作。"
           ],
           "technicalDetails": [
             {
-              "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+              "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
               "basis": "source"
             },
             {
-              "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+              "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
               "basis": "source"
             },
             {
-              "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+              "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
               "basis": "source"
             },
             {
-              "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+              "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
               "basis": "source"
             },
             {
-              "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+              "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+              "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
               "steps": [
-                "安装 deepagents 包并导入 create_deep_agent。",
-                "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
-                "定义系统提示词，指定代理的角色和任务。",
-                "运行代理并测试基本功能。"
+                "使用uv tool install managed-deepagents安装CLI工具。",
+                "运行mda init research-assistant创建项目结构。",
+                "在agent.py中定义代理逻辑，包括工具和指令。",
+                "在sandbox.py中配置provider为langsmith，scope为thread。",
+                "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+                "运行mda dev本地测试，然后mda deploy部署。",
+                "在LangSmith中监控运行和评估结果。"
               ],
               "tools": [
-                "deepagents",
-                "LangSmith"
+                "managed-deepagents CLI",
+                "LangSmith Studio",
+                "Harbor"
               ],
               "verification": [
-                "代理能正确调用工具并返回结果。",
-                "在 LangSmith 中看到日志和调用轨迹。"
-              ]
-            },
-            {
-              "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
-              "steps": [
-                "使用 LangChain 的 create_agent 创建基础代理。",
-                "编写中间件函数，在循环中插入检查逻辑。",
-                "将中间件传递给 create_agent 的 middleware 参数。",
-                "测试代理在特定条件下触发检查。"
-              ],
-              "tools": [
-                "langchain",
-                "LangSmith"
-              ],
-              "verification": [
-                "代理在每次调用后执行检查。",
-                "检查失败时代理停止或请求人工介入。"
+                "本地运行mda dev时，代理能响应测试消息。",
+                "部署后，在Slack中提及代理能收到回复。",
+                "LangSmith中能看到每次运行的追踪日志。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "上下文工程",
-            "LangGraph",
-            "中间件"
+            "Managed Deep Agents",
+            "evals"
           ],
           "searchTerms": [
             {
-              "term": "Deep Agents",
-              "query": "Deep Agents LangChain 代理框架"
+              "term": "Managed Deep Agents",
+              "query": "Managed Deep Agents LangChain"
             },
             {
-              "term": "LangGraph",
-              "query": "LangGraph 图运行时 代理"
+              "term": "evals",
+              "query": "Harbor agent evals LangChain"
             },
             {
-              "term": "上下文工程",
-              "query": "上下文工程 大语言模型 代理"
+              "term": "channels",
+              "query": "LangChain channels Slack integration"
             },
             {
-              "term": "中间件",
-              "query": "LangChain middleware 代理循环"
-            },
-            {
-              "term": "确定性",
-              "query": "AI 代理 确定性 自主性 权衡"
+              "term": "memory",
+              "query": "agent memory persistence LangChain"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-07T01:05:26.923Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "931e9d981faf6201",
-        "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
-        "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
-        "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
-        "publishedAt": "2026-08-03T16:00:00.000Z",
-        "sourceId": "nvidia-dev",
-        "sourceName": "NVIDIA Developer",
-        "sourceSite": "https://developer.nvidia.com/blog/",
-        "lane": "ai",
-        "accent": "#76b900",
-        "topic": "AI 动态",
-        "score": 69,
-        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-        "readMinutes": 21,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 80,
-        "bodyHash": "f054540066a7b4e0cbbee48b",
-        "extraction": {
-          "method": "readability",
-          "length": 14493,
-          "originalLength": 14493,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
-        "analysis": {
-          "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
-                "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
-                "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
-                "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
-                "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
-                "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
-                "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
-                "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
-                "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
-                "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
-                "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
-            "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
-            "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
-            "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
-            "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
-            "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
-              "basis": "source"
-            },
-            {
-              "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
-              "basis": "source"
-            },
-            {
-              "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
-              "basis": "source"
-            },
-            {
-              "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
-              "steps": [
-                "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
-                "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
-                "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
-                "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
-                "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
-                "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
-                "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
-                "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
-              ],
-              "tools": [
-                "kubectl",
-                "helm",
-                "vCluster CLI",
-                "KAI Scheduler",
-                "NVIDIA GPU Operator"
-              ],
-              "verification": [
-                "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
-                "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
-                "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
-                "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "KAI Scheduler",
-            "vCluster",
-            "setOwner: false",
-            "schedulerName: kai-scheduler",
-            "GPU 共享",
-            "Queue CRD",
-            "配额"
-          ],
-          "searchTerms": [
-            {
-              "term": "KAI Scheduler",
-              "query": "KAI Scheduler Kubernetes GPU scheduling"
-            },
-            {
-              "term": "vCluster",
-              "query": "vCluster Kubernetes virtual cluster"
-            },
-            {
-              "term": "GPU 共享",
-              "query": "Kubernetes GPU sharing time slicing"
-            },
-            {
-              "term": "Queue CRD",
-              "query": "KAI Scheduler Queue CRD"
-            },
-            {
-              "term": "NVIDIA MIG",
-              "query": "NVIDIA Multi-Instance GPU MIG"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-07T01:05:48.339Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "80c316db95a4c2c6",
-        "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
-        "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
-        "summary": "",
-        "publishedAt": "2026-08-06T15:06:15.000Z",
-        "sourceId": "deepmind",
-        "sourceName": "Google DeepMind",
-        "sourceSite": "https://deepmind.google/discover/blog/",
-        "lane": "ai",
-        "accent": "#5c6bc0",
-        "topic": "模型与研究",
-        "score": 70,
-        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 12,
-        "category": "research",
-        "slot": "update",
-        "language": "en",
-        "candidateScore": 75,
-        "bodyHash": "c6283d508f4bf715698d9e8d",
-        "extraction": {
-          "method": "readability",
-          "length": 8731,
-          "originalLength": 8731,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
-        "analysis": {
-          "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
-                "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
-                "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
-                "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
-                "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
-                "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
-                "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
-            "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
-            "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
-            "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
-            "模型代码和权重已开源，支持学术研究和运营预测。",
-            "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
-              "basis": "source"
-            },
-            {
-              "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
-              "basis": "source"
-            },
-            {
-              "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
-              "basis": "source"
-            },
-            {
-              "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
-              "steps": [
-                "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
-                "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
-                "使用公开的全球大气数据或本地数据，运行模型生成预测。",
-                "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
-              ],
-              "tools": [
-                "Google Colab（免费笔记本）",
-                "TPU 或 GPU 硬件",
-                "Python 编程环境"
-              ],
-              "verification": [
-                "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
-                "预测结果与历史数据对比，误差在可接受范围内。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [],
-          "searchTerms": [
-            {
-              "term": "WeatherNext",
-              "query": "WeatherNext Google DeepMind"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-07T01:06:05.259Z",
+        "analyzedAt": "2026-08-07T22:17:16.278Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2761,426 +2345,322 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "73c17eab972dc83e",
-        "title": "Deep Agents vs LangChain vs LangGraph",
-        "url": "https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph",
-        "summary": "Deep Agents, LangChain, and LangGraph each offer distinct approaches to building agents. In this post, we cover the key distinctions between our open source frameworks and when you should reach for each one.",
-        "publishedAt": "2026-08-06T18:15:51.000Z",
+        "id": "9421ee793dabb6d0",
+        "title": "A guide to slash commands in the GitHub Copilot app",
+        "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+        "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+        "publishedAt": "2026-08-06T19:49:34.000Z",
+        "sourceId": "github-ai",
+        "sourceName": "GitHub AI & ML",
+        "sourceSite": "https://github.blog/ai-and-ml/",
+        "lane": "ai",
+        "accent": "#24292f",
+        "topic": "Agent 与自动化",
+        "score": 78,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 15,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 89,
+        "bodyHash": "68342bf5df2bf062516477fe",
+        "extraction": {
+          "method": "readability",
+          "length": 10819,
+          "originalLength": 10819,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+        "analysis": {
+          "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+                "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+                "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+                "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+                "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+                "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+                "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+                "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+                "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+            "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+            "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+            "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+            "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+            "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+              "basis": "source"
+            },
+            {
+              "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+              "basis": "source"
+            },
+            {
+              "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+              "basis": "source"
+            },
+            {
+              "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+              "basis": "source"
+            },
+            {
+              "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+              "basis": "source"
+            },
+            {
+              "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在开发新功能前进行规划",
+              "steps": [
+                "打开 GitHub Copilot 应用，进入聊天界面。",
+                "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+                "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+                "根据计划开始编码，或调整计划后执行。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用"
+              ],
+              "verification": [
+                "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+              ]
+            },
+            {
+              "scenario": "验证架构决策",
+              "steps": [
+                "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+                "阅读 Copilot 的质疑和风险点。",
+                "根据反馈调整方案或进一步调研。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用"
+              ],
+              "verification": [
+                "Copilot 输出至少三个潜在风险或替代方案。"
+              ]
+            },
+            {
+              "scenario": "自动实现多步骤任务",
+              "steps": [
+                "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+                "观察 Copilot 自动修改代码和测试。",
+                "运行测试套件确认通过。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用",
+                "测试框架"
+              ],
+              "verification": [
+                "测试全部通过，且代码变更符合预期。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "斜杠命令",
+            "自动补全菜单",
+            "Plan 模式",
+            "不同模型",
+            "交互式界面",
+            "跨仓库"
+          ],
+          "searchTerms": [
+            {
+              "term": "GitHub Copilot 应用",
+              "query": "GitHub Copilot app slash commands"
+            },
+            {
+              "term": "斜杠命令",
+              "query": "slash commands GitHub Copilot"
+            },
+            {
+              "term": "Plan 模式",
+              "query": "GitHub Copilot plan mode"
+            },
+            {
+              "term": "Autopilot 模式",
+              "query": "GitHub Copilot autopilot mode"
+            },
+            {
+              "term": "rubber-duck",
+              "query": "GitHub Copilot rubber-duck command"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-07T22:17:02.900Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "f1faf21a724d223d",
+        "title": "Managed Deep Agents is now in public beta",
+        "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+        "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+        "publishedAt": "2026-08-07T18:32:35.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
         "topic": "Agent 与自动化",
-        "score": 72,
+        "score": 62,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 14,
+        "readMinutes": 17,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 91,
-        "bodyHash": "45d4f8cb3e254c28df3ce084",
+        "candidateScore": 88,
+        "bodyHash": "db61abf40d6431b520abf1a6",
         "extraction": {
           "method": "readability",
-          "length": 9973,
-          "originalLength": 9973,
+          "length": 12139,
+          "originalLength": 12139,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Deep Agents、LangChain 与 LangGraph：如何选择你的 AI 代理框架",
+        "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
         "analysis": {
-          "listSummary": "本文介绍了 LangChain 团队推出的三层开源代理技术栈：Deep Agents、LangChain 和 LangGraph。它们分别扮演代理的“外壳”、“框架”和“运行时”角色，提供从开箱即用到完全定制的不同控制级别。文章通过具体场景（如 GTM 代理、RAG 问答、租赁申请处理）解释了何时选择哪一层，并强调了它们之间的可组合性。对于想构建 AI 代理的开发者，这篇指南能帮你快速找到起点，并理解各层的权衡。",
+          "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "构建 AI 代理（能自主调用工具、完成任务的程序）时，开发者常面临选择困难：用现成方案还是自己搭建？本文要解决的就是这个问题。",
-                "LangChain 团队提出了一个三层架构：LangGraph 是运行时（负责执行流程），LangChain 是框架（提供工具和抽象），Deep Agents 是外壳（内置最佳实践）。这三层基于同一理念：开发者应能掌控模型的每个部分。",
-                "核心权衡是“确定性”与“自主性”：确定性越高，流程越可靠但灵活性低；自主性越高，能力越强但风险越大。三层分别对应不同位置：LangGraph 最确定，LangChain 居中，Deep Agents 最自主。"
+                "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+                "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+                "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+                "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "文章用三个例子说明选择：GTM（市场推广）代理需要记忆和子代理，适合 Deep Agents；RAG（检索增强生成）问答机器人只需简单循环，用 LangChain 即可；租赁申请处理流程大部分是固定代码，只有一步用 LLM，应选 LangGraph。",
-                "Deep Agents 的核心是“上下文工程”（把正确的信息在正确时间给模型）。它内置文件系统、子代理、技能和记忆，开箱即用。LangChain 则极简，只提供“模型循环调用工具”的抽象，但可通过中间件（在循环中插入自定义步骤的钩子）增加确定性步骤。",
-                "LangGraph 用图结构定义流程，支持持久化、人工介入和可观测性。文章强调，LangChain 和 Deep Agents 都构建在 LangGraph 之上，因此三者可组合：你可以把 Deep Agents 嵌入 LangGraph 工作流，或反之。"
+                "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+                "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+                "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+                "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+                "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+                "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者提供了内部案例：他们的 GTM 代理基于 Deep Agents 构建，每周处理近 1 万次请求，其中 74% 是后台自动触发的。这证明了 Deep Agents 的实用性，但未提供其他框架的性能对比。",
-                "结论是：大多数开发者应从 Deep Agents 开始，除非需要精细控制或复杂工作流。但文章也承认，LangGraph 适合“高度自主”的流程迁移到 Deep Agents，说明边界并非绝对。",
-                "文章未讨论框架的缺点，如学习成本或调试难度，因此读者需根据自身项目复杂度判断。"
+                "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+                "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+                "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+                "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
               ]
             }
           ],
           "keyPoints": [
-            "Deep Agents 是开箱即用的代理外壳，内置上下文管理、子代理和记忆，适合快速构建。",
-            "LangChain 是极简框架，只提供核心循环，但支持中间件定制，适合需要控制每个步骤的场景。",
-            "LangGraph 是图运行时，提供最大确定性，适合混合固定逻辑和 AI 步骤的流程。",
-            "三者可组合，例如在 LangGraph 中嵌入 Deep Agents，或反之。",
-            "选择依据是“确定性 vs 自主性”的权衡：敏感流程选确定性，动态任务选自主性。"
+            "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+            "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+            "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+            "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+            "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+            "当前测试版限于美国区域，且仅支持命令行操作。"
           ],
           "technicalDetails": [
             {
-              "text": "create_deep_agent 是 Deep Agents 的入口函数，它接受模型、工具、系统提示和技能路径，返回一个配置好的代理。它通过内置的文件系统、子代理和记忆功能实现上下文工程。",
+              "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
               "basis": "source"
             },
             {
-              "text": "LangChain 的 create_agent 是核心抽象，它创建一个 LLM 循环，模型在每次迭代中决定调用哪个工具。中间件（middleware）通过钩子修改循环，例如添加总结或验证步骤。",
+              "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
               "basis": "source"
             },
             {
-              "text": "LangGraph 将代理流程表示为图，节点是步骤，边是转换。它提供持久化执行（durable execution）、人工介入（human-in-the-loop）和可观测性，这些是生产环境的关键特性。",
+              "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
               "basis": "source"
             },
             {
-              "text": "Deep Agents 实际上是 LangChain 核心代理加上多个中间件实现的，因此它继承了 LangGraph 的底层能力。",
+              "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
               "basis": "source"
             },
             {
-              "text": "LangSmith 是部署和观测工具，支持突发流量和定时任务，用于监控代理运行。",
+              "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "当你需要快速构建一个内部工具代理，例如文档问答或研究助手",
+              "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
               "steps": [
-                "安装 deepagents 包并导入 create_deep_agent。",
-                "配置模型（如 anthropic:claude-sonnet-5）和工具（如 web_search）。",
-                "定义系统提示词，指定代理的角色和任务。",
-                "运行代理并测试基本功能。"
+                "使用uv tool install managed-deepagents安装CLI工具。",
+                "运行mda init research-assistant创建项目结构。",
+                "在agent.py中定义代理逻辑，包括工具和指令。",
+                "在sandbox.py中配置provider为langsmith，scope为thread。",
+                "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+                "运行mda dev本地测试，然后mda deploy部署。",
+                "在LangSmith中监控运行和评估结果。"
               ],
               "tools": [
-                "deepagents",
-                "LangSmith"
+                "managed-deepagents CLI",
+                "LangSmith Studio",
+                "Harbor"
               ],
               "verification": [
-                "代理能正确调用工具并返回结果。",
-                "在 LangSmith 中看到日志和调用轨迹。"
-              ]
-            },
-            {
-              "scenario": "当你需要定制代理循环，例如添加合规检查步骤",
-              "steps": [
-                "使用 LangChain 的 create_agent 创建基础代理。",
-                "编写中间件函数，在循环中插入检查逻辑。",
-                "将中间件传递给 create_agent 的 middleware 参数。",
-                "测试代理在特定条件下触发检查。"
-              ],
-              "tools": [
-                "langchain",
-                "LangSmith"
-              ],
-              "verification": [
-                "代理在每次调用后执行检查。",
-                "检查失败时代理停止或请求人工介入。"
+                "本地运行mda dev时，代理能响应测试消息。",
+                "部署后，在Slack中提及代理能收到回复。",
+                "LangSmith中能看到每次运行的追踪日志。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "上下文工程",
-            "LangGraph",
-            "中间件"
+            "Managed Deep Agents",
+            "evals"
           ],
           "searchTerms": [
             {
-              "term": "Deep Agents",
-              "query": "Deep Agents LangChain 代理框架"
+              "term": "Managed Deep Agents",
+              "query": "Managed Deep Agents LangChain"
             },
             {
-              "term": "LangGraph",
-              "query": "LangGraph 图运行时 代理"
+              "term": "evals",
+              "query": "Harbor agent evals LangChain"
             },
             {
-              "term": "上下文工程",
-              "query": "上下文工程 大语言模型 代理"
+              "term": "channels",
+              "query": "LangChain channels Slack integration"
             },
             {
-              "term": "中间件",
-              "query": "LangChain middleware 代理循环"
-            },
-            {
-              "term": "确定性",
-              "query": "AI 代理 确定性 自主性 权衡"
+              "term": "memory",
+              "query": "agent memory persistence LangChain"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-07T01:05:26.923Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "931e9d981faf6201",
-        "title": "How to Run Isolated Tenant Kubernetes Clusters on Shared GPU Infrastructure",
-        "url": "https://developer.nvidia.com/blog/how-to-run-isolated-tenant-kubernetes-clusters-on-shared-gpu-infrastructure/",
-        "summary": "Running a dedicated Kubernetes cluster per team often results in more isolation than an organization requires. While one cluster can be successfully shared...",
-        "publishedAt": "2026-08-03T16:00:00.000Z",
-        "sourceId": "nvidia-dev",
-        "sourceName": "NVIDIA Developer",
-        "sourceSite": "https://developer.nvidia.com/blog/",
-        "lane": "ai",
-        "accent": "#76b900",
-        "topic": "AI 动态",
-        "score": 69,
-        "learningNote": "区分可验证事实、作者判断与产品宣传，并回到原始资料核对。",
-        "readMinutes": 21,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 80,
-        "bodyHash": "f054540066a7b4e0cbbee48b",
-        "extraction": {
-          "method": "readability",
-          "length": 14493,
-          "originalLength": 14493,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "在共享 GPU 上运行隔离的团队 Kubernetes 集群：KAI Scheduler 与 vCluster 实战",
-        "analysis": {
-          "listSummary": "本文介绍如何在不拆分物理 GPU 的情况下，为多个团队提供各自独立的 Kubernetes 集群体验。通过 KAI Scheduler 实现 GPU 资源的按队列分配与共享，利用 vCluster 为每个团队创建隔离的控制平面（API 服务器、RBAC、CRD 等），从而在单一 GPU 节点上运行三个团队的工作负载。文章提供详细教程步骤，适合希望提高 GPU 利用率、减少集群管理成本的组织。值得一读，因为它解决了多团队共享集群时的协调难题，并给出了可复现的实践方案。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "为每个团队运行独立的 Kubernetes 集群，往往会导致过度隔离，造成资源浪费。",
-                "虽然一个集群可以被多个团队共享，但随着团队数量增加，协调成本会显著上升。例如，不同团队可能使用冲突的自定义资源定义（CRD）版本，角色权限（RBAC）可能重叠，而且很难将 GPU 容量按团队预算进行划分。",
-                "当协调成本过高时，团队可能会要求拥有自己的集群，以恢复自主性。本文提出的模式旨在保留团队自主性，同时避免硬件拆分。",
-                "该解决方案涉及一个带有 GPU 池的单一控制平面集群，通过 GPU 共享和每团队配额实现资源分配，并为每个团队提供隔离的 Kubernetes 控制平面，包括 API 服务器、控制器、数据存储、同步器和调度器。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "实现该方案需要两个开源工具：KAI Scheduler 和 vCluster。KAI Scheduler 是一个专为 AI 工作负载优化 GPU 资源分配的 Kubernetes 调度器，支持动态分配 GPU 资源，并可与默认的 kube-scheduler 并行运行。",
-                "vCluster 则提供完全隔离的租户集群，每个租户集群拥有自己的 API 服务器、CRD 和 RBAC，但共享底层节点和硬件。vCluster 的虚拟化控制平面对租户不可见，没有共享的控制平面节点或集群内代理 Pod，因此适合需要独立集群体验但无需拆分硬件的内部团队。",
-                "教程使用一个 NVIDIA L40S GPU 和三个团队（NLP、视觉、推荐系统）来演示。每个团队通过 vCluster 获得独立控制平面，并可以拥有集群管理员权限，但底层共享同一个 GPU 节点。",
-                "步骤包括：安装本地工具（kubectl、helm）、添加 Helm 仓库、确认 GPU Operator 运行、安装 KAI Scheduler、定义团队队列（使用 Queue CRD 设置配额）、创建 vCluster、以及从每个团队部署工作负载。",
-                "关键配置包括：在 vCluster 中设置 `setOwner: false`，以便 KAI Scheduler 的 pod-grouper 能够识别真实的所有权链；在 Pod 中指定 `schedulerName: kai-scheduler` 和队列标签，以使用 KAI 调度。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "教程验证了三个团队的 Pod 都运行在同一个物理节点上，但每个团队只能看到自己的 Pod。队列状态显示每个团队分配了 330m 的 GPU（约 0.33 个 GPU），符合配额设置。",
-                "作者指出，KAI Scheduler 负责调度，但 GPU 共享时并不提供硬件级别的内存隔离。应用需要自行限制内存使用（例如在 vLLM 中设置 `--gpu-memory-utilization`）。对于需要硬内存隔离的场景，可以使用 NVIDIA MIG（多实例 GPU）提供硬件级分区。",
-                "结论是，通过 KAI Scheduler 和 vCluster 的组合，可以在单个 GPU 上为多个团队提供专用集群体验，实现零浪费。作者强调，答案不总是增加更多 GPU，而是更好地利用现有基础设施。",
-                "边界：该模式适用于可信的内部团队；对于不可信租户，需要节点、网络和存储级别的隔离，可以扩展到 vCluster 私有节点模式。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "KAI Scheduler 通过队列（Queue CRD）实现 GPU 资源的按团队配额分配，支持保证配额和超配额共享。",
-            "vCluster 为每个团队提供独立的 Kubernetes 控制平面（API 服务器、RBAC、CRD），但共享底层节点和 GPU。",
-            "在 vCluster 中设置 `setOwner: false` 是必要的，以便 KAI Scheduler 能正确识别工作负载的所有权链。",
-            "GPU 共享时，KAI Scheduler 不提供硬件级内存隔离，应用需自行限制内存使用（如 vLLM 的 `--gpu-memory-utilization`）。",
-            "该方案适用于可信内部团队，不可信租户需要更严格的隔离（如 vCluster 私有节点模式）。",
-            "教程使用单 GPU 演示，但模式可扩展到数百 GPU 节点和数十个团队。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "KAI Scheduler：它是一个 Kubernetes 调度器，通过 `schedulerName: kai-scheduler` 字段接管指定 Pod 的调度。它使用 Queue CRD 定义资源配额，支持层次化队列和超配额分配。工作原理是：Pod 指定队列标签，KAI Scheduler 根据队列配额决定 GPU 分配比例。重要性在于它允许在共享 GPU 上实现公平的按团队资源分配。",
-              "basis": "source"
-            },
-            {
-              "text": "vCluster：它创建虚拟控制平面，每个租户集群拥有独立的 API 服务器、CRD 和 RBAC，但共享物理节点。通过 `setOwner: false` 设置，避免重写资源所有权，使 KAI Scheduler 能识别真实层次。重要性在于提供隔离的集群体验，同时避免硬件拆分。",
-              "basis": "source"
-            },
-            {
-              "text": "GPU 共享机制：KAI Scheduler 在 GPU 共享时，通过时间切片在 CUDA 上下文之间切换，不提供硬件级内存隔离。应用需自行限制内存使用。对于硬隔离，可使用 NVIDIA MIG 提供硬件级分区。重要性在于理解共享的局限性和适用场景。",
-              "basis": "source"
-            },
-            {
-              "text": "Queue CRD 配置：在 YAML 中定义 `quota`（保证最小值）、`limit`（最大值）和 `overQuotaWeight`（控制多余资源分配）。例如，`quota: 0.33` 表示保证 0.33 个 GPU，`limit: 1` 表示最大可用 1 个 GPU。重要性在于实现按团队的资源预算。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在共享 GPU 基础设施上为多个内部团队提供隔离的 Kubernetes 集群环境",
-              "steps": [
-                "安装 kubectl、helm 和 vCluster CLI，并配置 kubeconfig。",
-                "启用 MicroK8s 的 dns 和 hostpath-storage 插件。",
-                "添加 NVIDIA Helm 仓库并确认 GPU Operator 已运行（检查 gpu-operator-resources 命名空间中的 Pod）。",
-                "使用 Helm 安装 KAI Scheduler，并设置 `global.gpuSharing=true`。",
-                "创建 Queue CRD 文件，定义父队列和子队列的配额（如每个团队 0.33 GPU）。",
-                "创建 vCluster 配置文件，设置 `setOwner: false`，并为每个团队创建 vCluster。",
-                "从每个团队部署 GPU 工作负载，指定 `schedulerName: kai-scheduler` 和队列标签。",
-                "验证每个团队只能看到自己的 Pod，并检查队列状态确认 GPU 分配。"
-              ],
-              "tools": [
-                "kubectl",
-                "helm",
-                "vCluster CLI",
-                "KAI Scheduler",
-                "NVIDIA GPU Operator"
-              ],
-              "verification": [
-                "运行 `kubectl get pods -n gpu-operator-resources` 确认 GPU Operator 所有 Pod 处于 Running 状态。",
-                "运行 `vcluster list` 查看所有 vCluster 状态为 Running。",
-                "从每个团队运行 `kubectl get pods` 确认只能看到自己的 Pod。",
-                "运行 `kubectl describe queue <team-name>` 查看 `Allocated` 字段，确认 GPU 分配符合配额。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "KAI Scheduler",
-            "vCluster",
-            "setOwner: false",
-            "schedulerName: kai-scheduler",
-            "GPU 共享",
-            "Queue CRD",
-            "配额"
-          ],
-          "searchTerms": [
-            {
-              "term": "KAI Scheduler",
-              "query": "KAI Scheduler Kubernetes GPU scheduling"
-            },
-            {
-              "term": "vCluster",
-              "query": "vCluster Kubernetes virtual cluster"
-            },
-            {
-              "term": "GPU 共享",
-              "query": "Kubernetes GPU sharing time slicing"
-            },
-            {
-              "term": "Queue CRD",
-              "query": "KAI Scheduler Queue CRD"
-            },
-            {
-              "term": "NVIDIA MIG",
-              "query": "NVIDIA Multi-Instance GPU MIG"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-07T01:05:48.339Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "80c316db95a4c2c6",
-        "title": "WeatherNext: AI model achieves breakthrough in forecasting cyclones",
-        "url": "https://deepmind.google/blog/weathernext-ai-model-achieves-breakthrough-in-forecasting-cyclones/",
-        "summary": "",
-        "publishedAt": "2026-08-06T15:06:15.000Z",
-        "sourceId": "deepmind",
-        "sourceName": "Google DeepMind",
-        "sourceSite": "https://deepmind.google/discover/blog/",
-        "lane": "ai",
-        "accent": "#5c6bc0",
-        "topic": "模型与研究",
-        "score": 70,
-        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 12,
-        "category": "research",
-        "slot": "update",
-        "language": "en",
-        "candidateScore": 75,
-        "bodyHash": "c6283d508f4bf715698d9e8d",
-        "extraction": {
-          "method": "readability",
-          "length": 8731,
-          "originalLength": 8731,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "WeatherNext：AI 模型在气旋预报上取得突破",
-        "analysis": {
-          "listSummary": "这篇文章介绍了 Google DeepMind 的 WeatherNext 模型，它在预测热带气旋（即飓风或台风）的路径、强度和风场结构方面达到了当前最优水平，平均能提前一天发出预警，相当于气象学十年的进步。文章解释了模型如何通过单一 AI 系统同时处理全球和局部气象数据，并开源了模型代码和权重，供研究者和机构使用。对于关注 AI 应用、气象预测或防灾减灾的读者，这篇文章展示了 AI 在现实世界中的重大价值，值得一读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "热带气旋是地球上最具破坏力的天气现象之一，过去 50 年导致超过 70 万人死亡和 1.4 万亿美元的经济损失。预测气旋的发展一直是长期挑战，因为每一小时都很关键，预报员需要及时发布准确警告。",
-                "传统上，预测气旋需要两种不同的模型：全球模型处理大气环流以预测路径，局部高分辨率模型处理核心区域的热力学过程以预测强度。这种分离导致效率低下，且难以同时优化。",
-                "WeatherNext 的目标是解决这个难题，通过一个统一的 AI 模型同时预测路径、强度和风场结构，从而提供更早的预警时间。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "WeatherNext 是一个单一的 AI 模型，它通过独特的训练、架构和低分辨率输入方法，实现了对气旋路径、强度和风场结构的准确预测。模型在近 20 TB 的全球大气数据和包含近 5000 个历史风暴的 IBTrACS 数据库上进行了端到端训练。",
-                "模型使用功能生成网络（FGNs）来生成预测集合，以捕捉天气的固有不确定性。它可以在 TPU 上不到一分钟内生成一个 15 天的预报，并支持 1000 个成员的集合预测，以捕捉快速增强等罕见但重要的情景。",
-                "令人惊讶的是，WeatherNext 只需要 28x28 公里的分辨率，比传统模型粗 100 倍，就能达到高精度。作者承认这仍是一个开放的研究问题，并希望与社区共同探索原因。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "论文发表在《自然》杂志上，作者团队包括 Google DeepMind、Google Research 以及美国国家飓风中心（NHC）等机构的专家。在 2023 至 2024 年的历史气旋评估中，WeatherNext 在路径、强度和风场结构预测上平均获得了超过 24 小时的提前时间优势。",
-                "实际应用中，在 2025 年飓风季节，模型帮助 NHC 对飓风梅丽莎做出了历史性预测，提前警告了快速增强和登陆牙买加，为地面准备赢得了关键时间。",
-                "模型的边界在于：它仅提供预测，不替代官方预报；作者也承认高精度背后的机制尚未完全理解。文章强调，对于官方天气警告，应参考当地气象机构。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "WeatherNext 是一个 AI 模型，能同时预测热带气旋的路径、强度和风场结构，精度达到当前最优。",
-            "该模型平均能提前一天发出预警，相当于过去十年的气象学进步。",
-            "模型使用 28x28 公里的低分辨率数据，比传统模型粗 100 倍，但性能更优。",
-            "WeatherNext 已在实际飓风季节中应用，帮助预测了飓风梅丽莎的快速增强。",
-            "模型代码和权重已开源，支持学术研究和运营预测。",
-            "WeatherNext 2-mini 版本可在单个 TPU 上运行，并提供免费的 Colab 笔记本。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "功能生成网络（FGNs）是一种生成模型，用于生成预测集合，以捕捉天气的不确定性。它通过生成多种可能的预测结果，帮助预报员评估风险概率。",
-              "basis": "source"
-            },
-            {
-              "text": "IBTrACS 数据库是国际最佳追踪档案，包含近 5000 个历史风暴的数据，用于训练模型识别气旋模式。",
-              "basis": "source"
-            },
-            {
-              "text": "WeatherNext 使用 28x28 公里的分辨率输入，比传统模型粗 100 倍，但通过端到端训练和架构设计，实现了高精度预测。",
-              "basis": "source"
-            },
-            {
-              "text": "模型在 TPU 上运行，能在不到一分钟内生成 15 天的预报，支持 1000 个成员的集合预测，以捕捉罕见事件。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "适用于气象研究机构或 AI 开发者，希望利用开源模型进行气旋预测或开发本地化应用。",
-              "steps": [
-                "访问 Google DeepMind 的官方页面，下载 WeatherNext 模型的代码和权重。",
-                "根据提供的文档，设置运行环境，包括 TPU 或 GPU 支持。",
-                "使用公开的全球大气数据或本地数据，运行模型生成预测。",
-                "将预测结果与官方气象数据对比，评估模型在特定区域的性能。"
-              ],
-              "tools": [
-                "Google Colab（免费笔记本）",
-                "TPU 或 GPU 硬件",
-                "Python 编程环境"
-              ],
-              "verification": [
-                "模型能生成 15 天的气旋路径和强度预测，且时间少于 1 分钟。",
-                "预测结果与历史数据对比，误差在可接受范围内。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [],
-          "searchTerms": [
-            {
-              "term": "WeatherNext",
-              "query": "WeatherNext Google DeepMind"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-07T01:06:05.259Z",
+        "analyzedAt": "2026-08-07T22:17:16.278Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -3202,7 +2682,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 351,
+      "latencyMs": 198,
       "itemCount": 35
     },
     {
@@ -3219,7 +2699,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 221,
+      "latencyMs": 256,
       "itemCount": 10
     },
     {
@@ -3236,7 +2716,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 437,
+      "latencyMs": 917,
       "itemCount": 32
     },
     {
@@ -3253,7 +2733,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1485,
+      "latencyMs": 1395,
       "itemCount": 10
     },
     {
@@ -3270,7 +2750,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 191,
+      "latencyMs": 186,
       "itemCount": 35
     },
     {
@@ -3287,7 +2767,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 296,
+      "latencyMs": 297,
       "itemCount": 35
     },
     {
@@ -3304,7 +2784,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 230,
+      "latencyMs": 632,
       "itemCount": 35
     },
     {
@@ -3321,7 +2801,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 236,
+      "latencyMs": 504,
       "itemCount": 30
     },
     {
@@ -3338,7 +2818,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 244,
+      "latencyMs": 365,
       "itemCount": 35
     },
     {
@@ -3355,7 +2835,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 509,
+      "latencyMs": 827,
       "itemCount": 20
     },
     {
@@ -3372,7 +2852,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 518,
+      "latencyMs": 1638,
       "itemCount": 35
     },
     {
@@ -3389,7 +2869,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 293,
+      "latencyMs": 489,
       "itemCount": 15
     },
     {
@@ -3406,7 +2886,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1276,
+      "latencyMs": 1468,
       "itemCount": 15
     },
     {
@@ -3423,7 +2903,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 18847,
+      "latencyMs": 19099,
       "itemCount": 35
     },
     {
@@ -3440,7 +2920,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 671,
+      "latencyMs": 753,
       "itemCount": 35
     },
     {
@@ -3462,7 +2942,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1157,
+      "latencyMs": 1167,
       "itemCount": 4
     },
     {
@@ -3479,7 +2959,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 575,
+      "latencyMs": 812,
       "itemCount": 10
     }
   ],
@@ -3527,7 +3007,9 @@
       "9a3d9f7b007c1d55",
       "73c17eab972dc83e",
       "931e9d981faf6201",
-      "80c316db95a4c2c6"
+      "80c316db95a4c2c6",
+      "9421ee793dabb6d0",
+      "f1faf21a724d223d"
     ],
     "processedManualUrls": []
   },
@@ -3536,10 +3018,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 0,
-    "rejectedCount": 271,
+    "calls": 3,
+    "rejectedCount": 284,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-07T01:06:05.259Z"
+  "previousGeneratedAt": "2026-08-07T06:01:26.353Z"
 }

@@ -1,0 +1,1312 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-07T22:17:16.278Z",
+  "timezone": "Asia/Shanghai",
+  "edition": {
+    "date": "2026-08-08",
+    "isWeeklyEdition": false,
+    "weeklyReason": null
+  },
+  "stats": {
+    "candidates": 23,
+    "selected": 2,
+    "ai": 2,
+    "practice": 2,
+    "update": 0,
+    "manual": 0,
+    "game": 0,
+    "art": 0,
+    "currentGame": 2,
+    "currentArt": 2,
+    "studyMinutes": 30,
+    "bailianCalls": 3
+  },
+  "items": [
+    {
+      "id": "9421ee793dabb6d0",
+      "title": "A guide to slash commands in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+      "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-06T19:49:34.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "Agent 与自动化",
+      "score": 78,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 15,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "68342bf5df2bf062516477fe",
+      "extraction": {
+        "method": "readability",
+        "length": 10819,
+        "originalLength": 10819,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+              "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+              "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+              "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+              "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+              "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+              "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+              "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+              "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+          "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+          "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+          "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+          "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+          "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+            "basis": "source"
+          },
+          {
+            "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+            "basis": "source"
+          },
+          {
+            "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+            "basis": "source"
+          },
+          {
+            "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+            "basis": "source"
+          },
+          {
+            "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+            "basis": "source"
+          },
+          {
+            "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发新功能前进行规划",
+            "steps": [
+              "打开 GitHub Copilot 应用，进入聊天界面。",
+              "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+              "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+              "根据计划开始编码，或调整计划后执行。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+            ]
+          },
+          {
+            "scenario": "验证架构决策",
+            "steps": [
+              "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+              "阅读 Copilot 的质疑和风险点。",
+              "根据反馈调整方案或进一步调研。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 输出至少三个潜在风险或替代方案。"
+            ]
+          },
+          {
+            "scenario": "自动实现多步骤任务",
+            "steps": [
+              "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+              "观察 Copilot 自动修改代码和测试。",
+              "运行测试套件确认通过。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用",
+              "测试框架"
+            ],
+            "verification": [
+              "测试全部通过，且代码变更符合预期。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "斜杠命令",
+          "自动补全菜单",
+          "Plan 模式",
+          "不同模型",
+          "交互式界面",
+          "跨仓库"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot 应用",
+            "query": "GitHub Copilot app slash commands"
+          },
+          {
+            "term": "斜杠命令",
+            "query": "slash commands GitHub Copilot"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot plan mode"
+          },
+          {
+            "term": "Autopilot 模式",
+            "query": "GitHub Copilot autopilot mode"
+          },
+          {
+            "term": "rubber-duck",
+            "query": "GitHub Copilot rubber-duck command"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:02.900Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f1faf21a724d223d",
+      "title": "Managed Deep Agents is now in public beta",
+      "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+      "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+      "publishedAt": "2026-08-07T18:32:35.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 62,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 17,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 88,
+      "bodyHash": "db61abf40d6431b520abf1a6",
+      "extraction": {
+        "method": "readability",
+        "length": 12139,
+        "originalLength": 12139,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
+      "analysis": {
+        "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+              "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+              "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+              "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+              "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+              "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+              "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+              "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+              "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+              "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+              "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+              "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+          "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+          "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+          "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+          "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+          "当前测试版限于美国区域，且仅支持命令行操作。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
+            "basis": "source"
+          },
+          {
+            "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
+            "basis": "source"
+          },
+          {
+            "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
+            "basis": "source"
+          },
+          {
+            "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
+            "basis": "source"
+          },
+          {
+            "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
+            "steps": [
+              "使用uv tool install managed-deepagents安装CLI工具。",
+              "运行mda init research-assistant创建项目结构。",
+              "在agent.py中定义代理逻辑，包括工具和指令。",
+              "在sandbox.py中配置provider为langsmith，scope为thread。",
+              "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+              "运行mda dev本地测试，然后mda deploy部署。",
+              "在LangSmith中监控运行和评估结果。"
+            ],
+            "tools": [
+              "managed-deepagents CLI",
+              "LangSmith Studio",
+              "Harbor"
+            ],
+            "verification": [
+              "本地运行mda dev时，代理能响应测试消息。",
+              "部署后，在Slack中提及代理能收到回复。",
+              "LangSmith中能看到每次运行的追踪日志。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Managed Deep Agents",
+          "evals"
+        ],
+        "searchTerms": [
+          {
+            "term": "Managed Deep Agents",
+            "query": "Managed Deep Agents LangChain"
+          },
+          {
+            "term": "evals",
+            "query": "Harbor agent evals LangChain"
+          },
+          {
+            "term": "channels",
+            "query": "LangChain channels Slack integration"
+          },
+          {
+            "term": "memory",
+            "query": "agent memory persistence LangChain"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:16.278Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "editionItems": [
+    {
+      "id": "9421ee793dabb6d0",
+      "title": "A guide to slash commands in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+      "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-06T19:49:34.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "Agent 与自动化",
+      "score": 78,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 15,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "68342bf5df2bf062516477fe",
+      "extraction": {
+        "method": "readability",
+        "length": 10819,
+        "originalLength": 10819,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+              "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+              "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+              "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+              "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+              "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+              "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+              "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+              "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+          "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+          "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+          "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+          "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+          "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+            "basis": "source"
+          },
+          {
+            "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+            "basis": "source"
+          },
+          {
+            "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+            "basis": "source"
+          },
+          {
+            "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+            "basis": "source"
+          },
+          {
+            "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+            "basis": "source"
+          },
+          {
+            "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发新功能前进行规划",
+            "steps": [
+              "打开 GitHub Copilot 应用，进入聊天界面。",
+              "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+              "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+              "根据计划开始编码，或调整计划后执行。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+            ]
+          },
+          {
+            "scenario": "验证架构决策",
+            "steps": [
+              "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+              "阅读 Copilot 的质疑和风险点。",
+              "根据反馈调整方案或进一步调研。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 输出至少三个潜在风险或替代方案。"
+            ]
+          },
+          {
+            "scenario": "自动实现多步骤任务",
+            "steps": [
+              "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+              "观察 Copilot 自动修改代码和测试。",
+              "运行测试套件确认通过。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用",
+              "测试框架"
+            ],
+            "verification": [
+              "测试全部通过，且代码变更符合预期。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "斜杠命令",
+          "自动补全菜单",
+          "Plan 模式",
+          "不同模型",
+          "交互式界面",
+          "跨仓库"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot 应用",
+            "query": "GitHub Copilot app slash commands"
+          },
+          {
+            "term": "斜杠命令",
+            "query": "slash commands GitHub Copilot"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot plan mode"
+          },
+          {
+            "term": "Autopilot 模式",
+            "query": "GitHub Copilot autopilot mode"
+          },
+          {
+            "term": "rubber-duck",
+            "query": "GitHub Copilot rubber-duck command"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:02.900Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f1faf21a724d223d",
+      "title": "Managed Deep Agents is now in public beta",
+      "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+      "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+      "publishedAt": "2026-08-07T18:32:35.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 62,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 17,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 88,
+      "bodyHash": "db61abf40d6431b520abf1a6",
+      "extraction": {
+        "method": "readability",
+        "length": 12139,
+        "originalLength": 12139,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
+      "analysis": {
+        "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+              "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+              "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+              "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+              "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+              "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+              "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+              "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+              "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+              "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+              "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+              "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+          "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+          "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+          "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+          "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+          "当前测试版限于美国区域，且仅支持命令行操作。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
+            "basis": "source"
+          },
+          {
+            "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
+            "basis": "source"
+          },
+          {
+            "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
+            "basis": "source"
+          },
+          {
+            "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
+            "basis": "source"
+          },
+          {
+            "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
+            "steps": [
+              "使用uv tool install managed-deepagents安装CLI工具。",
+              "运行mda init research-assistant创建项目结构。",
+              "在agent.py中定义代理逻辑，包括工具和指令。",
+              "在sandbox.py中配置provider为langsmith，scope为thread。",
+              "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+              "运行mda dev本地测试，然后mda deploy部署。",
+              "在LangSmith中监控运行和评估结果。"
+            ],
+            "tools": [
+              "managed-deepagents CLI",
+              "LangSmith Studio",
+              "Harbor"
+            ],
+            "verification": [
+              "本地运行mda dev时，代理能响应测试消息。",
+              "部署后，在Slack中提及代理能收到回复。",
+              "LangSmith中能看到每次运行的追踪日志。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Managed Deep Agents",
+          "evals"
+        ],
+        "searchTerms": [
+          {
+            "term": "Managed Deep Agents",
+            "query": "Managed Deep Agents LangChain"
+          },
+          {
+            "term": "evals",
+            "query": "Harbor agent evals LangChain"
+          },
+          {
+            "term": "channels",
+            "query": "LangChain channels Slack integration"
+          },
+          {
+            "term": "memory",
+            "query": "agent memory persistence LangChain"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:16.278Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "study": [
+    {
+      "id": "9421ee793dabb6d0",
+      "title": "A guide to slash commands in the GitHub Copilot app",
+      "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+      "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-06T19:49:34.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "Agent 与自动化",
+      "score": 78,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 15,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "68342bf5df2bf062516477fe",
+      "extraction": {
+        "method": "readability",
+        "length": 10819,
+        "originalLength": 10819,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+              "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+              "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+              "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+              "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+              "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+              "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+              "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+              "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+          "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+          "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+          "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+          "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+          "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+            "basis": "source"
+          },
+          {
+            "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+            "basis": "source"
+          },
+          {
+            "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+            "basis": "source"
+          },
+          {
+            "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+            "basis": "source"
+          },
+          {
+            "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+            "basis": "source"
+          },
+          {
+            "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发新功能前进行规划",
+            "steps": [
+              "打开 GitHub Copilot 应用，进入聊天界面。",
+              "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+              "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+              "根据计划开始编码，或调整计划后执行。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+            ]
+          },
+          {
+            "scenario": "验证架构决策",
+            "steps": [
+              "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+              "阅读 Copilot 的质疑和风险点。",
+              "根据反馈调整方案或进一步调研。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用"
+            ],
+            "verification": [
+              "Copilot 输出至少三个潜在风险或替代方案。"
+            ]
+          },
+          {
+            "scenario": "自动实现多步骤任务",
+            "steps": [
+              "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+              "观察 Copilot 自动修改代码和测试。",
+              "运行测试套件确认通过。"
+            ],
+            "tools": [
+              "GitHub Copilot 应用",
+              "测试框架"
+            ],
+            "verification": [
+              "测试全部通过，且代码变更符合预期。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "斜杠命令",
+          "自动补全菜单",
+          "Plan 模式",
+          "不同模型",
+          "交互式界面",
+          "跨仓库"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot 应用",
+            "query": "GitHub Copilot app slash commands"
+          },
+          {
+            "term": "斜杠命令",
+            "query": "slash commands GitHub Copilot"
+          },
+          {
+            "term": "Plan 模式",
+            "query": "GitHub Copilot plan mode"
+          },
+          {
+            "term": "Autopilot 模式",
+            "query": "GitHub Copilot autopilot mode"
+          },
+          {
+            "term": "rubber-duck",
+            "query": "GitHub Copilot rubber-duck command"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:02.900Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f1faf21a724d223d",
+      "title": "Managed Deep Agents is now in public beta",
+      "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+      "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+      "publishedAt": "2026-08-07T18:32:35.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 62,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 17,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 88,
+      "bodyHash": "db61abf40d6431b520abf1a6",
+      "extraction": {
+        "method": "readability",
+        "length": 12139,
+        "originalLength": 12139,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
+      "analysis": {
+        "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+              "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+              "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+              "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+              "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+              "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+              "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+              "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+              "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+              "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+              "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+              "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+          "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+          "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+          "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+          "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+          "当前测试版限于美国区域，且仅支持命令行操作。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
+            "basis": "source"
+          },
+          {
+            "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
+            "basis": "source"
+          },
+          {
+            "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
+            "basis": "source"
+          },
+          {
+            "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
+            "basis": "source"
+          },
+          {
+            "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
+            "steps": [
+              "使用uv tool install managed-deepagents安装CLI工具。",
+              "运行mda init research-assistant创建项目结构。",
+              "在agent.py中定义代理逻辑，包括工具和指令。",
+              "在sandbox.py中配置provider为langsmith，scope为thread。",
+              "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+              "运行mda dev本地测试，然后mda deploy部署。",
+              "在LangSmith中监控运行和评估结果。"
+            ],
+            "tools": [
+              "managed-deepagents CLI",
+              "LangSmith Studio",
+              "Harbor"
+            ],
+            "verification": [
+              "本地运行mda dev时，代理能响应测试消息。",
+              "部署后，在Slack中提及代理能收到回复。",
+              "LangSmith中能看到每次运行的追踪日志。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Managed Deep Agents",
+          "evals"
+        ],
+        "searchTerms": [
+          {
+            "term": "Managed Deep Agents",
+            "query": "Managed Deep Agents LangChain"
+          },
+          {
+            "term": "evals",
+            "query": "Harbor agent evals LangChain"
+          },
+          {
+            "term": "channels",
+            "query": "LangChain channels Slack integration"
+          },
+          {
+            "term": "memory",
+            "query": "agent memory persistence LangChain"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-07T22:17:16.278Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "lanes": {
+    "ai": [
+      {
+        "id": "9421ee793dabb6d0",
+        "title": "A guide to slash commands in the GitHub Copilot app",
+        "url": "https://github.blog/ai-and-ml/github-copilot/a-guide-to-slash-commands-in-the-github-copilot-app/",
+        "summary": "Go beyond chat in the GitHub Copilot app with these slash commands. They'll help you plan, collaborate, automate, and customize your dev workflow. The post A guide to slash commands in the GitHub Copilot app appeared first on The GitHub Blog .",
+        "publishedAt": "2026-08-06T19:49:34.000Z",
+        "sourceId": "github-ai",
+        "sourceName": "GitHub AI & ML",
+        "sourceSite": "https://github.blog/ai-and-ml/",
+        "lane": "ai",
+        "accent": "#24292f",
+        "topic": "Agent 与自动化",
+        "score": 78,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 15,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 89,
+        "bodyHash": "68342bf5df2bf062516477fe",
+        "extraction": {
+          "method": "readability",
+          "length": 10819,
+          "originalLength": 10819,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "GitHub Copilot 应用中的斜杠命令：从规划到自动化的开发助手",
+        "analysis": {
+          "listSummary": "本文介绍 GitHub Copilot 应用中的斜杠命令，这是一种通过在聊天框中输入“/”触发的快捷指令，用于规划、协作、自动化和自定义开发工作流。文章详细解释了每个命令的用途和示例，帮助开发者提高效率。对于使用 Copilot 的开发者，本文是实用指南，值得一读，但内容较基础，适合新手快速上手。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "斜杠命令是你在 Copilot 应用聊天框中直接输入的文本快捷方式，以“/”开头，会弹出自动补全菜单，显示当前上下文可用的命令。它解决的问题是：在开发中，你常常需要快速切换任务、管理项目或调整 Copilot 行为，而通过菜单点击会打断思路，斜杠命令让你用键盘快速完成。",
+                "与 GitHub Copilot CLI（命令行界面）中的斜杠命令不同，应用版命令更侧重于工作流管理。CLI 版需要你手动管理目录和终端访问，因为命令行没有图形界面；而应用版有可视化界面，能自动管理项目上下文，所以命令更关注会话切换、项目管理和代理控制。例如，/add-dir 或 /cwd 在 CLI 中有用，但在应用中不需要，因为应用自动处理。",
+                "使用斜杠命令的好处是让你更快、更专注。比如，你正在写代码，想规划新功能，不需要离开编辑器去查文档，只需输入 /plan 即可。这减少了上下文切换，让你保持心流状态。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章通过具体示例展示每个命令的用法。首先是 /plan，它帮助你在写代码前分解任务、思考方法、识别挑战，并切换到 Plan 模式（也可从模式下拉菜单选择）。例如，添加双因素认证时，/plan 能帮你识别需要修改的文件和依赖，制定实现方案。",
+                "/spar 命令像一位“魔鬼代言人”，让 Copilot 质疑你的假设，指出风险或权衡。比如，你计划用 Redis 做缓存，/spar 会挑战你的失效策略或可扩展性，或者对比 REST 和 GraphQL 的优劣。这有助于在投入前验证想法。",
+                "/autopilot 命令将计划转化为代码，你只需给出目标，Copilot 自动完成实现步骤。例如，添加 CSV 导出功能，它会识别文件、实现并更新测试。这适合多步骤任务，如升级 React 版本。",
+                "/rubber-duck 使用不同模型独立审查你的工作，发现盲点。比如，在重构后，它检查架构问题或不必要的复杂性。这类似于“橡皮鸭调试法”（对着橡皮鸭解释代码），但更智能，因为模型能真正分析。",
+                "/create-canvas 将对话转化为交互式界面，如可视化图表或问题分类板，适合不适合聊天窗口的场景。/orchestrate 则协调跨仓库或多任务的工作，将大任务分解为并行小任务，例如跨前端、后端和共享仓库的认证流程。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章的证据主要是示例和作者经验，没有引用研究数据。作者提到 /rubber-duck 基于个人经验，说明它有效，但未提供具体案例。结论是斜杠命令能提升效率，但未量化效果。",
+                "边界在于：斜杠命令适用于 GitHub Copilot 应用，不适用于 CLI 或移动端；命令可用性可能因上下文而异，例如 /create-canvas 需要特定功能支持。文章建议从几个命令开始，不必全部记住，自动补全菜单会帮助你。",
+                "作者判断：斜杠命令是“小字符大潜力”，但未讨论潜在缺点，如命令冲突或学习曲线。AI 推断：对于新手，可能需要时间适应命令，但文章未提及此点。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "斜杠命令以“/”开头，在 Copilot 应用聊天框中触发自动补全菜单，显示可用命令。",
+            "/plan 用于规划任务，识别文件和依赖，适合新功能、重构或 bug 排查。",
+            "/spar 让 Copilot 挑战你的方案，指出风险，适合架构决策或性能优化。",
+            "/autopilot 自动实现代码，适合多步骤任务，如升级依赖或添加功能。",
+            "/rubber-duck 用不同模型独立审查，发现盲点，适合重构或迁移计划。",
+            "/create-canvas 创建交互式界面，/orchestrate 协调跨仓库任务。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "斜杠命令是文本快捷方式，输入“/”后出现自动补全菜单，选择命令执行。它通过解析命令字符串，触发预设的 Copilot 功能，如切换模式或执行多步骤操作。",
+              "basis": "source"
+            },
+            {
+              "text": "/plan 切换会话到 Plan 模式，该模式也可从聊天框的模式下拉菜单选择。它引导 Copilot 分析任务，输出实现计划。",
+              "basis": "source"
+            },
+            {
+              "text": "/autopilot 切换到 Autopilot 模式，Copilot 自主完成实现步骤，如修改文件、更新测试。",
+              "basis": "source"
+            },
+            {
+              "text": "/rubber-duck 使用不同模型（具体模型未指定）独立审查，提供第二意见。",
+              "basis": "source"
+            },
+            {
+              "text": "/create-canvas 创建交互式界面，如可视化图表或看板，从对话中生成。",
+              "basis": "source"
+            },
+            {
+              "text": "/orchestrate 将大任务分解为并行小任务，跨会话和仓库协调。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在开发新功能前进行规划",
+              "steps": [
+                "打开 GitHub Copilot 应用，进入聊天界面。",
+                "输入 /plan 并描述你的功能需求，例如“添加用户登录功能”。",
+                "检查 Copilot 生成的计划，确认文件列表和实现步骤。",
+                "根据计划开始编码，或调整计划后执行。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用"
+              ],
+              "verification": [
+                "Copilot 返回包含文件路径和步骤的计划，且计划符合你的需求。"
+              ]
+            },
+            {
+              "scenario": "验证架构决策",
+              "steps": [
+                "在聊天框输入 /spar 并描述你的方案，例如“使用 Redis 做缓存”。",
+                "阅读 Copilot 的质疑和风险点。",
+                "根据反馈调整方案或进一步调研。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用"
+              ],
+              "verification": [
+                "Copilot 输出至少三个潜在风险或替代方案。"
+              ]
+            },
+            {
+              "scenario": "自动实现多步骤任务",
+              "steps": [
+                "输入 /autopilot 并给出目标，例如“将项目升级到 React 19”。",
+                "观察 Copilot 自动修改代码和测试。",
+                "运行测试套件确认通过。"
+              ],
+              "tools": [
+                "GitHub Copilot 应用",
+                "测试框架"
+              ],
+              "verification": [
+                "测试全部通过，且代码变更符合预期。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "斜杠命令",
+            "自动补全菜单",
+            "Plan 模式",
+            "不同模型",
+            "交互式界面",
+            "跨仓库"
+          ],
+          "searchTerms": [
+            {
+              "term": "GitHub Copilot 应用",
+              "query": "GitHub Copilot app slash commands"
+            },
+            {
+              "term": "斜杠命令",
+              "query": "slash commands GitHub Copilot"
+            },
+            {
+              "term": "Plan 模式",
+              "query": "GitHub Copilot plan mode"
+            },
+            {
+              "term": "Autopilot 模式",
+              "query": "GitHub Copilot autopilot mode"
+            },
+            {
+              "term": "rubber-duck",
+              "query": "GitHub Copilot rubber-duck command"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-07T22:17:02.900Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "f1faf21a724d223d",
+        "title": "Managed Deep Agents is now in public beta",
+        "url": "https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta",
+        "summary": "Deploy Deep Agents to a managed LangSmith runtime with durable execution, memory, sandboxes, channels, evals, and production-ready infrastructure.",
+        "publishedAt": "2026-08-07T18:32:35.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "Agent 与自动化",
+        "score": 62,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 17,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 88,
+        "bodyHash": "db61abf40d6431b520abf1a6",
+        "extraction": {
+          "method": "readability",
+          "length": 12139,
+          "originalLength": 12139,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "托管深度代理公开测试版：从原型到生产的简化之路",
+        "analysis": {
+          "listSummary": "本文介绍了LangChain推出的Managed Deep Agents公开测试版，这是一个基于开源Deep Agents框架的托管运行时，旨在简化AI代理从开发到生产的部署过程。它解决了代理在生产环境中面临的持久化、内存、沙箱、通道集成等基础设施问题，让开发者专注于代理行为本身。对于使用Python或TypeScript构建代理的开发者，此工具能显著降低运维复杂度，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "AI代理（能自主调用工具、处理任务的程序）在生产中常遇到基础设施难题，本文针对这一痛点提出解决方案。",
+                "代理需要调用工具、管理文件、处理长对话、委派子任务、加载技能，并在敏感操作前暂停等待批准。这些需求在传统短生命周期、无状态请求的架构中难以满足。",
+                "构建持久化执行（让代理在长时间运行中不丢失进度）、流式传输（实时显示进度）、内存（跨对话保留信息）等基础设施，从零开发可能耗时数月，且维护成本高。",
+                "Managed Deep Agents正是为解决此问题而生，它提供托管运行时，让开发者无需自建这些通用组件。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章介绍Managed Deep Agents基于LangSmith Deployment Agent Server构建，这是一个已用于生产环境的服务器，确保可靠性。",
+                "它采用代码优先的项目结构，开发者可在仓库中定义代理的所有组件，包括指令、工具、内存、通道等，通过一条命令部署。",
+                "沙箱功能提供隔离环境，让代理安全执行代码和文件操作，默认每个线程独立沙箱，适合编码代理等场景。",
+                "评估（Evals）通过Harbor工具实现，自动打包代理，运行测试并验证状态，如工具调用是否正确、文件编辑是否符合预期。",
+                "通道功能让代理接入Slack等平台，用户可在工作场景中直接交互，无需额外集成服务。",
+                "内存和身份系统支持跨对话持久化用户偏好，并通过OIDC（开放身份连接）确保线程隔离和访问安全。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章引用用户反馈，如Fullstory和一家初创公司，证明该工具能显著缩短开发周期，从数周降至数小时。",
+                "适用场景明确：需要代码优先、控制模型和业务逻辑、快速部署的团队。不适合需要自定义路由、直接控制持久化层的复杂应用。",
+                "当前测试版仅支持美国区域的LangSmith Cloud，且以命令行接口为主，API尚在完善。",
+                "作者强调这是测试版，功能会随反馈演进，但未提及具体限制或失败案例。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Managed Deep Agents是托管服务，自动处理代理运行时的持久化、内存、沙箱等基础设施。",
+            "开发者可用Python或TypeScript编写代理，通过mda deploy命令一键部署到LangSmith。",
+            "沙箱默认按线程隔离，确保每个对话或任务有独立工作环境。",
+            "评估集成Harbor，自动打包代理并验证行为，如工具调用和文件状态。",
+            "通道支持Slack等平台，代理可直接在用户工作场景中响应。",
+            "当前测试版限于美国区域，且仅支持命令行操作。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "mda deploy命令：它是什么——部署代理的命令行工具。怎么工作——编译项目、同步上下文到LangSmith Context Hub、上传构建并创建托管部署。为什么重要——简化从本地到生产的流程，无需手动配置服务器。",
+              "basis": "source"
+            },
+            {
+              "text": "沙箱配置：它是什么——定义代理运行环境的代码。怎么工作——通过define_sandbox函数设置provider和scope，scope可设为thread（每线程独立）或agent（共享）。为什么重要——提供安全隔离，避免代理操作影响主系统。",
+              "basis": "source"
+            },
+            {
+              "text": "Harbor评估：它是什么——用于测试代理行为的工具。怎么工作——mda evals init创建任务，mda evals compile打包代理为Harbor可运行工件。为什么重要——自动验证代理行为，确保生产质量。",
+              "basis": "source"
+            },
+            {
+              "text": "通道定义：它是什么——连接代理到外部平台的配置。怎么工作——在channels/目录下定义，如channels.slack，运行时自动挂载事件端点。为什么重要——无需额外集成服务，直接响应Slack等平台消息。",
+              "basis": "source"
+            },
+            {
+              "text": "内存机制：它是什么——跨对话持久化存储。怎么工作——在memory.py中定义，运行时读写/memories/文件，部署时保留运行时记忆。为什么重要——让代理记住用户偏好，提升个性化体验。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "构建一个编码助手代理，需要安全执行代码并集成到Slack",
+              "steps": [
+                "使用uv tool install managed-deepagents安装CLI工具。",
+                "运行mda init research-assistant创建项目结构。",
+                "在agent.py中定义代理逻辑，包括工具和指令。",
+                "在sandbox.py中配置provider为langsmith，scope为thread。",
+                "在channels/目录下创建slack通道文件，设置on参数为app_mention。",
+                "运行mda dev本地测试，然后mda deploy部署。",
+                "在LangSmith中监控运行和评估结果。"
+              ],
+              "tools": [
+                "managed-deepagents CLI",
+                "LangSmith Studio",
+                "Harbor"
+              ],
+              "verification": [
+                "本地运行mda dev时，代理能响应测试消息。",
+                "部署后，在Slack中提及代理能收到回复。",
+                "LangSmith中能看到每次运行的追踪日志。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "Managed Deep Agents",
+            "evals"
+          ],
+          "searchTerms": [
+            {
+              "term": "Managed Deep Agents",
+              "query": "Managed Deep Agents LangChain"
+            },
+            {
+              "term": "evals",
+              "query": "Harbor agent evals LangChain"
+            },
+            {
+              "term": "channels",
+              "query": "LangChain channels Slack integration"
+            },
+            {
+              "term": "memory",
+              "query": "agent memory persistence LangChain"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-07T22:17:16.278Z",
+        "model": "deepseek-v4-flash"
+      }
+    ],
+    "game": [],
+    "art": []
+  }
+}
