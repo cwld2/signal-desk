@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-07T01:06:05.259Z",
+  "generatedAt": "2026-08-07T06:01:26.353Z",
   "timezone": "Asia/Shanghai",
   "edition": {
     "date": "2026-08-07",
@@ -8,7 +8,7 @@
     "weeklyReason": null
   },
   "stats": {
-    "candidates": 24,
+    "candidates": 23,
     "selected": 3,
     "ai": 3,
     "practice": 2,
@@ -19,7 +19,7 @@
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 4
+    "bailianCalls": 0
   },
   "items": [
     {
