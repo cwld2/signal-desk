@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-08T22:01:16.463Z",
+  "generatedAt": "2026-08-09T05:37:27.167Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
@@ -10,20 +10,307 @@
   },
   "stats": {
     "candidates": 39,
-    "selected": 3,
-    "ai": 0,
-    "practice": 0,
+    "selected": 6,
+    "ai": 2,
+    "practice": 2,
     "update": 0,
     "manual": 0,
     "game": 2,
-    "art": 1,
+    "art": 2,
     "currentGame": 2,
-    "currentArt": 1,
+    "currentArt": 2,
     "studyMinutes": 30,
     "bailianCalls": 4
   },
   "items": [
     {
+      "id": "c0a7deaafdf98f72",
+      "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
+      "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
+      "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
+      "publishedAt": "2026-08-07T19:36:29.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 60,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 9,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 84,
+      "bodyHash": "d8858507d316bed5eb84c33c",
+      "extraction": {
+        "method": "readability",
+        "length": 6448,
+        "originalLength": 6448,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
+      "analysis": {
+        "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
+              "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
+              "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
+              "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
+              "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
+              "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
+              "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
+              "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
+              "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
+              "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
+          "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
+          "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+          "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
+          "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
+          "所有运行自动追踪，便于调试和优化。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
+            "basis": "source"
+          },
+          {
+            "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
+            "basis": "source"
+          },
+          {
+            "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
+            "basis": "source"
+          },
+          {
+            "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
+            "basis": "source"
+          },
+          {
+            "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
+            "steps": [
+              "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
+              "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+              "在 tools.json 中启用所需工具，并设置人工审批选项。",
+              "创建线程并启动流式运行，测试代理的响应。",
+              "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
+              "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
+            ],
+            "tools": [
+              "LangSmith",
+              "Managed Deep Agents API",
+              "Deep Agents 开源框架"
+            ],
+            "verification": [
+              "代理能够处理长时间运行的线程，并在中断后恢复。",
+              "工具调用记录在 LangSmith 中，且无未授权操作。",
+              "代理的上下文随运行次数增加而改进，如操作笔记更新。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "持久执行",
+          "沙箱",
+          "API 优先",
+          "Context Hub",
+          "LangSmith Engine"
+        ],
+        "searchTerms": [
+          {
+            "term": "Managed Deep Agents",
+            "query": "LangChain Managed Deep Agents"
+          },
+          {
+            "term": "持久执行",
+            "query": "durable execution AI agents"
+          },
+          {
+            "term": "沙箱",
+            "query": "sandbox execution AI agents"
+          },
+          {
+            "term": "Context Hub",
+            "query": "LangSmith Context Hub"
+          },
+          {
+            "term": "LangSmith Engine",
+            "query": "LangSmith Engine trace review"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T05:37:02.294Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "5f8f652ea6fc7c93",
+      "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
+      "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
+      "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
+      "publishedAt": "2026-08-07T19:18:09.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "Agent 与自动化",
+      "score": 64,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 3,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 79,
+      "bodyHash": "cf9ae76805e7432e82c98f73",
+      "extraction": {
+        "method": "readability",
+        "length": 1929,
+        "originalLength": 1929,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
+      "analysis": {
+        "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
+              "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
+              "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
+              "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
+              "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
+              "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
+              "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
+              "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
+          "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
+          "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
+          "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
+          "作者分享了完整会话记录，便于他人复现或学习。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
+            "basis": "source"
+          },
+          {
+            "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
+            "basis": "source"
+          },
+          {
+            "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
+            "basis": "source"
+          },
+          {
+            "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
+            "basis": "inference"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
+            "steps": [
+              "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
+              "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
+              "开发过程中定期检查截图或预览，注意视觉异常。",
+              "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
+              "保存完整的会话记录，以便复盘和分享。"
+            ],
+            "tools": [
+              "Codex Desktop",
+              "GPT-5.6 Sol Ultra",
+              "gpt-image-2"
+            ],
+            "verification": [
+              "游戏可运行且无视觉异常。",
+              "所有生成的文件（如纹理）已正确集成。",
+              "会话记录可导出为 Markdown 格式。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Codex Desktop",
+          "GPT-5.6 Sol Ultra",
+          "子代理",
+          "gpt-image-2"
+        ],
+        "searchTerms": [
+          {
+            "term": "Codex Desktop",
+            "query": "Codex Desktop OpenAI 编程工具"
+          },
+          {
+            "term": "GPT-5.6 Sol Ultra",
+            "query": "GPT-5.6 Sol Ultra 模型"
+          },
+          {
+            "term": "子代理",
+            "query": "AI 子代理 编程"
+          },
+          {
+            "term": "gpt-image-2",
+            "query": "gpt-image-2 图像生成"
+          },
+          {
+            "term": "AgentsView",
+            "query": "AgentsView 成本估算"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T05:37:14.569Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
       "id": "385a71e2393f7a65",
       "title": "Differential heuristics",
       "url": "https://www.redblobgames.com/blog/2026-08-08-differential-heuristics/",
@@ -397,11 +684,420 @@
       },
       "analysisStatus": "complete",
       "analyzedAt": "2026-08-08T22:01:16.463Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "a5ba9d6c0363a1ef",
+      "title": "Aseprite v1.3.15",
+      "url": "https://blog.aseprite.org/2025/08/27/aseprite-v1315/",
+      "summary": "Hello everyone! Today we’ve released Aseprite v1.3.15.2 with several bug fixes and little new handy features. If you are using v1.3.15 or v1.3.15.1, sorry for the inconvenience, but it might be a good idea to update to the latest v1.3.15.2 version: What’s new New possibility to duplicate slices (or Edit &gt; Copy &amp; Paste ) t/21966 #4466 Added “Show hidden” option to file selector #3079 Added option to stroke text #5271 New options to reconfigure keys to apply/discard the tranformation #5102 Aseprite v1.3.15.2 Fixed arrow keys to move selection #5385 Fixed close button in popup window #5386 Fixed pivot position when Tiled Mode is enabled #2316 Aseprite v1.3.15.1 Reverted Esc key behavior to drop pixels + deselect #5102 Added options to reconfigure keys to apply/cancel the transformation Added slices copy &amp; paste and duplication #4466 Fixed bug in Saturation layer blend mode #2661 ",
+      "publishedAt": "2025-08-27T00:00:00.000Z",
+      "sourceId": "aseprite",
+      "sourceName": "Aseprite Blog",
+      "sourceSite": "https://blog.aseprite.org/",
+      "lane": "art",
+      "accent": "#7d4db3",
+      "topic": "像素美术",
+      "score": 64,
+      "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
+      "readMinutes": 3,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 59,
+      "bodyHash": "ad37a8aa69a2898ff4f36850",
+      "extraction": {
+        "method": "readability",
+        "length": 2326,
+        "originalLength": 2326,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Aseprite v1.3.15 更新详解：新功能、修复与升级指南",
+      "analysis": {
+        "listSummary": "本文是 Aseprite 像素画软件 v1.3.15 系列的更新日志，重点介绍了 v1.3.15.2 版本带来的新功能和错误修复。内容包括复制切片、显示隐藏文件、文本描边、自定义快捷键等实用功能，以及针对箭头键移动选区、弹窗关闭按钮等问题的修复。如果你是 Aseprite 用户，了解这些更新可以帮助你更高效地完成像素画创作，并避免已知问题。文章信息密度高，适合所有 Aseprite 用户阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "这篇文章是 Aseprite 软件的版本更新公告，主要面向所有使用该软件的用户。它告诉你 v1.3.15.2 版本修复了哪些问题，并增加了哪些新功能。",
+              "Aseprite 是一款专业的像素画和动画制作软件，很多游戏美术和独立开发者都在使用它。了解版本更新内容，能让你知道新版本是否值得升级，以及如何利用新功能提高工作效率。",
+              "文章特别提醒，如果你正在使用 v1.3.15 或 v1.3.15.1 版本，建议更新到最新的 v1.3.15.2，因为新版本修复了一些之前版本存在的问题。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过列举具体的新增功能和修复项，来展示 v1.3.15.2 版本的改进。每个功能或修复都对应一个编号，方便用户查阅和反馈。",
+              "新功能包括：可以复制切片（简单说，就是复制图片中某个选定的区域），文件选择器新增“显示隐藏”选项，文本工具新增描边功能，以及可以自定义应用或取消变换的快捷键。",
+              "修复的问题包括：箭头键移动选区失效、弹窗关闭按钮不工作、平铺模式下枢轴点位置错误等。这些修复直接解决了用户在使用中可能遇到的痛点。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章的证据就是版本更新日志本身，它列出了所有变更点。结论是 v1.3.15.2 是一个值得升级的版本，因为它带来了新功能并修复了问题。",
+              "需要注意的是，这篇文章只是更新公告，没有提供详细的使用教程或性能对比数据。它的主要目的是告知用户新版本的存在和变化。",
+              "此外，文章还提到了 v1.3.15 和 v1.3.15.1 版本的部分内容，说明这些功能是逐步加入的，用户如果从更早的版本升级，会一次性获得所有更新。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Aseprite v1.3.15.2 是 v1.3.15 系列的最新版本，建议所有用户升级。",
+          "新增了复制切片、显示隐藏文件、文本描边和自定义变换快捷键等功能。",
+          "修复了箭头键移动选区、弹窗关闭按钮、平铺模式枢轴点等问题。",
+          "v1.3.15.1 版本曾调整 Esc 键行为，v1.3.15.2 进一步优化了相关快捷键设置。",
+          "Lua API 更新至版本 35，为插件开发者提供了新的接口和属性。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "切片（Slices）是 Aseprite 中用于定义图像特定区域的工具，常用于动画或游戏素材的切割。新版本支持复制和粘贴切片，方便用户复用或调整区域设置。",
+            "basis": "source"
+          },
+          {
+            "text": "文件选择器新增“显示隐藏”选项，允许用户在打开或保存文件时查看操作系统中的隐藏文件。",
+            "basis": "source"
+          },
+          {
+            "text": "文本工具新增描边功能，可以为文字添加轮廓效果，增强视觉表现力。",
+            "basis": "source"
+          },
+          {
+            "text": "Lua API 版本更新至 35，新增了 sprite.undoHistory 属性，允许插件访问撤销历史；Dialog 构造函数新增 resizeable 属性，使对话框可调整大小；Plugin:newCommand() 新增 onchecked 参数，用于处理勾选状态。",
+            "basis": "source"
+          },
+          {
+            "text": "v1.3.15.2 修复了箭头键移动选区的问题，该问题在 v1.3.15 中引入，影响用户通过键盘精确调整选区位置。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "作为 Aseprite 用户，升级到最新版本并利用新功能优化工作流程",
+            "steps": [
+              "备份当前正在进行的项目文件，以防万一。",
+              "从 Aseprite 官网或应用商店下载并安装 v1.3.15.2 版本。",
+              "打开软件，尝试使用新的切片复制功能，选中一个区域后按 Ctrl+C 和 Ctrl+V 进行复制粘贴。",
+              "在文件选择器中，查看是否有“显示隐藏”选项，并尝试开启以显示隐藏文件。",
+              "使用文本工具输入文字，在工具选项栏中找到描边设置并调整样式。",
+              "前往设置中的键盘快捷键配置，查找变换操作，重新设置应用或取消的按键。"
+            ],
+            "tools": [
+              "Aseprite v1.3.15.2"
+            ],
+            "verification": [
+              "软件启动后，在“关于”或“帮助”菜单中确认版本号为 v1.3.15.2。",
+              "成功复制并粘贴一个切片，且粘贴后的切片与原切片内容一致。",
+              "在文件选择器中能看到之前被隐藏的文件。",
+              "为文字添加描边后，文字边缘出现轮廓效果。",
+              "按下新设置的快捷键，能成功应用或取消变换操作。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [],
+        "searchTerms": [
+          {
+            "term": "Lua API",
+            "query": "Aseprite Lua API version 35"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T05:37:27.166Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "editionItems": [
     {
+      "id": "c0a7deaafdf98f72",
+      "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
+      "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
+      "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
+      "publishedAt": "2026-08-07T19:36:29.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 60,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 9,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 84,
+      "bodyHash": "d8858507d316bed5eb84c33c",
+      "extraction": {
+        "method": "readability",
+        "length": 6448,
+        "originalLength": 6448,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
+      "analysis": {
+        "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
+              "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
+              "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
+              "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
+              "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
+              "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
+              "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
+              "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
+              "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
+              "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
+          "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
+          "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+          "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
+          "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
+          "所有运行自动追踪，便于调试和优化。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
+            "basis": "source"
+          },
+          {
+            "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
+            "basis": "source"
+          },
+          {
+            "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
+            "basis": "source"
+          },
+          {
+            "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
+            "basis": "source"
+          },
+          {
+            "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
+            "steps": [
+              "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
+              "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+              "在 tools.json 中启用所需工具，并设置人工审批选项。",
+              "创建线程并启动流式运行，测试代理的响应。",
+              "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
+              "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
+            ],
+            "tools": [
+              "LangSmith",
+              "Managed Deep Agents API",
+              "Deep Agents 开源框架"
+            ],
+            "verification": [
+              "代理能够处理长时间运行的线程，并在中断后恢复。",
+              "工具调用记录在 LangSmith 中，且无未授权操作。",
+              "代理的上下文随运行次数增加而改进，如操作笔记更新。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "持久执行",
+          "沙箱",
+          "API 优先",
+          "Context Hub",
+          "LangSmith Engine"
+        ],
+        "searchTerms": [
+          {
+            "term": "Managed Deep Agents",
+            "query": "LangChain Managed Deep Agents"
+          },
+          {
+            "term": "持久执行",
+            "query": "durable execution AI agents"
+          },
+          {
+            "term": "沙箱",
+            "query": "sandbox execution AI agents"
+          },
+          {
+            "term": "Context Hub",
+            "query": "LangSmith Context Hub"
+          },
+          {
+            "term": "LangSmith Engine",
+            "query": "LangSmith Engine trace review"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T05:37:02.294Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "5f8f652ea6fc7c93",
+      "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
+      "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
+      "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
+      "publishedAt": "2026-08-07T19:18:09.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "Agent 与自动化",
+      "score": 64,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 3,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 79,
+      "bodyHash": "cf9ae76805e7432e82c98f73",
+      "extraction": {
+        "method": "readability",
+        "length": 1929,
+        "originalLength": 1929,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
+      "analysis": {
+        "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
+              "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
+              "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
+              "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
+              "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
+              "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
+              "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
+              "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
+          "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
+          "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
+          "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
+          "作者分享了完整会话记录，便于他人复现或学习。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
+            "basis": "source"
+          },
+          {
+            "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
+            "basis": "source"
+          },
+          {
+            "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
+            "basis": "source"
+          },
+          {
+            "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
+            "basis": "inference"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
+            "steps": [
+              "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
+              "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
+              "开发过程中定期检查截图或预览，注意视觉异常。",
+              "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
+              "保存完整的会话记录，以便复盘和分享。"
+            ],
+            "tools": [
+              "Codex Desktop",
+              "GPT-5.6 Sol Ultra",
+              "gpt-image-2"
+            ],
+            "verification": [
+              "游戏可运行且无视觉异常。",
+              "所有生成的文件（如纹理）已正确集成。",
+              "会话记录可导出为 Markdown 格式。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Codex Desktop",
+          "GPT-5.6 Sol Ultra",
+          "子代理",
+          "gpt-image-2"
+        ],
+        "searchTerms": [
+          {
+            "term": "Codex Desktop",
+            "query": "Codex Desktop OpenAI 编程工具"
+          },
+          {
+            "term": "GPT-5.6 Sol Ultra",
+            "query": "GPT-5.6 Sol Ultra 模型"
+          },
+          {
+            "term": "子代理",
+            "query": "AI 子代理 编程"
+          },
+          {
+            "term": "gpt-image-2",
+            "query": "gpt-image-2 图像生成"
+          },
+          {
+            "term": "AgentsView",
+            "query": "AgentsView 成本估算"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T05:37:14.569Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
       "id": "385a71e2393f7a65",
       "title": "Differential heuristics",
       "url": "https://www.redblobgames.com/blog/2026-08-08-differential-heuristics/",
@@ -776,11 +1472,709 @@
       "analysisStatus": "complete",
       "analyzedAt": "2026-08-08T22:01:16.463Z",
       "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "a5ba9d6c0363a1ef",
+      "title": "Aseprite v1.3.15",
+      "url": "https://blog.aseprite.org/2025/08/27/aseprite-v1315/",
+      "summary": "Hello everyone! Today we’ve released Aseprite v1.3.15.2 with several bug fixes and little new handy features. If you are using v1.3.15 or v1.3.15.1, sorry for the inconvenience, but it might be a good idea to update to the latest v1.3.15.2 version: What’s new New possibility to duplicate slices (or Edit &gt; Copy &amp; Paste ) t/21966 #4466 Added “Show hidden” option to file selector #3079 Added option to stroke text #5271 New options to reconfigure keys to apply/discard the tranformation #5102 Aseprite v1.3.15.2 Fixed arrow keys to move selection #5385 Fixed close button in popup window #5386 Fixed pivot position when Tiled Mode is enabled #2316 Aseprite v1.3.15.1 Reverted Esc key behavior to drop pixels + deselect #5102 Added options to reconfigure keys to apply/cancel the transformation Added slices copy &amp; paste and duplication #4466 Fixed bug in Saturation layer blend mode #2661 ",
+      "publishedAt": "2025-08-27T00:00:00.000Z",
+      "sourceId": "aseprite",
+      "sourceName": "Aseprite Blog",
+      "sourceSite": "https://blog.aseprite.org/",
+      "lane": "art",
+      "accent": "#7d4db3",
+      "topic": "像素美术",
+      "score": 64,
+      "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
+      "readMinutes": 3,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 59,
+      "bodyHash": "ad37a8aa69a2898ff4f36850",
+      "extraction": {
+        "method": "readability",
+        "length": 2326,
+        "originalLength": 2326,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Aseprite v1.3.15 更新详解：新功能、修复与升级指南",
+      "analysis": {
+        "listSummary": "本文是 Aseprite 像素画软件 v1.3.15 系列的更新日志，重点介绍了 v1.3.15.2 版本带来的新功能和错误修复。内容包括复制切片、显示隐藏文件、文本描边、自定义快捷键等实用功能，以及针对箭头键移动选区、弹窗关闭按钮等问题的修复。如果你是 Aseprite 用户，了解这些更新可以帮助你更高效地完成像素画创作，并避免已知问题。文章信息密度高，适合所有 Aseprite 用户阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "这篇文章是 Aseprite 软件的版本更新公告，主要面向所有使用该软件的用户。它告诉你 v1.3.15.2 版本修复了哪些问题，并增加了哪些新功能。",
+              "Aseprite 是一款专业的像素画和动画制作软件，很多游戏美术和独立开发者都在使用它。了解版本更新内容，能让你知道新版本是否值得升级，以及如何利用新功能提高工作效率。",
+              "文章特别提醒，如果你正在使用 v1.3.15 或 v1.3.15.1 版本，建议更新到最新的 v1.3.15.2，因为新版本修复了一些之前版本存在的问题。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过列举具体的新增功能和修复项，来展示 v1.3.15.2 版本的改进。每个功能或修复都对应一个编号，方便用户查阅和反馈。",
+              "新功能包括：可以复制切片（简单说，就是复制图片中某个选定的区域），文件选择器新增“显示隐藏”选项，文本工具新增描边功能，以及可以自定义应用或取消变换的快捷键。",
+              "修复的问题包括：箭头键移动选区失效、弹窗关闭按钮不工作、平铺模式下枢轴点位置错误等。这些修复直接解决了用户在使用中可能遇到的痛点。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章的证据就是版本更新日志本身，它列出了所有变更点。结论是 v1.3.15.2 是一个值得升级的版本，因为它带来了新功能并修复了问题。",
+              "需要注意的是，这篇文章只是更新公告，没有提供详细的使用教程或性能对比数据。它的主要目的是告知用户新版本的存在和变化。",
+              "此外，文章还提到了 v1.3.15 和 v1.3.15.1 版本的部分内容，说明这些功能是逐步加入的，用户如果从更早的版本升级，会一次性获得所有更新。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Aseprite v1.3.15.2 是 v1.3.15 系列的最新版本，建议所有用户升级。",
+          "新增了复制切片、显示隐藏文件、文本描边和自定义变换快捷键等功能。",
+          "修复了箭头键移动选区、弹窗关闭按钮、平铺模式枢轴点等问题。",
+          "v1.3.15.1 版本曾调整 Esc 键行为，v1.3.15.2 进一步优化了相关快捷键设置。",
+          "Lua API 更新至版本 35，为插件开发者提供了新的接口和属性。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "切片（Slices）是 Aseprite 中用于定义图像特定区域的工具，常用于动画或游戏素材的切割。新版本支持复制和粘贴切片，方便用户复用或调整区域设置。",
+            "basis": "source"
+          },
+          {
+            "text": "文件选择器新增“显示隐藏”选项，允许用户在打开或保存文件时查看操作系统中的隐藏文件。",
+            "basis": "source"
+          },
+          {
+            "text": "文本工具新增描边功能，可以为文字添加轮廓效果，增强视觉表现力。",
+            "basis": "source"
+          },
+          {
+            "text": "Lua API 版本更新至 35，新增了 sprite.undoHistory 属性，允许插件访问撤销历史；Dialog 构造函数新增 resizeable 属性，使对话框可调整大小；Plugin:newCommand() 新增 onchecked 参数，用于处理勾选状态。",
+            "basis": "source"
+          },
+          {
+            "text": "v1.3.15.2 修复了箭头键移动选区的问题，该问题在 v1.3.15 中引入，影响用户通过键盘精确调整选区位置。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "作为 Aseprite 用户，升级到最新版本并利用新功能优化工作流程",
+            "steps": [
+              "备份当前正在进行的项目文件，以防万一。",
+              "从 Aseprite 官网或应用商店下载并安装 v1.3.15.2 版本。",
+              "打开软件，尝试使用新的切片复制功能，选中一个区域后按 Ctrl+C 和 Ctrl+V 进行复制粘贴。",
+              "在文件选择器中，查看是否有“显示隐藏”选项，并尝试开启以显示隐藏文件。",
+              "使用文本工具输入文字，在工具选项栏中找到描边设置并调整样式。",
+              "前往设置中的键盘快捷键配置，查找变换操作，重新设置应用或取消的按键。"
+            ],
+            "tools": [
+              "Aseprite v1.3.15.2"
+            ],
+            "verification": [
+              "软件启动后，在“关于”或“帮助”菜单中确认版本号为 v1.3.15.2。",
+              "成功复制并粘贴一个切片，且粘贴后的切片与原切片内容一致。",
+              "在文件选择器中能看到之前被隐藏的文件。",
+              "为文字添加描边后，文字边缘出现轮廓效果。",
+              "按下新设置的快捷键，能成功应用或取消变换操作。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [],
+        "searchTerms": [
+          {
+            "term": "Lua API",
+            "query": "Aseprite Lua API version 35"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T05:37:27.166Z",
+      "model": "deepseek-v4-flash"
     }
   ],
-  "study": [],
+  "study": [
+    {
+      "id": "c0a7deaafdf98f72",
+      "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
+      "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
+      "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
+      "publishedAt": "2026-08-07T19:36:29.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 60,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 9,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 84,
+      "bodyHash": "d8858507d316bed5eb84c33c",
+      "extraction": {
+        "method": "readability",
+        "length": 6448,
+        "originalLength": 6448,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
+      "analysis": {
+        "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
+              "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
+              "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
+              "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
+              "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
+              "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
+              "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
+              "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
+              "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
+              "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
+          "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
+          "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+          "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
+          "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
+          "所有运行自动追踪，便于调试和优化。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
+            "basis": "source"
+          },
+          {
+            "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
+            "basis": "source"
+          },
+          {
+            "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
+            "basis": "source"
+          },
+          {
+            "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
+            "basis": "source"
+          },
+          {
+            "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
+            "steps": [
+              "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
+              "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+              "在 tools.json 中启用所需工具，并设置人工审批选项。",
+              "创建线程并启动流式运行，测试代理的响应。",
+              "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
+              "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
+            ],
+            "tools": [
+              "LangSmith",
+              "Managed Deep Agents API",
+              "Deep Agents 开源框架"
+            ],
+            "verification": [
+              "代理能够处理长时间运行的线程，并在中断后恢复。",
+              "工具调用记录在 LangSmith 中，且无未授权操作。",
+              "代理的上下文随运行次数增加而改进，如操作笔记更新。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "持久执行",
+          "沙箱",
+          "API 优先",
+          "Context Hub",
+          "LangSmith Engine"
+        ],
+        "searchTerms": [
+          {
+            "term": "Managed Deep Agents",
+            "query": "LangChain Managed Deep Agents"
+          },
+          {
+            "term": "持久执行",
+            "query": "durable execution AI agents"
+          },
+          {
+            "term": "沙箱",
+            "query": "sandbox execution AI agents"
+          },
+          {
+            "term": "Context Hub",
+            "query": "LangSmith Context Hub"
+          },
+          {
+            "term": "LangSmith Engine",
+            "query": "LangSmith Engine trace review"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T05:37:02.294Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "5f8f652ea6fc7c93",
+      "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
+      "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
+      "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
+      "publishedAt": "2026-08-07T19:18:09.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "Agent 与自动化",
+      "score": 64,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 3,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 79,
+      "bodyHash": "cf9ae76805e7432e82c98f73",
+      "extraction": {
+        "method": "readability",
+        "length": 1929,
+        "originalLength": 1929,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
+      "analysis": {
+        "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
+              "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
+              "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
+              "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
+              "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
+              "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
+              "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
+              "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
+          "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
+          "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
+          "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
+          "作者分享了完整会话记录，便于他人复现或学习。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
+            "basis": "source"
+          },
+          {
+            "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
+            "basis": "source"
+          },
+          {
+            "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
+            "basis": "source"
+          },
+          {
+            "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
+            "basis": "inference"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
+            "steps": [
+              "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
+              "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
+              "开发过程中定期检查截图或预览，注意视觉异常。",
+              "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
+              "保存完整的会话记录，以便复盘和分享。"
+            ],
+            "tools": [
+              "Codex Desktop",
+              "GPT-5.6 Sol Ultra",
+              "gpt-image-2"
+            ],
+            "verification": [
+              "游戏可运行且无视觉异常。",
+              "所有生成的文件（如纹理）已正确集成。",
+              "会话记录可导出为 Markdown 格式。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Codex Desktop",
+          "GPT-5.6 Sol Ultra",
+          "子代理",
+          "gpt-image-2"
+        ],
+        "searchTerms": [
+          {
+            "term": "Codex Desktop",
+            "query": "Codex Desktop OpenAI 编程工具"
+          },
+          {
+            "term": "GPT-5.6 Sol Ultra",
+            "query": "GPT-5.6 Sol Ultra 模型"
+          },
+          {
+            "term": "子代理",
+            "query": "AI 子代理 编程"
+          },
+          {
+            "term": "gpt-image-2",
+            "query": "gpt-image-2 图像生成"
+          },
+          {
+            "term": "AgentsView",
+            "query": "AgentsView 成本估算"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T05:37:14.569Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
   "lanes": {
-    "ai": [],
+    "ai": [
+      {
+        "id": "c0a7deaafdf98f72",
+        "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
+        "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
+        "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
+        "publishedAt": "2026-08-07T19:36:29.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "Agent 与自动化",
+        "score": 60,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 9,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 84,
+        "bodyHash": "d8858507d316bed5eb84c33c",
+        "extraction": {
+          "method": "readability",
+          "length": 6448,
+          "originalLength": 6448,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
+        "analysis": {
+          "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
+                "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
+                "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
+                "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
+                "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
+                "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
+                "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
+                "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
+                "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
+                "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
+            "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
+            "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+            "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
+            "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
+            "所有运行自动追踪，便于调试和优化。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
+              "basis": "source"
+            },
+            {
+              "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
+              "basis": "source"
+            },
+            {
+              "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
+              "basis": "source"
+            },
+            {
+              "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
+              "basis": "source"
+            },
+            {
+              "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
+              "steps": [
+                "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
+                "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+                "在 tools.json 中启用所需工具，并设置人工审批选项。",
+                "创建线程并启动流式运行，测试代理的响应。",
+                "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
+                "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
+              ],
+              "tools": [
+                "LangSmith",
+                "Managed Deep Agents API",
+                "Deep Agents 开源框架"
+              ],
+              "verification": [
+                "代理能够处理长时间运行的线程，并在中断后恢复。",
+                "工具调用记录在 LangSmith 中，且无未授权操作。",
+                "代理的上下文随运行次数增加而改进，如操作笔记更新。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "持久执行",
+            "沙箱",
+            "API 优先",
+            "Context Hub",
+            "LangSmith Engine"
+          ],
+          "searchTerms": [
+            {
+              "term": "Managed Deep Agents",
+              "query": "LangChain Managed Deep Agents"
+            },
+            {
+              "term": "持久执行",
+              "query": "durable execution AI agents"
+            },
+            {
+              "term": "沙箱",
+              "query": "sandbox execution AI agents"
+            },
+            {
+              "term": "Context Hub",
+              "query": "LangSmith Context Hub"
+            },
+            {
+              "term": "LangSmith Engine",
+              "query": "LangSmith Engine trace review"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T05:37:02.294Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "5f8f652ea6fc7c93",
+        "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
+        "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
+        "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
+        "publishedAt": "2026-08-07T19:18:09.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
+        "lane": "ai",
+        "accent": "#b36b00",
+        "topic": "Agent 与自动化",
+        "score": 64,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 3,
+        "category": "opinion",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 79,
+        "bodyHash": "cf9ae76805e7432e82c98f73",
+        "extraction": {
+          "method": "readability",
+          "length": 1929,
+          "originalLength": 1929,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
+        "analysis": {
+          "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
+                "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
+                "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
+                "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
+                "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
+                "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
+                "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
+                "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
+            "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
+            "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
+            "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
+            "作者分享了完整会话记录，便于他人复现或学习。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
+              "basis": "source"
+            },
+            {
+              "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
+              "basis": "source"
+            },
+            {
+              "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
+              "basis": "source"
+            },
+            {
+              "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
+              "basis": "inference"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
+              "steps": [
+                "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
+                "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
+                "开发过程中定期检查截图或预览，注意视觉异常。",
+                "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
+                "保存完整的会话记录，以便复盘和分享。"
+              ],
+              "tools": [
+                "Codex Desktop",
+                "GPT-5.6 Sol Ultra",
+                "gpt-image-2"
+              ],
+              "verification": [
+                "游戏可运行且无视觉异常。",
+                "所有生成的文件（如纹理）已正确集成。",
+                "会话记录可导出为 Markdown 格式。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "Codex Desktop",
+            "GPT-5.6 Sol Ultra",
+            "子代理",
+            "gpt-image-2"
+          ],
+          "searchTerms": [
+            {
+              "term": "Codex Desktop",
+              "query": "Codex Desktop OpenAI 编程工具"
+            },
+            {
+              "term": "GPT-5.6 Sol Ultra",
+              "query": "GPT-5.6 Sol Ultra 模型"
+            },
+            {
+              "term": "子代理",
+              "query": "AI 子代理 编程"
+            },
+            {
+              "term": "gpt-image-2",
+              "query": "gpt-image-2 图像生成"
+            },
+            {
+              "term": "AgentsView",
+              "query": "AgentsView 成本估算"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T05:37:14.569Z",
+        "model": "deepseek-v4-flash"
+      }
+    ],
     "game": [
       {
         "id": "385a71e2393f7a65",
@@ -1158,12 +2552,422 @@
         },
         "analysisStatus": "complete",
         "analyzedAt": "2026-08-08T22:01:16.463Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "a5ba9d6c0363a1ef",
+        "title": "Aseprite v1.3.15",
+        "url": "https://blog.aseprite.org/2025/08/27/aseprite-v1315/",
+        "summary": "Hello everyone! Today we’ve released Aseprite v1.3.15.2 with several bug fixes and little new handy features. If you are using v1.3.15 or v1.3.15.1, sorry for the inconvenience, but it might be a good idea to update to the latest v1.3.15.2 version: What’s new New possibility to duplicate slices (or Edit &gt; Copy &amp; Paste ) t/21966 #4466 Added “Show hidden” option to file selector #3079 Added option to stroke text #5271 New options to reconfigure keys to apply/discard the tranformation #5102 Aseprite v1.3.15.2 Fixed arrow keys to move selection #5385 Fixed close button in popup window #5386 Fixed pivot position when Tiled Mode is enabled #2316 Aseprite v1.3.15.1 Reverted Esc key behavior to drop pixels + deselect #5102 Added options to reconfigure keys to apply/cancel the transformation Added slices copy &amp; paste and duplication #4466 Fixed bug in Saturation layer blend mode #2661 ",
+        "publishedAt": "2025-08-27T00:00:00.000Z",
+        "sourceId": "aseprite",
+        "sourceName": "Aseprite Blog",
+        "sourceSite": "https://blog.aseprite.org/",
+        "lane": "art",
+        "accent": "#7d4db3",
+        "topic": "像素美术",
+        "score": 64,
+        "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
+        "readMinutes": 3,
+        "category": "update",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 59,
+        "bodyHash": "ad37a8aa69a2898ff4f36850",
+        "extraction": {
+          "method": "readability",
+          "length": 2326,
+          "originalLength": 2326,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Aseprite v1.3.15 更新详解：新功能、修复与升级指南",
+        "analysis": {
+          "listSummary": "本文是 Aseprite 像素画软件 v1.3.15 系列的更新日志，重点介绍了 v1.3.15.2 版本带来的新功能和错误修复。内容包括复制切片、显示隐藏文件、文本描边、自定义快捷键等实用功能，以及针对箭头键移动选区、弹窗关闭按钮等问题的修复。如果你是 Aseprite 用户，了解这些更新可以帮助你更高效地完成像素画创作，并避免已知问题。文章信息密度高，适合所有 Aseprite 用户阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "这篇文章是 Aseprite 软件的版本更新公告，主要面向所有使用该软件的用户。它告诉你 v1.3.15.2 版本修复了哪些问题，并增加了哪些新功能。",
+                "Aseprite 是一款专业的像素画和动画制作软件，很多游戏美术和独立开发者都在使用它。了解版本更新内容，能让你知道新版本是否值得升级，以及如何利用新功能提高工作效率。",
+                "文章特别提醒，如果你正在使用 v1.3.15 或 v1.3.15.1 版本，建议更新到最新的 v1.3.15.2，因为新版本修复了一些之前版本存在的问题。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章通过列举具体的新增功能和修复项，来展示 v1.3.15.2 版本的改进。每个功能或修复都对应一个编号，方便用户查阅和反馈。",
+                "新功能包括：可以复制切片（简单说，就是复制图片中某个选定的区域），文件选择器新增“显示隐藏”选项，文本工具新增描边功能，以及可以自定义应用或取消变换的快捷键。",
+                "修复的问题包括：箭头键移动选区失效、弹窗关闭按钮不工作、平铺模式下枢轴点位置错误等。这些修复直接解决了用户在使用中可能遇到的痛点。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章的证据就是版本更新日志本身，它列出了所有变更点。结论是 v1.3.15.2 是一个值得升级的版本，因为它带来了新功能并修复了问题。",
+                "需要注意的是，这篇文章只是更新公告，没有提供详细的使用教程或性能对比数据。它的主要目的是告知用户新版本的存在和变化。",
+                "此外，文章还提到了 v1.3.15 和 v1.3.15.1 版本的部分内容，说明这些功能是逐步加入的，用户如果从更早的版本升级，会一次性获得所有更新。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Aseprite v1.3.15.2 是 v1.3.15 系列的最新版本，建议所有用户升级。",
+            "新增了复制切片、显示隐藏文件、文本描边和自定义变换快捷键等功能。",
+            "修复了箭头键移动选区、弹窗关闭按钮、平铺模式枢轴点等问题。",
+            "v1.3.15.1 版本曾调整 Esc 键行为，v1.3.15.2 进一步优化了相关快捷键设置。",
+            "Lua API 更新至版本 35，为插件开发者提供了新的接口和属性。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "切片（Slices）是 Aseprite 中用于定义图像特定区域的工具，常用于动画或游戏素材的切割。新版本支持复制和粘贴切片，方便用户复用或调整区域设置。",
+              "basis": "source"
+            },
+            {
+              "text": "文件选择器新增“显示隐藏”选项，允许用户在打开或保存文件时查看操作系统中的隐藏文件。",
+              "basis": "source"
+            },
+            {
+              "text": "文本工具新增描边功能，可以为文字添加轮廓效果，增强视觉表现力。",
+              "basis": "source"
+            },
+            {
+              "text": "Lua API 版本更新至 35，新增了 sprite.undoHistory 属性，允许插件访问撤销历史；Dialog 构造函数新增 resizeable 属性，使对话框可调整大小；Plugin:newCommand() 新增 onchecked 参数，用于处理勾选状态。",
+              "basis": "source"
+            },
+            {
+              "text": "v1.3.15.2 修复了箭头键移动选区的问题，该问题在 v1.3.15 中引入，影响用户通过键盘精确调整选区位置。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "作为 Aseprite 用户，升级到最新版本并利用新功能优化工作流程",
+              "steps": [
+                "备份当前正在进行的项目文件，以防万一。",
+                "从 Aseprite 官网或应用商店下载并安装 v1.3.15.2 版本。",
+                "打开软件，尝试使用新的切片复制功能，选中一个区域后按 Ctrl+C 和 Ctrl+V 进行复制粘贴。",
+                "在文件选择器中，查看是否有“显示隐藏”选项，并尝试开启以显示隐藏文件。",
+                "使用文本工具输入文字，在工具选项栏中找到描边设置并调整样式。",
+                "前往设置中的键盘快捷键配置，查找变换操作，重新设置应用或取消的按键。"
+              ],
+              "tools": [
+                "Aseprite v1.3.15.2"
+              ],
+              "verification": [
+                "软件启动后，在“关于”或“帮助”菜单中确认版本号为 v1.3.15.2。",
+                "成功复制并粘贴一个切片，且粘贴后的切片与原切片内容一致。",
+                "在文件选择器中能看到之前被隐藏的文件。",
+                "为文字添加描边后，文字边缘出现轮廓效果。",
+                "按下新设置的快捷键，能成功应用或取消变换操作。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [],
+          "searchTerms": [
+            {
+              "term": "Lua API",
+              "query": "Aseprite Lua API version 35"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T05:37:27.166Z",
         "model": "deepseek-v4-flash"
       }
     ]
   },
   "editionLanes": {
-    "ai": [],
+    "ai": [
+      {
+        "id": "c0a7deaafdf98f72",
+        "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
+        "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
+        "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
+        "publishedAt": "2026-08-07T19:36:29.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "Agent 与自动化",
+        "score": 60,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 9,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 84,
+        "bodyHash": "d8858507d316bed5eb84c33c",
+        "extraction": {
+          "method": "readability",
+          "length": 6448,
+          "originalLength": 6448,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
+        "analysis": {
+          "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
+                "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
+                "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
+                "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
+                "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
+                "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
+                "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
+                "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
+                "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
+                "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
+            "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
+            "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+            "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
+            "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
+            "所有运行自动追踪，便于调试和优化。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
+              "basis": "source"
+            },
+            {
+              "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
+              "basis": "source"
+            },
+            {
+              "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
+              "basis": "source"
+            },
+            {
+              "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
+              "basis": "source"
+            },
+            {
+              "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
+              "steps": [
+                "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
+                "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
+                "在 tools.json 中启用所需工具，并设置人工审批选项。",
+                "创建线程并启动流式运行，测试代理的响应。",
+                "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
+                "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
+              ],
+              "tools": [
+                "LangSmith",
+                "Managed Deep Agents API",
+                "Deep Agents 开源框架"
+              ],
+              "verification": [
+                "代理能够处理长时间运行的线程，并在中断后恢复。",
+                "工具调用记录在 LangSmith 中，且无未授权操作。",
+                "代理的上下文随运行次数增加而改进，如操作笔记更新。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "持久执行",
+            "沙箱",
+            "API 优先",
+            "Context Hub",
+            "LangSmith Engine"
+          ],
+          "searchTerms": [
+            {
+              "term": "Managed Deep Agents",
+              "query": "LangChain Managed Deep Agents"
+            },
+            {
+              "term": "持久执行",
+              "query": "durable execution AI agents"
+            },
+            {
+              "term": "沙箱",
+              "query": "sandbox execution AI agents"
+            },
+            {
+              "term": "Context Hub",
+              "query": "LangSmith Context Hub"
+            },
+            {
+              "term": "LangSmith Engine",
+              "query": "LangSmith Engine trace review"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T05:37:02.294Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "5f8f652ea6fc7c93",
+        "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
+        "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
+        "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
+        "publishedAt": "2026-08-07T19:18:09.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
+        "lane": "ai",
+        "accent": "#b36b00",
+        "topic": "Agent 与自动化",
+        "score": 64,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 3,
+        "category": "opinion",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 79,
+        "bodyHash": "cf9ae76805e7432e82c98f73",
+        "extraction": {
+          "method": "readability",
+          "length": 1929,
+          "originalLength": 1929,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
+        "analysis": {
+          "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
+                "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
+                "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
+                "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
+                "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
+                "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
+                "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
+                "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
+            "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
+            "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
+            "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
+            "作者分享了完整会话记录，便于他人复现或学习。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
+              "basis": "source"
+            },
+            {
+              "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
+              "basis": "source"
+            },
+            {
+              "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
+              "basis": "source"
+            },
+            {
+              "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
+              "basis": "inference"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
+              "steps": [
+                "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
+                "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
+                "开发过程中定期检查截图或预览，注意视觉异常。",
+                "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
+                "保存完整的会话记录，以便复盘和分享。"
+              ],
+              "tools": [
+                "Codex Desktop",
+                "GPT-5.6 Sol Ultra",
+                "gpt-image-2"
+              ],
+              "verification": [
+                "游戏可运行且无视觉异常。",
+                "所有生成的文件（如纹理）已正确集成。",
+                "会话记录可导出为 Markdown 格式。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "Codex Desktop",
+            "GPT-5.6 Sol Ultra",
+            "子代理",
+            "gpt-image-2"
+          ],
+          "searchTerms": [
+            {
+              "term": "Codex Desktop",
+              "query": "Codex Desktop OpenAI 编程工具"
+            },
+            {
+              "term": "GPT-5.6 Sol Ultra",
+              "query": "GPT-5.6 Sol Ultra 模型"
+            },
+            {
+              "term": "子代理",
+              "query": "AI 子代理 编程"
+            },
+            {
+              "term": "gpt-image-2",
+              "query": "gpt-image-2 图像生成"
+            },
+            {
+              "term": "AgentsView",
+              "query": "AgentsView 成本估算"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T05:37:14.569Z",
+        "model": "deepseek-v4-flash"
+      }
+    ],
     "game": [
       {
         "id": "385a71e2393f7a65",
@@ -1541,6 +3345,128 @@
         },
         "analysisStatus": "complete",
         "analyzedAt": "2026-08-08T22:01:16.463Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "a5ba9d6c0363a1ef",
+        "title": "Aseprite v1.3.15",
+        "url": "https://blog.aseprite.org/2025/08/27/aseprite-v1315/",
+        "summary": "Hello everyone! Today we’ve released Aseprite v1.3.15.2 with several bug fixes and little new handy features. If you are using v1.3.15 or v1.3.15.1, sorry for the inconvenience, but it might be a good idea to update to the latest v1.3.15.2 version: What’s new New possibility to duplicate slices (or Edit &gt; Copy &amp; Paste ) t/21966 #4466 Added “Show hidden” option to file selector #3079 Added option to stroke text #5271 New options to reconfigure keys to apply/discard the tranformation #5102 Aseprite v1.3.15.2 Fixed arrow keys to move selection #5385 Fixed close button in popup window #5386 Fixed pivot position when Tiled Mode is enabled #2316 Aseprite v1.3.15.1 Reverted Esc key behavior to drop pixels + deselect #5102 Added options to reconfigure keys to apply/cancel the transformation Added slices copy &amp; paste and duplication #4466 Fixed bug in Saturation layer blend mode #2661 ",
+        "publishedAt": "2025-08-27T00:00:00.000Z",
+        "sourceId": "aseprite",
+        "sourceName": "Aseprite Blog",
+        "sourceSite": "https://blog.aseprite.org/",
+        "lane": "art",
+        "accent": "#7d4db3",
+        "topic": "像素美术",
+        "score": 64,
+        "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
+        "readMinutes": 3,
+        "category": "update",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 59,
+        "bodyHash": "ad37a8aa69a2898ff4f36850",
+        "extraction": {
+          "method": "readability",
+          "length": 2326,
+          "originalLength": 2326,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Aseprite v1.3.15 更新详解：新功能、修复与升级指南",
+        "analysis": {
+          "listSummary": "本文是 Aseprite 像素画软件 v1.3.15 系列的更新日志，重点介绍了 v1.3.15.2 版本带来的新功能和错误修复。内容包括复制切片、显示隐藏文件、文本描边、自定义快捷键等实用功能，以及针对箭头键移动选区、弹窗关闭按钮等问题的修复。如果你是 Aseprite 用户，了解这些更新可以帮助你更高效地完成像素画创作，并避免已知问题。文章信息密度高，适合所有 Aseprite 用户阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "这篇文章是 Aseprite 软件的版本更新公告，主要面向所有使用该软件的用户。它告诉你 v1.3.15.2 版本修复了哪些问题，并增加了哪些新功能。",
+                "Aseprite 是一款专业的像素画和动画制作软件，很多游戏美术和独立开发者都在使用它。了解版本更新内容，能让你知道新版本是否值得升级，以及如何利用新功能提高工作效率。",
+                "文章特别提醒，如果你正在使用 v1.3.15 或 v1.3.15.1 版本，建议更新到最新的 v1.3.15.2，因为新版本修复了一些之前版本存在的问题。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章通过列举具体的新增功能和修复项，来展示 v1.3.15.2 版本的改进。每个功能或修复都对应一个编号，方便用户查阅和反馈。",
+                "新功能包括：可以复制切片（简单说，就是复制图片中某个选定的区域），文件选择器新增“显示隐藏”选项，文本工具新增描边功能，以及可以自定义应用或取消变换的快捷键。",
+                "修复的问题包括：箭头键移动选区失效、弹窗关闭按钮不工作、平铺模式下枢轴点位置错误等。这些修复直接解决了用户在使用中可能遇到的痛点。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章的证据就是版本更新日志本身，它列出了所有变更点。结论是 v1.3.15.2 是一个值得升级的版本，因为它带来了新功能并修复了问题。",
+                "需要注意的是，这篇文章只是更新公告，没有提供详细的使用教程或性能对比数据。它的主要目的是告知用户新版本的存在和变化。",
+                "此外，文章还提到了 v1.3.15 和 v1.3.15.1 版本的部分内容，说明这些功能是逐步加入的，用户如果从更早的版本升级，会一次性获得所有更新。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Aseprite v1.3.15.2 是 v1.3.15 系列的最新版本，建议所有用户升级。",
+            "新增了复制切片、显示隐藏文件、文本描边和自定义变换快捷键等功能。",
+            "修复了箭头键移动选区、弹窗关闭按钮、平铺模式枢轴点等问题。",
+            "v1.3.15.1 版本曾调整 Esc 键行为，v1.3.15.2 进一步优化了相关快捷键设置。",
+            "Lua API 更新至版本 35，为插件开发者提供了新的接口和属性。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "切片（Slices）是 Aseprite 中用于定义图像特定区域的工具，常用于动画或游戏素材的切割。新版本支持复制和粘贴切片，方便用户复用或调整区域设置。",
+              "basis": "source"
+            },
+            {
+              "text": "文件选择器新增“显示隐藏”选项，允许用户在打开或保存文件时查看操作系统中的隐藏文件。",
+              "basis": "source"
+            },
+            {
+              "text": "文本工具新增描边功能，可以为文字添加轮廓效果，增强视觉表现力。",
+              "basis": "source"
+            },
+            {
+              "text": "Lua API 版本更新至 35，新增了 sprite.undoHistory 属性，允许插件访问撤销历史；Dialog 构造函数新增 resizeable 属性，使对话框可调整大小；Plugin:newCommand() 新增 onchecked 参数，用于处理勾选状态。",
+              "basis": "source"
+            },
+            {
+              "text": "v1.3.15.2 修复了箭头键移动选区的问题，该问题在 v1.3.15 中引入，影响用户通过键盘精确调整选区位置。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "作为 Aseprite 用户，升级到最新版本并利用新功能优化工作流程",
+              "steps": [
+                "备份当前正在进行的项目文件，以防万一。",
+                "从 Aseprite 官网或应用商店下载并安装 v1.3.15.2 版本。",
+                "打开软件，尝试使用新的切片复制功能，选中一个区域后按 Ctrl+C 和 Ctrl+V 进行复制粘贴。",
+                "在文件选择器中，查看是否有“显示隐藏”选项，并尝试开启以显示隐藏文件。",
+                "使用文本工具输入文字，在工具选项栏中找到描边设置并调整样式。",
+                "前往设置中的键盘快捷键配置，查找变换操作，重新设置应用或取消的按键。"
+              ],
+              "tools": [
+                "Aseprite v1.3.15.2"
+              ],
+              "verification": [
+                "软件启动后，在“关于”或“帮助”菜单中确认版本号为 v1.3.15.2。",
+                "成功复制并粘贴一个切片，且粘贴后的切片与原切片内容一致。",
+                "在文件选择器中能看到之前被隐藏的文件。",
+                "为文字添加描边后，文字边缘出现轮廓效果。",
+                "按下新设置的快捷键，能成功应用或取消变换操作。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [],
+          "searchTerms": [
+            {
+              "term": "Lua API",
+              "query": "Aseprite Lua API version 35"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T05:37:27.166Z",
         "model": "deepseek-v4-flash"
       }
     ]
@@ -1560,7 +3486,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 142,
+      "latencyMs": 165,
       "itemCount": 35
     },
     {
@@ -1577,7 +3503,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 88,
+      "latencyMs": 118,
       "itemCount": 10
     },
     {
@@ -1594,7 +3520,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 830,
+      "latencyMs": 921,
       "itemCount": 32
     },
     {
@@ -1611,7 +3537,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 868,
+      "latencyMs": 1234,
       "itemCount": 10
     },
     {
@@ -1628,7 +3554,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 133,
+      "latencyMs": 124,
       "itemCount": 35
     },
     {
@@ -1645,7 +3571,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 245,
+      "latencyMs": 209,
       "itemCount": 35
     },
     {
@@ -1662,7 +3588,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 745,
+      "latencyMs": 285,
       "itemCount": 35
     },
     {
@@ -1679,7 +3605,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 255,
+      "latencyMs": 275,
       "itemCount": 30
     },
     {
@@ -1696,7 +3622,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 284,
+      "latencyMs": 295,
       "itemCount": 35
     },
     {
@@ -1713,7 +3639,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 867,
+      "latencyMs": 897,
       "itemCount": 20
     },
     {
@@ -1730,7 +3656,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 517,
+      "latencyMs": 558,
       "itemCount": 35
     },
     {
@@ -1764,7 +3690,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1105,
+      "latencyMs": 1577,
       "itemCount": 15
     },
     {
@@ -1780,10 +3706,9 @@
       "weight": 1.05,
       "dailyLimit": 1,
       "accent": "#222c37",
-      "ok": false,
-      "latencyMs": 20001,
-      "error": "The operation was aborted due to timeout",
-      "itemCount": 0
+      "ok": true,
+      "latencyMs": 19141,
+      "itemCount": 35
     },
     {
       "id": "red-blob",
@@ -1799,7 +3724,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 691,
+      "latencyMs": 921,
       "itemCount": 35
     },
     {
@@ -1821,7 +3746,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1087,
+      "latencyMs": 1539,
       "itemCount": 4
     },
     {
@@ -1838,7 +3763,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 1094,
+      "latencyMs": 981,
       "itemCount": 10
     }
   ],
@@ -1891,7 +3816,10 @@
       "f1faf21a724d223d",
       "385a71e2393f7a65",
       "9ef6e7c0434b7fea",
-      "92b4d2075252f696ecc26f05"
+      "92b4d2075252f696ecc26f05",
+      "c0a7deaafdf98f72",
+      "5f8f652ea6fc7c93",
+      "a5ba9d6c0363a1ef"
     ],
     "processedManualUrls": []
   },
@@ -1901,9 +3829,9 @@
       "analysis": "deepseek-v4-flash"
     },
     "calls": 4,
-    "rejectedCount": 273,
-    "sourceFailureCount": 1
+    "rejectedCount": 293,
+    "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-08T05:30:09.237Z"
+  "previousGeneratedAt": "2026-08-08T22:01:16.463Z"
 }
