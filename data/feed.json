@@ -1,22 +1,22 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-09T05:37:27.167Z",
+  "generatedAt": "2026-08-09T22:02:49.029Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-08-09",
-    "isWeeklyEdition": true,
-    "weeklyReason": "sun"
+    "date": "2026-08-10",
+    "isWeeklyEdition": false,
+    "weeklyReason": null
   },
   "stats": {
-    "candidates": 39,
-    "selected": 6,
-    "ai": 2,
+    "candidates": 23,
+    "selected": 3,
+    "ai": 3,
     "practice": 2,
-    "update": 0,
+    "update": 1,
     "manual": 0,
-    "game": 2,
-    "art": 2,
+    "game": 0,
+    "art": 0,
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
@@ -24,290 +24,393 @@
   },
   "items": [
     {
-      "id": "c0a7deaafdf98f72",
-      "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
-      "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
-      "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
-      "publishedAt": "2026-08-07T19:36:29.000Z",
+      "id": "1abb5239d6c83d29",
+      "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
+      "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
+      "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
+      "publishedAt": "2026-08-08T22:36:03.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "开发实践",
+      "score": 66,
+      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+      "readMinutes": 5,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 81,
+      "bodyHash": "9ac7bebb0abb7d08788e3490",
+      "extraction": {
+        "method": "readability",
+        "length": 3579,
+        "originalLength": 3579,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
+      "analysis": {
+        "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
+              "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
+              "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
+              "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
+              "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
+              "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
+          "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
+          "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
+          "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
+          "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
+            "basis": "source"
+          },
+          {
+            "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
+            "basis": "source"
+          },
+          {
+            "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
+            "steps": [
+              "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
+              "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
+              "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
+              "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
+              "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
+            ],
+            "tools": [
+              "Claude Code 自动模式设置",
+              "日志监控工具（如 ELK Stack）",
+              "权限管理工具（如 IAM）"
+            ],
+            "verification": [
+              "观察自动模式下的操作成功率，确保效率提升。",
+              "检查日志中是否有未授权操作记录。",
+              "通过模拟攻击测试，确认安全策略有效。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "自动模式",
+          "确认疲劳",
+          "提示注入",
+          "数据泄露",
+          "独立验证"
+        ],
+        "searchTerms": [
+          {
+            "term": "自动模式",
+            "query": "Claude Code auto mode 安全评估"
+          },
+          {
+            "term": "提示注入",
+            "query": "prompt injection 防御 编程代理"
+          },
+          {
+            "term": "确认疲劳",
+            "query": "confirmation fatigue AI 审批"
+          },
+          {
+            "term": "数据泄露",
+            "query": "data exfiltration AI 代理 风险"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T22:02:20.109Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "0b0df736865e6ac1",
+      "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
+      "url": "https://www.langchain.com/blog/introducing-llm-gateway",
+      "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
+      "publishedAt": "2026-08-07T19:39:38.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 60,
+      "score": 49,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 9,
+      "readMinutes": 10,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 84,
-      "bodyHash": "d8858507d316bed5eb84c33c",
+      "candidateScore": 78,
+      "bodyHash": "7b94e6696238f1304fec3282",
       "extraction": {
         "method": "readability",
-        "length": 6448,
-        "originalLength": 6448,
+        "length": 6924,
+        "originalLength": 6924,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
+      "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
       "analysis": {
-        "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
+        "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
-              "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
-              "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
-              "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
+              "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
+              "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
+              "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
+              "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
-              "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
-              "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
-              "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
-              "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
+              "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
+              "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
+              "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
+              "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
+              "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
-              "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
-              "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
+              "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
+              "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
+              "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
+              "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
             ]
           }
         ],
         "keyPoints": [
-          "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
-          "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
-          "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-          "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
-          "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
-          "所有运行自动追踪，便于调试和优化。"
+          "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
+          "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
+          "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
+          "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
+          "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
         ],
         "technicalDetails": [
           {
-            "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
+            "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
             "basis": "source"
           },
           {
-            "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
+            "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
             "basis": "source"
           },
           {
-            "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
+            "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
             "basis": "source"
           },
           {
-            "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
+            "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
             "basis": "source"
           },
           {
-            "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
+            "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
+            "basis": "source"
+          },
+          {
+            "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
+            "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
             "steps": [
-              "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
-              "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-              "在 tools.json 中启用所需工具，并设置人工审批选项。",
-              "创建线程并启动流式运行，测试代理的响应。",
-              "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
-              "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
+              "登录 LangSmith，在侧边栏选择 LLM Gateway。",
+              "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
+              "在 LangSmith 工作区设置中添加提供商 API 密钥。",
+              "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
+              "触发一次测试请求，验证策略是否生效。"
             ],
             "tools": [
               "LangSmith",
-              "Managed Deep Agents API",
-              "Deep Agents 开源框架"
+              "LLM Gateway"
             ],
             "verification": [
-              "代理能够处理长时间运行的线程，并在中断后恢复。",
-              "工具调用记录在 LangSmith 中，且无未授权操作。",
-              "代理的上下文随运行次数增加而改进，如操作笔记更新。"
+              "在 LangSmith 中看到网关调用产生的追踪。",
+              "当费用上限触发时，代理收到 402 响应。",
+              "在追踪中确认敏感数据已被脱敏。"
             ]
           }
         ]
       },
       "annotations": {
-        "emphasis": [
-          "持久执行",
-          "沙箱",
-          "API 优先",
-          "Context Hub",
-          "LangSmith Engine"
-        ],
+        "emphasis": [],
         "searchTerms": [
           {
-            "term": "Managed Deep Agents",
-            "query": "LangChain Managed Deep Agents"
-          },
-          {
-            "term": "持久执行",
-            "query": "durable execution AI agents"
-          },
-          {
-            "term": "沙箱",
-            "query": "sandbox execution AI agents"
-          },
-          {
-            "term": "Context Hub",
-            "query": "LangSmith Context Hub"
-          },
-          {
-            "term": "LangSmith Engine",
-            "query": "LangSmith Engine trace review"
+            "term": "LLM Gateway",
+            "query": "LangSmith LLM Gateway 功能"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T05:37:02.294Z",
+      "analyzedAt": "2026-08-09T22:02:35.050Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "5f8f652ea6fc7c93",
-      "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
-      "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
-      "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
-      "publishedAt": "2026-08-07T19:18:09.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "d7b2e7a54cd91fe6",
+      "title": "Stop Chasing New Models. Build Once and Access Them All.",
+      "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
+      "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
+      "publishedAt": "2026-07-27T09:49:44.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
       "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "Agent 与自动化",
-      "score": 64,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 3,
-      "category": "opinion",
-      "slot": "practice",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 61,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 9,
+      "category": "research",
+      "slot": "update",
       "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "cf9ae76805e7432e82c98f73",
+      "candidateScore": 65,
+      "bodyHash": "b4dff80ad530b212da503b94",
       "extraction": {
         "method": "readability",
-        "length": 1929,
-        "originalLength": 1929,
+        "length": 6525,
+        "originalLength": 6525,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
+      "displayTitle": "别再追新模型了：一次构建，接入所有模型",
       "analysis": {
-        "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
+        "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
-              "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
-              "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
+              "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
+              "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
+              "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
+              "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
+              "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
-              "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
-              "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
-              "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
+              "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
+              "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
+              "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
+              "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
+              "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
+              "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
-              "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
-              "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
+              "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
+              "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
+              "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
+              "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
             ]
           }
         ],
         "keyPoints": [
-          "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
-          "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
-          "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
-          "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
-          "作者分享了完整会话记录，便于他人复现或学习。"
+          "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
+          "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
+          "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
+          "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
+          "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
+          "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
         ],
         "technicalDetails": [
           {
-            "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
+            "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
             "basis": "source"
           },
           {
-            "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
+            "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
             "basis": "source"
           },
           {
-            "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
+            "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
             "basis": "source"
           },
           {
-            "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
-            "basis": "inference"
+            "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
+            "basis": "source"
+          },
+          {
+            "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
+            "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
+            "scenario": "团队希望快速评估新模型而不重写应用代码",
             "steps": [
-              "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
-              "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
-              "开发过程中定期检查截图或预览，注意视觉异常。",
-              "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
-              "保存完整的会话记录，以便复盘和分享。"
+              "部署Otari网关或类似服务，配置至少一个提供方凭证。",
+              "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
+              "在网关中配置路由策略，指定不同工作负载使用不同模型。",
+              "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
+              "设置预算和用量监控，跟踪各模型成本。"
             ],
             "tools": [
-              "Codex Desktop",
-              "GPT-5.6 Sol Ultra",
-              "gpt-image-2"
+              "Otari网关",
+              "OpenAI或Anthropic SDK（用于测试兼容性）",
+              "API测试工具（如Postman）"
             ],
             "verification": [
-              "游戏可运行且无视觉异常。",
-              "所有生成的文件（如纹理）已正确集成。",
-              "会话记录可导出为 Markdown 格式。"
+              "应用发送请求后，网关日志显示请求被路由到指定模型。",
+              "切换模型后，应用无需重新部署，响应正常。",
+              "成本仪表板显示各模型的使用量和费用。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "Codex Desktop",
-          "GPT-5.6 Sol Ultra",
-          "子代理",
-          "gpt-image-2"
+          "依赖地狱",
+          "稳定接口",
+          "成本可见性"
         ],
         "searchTerms": [
           {
-            "term": "Codex Desktop",
-            "query": "Codex Desktop OpenAI 编程工具"
-          },
-          {
-            "term": "GPT-5.6 Sol Ultra",
-            "query": "GPT-5.6 Sol Ultra 模型"
-          },
-          {
-            "term": "子代理",
-            "query": "AI 子代理 编程"
-          },
-          {
-            "term": "gpt-image-2",
-            "query": "gpt-image-2 图像生成"
-          },
-          {
-            "term": "AgentsView",
-            "query": "AgentsView 成本估算"
+            "term": "依赖地狱",
+            "query": "dependency hell 软件工程"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T05:37:14.569Z",
+      "analyzedAt": "2026-08-09T22:02:49.028Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -811,773 +914,246 @@
   ],
   "editionItems": [
     {
-      "id": "c0a7deaafdf98f72",
-      "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
-      "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
-      "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
-      "publishedAt": "2026-08-07T19:36:29.000Z",
+      "id": "1abb5239d6c83d29",
+      "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
+      "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
+      "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
+      "publishedAt": "2026-08-08T22:36:03.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "开发实践",
+      "score": 66,
+      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+      "readMinutes": 5,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 81,
+      "bodyHash": "9ac7bebb0abb7d08788e3490",
+      "extraction": {
+        "method": "readability",
+        "length": 3579,
+        "originalLength": 3579,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
+      "analysis": {
+        "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
+              "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
+              "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
+              "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
+              "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
+              "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
+          "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
+          "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
+          "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
+          "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
+            "basis": "source"
+          },
+          {
+            "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
+            "basis": "source"
+          },
+          {
+            "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
+            "steps": [
+              "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
+              "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
+              "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
+              "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
+              "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
+            ],
+            "tools": [
+              "Claude Code 自动模式设置",
+              "日志监控工具（如 ELK Stack）",
+              "权限管理工具（如 IAM）"
+            ],
+            "verification": [
+              "观察自动模式下的操作成功率，确保效率提升。",
+              "检查日志中是否有未授权操作记录。",
+              "通过模拟攻击测试，确认安全策略有效。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "自动模式",
+          "确认疲劳",
+          "提示注入",
+          "数据泄露",
+          "独立验证"
+        ],
+        "searchTerms": [
+          {
+            "term": "自动模式",
+            "query": "Claude Code auto mode 安全评估"
+          },
+          {
+            "term": "提示注入",
+            "query": "prompt injection 防御 编程代理"
+          },
+          {
+            "term": "确认疲劳",
+            "query": "confirmation fatigue AI 审批"
+          },
+          {
+            "term": "数据泄露",
+            "query": "data exfiltration AI 代理 风险"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T22:02:20.109Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "0b0df736865e6ac1",
+      "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
+      "url": "https://www.langchain.com/blog/introducing-llm-gateway",
+      "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
+      "publishedAt": "2026-08-07T19:39:38.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 60,
+      "score": 49,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 9,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 84,
-      "bodyHash": "d8858507d316bed5eb84c33c",
-      "extraction": {
-        "method": "readability",
-        "length": 6448,
-        "originalLength": 6448,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
-      "analysis": {
-        "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
-              "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
-              "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
-              "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
-              "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
-              "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
-              "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
-              "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
-              "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
-              "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
-          "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
-          "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-          "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
-          "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
-          "所有运行自动追踪，便于调试和优化。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
-            "basis": "source"
-          },
-          {
-            "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
-            "basis": "source"
-          },
-          {
-            "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
-            "basis": "source"
-          },
-          {
-            "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
-            "basis": "source"
-          },
-          {
-            "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
-            "steps": [
-              "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
-              "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-              "在 tools.json 中启用所需工具，并设置人工审批选项。",
-              "创建线程并启动流式运行，测试代理的响应。",
-              "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
-              "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
-            ],
-            "tools": [
-              "LangSmith",
-              "Managed Deep Agents API",
-              "Deep Agents 开源框架"
-            ],
-            "verification": [
-              "代理能够处理长时间运行的线程，并在中断后恢复。",
-              "工具调用记录在 LangSmith 中，且无未授权操作。",
-              "代理的上下文随运行次数增加而改进，如操作笔记更新。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "持久执行",
-          "沙箱",
-          "API 优先",
-          "Context Hub",
-          "LangSmith Engine"
-        ],
-        "searchTerms": [
-          {
-            "term": "Managed Deep Agents",
-            "query": "LangChain Managed Deep Agents"
-          },
-          {
-            "term": "持久执行",
-            "query": "durable execution AI agents"
-          },
-          {
-            "term": "沙箱",
-            "query": "sandbox execution AI agents"
-          },
-          {
-            "term": "Context Hub",
-            "query": "LangSmith Context Hub"
-          },
-          {
-            "term": "LangSmith Engine",
-            "query": "LangSmith Engine trace review"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T05:37:02.294Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "5f8f652ea6fc7c93",
-      "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
-      "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
-      "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
-      "publishedAt": "2026-08-07T19:18:09.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
-      "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "Agent 与自动化",
-      "score": 64,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 3,
-      "category": "opinion",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "cf9ae76805e7432e82c98f73",
-      "extraction": {
-        "method": "readability",
-        "length": 1929,
-        "originalLength": 1929,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
-      "analysis": {
-        "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
-              "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
-              "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
-              "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
-              "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
-              "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
-              "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
-              "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
-          "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
-          "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
-          "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
-          "作者分享了完整会话记录，便于他人复现或学习。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
-            "basis": "source"
-          },
-          {
-            "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
-            "basis": "source"
-          },
-          {
-            "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
-            "basis": "source"
-          },
-          {
-            "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
-            "basis": "inference"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
-            "steps": [
-              "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
-              "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
-              "开发过程中定期检查截图或预览，注意视觉异常。",
-              "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
-              "保存完整的会话记录，以便复盘和分享。"
-            ],
-            "tools": [
-              "Codex Desktop",
-              "GPT-5.6 Sol Ultra",
-              "gpt-image-2"
-            ],
-            "verification": [
-              "游戏可运行且无视觉异常。",
-              "所有生成的文件（如纹理）已正确集成。",
-              "会话记录可导出为 Markdown 格式。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "Codex Desktop",
-          "GPT-5.6 Sol Ultra",
-          "子代理",
-          "gpt-image-2"
-        ],
-        "searchTerms": [
-          {
-            "term": "Codex Desktop",
-            "query": "Codex Desktop OpenAI 编程工具"
-          },
-          {
-            "term": "GPT-5.6 Sol Ultra",
-            "query": "GPT-5.6 Sol Ultra 模型"
-          },
-          {
-            "term": "子代理",
-            "query": "AI 子代理 编程"
-          },
-          {
-            "term": "gpt-image-2",
-            "query": "gpt-image-2 图像生成"
-          },
-          {
-            "term": "AgentsView",
-            "query": "AgentsView 成本估算"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T05:37:14.569Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "385a71e2393f7a65",
-      "title": "Differential heuristics",
-      "url": "https://www.redblobgames.com/blog/2026-08-08-differential-heuristics/",
-      "summary": "In 2005 Google showed off Google Maps, which lets you drag the map around instead of reloading the page like MapQuest and others used. That's the feature that got everyone's attention. But what got my attention was a feature they added in 2007 where you could drag the start/end points on a route , and it would recalculate the shortest path as you dragged. That means they had fast A* pathfinding on the entire world, which had millions of roads. How did they do it? I had already studied A* and the common optimizations, but Google Maps was using optimizations I hadn't learned about. I started reading papers. My reaction to almost all of them was \"this complexity isn't worth it unless your map is very large\". There was one technique however that was relatively simple, and I wanted to explore it further. A better heuristic reduces how much of the map A* explores In 2014 I wrote my interactive",
-      "publishedAt": "2026-08-08T18:25:00.000Z",
-      "sourceId": "red-blob",
-      "sourceName": "Red Blob Games",
-      "sourceSite": "https://www.redblobgames.com/",
-      "lane": "game",
-      "accent": "#c33b32",
-      "topic": "AI 辅助学习",
-      "score": 87,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 4,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 100,
-      "bodyHash": "714592c1d4c6e33a6c44fdd9",
-      "extraction": {
-        "method": "readability",
-        "length": 2509,
-        "originalLength": 2509,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "差分启发式：让 A* 寻路在地图上跑得更快",
-      "analysis": {
-        "listSummary": "本文作者从 2007 年 Google 地图的实时路径重算功能出发，探索了 A* 寻路算法的一种优化技术——差分启发式。文章讲述了他从 2015 年到 2024 年多次尝试写教程失败，最终通过实验和可视化理解算法的过程。对读者而言，这篇文章不仅解释了差分启发式的原理，还展示了如何通过可视化和交互式工具来深入理解复杂算法。如果你对游戏开发、路径规划或算法优化感兴趣，这篇文章值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "差分启发式是一种让 A* 寻路算法在地图上探索更少区域的优化技术。简单说，A* 寻路就是在地图上找最短路径的算法，而差分启发式能让它找得更快。",
-              "作者在 2007 年注意到 Google 地图可以拖动起点和终点实时重算路径，这意味着他们能在有数百万条道路的全球地图上快速寻路。作者已经学过 A* 和常见优化，但 Google 用的技术他没见过。",
-              "他阅读了大量论文，发现大多数优化技术只有在地图非常大时才值得使用，但差分启发式相对简单，值得深入研究。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "作者从 2015 年开始尝试写差分启发式的教程，但一直找不到满意的解释方式。他试了 2016、2018、2019、2022、2024 年多次，最终意识到自己虽然理解算法，但还没有理解到能教别人的程度。",
-              "于是他转向学习和实验模式。他发现了更好的解释方式：不再用大量数字展示启发式，而是用两个箭头——一个表示启发式建议的方向，一个表示正确方向。当两者一致时，A* 运行更快。",
-              "他还添加了可视化，展示优化有效的区域，并制作了交互式图表，让用户可以移动点来观察区域变化。这种可视化方法帮助他更直观地理解了算法的行为。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "作者在 2024 年终于发布了新版的差分启发式页面，这是他认为第一个可以称为“发布”的版本。他从 2015 年开始，历时十年才完成这个教程。",
-              "文章强调，差分启发式的价值在于减少 A* 探索的地图区域，但作者也指出，大多数优化技术只有在非常大的地图上才值得使用。这意味着对于小地图，差分启发式的收益可能不明显。",
-              "作者承认页面中仍有旧文本和代码的残留，也认为还有改进空间。这说明这个技术本身仍在发展中，教程也还在完善中。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "差分启发式是一种 A* 寻路优化技术，通过减少探索区域来加速路径计算。",
-          "Google 地图在 2007 年就能实时重算全球路径，这启发了作者研究这项技术。",
-          "作者花了十年时间尝试写教程，最终通过可视化和交互式图表理解了算法。",
-          "用两个箭头（建议方向和正确方向）展示启发式，比用数字更直观。",
-          "大多数 A* 优化技术只在大地图上才有明显收益，差分启发式相对简单。",
-          "可视化方法对理解复杂算法非常有帮助，是作者最终突破的关键。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "A* 寻路算法是一种在地图上找最短路径的算法，通过启发式函数估计到目标的距离，从而优先探索更有希望的路径。差分启发式是它的优化，通过预先计算某些地标距离来改进启发式估计，减少探索区域。",
-            "basis": "source"
-          },
-          {
-            "text": "差分启发式的核心思想是：用两个方向箭头对比——启发式建议的方向和正确方向。当两者一致时，A* 运行更快；不一致时，算法会探索更多区域。",
-            "basis": "source"
-          },
-          {
-            "text": "作者用可视化展示优化有效的区域，并制作交互式图表让用户移动点来观察区域变化。这种可视化方法帮助作者理解算法，也是教程的核心教学工具。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在游戏开发或地图应用中，需要在大地图上快速计算最短路径时。",
-            "steps": [
-              "先实现标准的 A* 寻路算法，确保基本功能正常。",
-              "选择几个地标点，预先计算它们到地图上所有点的最短路径。",
-              "在 A* 运行时，用这些地标距离来改进启发式估计。",
-              "用可视化工具对比优化前后的探索区域，验证效果。"
-            ],
-            "tools": [
-              "A* 寻路库",
-              "可视化调试工具",
-              "地图数据生成器"
-            ],
-            "verification": [
-              "对比优化前后 A* 探索的节点数量，优化后应明显减少。",
-              "在相同起点终点下，路径计算时间应显著缩短。",
-              "可视化图表中，优化有效的区域应清晰可见。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "差分启发式",
-          "A* 寻路",
-          "启发式",
-          "可视化",
-          "交互式图表",
-          "优化技术"
-        ],
-        "searchTerms": [
-          {
-            "term": "差分启发式",
-            "query": "差分启发式 A* 寻路优化"
-          },
-          {
-            "term": "A* 寻路",
-            "query": "A* 寻路算法 原理 优化"
-          },
-          {
-            "term": "启发式",
-            "query": "启发式函数 路径规划 作用"
-          },
-          {
-            "term": "可视化",
-            "query": "算法可视化 教学 交互式图表"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-08T22:00:41.445Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "9ef6e7c0434b7fea",
-      "title": "Dev snapshot: Godot 4.8 dev 3",
-      "url": "https://godotengine.org/article/dev-snapshot-godot-4-8-dev-3/",
-      "summary": "With GodotCon Boston now behind us, our contributors have had nothing but time and energy to get their most-wanted features over the finish line. While feature freeze still isn’t for at least another month, that hasn’t stopped our community from making rapid progress in their work and reviews, meaning that we have quite a lot to go over today, so buckle up! Please consider supporting the project financially , if you are able. Godot is maintained by the efforts of volunteers and a small team of paid contributors. Your donations go towards sponsoring their work and ensuring they can dedicate their undivided attention to the needs of the project. Jump to the Downloads section , and give it a spin right now, or continue reading to learn more about improvements in this release. You can also try the Web editor , the XR editor , or the Android editor for this release. If you are interested in t",
-      "publishedAt": "2026-08-07T12:00:00.000Z",
-      "sourceId": "godot",
-      "sourceName": "Godot Engine",
-      "sourceSite": "https://godotengine.org/blog/",
-      "lane": "game",
-      "accent": "#478cbf",
-      "topic": "AI 辅助学习",
-      "score": 67,
-      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-      "readMinutes": 13,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 89,
-      "bodyHash": "b0b44660daf173d20c89bb49",
-      "extraction": {
-        "method": "readability",
-        "length": 9199,
-        "originalLength": 9199,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "Godot 4.8 dev 3 快照：文档增强、编辑器改进与性能修复",
-      "analysis": {
-        "listSummary": "本文是 Godot 引擎 4.8 开发版第 3 个快照的发布说明，介绍了多项新功能和改进，包括文档系统对提示框的原生支持、GDScript 编辑器中的错误下划线、文件系统窗口的缩放和全局搜索、属性剪贴板 API 的公开、visionOS 模块的重构，以及 Windows 高轮询率鼠标的性能修复。对于 Godot 用户和开发者，这篇文章能帮助你了解即将到来的新特性，并指导你下载测试，提前适应变化。文章内容具体，值得一读，尤其是对编辑器体验和性能优化感兴趣的用户。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "这篇发布说明介绍了 Godot 4.8 开发版第 3 个快照（dev 3）的新变化。Godot 是一个开源游戏引擎，由社区志愿者和少量付费开发者维护，快照是开发过程中的预发布版本，用于测试最新功能。",
-              "文章首先提到 GodotCon Boston 会议结束，贡献者有更多时间推进功能，但距离功能冻结（即不再添加新功能，只修 bug 的阶段）还有至少一个月，所以现在仍有很多新东西加入。",
-              "文档系统原本用简单的“Note:”或“Warning:”前缀来提示重要信息，但这种做法容易让关键细节淹没在正文中，读者可能忽略。编辑器中的 GDScript 警告和错误原本是整行高亮，如果一行有多个问题，会被掩盖，不易定位。",
-              "文件系统窗口缺少缩放和按类型搜索的功能，用户操作不便。属性剪贴板是引擎内部功能，用户无法直接访问或修改。visionOS 支持是新增的，但其实现复杂，作者也承认自己不完全理解。",
-              "Windows 上高轮询率鼠标移动时存在性能问题，需要修复。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "针对文档问题，开发者在文档工具中引入了原生支持“admonitions”（即提示框），这是一种内置系统，用于突出显示关键信息。他们计划逐步用提示框替换旧的文本前缀，使重要内容更醒目。",
-              "对于 GDScript 编辑器，他们改为只给有问题的代码部分加下划线，而不是整行高亮。这样能更精确地指出错误位置，避免同一行多个问题被隐藏。",
-              "文件系统窗口增加了两个功能：按住 Ctrl 键滚动鼠标滚轮可缩放窗口内容，以及支持基于 glob 模式的搜索（glob 是一种用通配符匹配文件名的模式，例如 *.png 匹配所有 PNG 文件），方便用户按类型或前缀查找文件。",
-              "属性剪贴板通过 EditorInspector 类公开了 get_property_clipboard() 和 set_property_clipboard() 两个 API，让开发者能直接读取和设置属性内容。",
-              "visionOS 模块的重构简化了构建服务器的逻辑，并为未来支持 tvOS 打下基础，但具体技术细节文章未深入说明。",
-              "高轮询率鼠标问题由 Hugo 修复，他准备写专门博客详细解释，这里只给出了简化的对比图。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "文章列举了多个具体改进，每个都关联了 GitHub 上的 PR 编号，例如 GH-111375 是文档提示框的 PR，GH-119588 是 GDScript 下划线的 PR，这些编号是证据，表明改动已提交。",
-              "结论是这些改进能提升开发体验：文档更清晰，调试更高效，文件管理更灵活，API 更开放，性能更稳定。但文章也承认，visionOS 模块的技术细节作者自己也不懂，所以没有深入解释。",
-              "边界在于，这是预发布版本，可能存在未知 bug，文章建议用户频繁备份或使用 Git 版本控制。目前没有已知的新问题，但鼓励用户报告回归（即之前正常的功能在新版本中失效）。",
-              "此外，文章提到下载版本有标准版和 .NET 版（支持 C#），用户需根据需求选择。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "Godot 4.8 dev 3 是开发快照，距离功能冻结还有至少一个月，新功能仍在快速加入。",
-          "文档系统新增原生提示框支持，将逐步替换旧的文本前缀，使关键信息更醒目。",
-          "GDScript 编辑器现在只给有问题的代码部分加下划线，而不是整行高亮，便于定位错误。",
-          "文件系统窗口支持 Ctrl+滚轮缩放和 glob 搜索，方便管理文件。",
-          "属性剪贴板 API 公开，开发者可通过 EditorInspector 访问。",
-          "Windows 高轮询率鼠标性能问题已修复，但详细解释待后续博客。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "Admonitions 是文档工具内置的提示框系统，用于突出显示重要信息。它通过特定语法生成醒目的框体，替代简单的文本前缀，从而避免关键细节被忽略。",
-            "basis": "source"
-          },
-          {
-            "text": "GDScript 编辑器中的下划线功能：当代码有警告或错误时，只对相关部分加下划线，而不是整行高亮。这样能更精确地指出问题位置，避免同一行多个问题被掩盖。",
-            "basis": "source"
-          },
-          {
-            "text": "glob 搜索是一种使用通配符（如 * 和 ?）匹配文件名的模式，例如 *.gd 匹配所有 GDScript 文件。它允许用户按类型或前缀搜索，而不必指定具体文件名。",
-            "basis": "source"
-          },
-          {
-            "text": "get_property_clipboard() 和 set_property_clipboard() 是 EditorInspector 类中新增的 API，用于读取和设置属性剪贴板内容。此前这些操作仅限引擎内部，用户无法直接访问。",
-            "basis": "source"
-          },
-          {
-            "text": "visionOS 模块重构：将 visionOS 支持从原生实现改为模块，简化了构建服务器逻辑，并为未来 tvOS 支持奠定基础。具体技术细节文章未详述。",
-            "basis": "source"
-          },
-          {
-            "text": "高轮询率鼠标问题：某些鼠标的轮询率（即每秒报告位置的频率）过高，导致 Windows 系统处理性能下降。修复后 Godot 能更高效地处理这些鼠标输入。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "测试 Godot 4.8 dev 3 新功能",
-            "steps": [
-              "下载 Godot 4.8 dev 3 标准版或 .NET 版（取决于你是否需要 C# 支持）。",
-              "打开现有项目或创建新项目，测试文档提示框：在编辑器中查看文档，确认提示框是否显示。",
-              "在 GDScript 中故意写一个错误，观察编辑器是否只给错误部分加下划线。",
-              "在文件系统窗口按住 Ctrl 滚动滚轮，观察缩放效果；使用 glob 搜索（如输入 *.png）验证搜索功能。",
-              "尝试在脚本中调用 EditorInspector.get_property_clipboard() 和 set_property_clipboard()，确认 API 可用。",
-              "在 Windows 上使用高轮询率鼠标移动，观察性能是否改善。"
-            ],
-            "tools": [
-              "Godot 4.8 dev 3 编辑器",
-              "Git（用于备份项目）"
-            ],
-            "verification": [
-              "文档中的提示框以醒目样式显示，不再与正文混淆。",
-              "GDScript 错误下划线只出现在问题代码段，而非整行。",
-              "文件系统窗口缩放流畅，glob 搜索返回预期文件列表。",
-              "属性剪贴板 API 调用成功，无错误。",
-              "鼠标移动时编辑器响应更流畅，无卡顿。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [],
-        "searchTerms": [
-          {
-            "term": "admonitions",
-            "query": "Godot 4.8 admonitions documentation"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-08T22:01:00.693Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "92b4d2075252f696ecc26f05",
-      "title": "The Art Foundation Course on Pixel School is now available!",
-      "url": "https://lospec.com/articles/the-art-foundation-course-on-pixel-school-is-now-available",
-      "summary": "I just released the second full course on Pixel School, called Art Foundation. This course covers foundational art techniques which aren't specific to pixel art but are still very important for making great pixel art. We cover color, shading, composition, perspective, and more! There's a sitewide 25% off sale available for the next week. Check out Art Foundation on PixelSchool.org",
-      "publishedAt": "2026-06-29T16:05:20.813Z",
-      "sourceId": "lospec-articles",
-      "sourceName": "Lospec Articles",
-      "sourceSite": "https://lospec.com/articles/",
-      "lane": "art",
-      "accent": "#3f7f69",
-      "topic": "像素美术",
-      "score": 80,
-      "readMinutes": 3,
+      "readMinutes": 10,
       "category": "practice",
       "slot": "practice",
       "language": "en",
       "candidateScore": 78,
-      "bodyHash": "18a4c5d18b3e137cf834d07a",
+      "bodyHash": "7b94e6696238f1304fec3282",
       "extraction": {
         "method": "readability",
-        "length": 515,
-        "originalLength": 515,
+        "length": 6924,
+        "originalLength": 6924,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "像素学校推出艺术基础课程：掌握色彩、明暗与构图，让像素画更出色",
+      "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
       "analysis": {
-        "listSummary": "本文是Lospec网站发布的一则更新通知，宣布像素学校（Pixel School）推出第二门完整课程“艺术基础”（Art Foundation）。该课程面向像素画创作者，系统讲解色彩、明暗、构图、透视等通用美术基础，并附带为期一周的全站25%折扣。对希望提升像素画质量、但缺乏系统美术训练的入门学习者而言，这是一次低成本获取专业指导的机会，值得关注。",
+        "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "像素画虽以像素为基本单位，但创作时仍依赖传统美术功底。很多初学者只关注像素技巧，忽略色彩搭配、光影层次和构图平衡，导致作品显得平淡或杂乱。",
-              "作者skeddles在Lospec发布更新，推出像素学校第二门完整课程“艺术基础”，专门弥补这一缺口。课程不局限于像素画技巧，而是聚焦所有视觉艺术共通的底层能力，帮助学习者从根源上提升作品质量。",
-              "这一课程面向的正是那些已经会操作像素软件、但缺乏系统美术知识的创作者，相当于为像素画学习补上一块关键拼图。"
+              "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
+              "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
+              "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
+              "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "课程内容覆盖色彩、明暗、构图、透视等核心主题，每项都是视觉艺术的基础模块。作者强调这些技术“并非像素画特有”，但“对创作优秀像素画非常重要”，说明课程采取的是通用美术训练路径。",
-              "例如，色彩模块可能讲解色轮、互补色和色彩情绪，明暗模块可能涉及光源方向与体积感塑造，构图模块可能讨论视觉引导和留白，透视模块则帮助建立空间深度。这些知识可直接迁移到像素画场景中。",
-              "作者没有在文中展示具体课程片段或学员作品，因此论证主要依赖课程主题的合理性和作者作为创作者的行业信誉。对于入门者，这种系统化课程通常比碎片化教程更高效。"
+              "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
+              "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
+              "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
+              "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
+              "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文仅提供课程名称、主题范围和促销信息，未包含课程时长、教学形式或学员反馈等细节，因此无法验证课程实际质量。",
-              "作者明确说明这是“第二门完整课程”，暗示像素学校已有其他课程，但原文未提及第一门课程名称，读者需自行查看网站。",
-              "25%折扣限时一周，属于短期促销，适合有意向的学习者尽快决策。但课程是否适合零基础或高级创作者，原文未说明，需根据个人水平判断。"
+              "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
+              "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
+              "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
+              "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
             ]
           }
         ],
         "keyPoints": [
-          "像素学校推出第二门完整课程“艺术基础”，聚焦通用美术技能，而非像素画专属技巧。",
-          "课程覆盖色彩、明暗、构图、透视四大主题，旨在提升像素画的艺术表现力。",
-          "课程发布时附带全站25%折扣，限时一周，是低成本尝试的窗口。",
-          "作者强调这些基础技术对像素画创作至关重要，但未提供具体教学案例。",
-          "读者可通过PixelSchool.org查看课程详情，但原文未列出其他课程或价格信息。"
+          "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
+          "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
+          "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
+          "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
+          "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
         ],
         "technicalDetails": [
           {
-            "text": "色彩：指色彩理论，包括色轮、对比度、色调等，用于营造氛围和视觉焦点。课程中作为基础模块，帮助像素画选择和谐配色。",
+            "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
             "basis": "source"
           },
           {
-            "text": "明暗：指光照和阴影的处理，通过明度变化表现物体体积和光源方向。在像素画中，正确的明暗让像素块产生立体感。",
+            "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
             "basis": "source"
           },
           {
-            "text": "构图：指画面元素的布局和排列，引导观众视线，平衡视觉重量。像素画中构图决定整体视觉冲击力。",
+            "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
             "basis": "source"
           },
           {
-            "text": "透视：指在二维平面上表现三维空间的方法，如一点、两点透视。像素画中透视帮助建立场景深度。",
+            "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
             "basis": "source"
           },
           {
-            "text": "Pixel School：像素学校，一个在线学习平台，提供像素画相关课程。本文宣布其第二门完整课程上线。",
+            "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
+            "basis": "source"
+          },
+          {
+            "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "入门像素画学习者希望系统提升美术基础，避免盲目练习",
+            "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
             "steps": [
-              "访问PixelSchool.org，找到Art Foundation课程页面，查看课程大纲和预览视频。",
-              "利用25%折扣码（如有）购买课程，注意折扣有效期为一周。",
-              "按课程模块顺序学习，每学完一个主题（如色彩）后，用像素画软件（如Aseprite）完成一个小练习。",
-              "将课程中学到的构图和透视原则应用到自己的像素画项目中，对比学习前后的作品。"
+              "登录 LangSmith，在侧边栏选择 LLM Gateway。",
+              "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
+              "在 LangSmith 工作区设置中添加提供商 API 密钥。",
+              "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
+              "触发一次测试请求，验证策略是否生效。"
             ],
             "tools": [
-              "PixelSchool.org",
-              "Aseprite（像素画编辑器）",
-              "或任何支持像素绘制的软件（如Photoshop）"
+              "LangSmith",
+              "LLM Gateway"
             ],
             "verification": [
-              "完成课程后，能独立分析一幅像素画的色彩搭配和明暗关系。",
-              "自己的新作品在构图或透视上获得同行或社区的正面反馈。",
-              "能说出至少三种构图技巧，并在作品中实际使用。"
-            ]
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-08T22:01:16.463Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "a5ba9d6c0363a1ef",
-      "title": "Aseprite v1.3.15",
-      "url": "https://blog.aseprite.org/2025/08/27/aseprite-v1315/",
-      "summary": "Hello everyone! Today we’ve released Aseprite v1.3.15.2 with several bug fixes and little new handy features. If you are using v1.3.15 or v1.3.15.1, sorry for the inconvenience, but it might be a good idea to update to the latest v1.3.15.2 version: What’s new New possibility to duplicate slices (or Edit &gt; Copy &amp; Paste ) t/21966 #4466 Added “Show hidden” option to file selector #3079 Added option to stroke text #5271 New options to reconfigure keys to apply/discard the tranformation #5102 Aseprite v1.3.15.2 Fixed arrow keys to move selection #5385 Fixed close button in popup window #5386 Fixed pivot position when Tiled Mode is enabled #2316 Aseprite v1.3.15.1 Reverted Esc key behavior to drop pixels + deselect #5102 Added options to reconfigure keys to apply/cancel the transformation Added slices copy &amp; paste and duplication #4466 Fixed bug in Saturation layer blend mode #2661 ",
-      "publishedAt": "2025-08-27T00:00:00.000Z",
-      "sourceId": "aseprite",
-      "sourceName": "Aseprite Blog",
-      "sourceSite": "https://blog.aseprite.org/",
-      "lane": "art",
-      "accent": "#7d4db3",
-      "topic": "像素美术",
-      "score": 64,
-      "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
-      "readMinutes": 3,
-      "category": "update",
-      "slot": "update",
-      "language": "en",
-      "candidateScore": 59,
-      "bodyHash": "ad37a8aa69a2898ff4f36850",
-      "extraction": {
-        "method": "readability",
-        "length": 2326,
-        "originalLength": 2326,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "Aseprite v1.3.15 更新详解：新功能、修复与升级指南",
-      "analysis": {
-        "listSummary": "本文是 Aseprite 像素画软件 v1.3.15 系列的更新日志，重点介绍了 v1.3.15.2 版本带来的新功能和错误修复。内容包括复制切片、显示隐藏文件、文本描边、自定义快捷键等实用功能，以及针对箭头键移动选区、弹窗关闭按钮等问题的修复。如果你是 Aseprite 用户，了解这些更新可以帮助你更高效地完成像素画创作，并避免已知问题。文章信息密度高，适合所有 Aseprite 用户阅读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "这篇文章是 Aseprite 软件的版本更新公告，主要面向所有使用该软件的用户。它告诉你 v1.3.15.2 版本修复了哪些问题，并增加了哪些新功能。",
-              "Aseprite 是一款专业的像素画和动画制作软件，很多游戏美术和独立开发者都在使用它。了解版本更新内容，能让你知道新版本是否值得升级，以及如何利用新功能提高工作效率。",
-              "文章特别提醒，如果你正在使用 v1.3.15 或 v1.3.15.1 版本，建议更新到最新的 v1.3.15.2，因为新版本修复了一些之前版本存在的问题。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "文章通过列举具体的新增功能和修复项，来展示 v1.3.15.2 版本的改进。每个功能或修复都对应一个编号，方便用户查阅和反馈。",
-              "新功能包括：可以复制切片（简单说，就是复制图片中某个选定的区域），文件选择器新增“显示隐藏”选项，文本工具新增描边功能，以及可以自定义应用或取消变换的快捷键。",
-              "修复的问题包括：箭头键移动选区失效、弹窗关闭按钮不工作、平铺模式下枢轴点位置错误等。这些修复直接解决了用户在使用中可能遇到的痛点。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "文章的证据就是版本更新日志本身，它列出了所有变更点。结论是 v1.3.15.2 是一个值得升级的版本，因为它带来了新功能并修复了问题。",
-              "需要注意的是，这篇文章只是更新公告，没有提供详细的使用教程或性能对比数据。它的主要目的是告知用户新版本的存在和变化。",
-              "此外，文章还提到了 v1.3.15 和 v1.3.15.1 版本的部分内容，说明这些功能是逐步加入的，用户如果从更早的版本升级，会一次性获得所有更新。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "Aseprite v1.3.15.2 是 v1.3.15 系列的最新版本，建议所有用户升级。",
-          "新增了复制切片、显示隐藏文件、文本描边和自定义变换快捷键等功能。",
-          "修复了箭头键移动选区、弹窗关闭按钮、平铺模式枢轴点等问题。",
-          "v1.3.15.1 版本曾调整 Esc 键行为，v1.3.15.2 进一步优化了相关快捷键设置。",
-          "Lua API 更新至版本 35，为插件开发者提供了新的接口和属性。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "切片（Slices）是 Aseprite 中用于定义图像特定区域的工具，常用于动画或游戏素材的切割。新版本支持复制和粘贴切片，方便用户复用或调整区域设置。",
-            "basis": "source"
-          },
-          {
-            "text": "文件选择器新增“显示隐藏”选项，允许用户在打开或保存文件时查看操作系统中的隐藏文件。",
-            "basis": "source"
-          },
-          {
-            "text": "文本工具新增描边功能，可以为文字添加轮廓效果，增强视觉表现力。",
-            "basis": "source"
-          },
-          {
-            "text": "Lua API 版本更新至 35，新增了 sprite.undoHistory 属性，允许插件访问撤销历史；Dialog 构造函数新增 resizeable 属性，使对话框可调整大小；Plugin:newCommand() 新增 onchecked 参数，用于处理勾选状态。",
-            "basis": "source"
-          },
-          {
-            "text": "v1.3.15.2 修复了箭头键移动选区的问题，该问题在 v1.3.15 中引入，影响用户通过键盘精确调整选区位置。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "作为 Aseprite 用户，升级到最新版本并利用新功能优化工作流程",
-            "steps": [
-              "备份当前正在进行的项目文件，以防万一。",
-              "从 Aseprite 官网或应用商店下载并安装 v1.3.15.2 版本。",
-              "打开软件，尝试使用新的切片复制功能，选中一个区域后按 Ctrl+C 和 Ctrl+V 进行复制粘贴。",
-              "在文件选择器中，查看是否有“显示隐藏”选项，并尝试开启以显示隐藏文件。",
-              "使用文本工具输入文字，在工具选项栏中找到描边设置并调整样式。",
-              "前往设置中的键盘快捷键配置，查找变换操作，重新设置应用或取消的按键。"
-            ],
-            "tools": [
-              "Aseprite v1.3.15.2"
-            ],
-            "verification": [
-              "软件启动后，在“关于”或“帮助”菜单中确认版本号为 v1.3.15.2。",
-              "成功复制并粘贴一个切片，且粘贴后的切片与原切片内容一致。",
-              "在文件选择器中能看到之前被隐藏的文件。",
-              "为文字添加描边后，文字边缘出现轮廓效果。",
-              "按下新设置的快捷键，能成功应用或取消变换操作。"
+              "在 LangSmith 中看到网关调用产生的追踪。",
+              "当费用上限触发时，代理收到 402 响应。",
+              "在追踪中确认敏感数据已被脱敏。"
             ]
           }
         ]
@@ -1586,592 +1162,930 @@
         "emphasis": [],
         "searchTerms": [
           {
-            "term": "Lua API",
-            "query": "Aseprite Lua API version 35"
+            "term": "LLM Gateway",
+            "query": "LangSmith LLM Gateway 功能"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T05:37:27.166Z",
+      "analyzedAt": "2026-08-09T22:02:35.050Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "d7b2e7a54cd91fe6",
+      "title": "Stop Chasing New Models. Build Once and Access Them All.",
+      "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
+      "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
+      "publishedAt": "2026-07-27T09:49:44.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
+      "lane": "ai",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 61,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 9,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 65,
+      "bodyHash": "b4dff80ad530b212da503b94",
+      "extraction": {
+        "method": "readability",
+        "length": 6525,
+        "originalLength": 6525,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "别再追新模型了：一次构建，接入所有模型",
+      "analysis": {
+        "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
+              "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
+              "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
+              "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
+              "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
+              "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
+              "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
+              "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
+              "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
+              "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
+              "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
+              "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
+              "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
+          "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
+          "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
+          "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
+          "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
+          "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
+            "basis": "source"
+          },
+          {
+            "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
+            "basis": "source"
+          },
+          {
+            "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
+            "basis": "source"
+          },
+          {
+            "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
+            "basis": "source"
+          },
+          {
+            "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "团队希望快速评估新模型而不重写应用代码",
+            "steps": [
+              "部署Otari网关或类似服务，配置至少一个提供方凭证。",
+              "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
+              "在网关中配置路由策略，指定不同工作负载使用不同模型。",
+              "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
+              "设置预算和用量监控，跟踪各模型成本。"
+            ],
+            "tools": [
+              "Otari网关",
+              "OpenAI或Anthropic SDK（用于测试兼容性）",
+              "API测试工具（如Postman）"
+            ],
+            "verification": [
+              "应用发送请求后，网关日志显示请求被路由到指定模型。",
+              "切换模型后，应用无需重新部署，响应正常。",
+              "成本仪表板显示各模型的使用量和费用。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "依赖地狱",
+          "稳定接口",
+          "成本可见性"
+        ],
+        "searchTerms": [
+          {
+            "term": "依赖地狱",
+            "query": "dependency hell 软件工程"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T22:02:49.028Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "c0a7deaafdf98f72",
-      "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
-      "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
-      "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
-      "publishedAt": "2026-08-07T19:36:29.000Z",
+      "id": "1abb5239d6c83d29",
+      "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
+      "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
+      "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
+      "publishedAt": "2026-08-08T22:36:03.000Z",
+      "sourceId": "simon-willison",
+      "sourceName": "Simon Willison",
+      "sourceSite": "https://simonwillison.net/",
+      "lane": "ai",
+      "accent": "#b36b00",
+      "topic": "开发实践",
+      "score": 66,
+      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+      "readMinutes": 5,
+      "category": "opinion",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 81,
+      "bodyHash": "9ac7bebb0abb7d08788e3490",
+      "extraction": {
+        "method": "readability",
+        "length": 3579,
+        "originalLength": 3579,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
+      "analysis": {
+        "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
+              "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
+              "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
+              "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
+              "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
+              "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
+          "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
+          "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
+          "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
+          "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
+            "basis": "source"
+          },
+          {
+            "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
+            "basis": "source"
+          },
+          {
+            "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
+            "steps": [
+              "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
+              "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
+              "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
+              "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
+              "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
+            ],
+            "tools": [
+              "Claude Code 自动模式设置",
+              "日志监控工具（如 ELK Stack）",
+              "权限管理工具（如 IAM）"
+            ],
+            "verification": [
+              "观察自动模式下的操作成功率，确保效率提升。",
+              "检查日志中是否有未授权操作记录。",
+              "通过模拟攻击测试，确认安全策略有效。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "自动模式",
+          "确认疲劳",
+          "提示注入",
+          "数据泄露",
+          "独立验证"
+        ],
+        "searchTerms": [
+          {
+            "term": "自动模式",
+            "query": "Claude Code auto mode 安全评估"
+          },
+          {
+            "term": "提示注入",
+            "query": "prompt injection 防御 编程代理"
+          },
+          {
+            "term": "确认疲劳",
+            "query": "confirmation fatigue AI 审批"
+          },
+          {
+            "term": "数据泄露",
+            "query": "data exfiltration AI 代理 风险"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-09T22:02:20.109Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "0b0df736865e6ac1",
+      "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
+      "url": "https://www.langchain.com/blog/introducing-llm-gateway",
+      "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
+      "publishedAt": "2026-08-07T19:39:38.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 60,
+      "score": 49,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 9,
+      "readMinutes": 10,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 84,
-      "bodyHash": "d8858507d316bed5eb84c33c",
+      "candidateScore": 78,
+      "bodyHash": "7b94e6696238f1304fec3282",
       "extraction": {
         "method": "readability",
-        "length": 6448,
-        "originalLength": 6448,
+        "length": 6924,
+        "originalLength": 6924,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
+      "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
       "analysis": {
-        "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
+        "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
-              "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
-              "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
-              "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
+              "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
+              "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
+              "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
+              "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
-              "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
-              "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
-              "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
-              "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
+              "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
+              "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
+              "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
+              "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
+              "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
-              "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
-              "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
+              "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
+              "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
+              "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
+              "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
             ]
           }
         ],
         "keyPoints": [
-          "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
-          "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
-          "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-          "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
-          "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
-          "所有运行自动追踪，便于调试和优化。"
+          "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
+          "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
+          "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
+          "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
+          "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
         ],
         "technicalDetails": [
           {
-            "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
+            "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
             "basis": "source"
           },
           {
-            "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
+            "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
             "basis": "source"
           },
           {
-            "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
+            "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
             "basis": "source"
           },
           {
-            "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
+            "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
             "basis": "source"
           },
           {
-            "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
+            "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
+            "basis": "source"
+          },
+          {
+            "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
+            "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
             "steps": [
-              "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
-              "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-              "在 tools.json 中启用所需工具，并设置人工审批选项。",
-              "创建线程并启动流式运行，测试代理的响应。",
-              "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
-              "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
+              "登录 LangSmith，在侧边栏选择 LLM Gateway。",
+              "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
+              "在 LangSmith 工作区设置中添加提供商 API 密钥。",
+              "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
+              "触发一次测试请求，验证策略是否生效。"
             ],
             "tools": [
               "LangSmith",
-              "Managed Deep Agents API",
-              "Deep Agents 开源框架"
+              "LLM Gateway"
             ],
             "verification": [
-              "代理能够处理长时间运行的线程，并在中断后恢复。",
-              "工具调用记录在 LangSmith 中，且无未授权操作。",
-              "代理的上下文随运行次数增加而改进，如操作笔记更新。"
+              "在 LangSmith 中看到网关调用产生的追踪。",
+              "当费用上限触发时，代理收到 402 响应。",
+              "在追踪中确认敏感数据已被脱敏。"
             ]
           }
         ]
       },
       "annotations": {
-        "emphasis": [
-          "持久执行",
-          "沙箱",
-          "API 优先",
-          "Context Hub",
-          "LangSmith Engine"
-        ],
+        "emphasis": [],
         "searchTerms": [
           {
-            "term": "Managed Deep Agents",
-            "query": "LangChain Managed Deep Agents"
-          },
-          {
-            "term": "持久执行",
-            "query": "durable execution AI agents"
-          },
-          {
-            "term": "沙箱",
-            "query": "sandbox execution AI agents"
-          },
-          {
-            "term": "Context Hub",
-            "query": "LangSmith Context Hub"
-          },
-          {
-            "term": "LangSmith Engine",
-            "query": "LangSmith Engine trace review"
+            "term": "LLM Gateway",
+            "query": "LangSmith LLM Gateway 功能"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T05:37:02.294Z",
+      "analyzedAt": "2026-08-09T22:02:35.050Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "5f8f652ea6fc7c93",
-      "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
-      "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
-      "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
-      "publishedAt": "2026-08-07T19:18:09.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "d7b2e7a54cd91fe6",
+      "title": "Stop Chasing New Models. Build Once and Access Them All.",
+      "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
+      "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
+      "publishedAt": "2026-07-27T09:49:44.000Z",
+      "sourceId": "mozilla-ai",
+      "sourceName": "Mozilla AI",
+      "sourceSite": "https://blog.mozilla.ai/",
       "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "Agent 与自动化",
-      "score": 64,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 3,
-      "category": "opinion",
-      "slot": "practice",
+      "accent": "#ff7139",
+      "topic": "模型与研究",
+      "score": 61,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 9,
+      "category": "research",
+      "slot": "update",
       "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "cf9ae76805e7432e82c98f73",
+      "candidateScore": 65,
+      "bodyHash": "b4dff80ad530b212da503b94",
       "extraction": {
         "method": "readability",
-        "length": 1929,
-        "originalLength": 1929,
+        "length": 6525,
+        "originalLength": 6525,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
+      "displayTitle": "别再追新模型了：一次构建，接入所有模型",
       "analysis": {
-        "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
+        "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
-              "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
-              "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
+              "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
+              "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
+              "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
+              "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
+              "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
-              "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
-              "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
-              "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
+              "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
+              "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
+              "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
+              "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
+              "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
+              "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
-              "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
-              "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
+              "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
+              "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
+              "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
+              "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
             ]
           }
         ],
         "keyPoints": [
-          "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
-          "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
-          "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
-          "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
-          "作者分享了完整会话记录，便于他人复现或学习。"
+          "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
+          "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
+          "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
+          "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
+          "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
+          "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
         ],
         "technicalDetails": [
           {
-            "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
+            "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
             "basis": "source"
           },
           {
-            "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
+            "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
             "basis": "source"
           },
           {
-            "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
+            "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
             "basis": "source"
           },
           {
-            "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
-            "basis": "inference"
+            "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
+            "basis": "source"
+          },
+          {
+            "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
+            "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
+            "scenario": "团队希望快速评估新模型而不重写应用代码",
             "steps": [
-              "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
-              "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
-              "开发过程中定期检查截图或预览，注意视觉异常。",
-              "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
-              "保存完整的会话记录，以便复盘和分享。"
+              "部署Otari网关或类似服务，配置至少一个提供方凭证。",
+              "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
+              "在网关中配置路由策略，指定不同工作负载使用不同模型。",
+              "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
+              "设置预算和用量监控，跟踪各模型成本。"
             ],
             "tools": [
-              "Codex Desktop",
-              "GPT-5.6 Sol Ultra",
-              "gpt-image-2"
+              "Otari网关",
+              "OpenAI或Anthropic SDK（用于测试兼容性）",
+              "API测试工具（如Postman）"
             ],
             "verification": [
-              "游戏可运行且无视觉异常。",
-              "所有生成的文件（如纹理）已正确集成。",
-              "会话记录可导出为 Markdown 格式。"
+              "应用发送请求后，网关日志显示请求被路由到指定模型。",
+              "切换模型后，应用无需重新部署，响应正常。",
+              "成本仪表板显示各模型的使用量和费用。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "Codex Desktop",
-          "GPT-5.6 Sol Ultra",
-          "子代理",
-          "gpt-image-2"
+          "依赖地狱",
+          "稳定接口",
+          "成本可见性"
         ],
         "searchTerms": [
           {
-            "term": "Codex Desktop",
-            "query": "Codex Desktop OpenAI 编程工具"
-          },
-          {
-            "term": "GPT-5.6 Sol Ultra",
-            "query": "GPT-5.6 Sol Ultra 模型"
-          },
-          {
-            "term": "子代理",
-            "query": "AI 子代理 编程"
-          },
-          {
-            "term": "gpt-image-2",
-            "query": "gpt-image-2 图像生成"
-          },
-          {
-            "term": "AgentsView",
-            "query": "AgentsView 成本估算"
+            "term": "依赖地狱",
+            "query": "dependency hell 软件工程"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T05:37:14.569Z",
+      "analyzedAt": "2026-08-09T22:02:49.028Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "c0a7deaafdf98f72",
-        "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
-        "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
-        "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
-        "publishedAt": "2026-08-07T19:36:29.000Z",
+        "id": "1abb5239d6c83d29",
+        "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
+        "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
+        "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
+        "publishedAt": "2026-08-08T22:36:03.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
+        "lane": "ai",
+        "accent": "#b36b00",
+        "topic": "开发实践",
+        "score": 66,
+        "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+        "readMinutes": 5,
+        "category": "opinion",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 81,
+        "bodyHash": "9ac7bebb0abb7d08788e3490",
+        "extraction": {
+          "method": "readability",
+          "length": 3579,
+          "originalLength": 3579,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
+        "analysis": {
+          "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
+                "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
+                "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
+                "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
+                "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
+                "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
+            "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
+            "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
+            "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
+            "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
+              "basis": "source"
+            },
+            {
+              "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
+              "basis": "source"
+            },
+            {
+              "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
+              "steps": [
+                "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
+                "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
+                "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
+                "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
+                "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
+              ],
+              "tools": [
+                "Claude Code 自动模式设置",
+                "日志监控工具（如 ELK Stack）",
+                "权限管理工具（如 IAM）"
+              ],
+              "verification": [
+                "观察自动模式下的操作成功率，确保效率提升。",
+                "检查日志中是否有未授权操作记录。",
+                "通过模拟攻击测试，确认安全策略有效。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "自动模式",
+            "确认疲劳",
+            "提示注入",
+            "数据泄露",
+            "独立验证"
+          ],
+          "searchTerms": [
+            {
+              "term": "自动模式",
+              "query": "Claude Code auto mode 安全评估"
+            },
+            {
+              "term": "提示注入",
+              "query": "prompt injection 防御 编程代理"
+            },
+            {
+              "term": "确认疲劳",
+              "query": "confirmation fatigue AI 审批"
+            },
+            {
+              "term": "数据泄露",
+              "query": "data exfiltration AI 代理 风险"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T22:02:20.109Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "0b0df736865e6ac1",
+        "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
+        "url": "https://www.langchain.com/blog/introducing-llm-gateway",
+        "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
+        "publishedAt": "2026-08-07T19:39:38.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
         "topic": "Agent 与自动化",
-        "score": 60,
+        "score": 49,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 9,
+        "readMinutes": 10,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 84,
-        "bodyHash": "d8858507d316bed5eb84c33c",
+        "candidateScore": 78,
+        "bodyHash": "7b94e6696238f1304fec3282",
         "extraction": {
           "method": "readability",
-          "length": 6448,
-          "originalLength": 6448,
+          "length": 6924,
+          "originalLength": 6924,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
+        "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
         "analysis": {
-          "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
+          "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
-                "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
-                "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
-                "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
+                "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
+                "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
+                "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
+                "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
-                "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
-                "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
-                "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
-                "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
+                "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
+                "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
+                "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
+                "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
+                "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
-                "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
-                "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
+                "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
+                "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
+                "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
+                "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
               ]
             }
           ],
           "keyPoints": [
-            "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
-            "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
-            "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-            "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
-            "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
-            "所有运行自动追踪，便于调试和优化。"
+            "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
+            "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
+            "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
+            "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
+            "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
           ],
           "technicalDetails": [
             {
-              "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
+              "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
               "basis": "source"
             },
             {
-              "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
+              "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
               "basis": "source"
             },
             {
-              "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
+              "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
               "basis": "source"
             },
             {
-              "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
+              "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
               "basis": "source"
             },
             {
-              "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
+              "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
+              "basis": "source"
+            },
+            {
+              "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
+              "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
               "steps": [
-                "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
-                "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-                "在 tools.json 中启用所需工具，并设置人工审批选项。",
-                "创建线程并启动流式运行，测试代理的响应。",
-                "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
-                "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
+                "登录 LangSmith，在侧边栏选择 LLM Gateway。",
+                "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
+                "在 LangSmith 工作区设置中添加提供商 API 密钥。",
+                "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
+                "触发一次测试请求，验证策略是否生效。"
               ],
               "tools": [
                 "LangSmith",
-                "Managed Deep Agents API",
-                "Deep Agents 开源框架"
+                "LLM Gateway"
               ],
               "verification": [
-                "代理能够处理长时间运行的线程，并在中断后恢复。",
-                "工具调用记录在 LangSmith 中，且无未授权操作。",
-                "代理的上下文随运行次数增加而改进，如操作笔记更新。"
+                "在 LangSmith 中看到网关调用产生的追踪。",
+                "当费用上限触发时，代理收到 402 响应。",
+                "在追踪中确认敏感数据已被脱敏。"
               ]
             }
           ]
         },
         "annotations": {
-          "emphasis": [
-            "持久执行",
-            "沙箱",
-            "API 优先",
-            "Context Hub",
-            "LangSmith Engine"
-          ],
+          "emphasis": [],
           "searchTerms": [
             {
-              "term": "Managed Deep Agents",
-              "query": "LangChain Managed Deep Agents"
-            },
-            {
-              "term": "持久执行",
-              "query": "durable execution AI agents"
-            },
-            {
-              "term": "沙箱",
-              "query": "sandbox execution AI agents"
-            },
-            {
-              "term": "Context Hub",
-              "query": "LangSmith Context Hub"
-            },
-            {
-              "term": "LangSmith Engine",
-              "query": "LangSmith Engine trace review"
+              "term": "LLM Gateway",
+              "query": "LangSmith LLM Gateway 功能"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T05:37:02.294Z",
+        "analyzedAt": "2026-08-09T22:02:35.050Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "5f8f652ea6fc7c93",
-        "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
-        "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
-        "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
-        "publishedAt": "2026-08-07T19:18:09.000Z",
-        "sourceId": "simon-willison",
-        "sourceName": "Simon Willison",
-        "sourceSite": "https://simonwillison.net/",
+        "id": "d7b2e7a54cd91fe6",
+        "title": "Stop Chasing New Models. Build Once and Access Them All.",
+        "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
+        "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
+        "publishedAt": "2026-07-27T09:49:44.000Z",
+        "sourceId": "mozilla-ai",
+        "sourceName": "Mozilla AI",
+        "sourceSite": "https://blog.mozilla.ai/",
         "lane": "ai",
-        "accent": "#b36b00",
-        "topic": "Agent 与自动化",
-        "score": 64,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 3,
-        "category": "opinion",
-        "slot": "practice",
+        "accent": "#ff7139",
+        "topic": "模型与研究",
+        "score": 61,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 9,
+        "category": "research",
+        "slot": "update",
         "language": "en",
-        "candidateScore": 79,
-        "bodyHash": "cf9ae76805e7432e82c98f73",
+        "candidateScore": 65,
+        "bodyHash": "b4dff80ad530b212da503b94",
         "extraction": {
           "method": "readability",
-          "length": 1929,
-          "originalLength": 1929,
+          "length": 6525,
+          "originalLength": 6525,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
+        "displayTitle": "别再追新模型了：一次构建，接入所有模型",
         "analysis": {
-          "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
+          "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
-                "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
-                "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
+                "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
+                "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
+                "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
+                "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
+                "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
-                "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
-                "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
-                "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
+                "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
+                "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
+                "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
+                "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
+                "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
+                "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
-                "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
-                "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
+                "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
+                "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
+                "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
+                "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
               ]
             }
           ],
           "keyPoints": [
-            "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
-            "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
-            "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
-            "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
-            "作者分享了完整会话记录，便于他人复现或学习。"
+            "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
+            "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
+            "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
+            "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
+            "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
+            "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
           ],
           "technicalDetails": [
             {
-              "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
+              "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
               "basis": "source"
             },
             {
-              "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
+              "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
               "basis": "source"
             },
             {
-              "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
+              "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
               "basis": "source"
             },
             {
-              "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
-              "basis": "inference"
+              "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
+              "basis": "source"
+            },
+            {
+              "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
+              "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
+              "scenario": "团队希望快速评估新模型而不重写应用代码",
               "steps": [
-                "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
-                "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
-                "开发过程中定期检查截图或预览，注意视觉异常。",
-                "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
-                "保存完整的会话记录，以便复盘和分享。"
+                "部署Otari网关或类似服务，配置至少一个提供方凭证。",
+                "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
+                "在网关中配置路由策略，指定不同工作负载使用不同模型。",
+                "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
+                "设置预算和用量监控，跟踪各模型成本。"
               ],
               "tools": [
-                "Codex Desktop",
-                "GPT-5.6 Sol Ultra",
-                "gpt-image-2"
+                "Otari网关",
+                "OpenAI或Anthropic SDK（用于测试兼容性）",
+                "API测试工具（如Postman）"
               ],
               "verification": [
-                "游戏可运行且无视觉异常。",
-                "所有生成的文件（如纹理）已正确集成。",
-                "会话记录可导出为 Markdown 格式。"
+                "应用发送请求后，网关日志显示请求被路由到指定模型。",
+                "切换模型后，应用无需重新部署，响应正常。",
+                "成本仪表板显示各模型的使用量和费用。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "Codex Desktop",
-            "GPT-5.6 Sol Ultra",
-            "子代理",
-            "gpt-image-2"
+            "依赖地狱",
+            "稳定接口",
+            "成本可见性"
           ],
           "searchTerms": [
             {
-              "term": "Codex Desktop",
-              "query": "Codex Desktop OpenAI 编程工具"
-            },
-            {
-              "term": "GPT-5.6 Sol Ultra",
-              "query": "GPT-5.6 Sol Ultra 模型"
-            },
-            {
-              "term": "子代理",
-              "query": "AI 子代理 编程"
-            },
-            {
-              "term": "gpt-image-2",
-              "query": "gpt-image-2 图像生成"
-            },
-            {
-              "term": "AgentsView",
-              "query": "AgentsView 成本估算"
+              "term": "依赖地狱",
+              "query": "dependency hell 软件工程"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T05:37:14.569Z",
+        "analyzedAt": "2026-08-09T22:02:49.028Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2681,777 +2595,246 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "c0a7deaafdf98f72",
-        "title": "Managed Deep Agents: the fastest way to ship a production deep agent",
-        "url": "https://www.langchain.com/blog/introducing-managed-deep-agents",
-        "summary": "Run deep agents in production with durable execution, sandboxes, tool access, and LangSmith observability, without building the runtime yourself. Now in private beta",
-        "publishedAt": "2026-08-07T19:36:29.000Z",
+        "id": "1abb5239d6c83d29",
+        "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
+        "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
+        "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
+        "publishedAt": "2026-08-08T22:36:03.000Z",
+        "sourceId": "simon-willison",
+        "sourceName": "Simon Willison",
+        "sourceSite": "https://simonwillison.net/",
+        "lane": "ai",
+        "accent": "#b36b00",
+        "topic": "开发实践",
+        "score": 66,
+        "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+        "readMinutes": 5,
+        "category": "opinion",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 81,
+        "bodyHash": "9ac7bebb0abb7d08788e3490",
+        "extraction": {
+          "method": "readability",
+          "length": 3579,
+          "originalLength": 3579,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
+        "analysis": {
+          "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
+                "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
+                "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
+                "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
+                "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
+                "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
+            "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
+            "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
+            "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
+            "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
+              "basis": "source"
+            },
+            {
+              "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
+              "basis": "source"
+            },
+            {
+              "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
+              "steps": [
+                "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
+                "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
+                "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
+                "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
+                "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
+              ],
+              "tools": [
+                "Claude Code 自动模式设置",
+                "日志监控工具（如 ELK Stack）",
+                "权限管理工具（如 IAM）"
+              ],
+              "verification": [
+                "观察自动模式下的操作成功率，确保效率提升。",
+                "检查日志中是否有未授权操作记录。",
+                "通过模拟攻击测试，确认安全策略有效。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "自动模式",
+            "确认疲劳",
+            "提示注入",
+            "数据泄露",
+            "独立验证"
+          ],
+          "searchTerms": [
+            {
+              "term": "自动模式",
+              "query": "Claude Code auto mode 安全评估"
+            },
+            {
+              "term": "提示注入",
+              "query": "prompt injection 防御 编程代理"
+            },
+            {
+              "term": "确认疲劳",
+              "query": "confirmation fatigue AI 审批"
+            },
+            {
+              "term": "数据泄露",
+              "query": "data exfiltration AI 代理 风险"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T22:02:20.109Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "0b0df736865e6ac1",
+        "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
+        "url": "https://www.langchain.com/blog/introducing-llm-gateway",
+        "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
+        "publishedAt": "2026-08-07T19:39:38.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
         "topic": "Agent 与自动化",
-        "score": 60,
+        "score": 49,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 9,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 84,
-        "bodyHash": "d8858507d316bed5eb84c33c",
-        "extraction": {
-          "method": "readability",
-          "length": 6448,
-          "originalLength": 6448,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "托管深度代理：让生产级 AI 代理更快上线",
-        "analysis": {
-          "listSummary": "本文介绍 LangChain 推出的 Managed Deep Agents，一种 API 优先的托管运行时，用于创建、运行和运维深度代理。它解决了生产环境中代理运行所需的持久执行、沙箱、工具访问和可观测性等复杂问题。对开发者而言，这意味着无需自建基础设施，即可快速部署和迭代 AI 代理。文章值得一读，因为它提供了从开源框架到托管服务的实际路径，适合希望将代理投入生产的团队。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "构建一个有用的 AI 代理（即能自主规划、调用工具、处理任务的程序）正变得越来越容易，但将其投入生产环境仍然困难。",
-                "生产环境中的代理需要处理长时间运行的任务，这要求系统具备持久执行（即任务中断后能恢复）、流式传输（实时输出结果）、记忆、文件存储、工具调用、人工审批、沙箱（隔离的安全执行环境）和追踪（记录运行日志）等能力。",
-                "团队若自行搭建这些基础设施，往往在代理尚未服务用户前就需投入大量维护工作，包括运行时、文件存储、工具配置、线程状态和反馈循环等。",
-                "Managed Deep Agents 正是为了解决这一痛点而设计，它将开源 Deep Agents 框架的操作层打包，让开发者专注于代理行为而非底层运行时。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "Managed Deep Agents 提供 API 优先的托管运行时，开发者可通过 /v1/deepagents 接口以编程方式创建、更新和管理代理，无需自建服务器。",
-                "代理定义沿用 Deep Agents 的项目结构，包括 AGENTS.md（指令文件）、skills/（技能目录）、subagents/（子代理目录）和 tools.json（工具配置）。这些文件在 LangSmith 中存储和版本化，支持代理定义的持续演进。",
-                "Context Hub 为代理提供跨运行时的上下文管理，例如用户偏好或项目细节，并可选启用 LangSmith Engine 自动审查运行轨迹，帮助代理从实际使用中改进。",
-                "工具通过 tools.json 配置，支持人工介入（human-in-the-loop），并提供沙箱执行环境，适用于需要代码、命令或文件操作的场景。",
-                "所有运行自动在 LangSmith 中追踪，开发者可检查工具调用、调试行为并观察代理改进过程。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "文章以私有测试版发布为背景，强调 API 优先的路径，并列举了适用场景，如支持代理、研究代理、编码代理和数据分析代理。",
-                "结论是 Managed Deep Agents 为需要长时运行、工具使用和上下文保持的代理提供了最快捷的部署方式，但当前仅限设计合作伙伴，且依赖 LangSmith 平台。",
-                "边界在于它并非通用解决方案，而是针对特定类型的代理；同时，它基于开源 Deep Agents，但托管服务可能引入平台锁定。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "Managed Deep Agents 是 LangChain 推出的托管运行时，用于简化生产级深度代理的部署。",
-            "它提供 API 接口，支持代理的创建、更新和运行，无需自建服务器。",
-            "代理定义沿用开源 Deep Agents 的项目结构，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-            "Context Hub 和 LangSmith Engine 帮助代理跨运行保持上下文并自动改进。",
-            "沙箱执行和人工审批功能增强了代理的安全性和可控性。",
-            "所有运行自动追踪，便于调试和优化。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "Managed Deep Agents 是一个托管运行时，通过 /v1/deepagents API 提供代理管理功能。它允许开发者以编程方式创建代理、配置线程并流式运行，而无需部署自定义服务器。",
-              "basis": "source"
-            },
-            {
-              "text": "代理定义文件包括 AGENTS.md（指令）、skills/（技能）、subagents/（子代理）和 tools.json（工具配置），这些文件在 LangSmith 中存储和版本化。",
-              "basis": "source"
-            },
-            {
-              "text": "Context Hub 是 LangSmith 中的一个组件，为代理提供跨运行的上下文存储和更新，例如用户偏好或操作笔记。",
-              "basis": "source"
-            },
-            {
-              "text": "LangSmith Engine 是一个可选功能，它审查代理运行轨迹，识别问题并更新 Context Hub 文件，从而帮助代理从实际使用中学习。",
-              "basis": "source"
-            },
-            {
-              "text": "沙箱执行是 Managed Deep Agents 支持的功能，允许代理运行代码、shell 命令和文件 I/O，适用于数据分析或脚本执行等场景。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "部署一个支持代理（如客户支持分类代理）到生产环境",
-              "steps": [
-                "使用 Managed Deep Agents API 创建代理实例，并配置基本参数。",
-                "上传代理定义文件，包括 AGENTS.md、skills/、subagents/ 和 tools.json。",
-                "在 tools.json 中启用所需工具，并设置人工审批选项。",
-                "创建线程并启动流式运行，测试代理的响应。",
-                "在 LangSmith 中监控运行轨迹，检查工具调用和错误。",
-                "根据运行数据，使用 LangSmith Engine 自动更新上下文或手动调整定义。"
-              ],
-              "tools": [
-                "LangSmith",
-                "Managed Deep Agents API",
-                "Deep Agents 开源框架"
-              ],
-              "verification": [
-                "代理能够处理长时间运行的线程，并在中断后恢复。",
-                "工具调用记录在 LangSmith 中，且无未授权操作。",
-                "代理的上下文随运行次数增加而改进，如操作笔记更新。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "持久执行",
-            "沙箱",
-            "API 优先",
-            "Context Hub",
-            "LangSmith Engine"
-          ],
-          "searchTerms": [
-            {
-              "term": "Managed Deep Agents",
-              "query": "LangChain Managed Deep Agents"
-            },
-            {
-              "term": "持久执行",
-              "query": "durable execution AI agents"
-            },
-            {
-              "term": "沙箱",
-              "query": "sandbox execution AI agents"
-            },
-            {
-              "term": "Context Hub",
-              "query": "LangSmith Context Hub"
-            },
-            {
-              "term": "LangSmith Engine",
-              "query": "LangSmith Engine trace review"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T05:37:02.294Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "5f8f652ea6fc7c93",
-        "title": "Moonlight & Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra)",
-        "url": "https://simonwillison.net/2026/Aug/7/moonlight-mayhem/",
-        "summary": "Moonlight &amp; Mayhem (Raccoon Heist by Codex + GPT-5.6 Sol Ultra) On Wednesday I wrote about One-shotting a Raccoon Heist game using Claude Fable 5 , where I had Claude Fable 5 build a full working game from a premise I generated with GPT-3 and DALL-E four years ago . I decided to pose the exact same prompt to Codex Desktop running GPT-5.6 Sol Ultra - the mode where Sol makes aggressive use of sub-agents - to see how it would do. It produced a much better game! Here's Moonlight &amp; Mayhem - GitHub repository here , including the textures and prompts it generated using gpt-image-2 . Your browser does not support HTML5 video. The original GPT-3 generated game description included: In “Raccoon Heist”, you and your team of thieving raccoons are tasked with pulling off a series of daring heists. From robbing banks to stealing priceless art, no job is too big or too small for your furry cr",
-        "publishedAt": "2026-08-07T19:18:09.000Z",
-        "sourceId": "simon-willison",
-        "sourceName": "Simon Willison",
-        "sourceSite": "https://simonwillison.net/",
-        "lane": "ai",
-        "accent": "#b36b00",
-        "topic": "Agent 与自动化",
-        "score": 64,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 3,
-        "category": "opinion",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 79,
-        "bodyHash": "cf9ae76805e7432e82c98f73",
-        "extraction": {
-          "method": "readability",
-          "length": 1929,
-          "originalLength": 1929,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "用 Codex 和 GPT-5.6 Sol Ultra 生成完整游戏：从提示到成品",
-        "analysis": {
-          "listSummary": "本文是 Simon Willison 的博客文章，记录了他用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，从同一个四年前生成的游戏创意出发，成功构建了一个名为“Moonlight & Mayhem”的完整游戏。文章对比了之前用 Claude Fable 5 生成的版本，展示了 Codex 生成更复杂游戏的能力，也暴露了开发中未被自动发现的视觉 bug。对 AI 编程工具感兴趣的读者，可以通过本文了解实际工作流程、成本估算和工具差异，值得一读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "这篇文章讲的是用 AI 编程工具从零构建一个完整游戏的过程。作者 Simon Willison 之前用 Claude Fable 5 从同一个创意生成了一个简单游戏，这次改用 Codex Desktop 搭配 GPT-5.6 Sol Ultra 模型，想看看效果是否更好。",
-                "问题核心是：AI 能否仅凭一段文字描述，就生成一个可玩的完整游戏？作者用四年前 GPT-3 生成的游戏描述作为提示，测试不同模型的生成能力。",
-                "结果 Codex 生成的游戏更复杂，但有一个明显的视觉 bug——每个浣熊头上悬浮着巨大的黑色球体。这个 bug 在开发过程中未被自动发现，需要作者手动提示修复。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "作者使用了相同的提示词，但运行环境不同：Claude Fable 5 生成的是简单版本，而 Codex Desktop 运行 GPT-5.6 Sol Ultra 时，模型会积极使用子代理（简单说，就是模型自动拆分任务并调用多个辅助进程来协作完成）。",
-                "Codex 生成的游戏设定在博物馆，玩家要救出两个浣熊同伴，然后叠罗汉去偷金沙丁鱼，这比 Fable 版本（单只浣熊在后院捡硬币和鱼）更符合“抢劫”主题。",
-                "作者通过截图检查了开发过程，但未能发现 bug。修复方式是直接提问“为什么浣熊身上有巨大的黑色球体？”，然后说“修复它”，Codex 就完成了修复。",
-                "作者分享了完整的 Codex 会话记录在 GitHub 仓库中，并提到希望 Claude Code 也有类似的“复制为 Markdown”功能。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "原文证据：Codex 花费了 52 分钟完成项目，使用了 gpt-image-2 生成纹理和提示。作者提供了 AgentsView 的成本估算，如果按全价 API 计算而非使用订阅，费用会更高。",
-                "结论：Codex 生成的游戏质量明显优于 Fable 版本，但存在视觉 bug，且开发过程中未能自动修复。",
-                "边界：这是单次实验，结果可能因提示词、模型版本或任务复杂度而异。作者没有提供系统性的性能对比，只是个人经验分享。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "Codex Desktop 搭配 GPT-5.6 Sol Ultra 能从单一提示生成完整游戏，且比 Claude Fable 5 的版本更复杂。",
-            "生成的游戏有视觉 bug（浣熊头上的巨大黑球），但通过简单提示即可修复。",
-            "开发过程耗时 52 分钟，成本估算基于全价 API 价格。",
-            "Codex 使用了子代理模式，这可能是生成更复杂游戏的原因。",
-            "作者分享了完整会话记录，便于他人复现或学习。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "Codex Desktop 是 OpenAI 的编程工具，运行 GPT-5.6 Sol Ultra 模型时，会使用子代理（sub-agents）来并行处理任务，提高生成效率。它通过自然语言提示生成代码和资源，最终输出可运行的游戏。",
-              "basis": "source"
-            },
-            {
-              "text": "gpt-image-2 是用于生成图像纹理的模型，Codex 用它来创建游戏中的视觉资源。它根据提示生成图像，然后集成到游戏中。",
-              "basis": "source"
-            },
-            {
-              "text": "AgentsView 是一个成本估算工具，用于计算 AI 会话的 API 费用。作者用它估算如果按全价支付，而非使用订阅，该会话的成本。",
-              "basis": "source"
-            },
-            {
-              "text": "子代理模式是模型自动分解任务并调用多个辅助进程，这有助于处理复杂项目，但可能增加资源消耗。",
-              "basis": "inference"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "使用 AI 编程工具生成游戏或应用时，需要验证输出质量并修复潜在问题。",
-              "steps": [
-                "准备一个清晰的游戏描述提示，包含核心玩法、场景和角色。",
-                "在 Codex Desktop 中运行提示，并启用 GPT-5.6 Sol Ultra 模型。",
-                "开发过程中定期检查截图或预览，注意视觉异常。",
-                "发现 bug 时，用具体问题提示（如“为什么有黑球？”）引导修复。",
-                "保存完整的会话记录，以便复盘和分享。"
-              ],
-              "tools": [
-                "Codex Desktop",
-                "GPT-5.6 Sol Ultra",
-                "gpt-image-2"
-              ],
-              "verification": [
-                "游戏可运行且无视觉异常。",
-                "所有生成的文件（如纹理）已正确集成。",
-                "会话记录可导出为 Markdown 格式。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "Codex Desktop",
-            "GPT-5.6 Sol Ultra",
-            "子代理",
-            "gpt-image-2"
-          ],
-          "searchTerms": [
-            {
-              "term": "Codex Desktop",
-              "query": "Codex Desktop OpenAI 编程工具"
-            },
-            {
-              "term": "GPT-5.6 Sol Ultra",
-              "query": "GPT-5.6 Sol Ultra 模型"
-            },
-            {
-              "term": "子代理",
-              "query": "AI 子代理 编程"
-            },
-            {
-              "term": "gpt-image-2",
-              "query": "gpt-image-2 图像生成"
-            },
-            {
-              "term": "AgentsView",
-              "query": "AgentsView 成本估算"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T05:37:14.569Z",
-        "model": "deepseek-v4-flash"
-      }
-    ],
-    "game": [
-      {
-        "id": "385a71e2393f7a65",
-        "title": "Differential heuristics",
-        "url": "https://www.redblobgames.com/blog/2026-08-08-differential-heuristics/",
-        "summary": "In 2005 Google showed off Google Maps, which lets you drag the map around instead of reloading the page like MapQuest and others used. That's the feature that got everyone's attention. But what got my attention was a feature they added in 2007 where you could drag the start/end points on a route , and it would recalculate the shortest path as you dragged. That means they had fast A* pathfinding on the entire world, which had millions of roads. How did they do it? I had already studied A* and the common optimizations, but Google Maps was using optimizations I hadn't learned about. I started reading papers. My reaction to almost all of them was \"this complexity isn't worth it unless your map is very large\". There was one technique however that was relatively simple, and I wanted to explore it further. A better heuristic reduces how much of the map A* explores In 2014 I wrote my interactive",
-        "publishedAt": "2026-08-08T18:25:00.000Z",
-        "sourceId": "red-blob",
-        "sourceName": "Red Blob Games",
-        "sourceSite": "https://www.redblobgames.com/",
-        "lane": "game",
-        "accent": "#c33b32",
-        "topic": "AI 辅助学习",
-        "score": 87,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 4,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 100,
-        "bodyHash": "714592c1d4c6e33a6c44fdd9",
-        "extraction": {
-          "method": "readability",
-          "length": 2509,
-          "originalLength": 2509,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "差分启发式：让 A* 寻路在地图上跑得更快",
-        "analysis": {
-          "listSummary": "本文作者从 2007 年 Google 地图的实时路径重算功能出发，探索了 A* 寻路算法的一种优化技术——差分启发式。文章讲述了他从 2015 年到 2024 年多次尝试写教程失败，最终通过实验和可视化理解算法的过程。对读者而言，这篇文章不仅解释了差分启发式的原理，还展示了如何通过可视化和交互式工具来深入理解复杂算法。如果你对游戏开发、路径规划或算法优化感兴趣，这篇文章值得一读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "差分启发式是一种让 A* 寻路算法在地图上探索更少区域的优化技术。简单说，A* 寻路就是在地图上找最短路径的算法，而差分启发式能让它找得更快。",
-                "作者在 2007 年注意到 Google 地图可以拖动起点和终点实时重算路径，这意味着他们能在有数百万条道路的全球地图上快速寻路。作者已经学过 A* 和常见优化，但 Google 用的技术他没见过。",
-                "他阅读了大量论文，发现大多数优化技术只有在地图非常大时才值得使用，但差分启发式相对简单，值得深入研究。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "作者从 2015 年开始尝试写差分启发式的教程，但一直找不到满意的解释方式。他试了 2016、2018、2019、2022、2024 年多次，最终意识到自己虽然理解算法，但还没有理解到能教别人的程度。",
-                "于是他转向学习和实验模式。他发现了更好的解释方式：不再用大量数字展示启发式，而是用两个箭头——一个表示启发式建议的方向，一个表示正确方向。当两者一致时，A* 运行更快。",
-                "他还添加了可视化，展示优化有效的区域，并制作了交互式图表，让用户可以移动点来观察区域变化。这种可视化方法帮助他更直观地理解了算法的行为。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "作者在 2024 年终于发布了新版的差分启发式页面，这是他认为第一个可以称为“发布”的版本。他从 2015 年开始，历时十年才完成这个教程。",
-                "文章强调，差分启发式的价值在于减少 A* 探索的地图区域，但作者也指出，大多数优化技术只有在非常大的地图上才值得使用。这意味着对于小地图，差分启发式的收益可能不明显。",
-                "作者承认页面中仍有旧文本和代码的残留，也认为还有改进空间。这说明这个技术本身仍在发展中，教程也还在完善中。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "差分启发式是一种 A* 寻路优化技术，通过减少探索区域来加速路径计算。",
-            "Google 地图在 2007 年就能实时重算全球路径，这启发了作者研究这项技术。",
-            "作者花了十年时间尝试写教程，最终通过可视化和交互式图表理解了算法。",
-            "用两个箭头（建议方向和正确方向）展示启发式，比用数字更直观。",
-            "大多数 A* 优化技术只在大地图上才有明显收益，差分启发式相对简单。",
-            "可视化方法对理解复杂算法非常有帮助，是作者最终突破的关键。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "A* 寻路算法是一种在地图上找最短路径的算法，通过启发式函数估计到目标的距离，从而优先探索更有希望的路径。差分启发式是它的优化，通过预先计算某些地标距离来改进启发式估计，减少探索区域。",
-              "basis": "source"
-            },
-            {
-              "text": "差分启发式的核心思想是：用两个方向箭头对比——启发式建议的方向和正确方向。当两者一致时，A* 运行更快；不一致时，算法会探索更多区域。",
-              "basis": "source"
-            },
-            {
-              "text": "作者用可视化展示优化有效的区域，并制作交互式图表让用户移动点来观察区域变化。这种可视化方法帮助作者理解算法，也是教程的核心教学工具。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在游戏开发或地图应用中，需要在大地图上快速计算最短路径时。",
-              "steps": [
-                "先实现标准的 A* 寻路算法，确保基本功能正常。",
-                "选择几个地标点，预先计算它们到地图上所有点的最短路径。",
-                "在 A* 运行时，用这些地标距离来改进启发式估计。",
-                "用可视化工具对比优化前后的探索区域，验证效果。"
-              ],
-              "tools": [
-                "A* 寻路库",
-                "可视化调试工具",
-                "地图数据生成器"
-              ],
-              "verification": [
-                "对比优化前后 A* 探索的节点数量，优化后应明显减少。",
-                "在相同起点终点下，路径计算时间应显著缩短。",
-                "可视化图表中，优化有效的区域应清晰可见。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "差分启发式",
-            "A* 寻路",
-            "启发式",
-            "可视化",
-            "交互式图表",
-            "优化技术"
-          ],
-          "searchTerms": [
-            {
-              "term": "差分启发式",
-              "query": "差分启发式 A* 寻路优化"
-            },
-            {
-              "term": "A* 寻路",
-              "query": "A* 寻路算法 原理 优化"
-            },
-            {
-              "term": "启发式",
-              "query": "启发式函数 路径规划 作用"
-            },
-            {
-              "term": "可视化",
-              "query": "算法可视化 教学 交互式图表"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-08T22:00:41.445Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "9ef6e7c0434b7fea",
-        "title": "Dev snapshot: Godot 4.8 dev 3",
-        "url": "https://godotengine.org/article/dev-snapshot-godot-4-8-dev-3/",
-        "summary": "With GodotCon Boston now behind us, our contributors have had nothing but time and energy to get their most-wanted features over the finish line. While feature freeze still isn’t for at least another month, that hasn’t stopped our community from making rapid progress in their work and reviews, meaning that we have quite a lot to go over today, so buckle up! Please consider supporting the project financially , if you are able. Godot is maintained by the efforts of volunteers and a small team of paid contributors. Your donations go towards sponsoring their work and ensuring they can dedicate their undivided attention to the needs of the project. Jump to the Downloads section , and give it a spin right now, or continue reading to learn more about improvements in this release. You can also try the Web editor , the XR editor , or the Android editor for this release. If you are interested in t",
-        "publishedAt": "2026-08-07T12:00:00.000Z",
-        "sourceId": "godot",
-        "sourceName": "Godot Engine",
-        "sourceSite": "https://godotengine.org/blog/",
-        "lane": "game",
-        "accent": "#478cbf",
-        "topic": "AI 辅助学习",
-        "score": 67,
-        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
-        "readMinutes": 13,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 89,
-        "bodyHash": "b0b44660daf173d20c89bb49",
-        "extraction": {
-          "method": "readability",
-          "length": 9199,
-          "originalLength": 9199,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "Godot 4.8 dev 3 快照：文档增强、编辑器改进与性能修复",
-        "analysis": {
-          "listSummary": "本文是 Godot 引擎 4.8 开发版第 3 个快照的发布说明，介绍了多项新功能和改进，包括文档系统对提示框的原生支持、GDScript 编辑器中的错误下划线、文件系统窗口的缩放和全局搜索、属性剪贴板 API 的公开、visionOS 模块的重构，以及 Windows 高轮询率鼠标的性能修复。对于 Godot 用户和开发者，这篇文章能帮助你了解即将到来的新特性，并指导你下载测试，提前适应变化。文章内容具体，值得一读，尤其是对编辑器体验和性能优化感兴趣的用户。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "这篇发布说明介绍了 Godot 4.8 开发版第 3 个快照（dev 3）的新变化。Godot 是一个开源游戏引擎，由社区志愿者和少量付费开发者维护，快照是开发过程中的预发布版本，用于测试最新功能。",
-                "文章首先提到 GodotCon Boston 会议结束，贡献者有更多时间推进功能，但距离功能冻结（即不再添加新功能，只修 bug 的阶段）还有至少一个月，所以现在仍有很多新东西加入。",
-                "文档系统原本用简单的“Note:”或“Warning:”前缀来提示重要信息，但这种做法容易让关键细节淹没在正文中，读者可能忽略。编辑器中的 GDScript 警告和错误原本是整行高亮，如果一行有多个问题，会被掩盖，不易定位。",
-                "文件系统窗口缺少缩放和按类型搜索的功能，用户操作不便。属性剪贴板是引擎内部功能，用户无法直接访问或修改。visionOS 支持是新增的，但其实现复杂，作者也承认自己不完全理解。",
-                "Windows 上高轮询率鼠标移动时存在性能问题，需要修复。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "针对文档问题，开发者在文档工具中引入了原生支持“admonitions”（即提示框），这是一种内置系统，用于突出显示关键信息。他们计划逐步用提示框替换旧的文本前缀，使重要内容更醒目。",
-                "对于 GDScript 编辑器，他们改为只给有问题的代码部分加下划线，而不是整行高亮。这样能更精确地指出错误位置，避免同一行多个问题被隐藏。",
-                "文件系统窗口增加了两个功能：按住 Ctrl 键滚动鼠标滚轮可缩放窗口内容，以及支持基于 glob 模式的搜索（glob 是一种用通配符匹配文件名的模式，例如 *.png 匹配所有 PNG 文件），方便用户按类型或前缀查找文件。",
-                "属性剪贴板通过 EditorInspector 类公开了 get_property_clipboard() 和 set_property_clipboard() 两个 API，让开发者能直接读取和设置属性内容。",
-                "visionOS 模块的重构简化了构建服务器的逻辑，并为未来支持 tvOS 打下基础，但具体技术细节文章未深入说明。",
-                "高轮询率鼠标问题由 Hugo 修复，他准备写专门博客详细解释，这里只给出了简化的对比图。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "文章列举了多个具体改进，每个都关联了 GitHub 上的 PR 编号，例如 GH-111375 是文档提示框的 PR，GH-119588 是 GDScript 下划线的 PR，这些编号是证据，表明改动已提交。",
-                "结论是这些改进能提升开发体验：文档更清晰，调试更高效，文件管理更灵活，API 更开放，性能更稳定。但文章也承认，visionOS 模块的技术细节作者自己也不懂，所以没有深入解释。",
-                "边界在于，这是预发布版本，可能存在未知 bug，文章建议用户频繁备份或使用 Git 版本控制。目前没有已知的新问题，但鼓励用户报告回归（即之前正常的功能在新版本中失效）。",
-                "此外，文章提到下载版本有标准版和 .NET 版（支持 C#），用户需根据需求选择。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "Godot 4.8 dev 3 是开发快照，距离功能冻结还有至少一个月，新功能仍在快速加入。",
-            "文档系统新增原生提示框支持，将逐步替换旧的文本前缀，使关键信息更醒目。",
-            "GDScript 编辑器现在只给有问题的代码部分加下划线，而不是整行高亮，便于定位错误。",
-            "文件系统窗口支持 Ctrl+滚轮缩放和 glob 搜索，方便管理文件。",
-            "属性剪贴板 API 公开，开发者可通过 EditorInspector 访问。",
-            "Windows 高轮询率鼠标性能问题已修复，但详细解释待后续博客。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "Admonitions 是文档工具内置的提示框系统，用于突出显示重要信息。它通过特定语法生成醒目的框体，替代简单的文本前缀，从而避免关键细节被忽略。",
-              "basis": "source"
-            },
-            {
-              "text": "GDScript 编辑器中的下划线功能：当代码有警告或错误时，只对相关部分加下划线，而不是整行高亮。这样能更精确地指出问题位置，避免同一行多个问题被掩盖。",
-              "basis": "source"
-            },
-            {
-              "text": "glob 搜索是一种使用通配符（如 * 和 ?）匹配文件名的模式，例如 *.gd 匹配所有 GDScript 文件。它允许用户按类型或前缀搜索，而不必指定具体文件名。",
-              "basis": "source"
-            },
-            {
-              "text": "get_property_clipboard() 和 set_property_clipboard() 是 EditorInspector 类中新增的 API，用于读取和设置属性剪贴板内容。此前这些操作仅限引擎内部，用户无法直接访问。",
-              "basis": "source"
-            },
-            {
-              "text": "visionOS 模块重构：将 visionOS 支持从原生实现改为模块，简化了构建服务器逻辑，并为未来 tvOS 支持奠定基础。具体技术细节文章未详述。",
-              "basis": "source"
-            },
-            {
-              "text": "高轮询率鼠标问题：某些鼠标的轮询率（即每秒报告位置的频率）过高，导致 Windows 系统处理性能下降。修复后 Godot 能更高效地处理这些鼠标输入。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "测试 Godot 4.8 dev 3 新功能",
-              "steps": [
-                "下载 Godot 4.8 dev 3 标准版或 .NET 版（取决于你是否需要 C# 支持）。",
-                "打开现有项目或创建新项目，测试文档提示框：在编辑器中查看文档，确认提示框是否显示。",
-                "在 GDScript 中故意写一个错误，观察编辑器是否只给错误部分加下划线。",
-                "在文件系统窗口按住 Ctrl 滚动滚轮，观察缩放效果；使用 glob 搜索（如输入 *.png）验证搜索功能。",
-                "尝试在脚本中调用 EditorInspector.get_property_clipboard() 和 set_property_clipboard()，确认 API 可用。",
-                "在 Windows 上使用高轮询率鼠标移动，观察性能是否改善。"
-              ],
-              "tools": [
-                "Godot 4.8 dev 3 编辑器",
-                "Git（用于备份项目）"
-              ],
-              "verification": [
-                "文档中的提示框以醒目样式显示，不再与正文混淆。",
-                "GDScript 错误下划线只出现在问题代码段，而非整行。",
-                "文件系统窗口缩放流畅，glob 搜索返回预期文件列表。",
-                "属性剪贴板 API 调用成功，无错误。",
-                "鼠标移动时编辑器响应更流畅，无卡顿。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [],
-          "searchTerms": [
-            {
-              "term": "admonitions",
-              "query": "Godot 4.8 admonitions documentation"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-08T22:01:00.693Z",
-        "model": "deepseek-v4-flash"
-      }
-    ],
-    "art": [
-      {
-        "id": "92b4d2075252f696ecc26f05",
-        "title": "The Art Foundation Course on Pixel School is now available!",
-        "url": "https://lospec.com/articles/the-art-foundation-course-on-pixel-school-is-now-available",
-        "summary": "I just released the second full course on Pixel School, called Art Foundation. This course covers foundational art techniques which aren't specific to pixel art but are still very important for making great pixel art. We cover color, shading, composition, perspective, and more! There's a sitewide 25% off sale available for the next week. Check out Art Foundation on PixelSchool.org",
-        "publishedAt": "2026-06-29T16:05:20.813Z",
-        "sourceId": "lospec-articles",
-        "sourceName": "Lospec Articles",
-        "sourceSite": "https://lospec.com/articles/",
-        "lane": "art",
-        "accent": "#3f7f69",
-        "topic": "像素美术",
-        "score": 80,
-        "readMinutes": 3,
+        "readMinutes": 10,
         "category": "practice",
         "slot": "practice",
         "language": "en",
         "candidateScore": 78,
-        "bodyHash": "18a4c5d18b3e137cf834d07a",
+        "bodyHash": "7b94e6696238f1304fec3282",
         "extraction": {
           "method": "readability",
-          "length": 515,
-          "originalLength": 515,
+          "length": 6924,
+          "originalLength": 6924,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "像素学校推出艺术基础课程：掌握色彩、明暗与构图，让像素画更出色",
+        "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
         "analysis": {
-          "listSummary": "本文是Lospec网站发布的一则更新通知，宣布像素学校（Pixel School）推出第二门完整课程“艺术基础”（Art Foundation）。该课程面向像素画创作者，系统讲解色彩、明暗、构图、透视等通用美术基础，并附带为期一周的全站25%折扣。对希望提升像素画质量、但缺乏系统美术训练的入门学习者而言，这是一次低成本获取专业指导的机会，值得关注。",
+          "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "像素画虽以像素为基本单位，但创作时仍依赖传统美术功底。很多初学者只关注像素技巧，忽略色彩搭配、光影层次和构图平衡，导致作品显得平淡或杂乱。",
-                "作者skeddles在Lospec发布更新，推出像素学校第二门完整课程“艺术基础”，专门弥补这一缺口。课程不局限于像素画技巧，而是聚焦所有视觉艺术共通的底层能力，帮助学习者从根源上提升作品质量。",
-                "这一课程面向的正是那些已经会操作像素软件、但缺乏系统美术知识的创作者，相当于为像素画学习补上一块关键拼图。"
+                "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
+                "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
+                "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
+                "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "课程内容覆盖色彩、明暗、构图、透视等核心主题，每项都是视觉艺术的基础模块。作者强调这些技术“并非像素画特有”，但“对创作优秀像素画非常重要”，说明课程采取的是通用美术训练路径。",
-                "例如，色彩模块可能讲解色轮、互补色和色彩情绪，明暗模块可能涉及光源方向与体积感塑造，构图模块可能讨论视觉引导和留白，透视模块则帮助建立空间深度。这些知识可直接迁移到像素画场景中。",
-                "作者没有在文中展示具体课程片段或学员作品，因此论证主要依赖课程主题的合理性和作者作为创作者的行业信誉。对于入门者，这种系统化课程通常比碎片化教程更高效。"
+                "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
+                "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
+                "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
+                "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
+                "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文仅提供课程名称、主题范围和促销信息，未包含课程时长、教学形式或学员反馈等细节，因此无法验证课程实际质量。",
-                "作者明确说明这是“第二门完整课程”，暗示像素学校已有其他课程，但原文未提及第一门课程名称，读者需自行查看网站。",
-                "25%折扣限时一周，属于短期促销，适合有意向的学习者尽快决策。但课程是否适合零基础或高级创作者，原文未说明，需根据个人水平判断。"
+                "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
+                "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
+                "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
+                "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
               ]
             }
           ],
           "keyPoints": [
-            "像素学校推出第二门完整课程“艺术基础”，聚焦通用美术技能，而非像素画专属技巧。",
-            "课程覆盖色彩、明暗、构图、透视四大主题，旨在提升像素画的艺术表现力。",
-            "课程发布时附带全站25%折扣，限时一周，是低成本尝试的窗口。",
-            "作者强调这些基础技术对像素画创作至关重要，但未提供具体教学案例。",
-            "读者可通过PixelSchool.org查看课程详情，但原文未列出其他课程或价格信息。"
+            "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
+            "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
+            "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
+            "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
+            "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
           ],
           "technicalDetails": [
             {
-              "text": "色彩：指色彩理论，包括色轮、对比度、色调等，用于营造氛围和视觉焦点。课程中作为基础模块，帮助像素画选择和谐配色。",
+              "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
               "basis": "source"
             },
             {
-              "text": "明暗：指光照和阴影的处理，通过明度变化表现物体体积和光源方向。在像素画中，正确的明暗让像素块产生立体感。",
+              "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
               "basis": "source"
             },
             {
-              "text": "构图：指画面元素的布局和排列，引导观众视线，平衡视觉重量。像素画中构图决定整体视觉冲击力。",
+              "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
               "basis": "source"
             },
             {
-              "text": "透视：指在二维平面上表现三维空间的方法，如一点、两点透视。像素画中透视帮助建立场景深度。",
+              "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
               "basis": "source"
             },
             {
-              "text": "Pixel School：像素学校，一个在线学习平台，提供像素画相关课程。本文宣布其第二门完整课程上线。",
+              "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
+              "basis": "source"
+            },
+            {
+              "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "入门像素画学习者希望系统提升美术基础，避免盲目练习",
+              "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
               "steps": [
-                "访问PixelSchool.org，找到Art Foundation课程页面，查看课程大纲和预览视频。",
-                "利用25%折扣码（如有）购买课程，注意折扣有效期为一周。",
-                "按课程模块顺序学习，每学完一个主题（如色彩）后，用像素画软件（如Aseprite）完成一个小练习。",
-                "将课程中学到的构图和透视原则应用到自己的像素画项目中，对比学习前后的作品。"
+                "登录 LangSmith，在侧边栏选择 LLM Gateway。",
+                "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
+                "在 LangSmith 工作区设置中添加提供商 API 密钥。",
+                "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
+                "触发一次测试请求，验证策略是否生效。"
               ],
               "tools": [
-                "PixelSchool.org",
-                "Aseprite（像素画编辑器）",
-                "或任何支持像素绘制的软件（如Photoshop）"
+                "LangSmith",
+                "LLM Gateway"
               ],
               "verification": [
-                "完成课程后，能独立分析一幅像素画的色彩搭配和明暗关系。",
-                "自己的新作品在构图或透视上获得同行或社区的正面反馈。",
-                "能说出至少三种构图技巧，并在作品中实际使用。"
-              ]
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-08T22:01:16.463Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "a5ba9d6c0363a1ef",
-        "title": "Aseprite v1.3.15",
-        "url": "https://blog.aseprite.org/2025/08/27/aseprite-v1315/",
-        "summary": "Hello everyone! Today we’ve released Aseprite v1.3.15.2 with several bug fixes and little new handy features. If you are using v1.3.15 or v1.3.15.1, sorry for the inconvenience, but it might be a good idea to update to the latest v1.3.15.2 version: What’s new New possibility to duplicate slices (or Edit &gt; Copy &amp; Paste ) t/21966 #4466 Added “Show hidden” option to file selector #3079 Added option to stroke text #5271 New options to reconfigure keys to apply/discard the tranformation #5102 Aseprite v1.3.15.2 Fixed arrow keys to move selection #5385 Fixed close button in popup window #5386 Fixed pivot position when Tiled Mode is enabled #2316 Aseprite v1.3.15.1 Reverted Esc key behavior to drop pixels + deselect #5102 Added options to reconfigure keys to apply/cancel the transformation Added slices copy &amp; paste and duplication #4466 Fixed bug in Saturation layer blend mode #2661 ",
-        "publishedAt": "2025-08-27T00:00:00.000Z",
-        "sourceId": "aseprite",
-        "sourceName": "Aseprite Blog",
-        "sourceSite": "https://blog.aseprite.org/",
-        "lane": "art",
-        "accent": "#7d4db3",
-        "topic": "像素美术",
-        "score": 64,
-        "learningNote": "重点检查轮廓、色板、光源和帧间一致性，不把生成结果直接当成最终资产。",
-        "readMinutes": 3,
-        "category": "update",
-        "slot": "update",
-        "language": "en",
-        "candidateScore": 59,
-        "bodyHash": "ad37a8aa69a2898ff4f36850",
-        "extraction": {
-          "method": "readability",
-          "length": 2326,
-          "originalLength": 2326,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "Aseprite v1.3.15 更新详解：新功能、修复与升级指南",
-        "analysis": {
-          "listSummary": "本文是 Aseprite 像素画软件 v1.3.15 系列的更新日志，重点介绍了 v1.3.15.2 版本带来的新功能和错误修复。内容包括复制切片、显示隐藏文件、文本描边、自定义快捷键等实用功能，以及针对箭头键移动选区、弹窗关闭按钮等问题的修复。如果你是 Aseprite 用户，了解这些更新可以帮助你更高效地完成像素画创作，并避免已知问题。文章信息密度高，适合所有 Aseprite 用户阅读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "这篇文章是 Aseprite 软件的版本更新公告，主要面向所有使用该软件的用户。它告诉你 v1.3.15.2 版本修复了哪些问题，并增加了哪些新功能。",
-                "Aseprite 是一款专业的像素画和动画制作软件，很多游戏美术和独立开发者都在使用它。了解版本更新内容，能让你知道新版本是否值得升级，以及如何利用新功能提高工作效率。",
-                "文章特别提醒，如果你正在使用 v1.3.15 或 v1.3.15.1 版本，建议更新到最新的 v1.3.15.2，因为新版本修复了一些之前版本存在的问题。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "文章通过列举具体的新增功能和修复项，来展示 v1.3.15.2 版本的改进。每个功能或修复都对应一个编号，方便用户查阅和反馈。",
-                "新功能包括：可以复制切片（简单说，就是复制图片中某个选定的区域），文件选择器新增“显示隐藏”选项，文本工具新增描边功能，以及可以自定义应用或取消变换的快捷键。",
-                "修复的问题包括：箭头键移动选区失效、弹窗关闭按钮不工作、平铺模式下枢轴点位置错误等。这些修复直接解决了用户在使用中可能遇到的痛点。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "文章的证据就是版本更新日志本身，它列出了所有变更点。结论是 v1.3.15.2 是一个值得升级的版本，因为它带来了新功能并修复了问题。",
-                "需要注意的是，这篇文章只是更新公告，没有提供详细的使用教程或性能对比数据。它的主要目的是告知用户新版本的存在和变化。",
-                "此外，文章还提到了 v1.3.15 和 v1.3.15.1 版本的部分内容，说明这些功能是逐步加入的，用户如果从更早的版本升级，会一次性获得所有更新。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "Aseprite v1.3.15.2 是 v1.3.15 系列的最新版本，建议所有用户升级。",
-            "新增了复制切片、显示隐藏文件、文本描边和自定义变换快捷键等功能。",
-            "修复了箭头键移动选区、弹窗关闭按钮、平铺模式枢轴点等问题。",
-            "v1.3.15.1 版本曾调整 Esc 键行为，v1.3.15.2 进一步优化了相关快捷键设置。",
-            "Lua API 更新至版本 35，为插件开发者提供了新的接口和属性。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "切片（Slices）是 Aseprite 中用于定义图像特定区域的工具，常用于动画或游戏素材的切割。新版本支持复制和粘贴切片，方便用户复用或调整区域设置。",
-              "basis": "source"
-            },
-            {
-              "text": "文件选择器新增“显示隐藏”选项，允许用户在打开或保存文件时查看操作系统中的隐藏文件。",
-              "basis": "source"
-            },
-            {
-              "text": "文本工具新增描边功能，可以为文字添加轮廓效果，增强视觉表现力。",
-              "basis": "source"
-            },
-            {
-              "text": "Lua API 版本更新至 35，新增了 sprite.undoHistory 属性，允许插件访问撤销历史；Dialog 构造函数新增 resizeable 属性，使对话框可调整大小；Plugin:newCommand() 新增 onchecked 参数，用于处理勾选状态。",
-              "basis": "source"
-            },
-            {
-              "text": "v1.3.15.2 修复了箭头键移动选区的问题，该问题在 v1.3.15 中引入，影响用户通过键盘精确调整选区位置。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "作为 Aseprite 用户，升级到最新版本并利用新功能优化工作流程",
-              "steps": [
-                "备份当前正在进行的项目文件，以防万一。",
-                "从 Aseprite 官网或应用商店下载并安装 v1.3.15.2 版本。",
-                "打开软件，尝试使用新的切片复制功能，选中一个区域后按 Ctrl+C 和 Ctrl+V 进行复制粘贴。",
-                "在文件选择器中，查看是否有“显示隐藏”选项，并尝试开启以显示隐藏文件。",
-                "使用文本工具输入文字，在工具选项栏中找到描边设置并调整样式。",
-                "前往设置中的键盘快捷键配置，查找变换操作，重新设置应用或取消的按键。"
-              ],
-              "tools": [
-                "Aseprite v1.3.15.2"
-              ],
-              "verification": [
-                "软件启动后，在“关于”或“帮助”菜单中确认版本号为 v1.3.15.2。",
-                "成功复制并粘贴一个切片，且粘贴后的切片与原切片内容一致。",
-                "在文件选择器中能看到之前被隐藏的文件。",
-                "为文字添加描边后，文字边缘出现轮廓效果。",
-                "按下新设置的快捷键，能成功应用或取消变换操作。"
+                "在 LangSmith 中看到网关调用产生的追踪。",
+                "当费用上限触发时，代理收到 402 响应。",
+                "在追踪中确认敏感数据已被脱敏。"
               ]
             }
           ]
@@ -3460,16 +2843,150 @@
           "emphasis": [],
           "searchTerms": [
             {
-              "term": "Lua API",
-              "query": "Aseprite Lua API version 35"
+              "term": "LLM Gateway",
+              "query": "LangSmith LLM Gateway 功能"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T05:37:27.166Z",
+        "analyzedAt": "2026-08-09T22:02:35.050Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "d7b2e7a54cd91fe6",
+        "title": "Stop Chasing New Models. Build Once and Access Them All.",
+        "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
+        "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
+        "publishedAt": "2026-07-27T09:49:44.000Z",
+        "sourceId": "mozilla-ai",
+        "sourceName": "Mozilla AI",
+        "sourceSite": "https://blog.mozilla.ai/",
+        "lane": "ai",
+        "accent": "#ff7139",
+        "topic": "模型与研究",
+        "score": 61,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 9,
+        "category": "research",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 65,
+        "bodyHash": "b4dff80ad530b212da503b94",
+        "extraction": {
+          "method": "readability",
+          "length": 6525,
+          "originalLength": 6525,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "别再追新模型了：一次构建，接入所有模型",
+        "analysis": {
+          "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
+                "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
+                "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
+                "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
+                "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
+                "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
+                "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
+                "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
+                "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
+                "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
+                "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
+                "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
+                "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
+            "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
+            "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
+            "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
+            "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
+            "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
+              "basis": "source"
+            },
+            {
+              "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
+              "basis": "source"
+            },
+            {
+              "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
+              "basis": "source"
+            },
+            {
+              "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
+              "basis": "source"
+            },
+            {
+              "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "团队希望快速评估新模型而不重写应用代码",
+              "steps": [
+                "部署Otari网关或类似服务，配置至少一个提供方凭证。",
+                "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
+                "在网关中配置路由策略，指定不同工作负载使用不同模型。",
+                "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
+                "设置预算和用量监控，跟踪各模型成本。"
+              ],
+              "tools": [
+                "Otari网关",
+                "OpenAI或Anthropic SDK（用于测试兼容性）",
+                "API测试工具（如Postman）"
+              ],
+              "verification": [
+                "应用发送请求后，网关日志显示请求被路由到指定模型。",
+                "切换模型后，应用无需重新部署，响应正常。",
+                "成本仪表板显示各模型的使用量和费用。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "依赖地狱",
+            "稳定接口",
+            "成本可见性"
+          ],
+          "searchTerms": [
+            {
+              "term": "依赖地狱",
+              "query": "dependency hell 软件工程"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-09T22:02:49.028Z",
         "model": "deepseek-v4-flash"
       }
-    ]
+    ],
+    "game": [],
+    "art": []
   },
   "sources": [
     {
@@ -3486,7 +3003,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 165,
+      "latencyMs": 221,
       "itemCount": 35
     },
     {
@@ -3503,7 +3020,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 118,
+      "latencyMs": 211,
       "itemCount": 10
     },
     {
@@ -3520,7 +3037,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 921,
+      "latencyMs": 925,
       "itemCount": 32
     },
     {
@@ -3537,7 +3054,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1234,
+      "latencyMs": 992,
       "itemCount": 10
     },
     {
@@ -3554,7 +3071,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 124,
+      "latencyMs": 202,
       "itemCount": 35
     },
     {
@@ -3571,7 +3088,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 209,
+      "latencyMs": 213,
       "itemCount": 35
     },
     {
@@ -3588,7 +3105,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 285,
+      "latencyMs": 251,
       "itemCount": 35
     },
     {
@@ -3605,7 +3122,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 275,
+      "latencyMs": 288,
       "itemCount": 30
     },
     {
@@ -3622,7 +3139,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 295,
+      "latencyMs": 255,
       "itemCount": 35
     },
     {
@@ -3639,7 +3156,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 897,
+      "latencyMs": 679,
       "itemCount": 20
     },
     {
@@ -3656,7 +3173,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 558,
+      "latencyMs": 465,
       "itemCount": 35
     },
     {
@@ -3673,7 +3190,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 609,
+      "latencyMs": 411,
       "itemCount": 15
     },
     {
@@ -3690,7 +3207,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1577,
+      "latencyMs": 1002,
       "itemCount": 15
     },
     {
@@ -3707,7 +3224,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 19141,
+      "latencyMs": 19756,
       "itemCount": 35
     },
     {
@@ -3724,7 +3241,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 921,
+      "latencyMs": 536,
       "itemCount": 35
     },
     {
@@ -3746,7 +3263,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1539,
+      "latencyMs": 871,
       "itemCount": 4
     },
     {
@@ -3763,7 +3280,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 981,
+      "latencyMs": 934,
       "itemCount": 10
     }
   ],
@@ -3819,7 +3336,10 @@
       "92b4d2075252f696ecc26f05",
       "c0a7deaafdf98f72",
       "5f8f652ea6fc7c93",
-      "a5ba9d6c0363a1ef"
+      "a5ba9d6c0363a1ef",
+      "1abb5239d6c83d29",
+      "0b0df736865e6ac1",
+      "d7b2e7a54cd91fe6"
     ],
     "processedManualUrls": []
   },
@@ -3829,9 +3349,9 @@
       "analysis": "deepseek-v4-flash"
     },
     "calls": 4,
-    "rejectedCount": 293,
+    "rejectedCount": 278,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-08T22:01:16.463Z"
+  "previousGeneratedAt": "2026-08-09T05:37:27.167Z"
 }
