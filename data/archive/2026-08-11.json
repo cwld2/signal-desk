@@ -1,0 +1,1188 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-10T22:18:50.373Z",
+  "timezone": "Asia/Shanghai",
+  "edition": {
+    "date": "2026-08-11",
+    "isWeeklyEdition": false,
+    "weeklyReason": null
+  },
+  "stats": {
+    "candidates": 23,
+    "selected": 2,
+    "ai": 2,
+    "practice": 2,
+    "update": 0,
+    "manual": 0,
+    "game": 0,
+    "art": 0,
+    "currentGame": 2,
+    "currentArt": 2,
+    "studyMinutes": 30,
+    "bailianCalls": 3
+  },
+  "items": [
+    {
+      "id": "2880c1eaa96df809",
+      "title": "Using the GitHub Copilot SDK for Java",
+      "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+      "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-10T19:30:00.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "开发实践",
+      "score": 88,
+      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+      "readMinutes": 21,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 96,
+      "bodyHash": "0e6e511fa3bdf752140bdcd7",
+      "extraction": {
+        "method": "readability",
+        "length": 14974,
+        "originalLength": 14974,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+              "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+              "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+              "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+              "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+              "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+              "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+              "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+              "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+              "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+              "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+              "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+          "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+          "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+          "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+          "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+          "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
+            "basis": "source"
+          },
+          {
+            "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
+            "basis": "source"
+          },
+          {
+            "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
+            "basis": "source"
+          },
+          {
+            "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
+            "basis": "source"
+          },
+          {
+            "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
+            "steps": [
+              "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+              "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+              "定义 @CopilotTool 方法，描述工具功能和参数",
+              "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+              "创建 SessionConfig，设置可用工具集和权限处理器",
+              "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+              "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
+            ],
+            "tools": [
+              "Maven 3.9+",
+              "JDK 17 或 25",
+              "GitHub Copilot CLI 1.0.71+"
+            ],
+            "verification": [
+              "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+              "提交多个查询，观察虚拟线程并发处理",
+              "工具调用日志显示模型正确调用自定义工具"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "框架无关",
+          "@CopilotTool 注解",
+          "虚拟线程",
+          "系统消息定制",
+          "代理循环"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot SDK for Java",
+            "query": "GitHub Copilot SDK Java 使用教程"
+          },
+          {
+            "term": "@CopilotTool 注解",
+            "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+          },
+          {
+            "term": "虚拟线程",
+            "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+          },
+          {
+            "term": "Jakarta EE 11",
+            "query": "Jakarta EE 11 新特性 虚拟线程"
+          },
+          {
+            "term": "BYOK",
+            "query": "BYOK 自带密钥 AI 模型提供商"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:38.347Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "fa86927a13aa9f1f",
+      "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+      "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+      "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+      "publishedAt": "2026-08-10T13:27:19.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "b12a65f41ee8e9b015ce0937",
+      "extraction": {
+        "method": "readability",
+        "length": 5178,
+        "originalLength": 5178,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+      "analysis": {
+        "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+              "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+              "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+              "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+              "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+              "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+              "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+              "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+          "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+          "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+          "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+          "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+            "basis": "source"
+          },
+          {
+            "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+            "steps": [
+              "从 HuggingFace 下载 Muse Glimmer 权重。",
+              "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+              "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+              "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+              "部署后测试多步骤任务，如代码生成或文档修订。"
+            ],
+            "tools": [
+              "HuggingFace",
+              "vLLM",
+              "SGLang",
+              "NVIDIA NIM",
+              "NeMo AutoModel"
+            ],
+            "verification": [
+              "模型成功加载并响应指令，无显存溢出错误。",
+              "在长上下文任务中，输出保持连贯，无中断或错误。",
+              "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "稠密架构",
+          "本地智能体工作流",
+          "每秒 2 万 token",
+          "隐私设计"
+        ],
+        "searchTerms": [
+          {
+            "term": "Muse Glimmer",
+            "query": "Muse Glimmer model Meta"
+          },
+          {
+            "term": "稠密架构",
+            "query": "dense architecture LLM"
+          },
+          {
+            "term": "NVIDIA NIM",
+            "query": "NVIDIA NIM inference container"
+          },
+          {
+            "term": "NeMo AutoModel",
+            "query": "NVIDIA NeMo AutoModel fine-tuning"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:50.372Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "editionItems": [
+    {
+      "id": "2880c1eaa96df809",
+      "title": "Using the GitHub Copilot SDK for Java",
+      "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+      "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-10T19:30:00.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "开发实践",
+      "score": 88,
+      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+      "readMinutes": 21,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 96,
+      "bodyHash": "0e6e511fa3bdf752140bdcd7",
+      "extraction": {
+        "method": "readability",
+        "length": 14974,
+        "originalLength": 14974,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+              "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+              "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+              "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+              "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+              "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+              "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+              "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+              "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+              "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+              "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+              "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+          "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+          "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+          "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+          "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+          "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
+            "basis": "source"
+          },
+          {
+            "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
+            "basis": "source"
+          },
+          {
+            "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
+            "basis": "source"
+          },
+          {
+            "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
+            "basis": "source"
+          },
+          {
+            "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
+            "steps": [
+              "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+              "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+              "定义 @CopilotTool 方法，描述工具功能和参数",
+              "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+              "创建 SessionConfig，设置可用工具集和权限处理器",
+              "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+              "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
+            ],
+            "tools": [
+              "Maven 3.9+",
+              "JDK 17 或 25",
+              "GitHub Copilot CLI 1.0.71+"
+            ],
+            "verification": [
+              "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+              "提交多个查询，观察虚拟线程并发处理",
+              "工具调用日志显示模型正确调用自定义工具"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "框架无关",
+          "@CopilotTool 注解",
+          "虚拟线程",
+          "系统消息定制",
+          "代理循环"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot SDK for Java",
+            "query": "GitHub Copilot SDK Java 使用教程"
+          },
+          {
+            "term": "@CopilotTool 注解",
+            "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+          },
+          {
+            "term": "虚拟线程",
+            "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+          },
+          {
+            "term": "Jakarta EE 11",
+            "query": "Jakarta EE 11 新特性 虚拟线程"
+          },
+          {
+            "term": "BYOK",
+            "query": "BYOK 自带密钥 AI 模型提供商"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:38.347Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "fa86927a13aa9f1f",
+      "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+      "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+      "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+      "publishedAt": "2026-08-10T13:27:19.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "b12a65f41ee8e9b015ce0937",
+      "extraction": {
+        "method": "readability",
+        "length": 5178,
+        "originalLength": 5178,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+      "analysis": {
+        "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+              "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+              "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+              "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+              "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+              "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+              "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+              "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+          "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+          "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+          "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+          "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+            "basis": "source"
+          },
+          {
+            "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+            "steps": [
+              "从 HuggingFace 下载 Muse Glimmer 权重。",
+              "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+              "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+              "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+              "部署后测试多步骤任务，如代码生成或文档修订。"
+            ],
+            "tools": [
+              "HuggingFace",
+              "vLLM",
+              "SGLang",
+              "NVIDIA NIM",
+              "NeMo AutoModel"
+            ],
+            "verification": [
+              "模型成功加载并响应指令，无显存溢出错误。",
+              "在长上下文任务中，输出保持连贯，无中断或错误。",
+              "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "稠密架构",
+          "本地智能体工作流",
+          "每秒 2 万 token",
+          "隐私设计"
+        ],
+        "searchTerms": [
+          {
+            "term": "Muse Glimmer",
+            "query": "Muse Glimmer model Meta"
+          },
+          {
+            "term": "稠密架构",
+            "query": "dense architecture LLM"
+          },
+          {
+            "term": "NVIDIA NIM",
+            "query": "NVIDIA NIM inference container"
+          },
+          {
+            "term": "NeMo AutoModel",
+            "query": "NVIDIA NeMo AutoModel fine-tuning"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:50.372Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "study": [
+    {
+      "id": "2880c1eaa96df809",
+      "title": "Using the GitHub Copilot SDK for Java",
+      "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+      "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-10T19:30:00.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
+      "lane": "ai",
+      "accent": "#24292f",
+      "topic": "开发实践",
+      "score": 88,
+      "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+      "readMinutes": 21,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 96,
+      "bodyHash": "0e6e511fa3bdf752140bdcd7",
+      "extraction": {
+        "method": "readability",
+        "length": 14974,
+        "originalLength": 14974,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
+      "analysis": {
+        "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+              "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+              "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+              "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+              "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+              "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+              "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+              "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+              "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+              "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+              "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+              "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+          "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+          "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+          "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+          "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+          "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
+            "basis": "source"
+          },
+          {
+            "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
+            "basis": "source"
+          },
+          {
+            "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
+            "basis": "source"
+          },
+          {
+            "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
+            "basis": "source"
+          },
+          {
+            "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
+            "steps": [
+              "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+              "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+              "定义 @CopilotTool 方法，描述工具功能和参数",
+              "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+              "创建 SessionConfig，设置可用工具集和权限处理器",
+              "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+              "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
+            ],
+            "tools": [
+              "Maven 3.9+",
+              "JDK 17 或 25",
+              "GitHub Copilot CLI 1.0.71+"
+            ],
+            "verification": [
+              "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+              "提交多个查询，观察虚拟线程并发处理",
+              "工具调用日志显示模型正确调用自定义工具"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "框架无关",
+          "@CopilotTool 注解",
+          "虚拟线程",
+          "系统消息定制",
+          "代理循环"
+        ],
+        "searchTerms": [
+          {
+            "term": "GitHub Copilot SDK for Java",
+            "query": "GitHub Copilot SDK Java 使用教程"
+          },
+          {
+            "term": "@CopilotTool 注解",
+            "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+          },
+          {
+            "term": "虚拟线程",
+            "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+          },
+          {
+            "term": "Jakarta EE 11",
+            "query": "Jakarta EE 11 新特性 虚拟线程"
+          },
+          {
+            "term": "BYOK",
+            "query": "BYOK 自带密钥 AI 模型提供商"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:38.347Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "fa86927a13aa9f1f",
+      "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+      "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+      "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+      "publishedAt": "2026-08-10T13:27:19.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "b12a65f41ee8e9b015ce0937",
+      "extraction": {
+        "method": "readability",
+        "length": 5178,
+        "originalLength": 5178,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+      "analysis": {
+        "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+              "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+              "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+              "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+              "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+              "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+              "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+              "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+          "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+          "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+          "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+          "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+            "basis": "source"
+          },
+          {
+            "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+            "steps": [
+              "从 HuggingFace 下载 Muse Glimmer 权重。",
+              "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+              "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+              "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+              "部署后测试多步骤任务，如代码生成或文档修订。"
+            ],
+            "tools": [
+              "HuggingFace",
+              "vLLM",
+              "SGLang",
+              "NVIDIA NIM",
+              "NeMo AutoModel"
+            ],
+            "verification": [
+              "模型成功加载并响应指令，无显存溢出错误。",
+              "在长上下文任务中，输出保持连贯，无中断或错误。",
+              "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "稠密架构",
+          "本地智能体工作流",
+          "每秒 2 万 token",
+          "隐私设计"
+        ],
+        "searchTerms": [
+          {
+            "term": "Muse Glimmer",
+            "query": "Muse Glimmer model Meta"
+          },
+          {
+            "term": "稠密架构",
+            "query": "dense architecture LLM"
+          },
+          {
+            "term": "NVIDIA NIM",
+            "query": "NVIDIA NIM inference container"
+          },
+          {
+            "term": "NeMo AutoModel",
+            "query": "NVIDIA NeMo AutoModel fine-tuning"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:50.372Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "lanes": {
+    "ai": [
+      {
+        "id": "2880c1eaa96df809",
+        "title": "Using the GitHub Copilot SDK for Java",
+        "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+        "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+        "publishedAt": "2026-08-10T19:30:00.000Z",
+        "sourceId": "github-ai",
+        "sourceName": "GitHub AI & ML",
+        "sourceSite": "https://github.blog/ai-and-ml/",
+        "lane": "ai",
+        "accent": "#24292f",
+        "topic": "开发实践",
+        "score": 88,
+        "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
+        "readMinutes": 21,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 96,
+        "bodyHash": "0e6e511fa3bdf752140bdcd7",
+        "extraction": {
+          "method": "readability",
+          "length": 14974,
+          "originalLength": 14974,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
+        "analysis": {
+          "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+                "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+                "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+                "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+                "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+                "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+                "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+                "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+                "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+                "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+                "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+                "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+            "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+            "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+            "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+            "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+            "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
+              "basis": "source"
+            },
+            {
+              "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
+              "basis": "source"
+            },
+            {
+              "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
+              "basis": "source"
+            },
+            {
+              "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
+              "basis": "source"
+            },
+            {
+              "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
+              "steps": [
+                "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+                "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+                "定义 @CopilotTool 方法，描述工具功能和参数",
+                "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+                "创建 SessionConfig，设置可用工具集和权限处理器",
+                "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+                "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
+              ],
+              "tools": [
+                "Maven 3.9+",
+                "JDK 17 或 25",
+                "GitHub Copilot CLI 1.0.71+"
+              ],
+              "verification": [
+                "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+                "提交多个查询，观察虚拟线程并发处理",
+                "工具调用日志显示模型正确调用自定义工具"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "框架无关",
+            "@CopilotTool 注解",
+            "虚拟线程",
+            "系统消息定制",
+            "代理循环"
+          ],
+          "searchTerms": [
+            {
+              "term": "GitHub Copilot SDK for Java",
+              "query": "GitHub Copilot SDK Java 使用教程"
+            },
+            {
+              "term": "@CopilotTool 注解",
+              "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+            },
+            {
+              "term": "虚拟线程",
+              "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+            },
+            {
+              "term": "Jakarta EE 11",
+              "query": "Jakarta EE 11 新特性 虚拟线程"
+            },
+            {
+              "term": "BYOK",
+              "query": "BYOK 自带密钥 AI 模型提供商"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-10T22:18:38.347Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "fa86927a13aa9f1f",
+        "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+        "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+        "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+        "publishedAt": "2026-08-10T13:27:19.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
+        "lane": "ai",
+        "accent": "#76b900",
+        "topic": "Agent 与自动化",
+        "score": 70,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 7,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 91,
+        "bodyHash": "b12a65f41ee8e9b015ce0937",
+        "extraction": {
+          "method": "readability",
+          "length": 5178,
+          "originalLength": 5178,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+        "analysis": {
+          "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+                "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+                "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+                "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+                "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+                "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+                "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+                "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+            "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+            "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+            "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+            "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+              "basis": "source"
+            },
+            {
+              "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+              "basis": "source"
+            },
+            {
+              "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+              "basis": "source"
+            },
+            {
+              "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+              "steps": [
+                "从 HuggingFace 下载 Muse Glimmer 权重。",
+                "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+                "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+                "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+                "部署后测试多步骤任务，如代码生成或文档修订。"
+              ],
+              "tools": [
+                "HuggingFace",
+                "vLLM",
+                "SGLang",
+                "NVIDIA NIM",
+                "NeMo AutoModel"
+              ],
+              "verification": [
+                "模型成功加载并响应指令，无显存溢出错误。",
+                "在长上下文任务中，输出保持连贯，无中断或错误。",
+                "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "稠密架构",
+            "本地智能体工作流",
+            "每秒 2 万 token",
+            "隐私设计"
+          ],
+          "searchTerms": [
+            {
+              "term": "Muse Glimmer",
+              "query": "Muse Glimmer model Meta"
+            },
+            {
+              "term": "稠密架构",
+              "query": "dense architecture LLM"
+            },
+            {
+              "term": "NVIDIA NIM",
+              "query": "NVIDIA NIM inference container"
+            },
+            {
+              "term": "NeMo AutoModel",
+              "query": "NVIDIA NeMo AutoModel fine-tuning"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-10T22:18:50.372Z",
+        "model": "deepseek-v4-flash"
+      }
+    ],
+    "game": [],
+    "art": []
+  }
+}

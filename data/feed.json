@@ -1,416 +1,314 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-10T06:02:47.593Z",
+  "generatedAt": "2026-08-10T22:18:50.373Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-08-10",
+    "date": "2026-08-11",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
   "stats": {
-    "candidates": 22,
-    "selected": 3,
-    "ai": 3,
+    "candidates": 23,
+    "selected": 2,
+    "ai": 2,
     "practice": 2,
-    "update": 1,
+    "update": 0,
     "manual": 0,
     "game": 0,
     "art": 0,
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 0
+    "bailianCalls": 3
   },
   "items": [
     {
-      "id": "1abb5239d6c83d29",
-      "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
-      "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
-      "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
-      "publishedAt": "2026-08-08T22:36:03.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "2880c1eaa96df809",
+      "title": "Using the GitHub Copilot SDK for Java",
+      "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+      "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-10T19:30:00.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
       "lane": "ai",
-      "accent": "#b36b00",
+      "accent": "#24292f",
       "topic": "开发实践",
-      "score": 66,
+      "score": 88,
       "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 5,
-      "category": "opinion",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 81,
-      "bodyHash": "9ac7bebb0abb7d08788e3490",
-      "extraction": {
-        "method": "readability",
-        "length": 3579,
-        "originalLength": 3579,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
-      "analysis": {
-        "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
-              "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
-              "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
-              "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
-              "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
-              "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
-          "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
-          "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
-          "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
-          "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
-            "basis": "source"
-          },
-          {
-            "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
-            "basis": "source"
-          },
-          {
-            "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
-            "steps": [
-              "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
-              "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
-              "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
-              "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
-              "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
-            ],
-            "tools": [
-              "Claude Code 自动模式设置",
-              "日志监控工具（如 ELK Stack）",
-              "权限管理工具（如 IAM）"
-            ],
-            "verification": [
-              "观察自动模式下的操作成功率，确保效率提升。",
-              "检查日志中是否有未授权操作记录。",
-              "通过模拟攻击测试，确认安全策略有效。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "自动模式",
-          "确认疲劳",
-          "提示注入",
-          "数据泄露",
-          "独立验证"
-        ],
-        "searchTerms": [
-          {
-            "term": "自动模式",
-            "query": "Claude Code auto mode 安全评估"
-          },
-          {
-            "term": "提示注入",
-            "query": "prompt injection 防御 编程代理"
-          },
-          {
-            "term": "确认疲劳",
-            "query": "confirmation fatigue AI 审批"
-          },
-          {
-            "term": "数据泄露",
-            "query": "data exfiltration AI 代理 风险"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:20.109Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "0b0df736865e6ac1",
-      "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
-      "url": "https://www.langchain.com/blog/introducing-llm-gateway",
-      "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
-      "publishedAt": "2026-08-07T19:39:38.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
-      "lane": "ai",
-      "accent": "#1c3c3c",
-      "topic": "Agent 与自动化",
-      "score": 49,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 10,
+      "readMinutes": 21,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 78,
-      "bodyHash": "7b94e6696238f1304fec3282",
+      "candidateScore": 96,
+      "bodyHash": "0e6e511fa3bdf752140bdcd7",
       "extraction": {
         "method": "readability",
-        "length": 6924,
-        "originalLength": 6924,
+        "length": 14974,
+        "originalLength": 14974,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
+      "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
       "analysis": {
-        "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
+        "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
-              "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
-              "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
-              "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
+              "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+              "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+              "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
-              "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
-              "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
-              "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
-              "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
+              "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+              "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+              "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+              "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+              "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+              "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+              "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+              "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
-              "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
-              "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
-              "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
+              "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+              "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+              "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
             ]
           }
         ],
         "keyPoints": [
-          "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
-          "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
-          "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
-          "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
-          "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
+          "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+          "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+          "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+          "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+          "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+          "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
         ],
         "technicalDetails": [
           {
-            "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
+            "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
             "basis": "source"
           },
           {
-            "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
+            "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
             "basis": "source"
           },
           {
-            "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
+            "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
             "basis": "source"
           },
           {
-            "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
+            "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
             "basis": "source"
           },
           {
-            "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
-            "basis": "source"
-          },
-          {
-            "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
+            "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
+            "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
             "steps": [
-              "登录 LangSmith，在侧边栏选择 LLM Gateway。",
-              "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
-              "在 LangSmith 工作区设置中添加提供商 API 密钥。",
-              "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
-              "触发一次测试请求，验证策略是否生效。"
+              "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+              "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+              "定义 @CopilotTool 方法，描述工具功能和参数",
+              "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+              "创建 SessionConfig，设置可用工具集和权限处理器",
+              "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+              "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
             ],
             "tools": [
-              "LangSmith",
-              "LLM Gateway"
+              "Maven 3.9+",
+              "JDK 17 或 25",
+              "GitHub Copilot CLI 1.0.71+"
             ],
             "verification": [
-              "在 LangSmith 中看到网关调用产生的追踪。",
-              "当费用上限触发时，代理收到 402 响应。",
-              "在追踪中确认敏感数据已被脱敏。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [],
-        "searchTerms": [
-          {
-            "term": "LLM Gateway",
-            "query": "LangSmith LLM Gateway 功能"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:35.050Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "d7b2e7a54cd91fe6",
-      "title": "Stop Chasing New Models. Build Once and Access Them All.",
-      "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
-      "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
-      "publishedAt": "2026-07-27T09:49:44.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
-      "lane": "ai",
-      "accent": "#ff7139",
-      "topic": "模型与研究",
-      "score": 61,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 9,
-      "category": "research",
-      "slot": "update",
-      "language": "en",
-      "candidateScore": 65,
-      "bodyHash": "b4dff80ad530b212da503b94",
-      "extraction": {
-        "method": "readability",
-        "length": 6525,
-        "originalLength": 6525,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "别再追新模型了：一次构建，接入所有模型",
-      "analysis": {
-        "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
-              "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
-              "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
-              "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
-              "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
-              "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
-              "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
-              "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
-              "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
-              "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
-              "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
-              "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
-              "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
-          "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
-          "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
-          "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
-          "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
-          "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
-            "basis": "source"
-          },
-          {
-            "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
-            "basis": "source"
-          },
-          {
-            "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
-            "basis": "source"
-          },
-          {
-            "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
-            "basis": "source"
-          },
-          {
-            "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "团队希望快速评估新模型而不重写应用代码",
-            "steps": [
-              "部署Otari网关或类似服务，配置至少一个提供方凭证。",
-              "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
-              "在网关中配置路由策略，指定不同工作负载使用不同模型。",
-              "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
-              "设置预算和用量监控，跟踪各模型成本。"
-            ],
-            "tools": [
-              "Otari网关",
-              "OpenAI或Anthropic SDK（用于测试兼容性）",
-              "API测试工具（如Postman）"
-            ],
-            "verification": [
-              "应用发送请求后，网关日志显示请求被路由到指定模型。",
-              "切换模型后，应用无需重新部署，响应正常。",
-              "成本仪表板显示各模型的使用量和费用。"
+              "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+              "提交多个查询，观察虚拟线程并发处理",
+              "工具调用日志显示模型正确调用自定义工具"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "依赖地狱",
-          "稳定接口",
-          "成本可见性"
+          "框架无关",
+          "@CopilotTool 注解",
+          "虚拟线程",
+          "系统消息定制",
+          "代理循环"
         ],
         "searchTerms": [
           {
-            "term": "依赖地狱",
-            "query": "dependency hell 软件工程"
+            "term": "GitHub Copilot SDK for Java",
+            "query": "GitHub Copilot SDK Java 使用教程"
+          },
+          {
+            "term": "@CopilotTool 注解",
+            "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+          },
+          {
+            "term": "虚拟线程",
+            "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+          },
+          {
+            "term": "Jakarta EE 11",
+            "query": "Jakarta EE 11 新特性 虚拟线程"
+          },
+          {
+            "term": "BYOK",
+            "query": "BYOK 自带密钥 AI 模型提供商"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:49.028Z",
+      "analyzedAt": "2026-08-10T22:18:38.347Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "fa86927a13aa9f1f",
+      "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+      "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+      "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+      "publishedAt": "2026-08-10T13:27:19.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "b12a65f41ee8e9b015ce0937",
+      "extraction": {
+        "method": "readability",
+        "length": 5178,
+        "originalLength": 5178,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+      "analysis": {
+        "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+              "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+              "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+              "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+              "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+              "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+              "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+              "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+          "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+          "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+          "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+          "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+            "basis": "source"
+          },
+          {
+            "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+            "steps": [
+              "从 HuggingFace 下载 Muse Glimmer 权重。",
+              "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+              "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+              "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+              "部署后测试多步骤任务，如代码生成或文档修订。"
+            ],
+            "tools": [
+              "HuggingFace",
+              "vLLM",
+              "SGLang",
+              "NVIDIA NIM",
+              "NeMo AutoModel"
+            ],
+            "verification": [
+              "模型成功加载并响应指令，无显存溢出错误。",
+              "在长上下文任务中，输出保持连贯，无中断或错误。",
+              "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "稠密架构",
+          "本地智能体工作流",
+          "每秒 2 万 token",
+          "隐私设计"
+        ],
+        "searchTerms": [
+          {
+            "term": "Muse Glimmer",
+            "query": "Muse Glimmer model Meta"
+          },
+          {
+            "term": "稠密架构",
+            "query": "dense architecture LLM"
+          },
+          {
+            "term": "NVIDIA NIM",
+            "query": "NVIDIA NIM inference container"
+          },
+          {
+            "term": "NeMo AutoModel",
+            "query": "NVIDIA NeMo AutoModel fine-tuning"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:50.372Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -914,1178 +812,872 @@
   ],
   "editionItems": [
     {
-      "id": "1abb5239d6c83d29",
-      "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
-      "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
-      "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
-      "publishedAt": "2026-08-08T22:36:03.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "2880c1eaa96df809",
+      "title": "Using the GitHub Copilot SDK for Java",
+      "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+      "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-10T19:30:00.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
       "lane": "ai",
-      "accent": "#b36b00",
+      "accent": "#24292f",
       "topic": "开发实践",
-      "score": 66,
+      "score": 88,
       "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 5,
-      "category": "opinion",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 81,
-      "bodyHash": "9ac7bebb0abb7d08788e3490",
-      "extraction": {
-        "method": "readability",
-        "length": 3579,
-        "originalLength": 3579,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
-      "analysis": {
-        "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
-              "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
-              "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
-              "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
-              "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
-              "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
-          "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
-          "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
-          "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
-          "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
-            "basis": "source"
-          },
-          {
-            "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
-            "basis": "source"
-          },
-          {
-            "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
-            "steps": [
-              "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
-              "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
-              "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
-              "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
-              "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
-            ],
-            "tools": [
-              "Claude Code 自动模式设置",
-              "日志监控工具（如 ELK Stack）",
-              "权限管理工具（如 IAM）"
-            ],
-            "verification": [
-              "观察自动模式下的操作成功率，确保效率提升。",
-              "检查日志中是否有未授权操作记录。",
-              "通过模拟攻击测试，确认安全策略有效。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "自动模式",
-          "确认疲劳",
-          "提示注入",
-          "数据泄露",
-          "独立验证"
-        ],
-        "searchTerms": [
-          {
-            "term": "自动模式",
-            "query": "Claude Code auto mode 安全评估"
-          },
-          {
-            "term": "提示注入",
-            "query": "prompt injection 防御 编程代理"
-          },
-          {
-            "term": "确认疲劳",
-            "query": "confirmation fatigue AI 审批"
-          },
-          {
-            "term": "数据泄露",
-            "query": "data exfiltration AI 代理 风险"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:20.109Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "0b0df736865e6ac1",
-      "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
-      "url": "https://www.langchain.com/blog/introducing-llm-gateway",
-      "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
-      "publishedAt": "2026-08-07T19:39:38.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
-      "lane": "ai",
-      "accent": "#1c3c3c",
-      "topic": "Agent 与自动化",
-      "score": 49,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 10,
+      "readMinutes": 21,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 78,
-      "bodyHash": "7b94e6696238f1304fec3282",
+      "candidateScore": 96,
+      "bodyHash": "0e6e511fa3bdf752140bdcd7",
       "extraction": {
         "method": "readability",
-        "length": 6924,
-        "originalLength": 6924,
+        "length": 14974,
+        "originalLength": 14974,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
+      "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
       "analysis": {
-        "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
+        "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
-              "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
-              "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
-              "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
+              "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+              "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+              "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
-              "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
-              "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
-              "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
-              "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
+              "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+              "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+              "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+              "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+              "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+              "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+              "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+              "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
-              "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
-              "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
-              "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
+              "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+              "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+              "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
             ]
           }
         ],
         "keyPoints": [
-          "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
-          "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
-          "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
-          "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
-          "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
+          "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+          "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+          "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+          "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+          "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+          "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
         ],
         "technicalDetails": [
           {
-            "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
+            "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
             "basis": "source"
           },
           {
-            "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
+            "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
             "basis": "source"
           },
           {
-            "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
+            "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
             "basis": "source"
           },
           {
-            "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
+            "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
             "basis": "source"
           },
           {
-            "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
-            "basis": "source"
-          },
-          {
-            "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
+            "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
+            "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
             "steps": [
-              "登录 LangSmith，在侧边栏选择 LLM Gateway。",
-              "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
-              "在 LangSmith 工作区设置中添加提供商 API 密钥。",
-              "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
-              "触发一次测试请求，验证策略是否生效。"
+              "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+              "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+              "定义 @CopilotTool 方法，描述工具功能和参数",
+              "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+              "创建 SessionConfig，设置可用工具集和权限处理器",
+              "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+              "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
             ],
             "tools": [
-              "LangSmith",
-              "LLM Gateway"
+              "Maven 3.9+",
+              "JDK 17 或 25",
+              "GitHub Copilot CLI 1.0.71+"
             ],
             "verification": [
-              "在 LangSmith 中看到网关调用产生的追踪。",
-              "当费用上限触发时，代理收到 402 响应。",
-              "在追踪中确认敏感数据已被脱敏。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [],
-        "searchTerms": [
-          {
-            "term": "LLM Gateway",
-            "query": "LangSmith LLM Gateway 功能"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:35.050Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "d7b2e7a54cd91fe6",
-      "title": "Stop Chasing New Models. Build Once and Access Them All.",
-      "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
-      "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
-      "publishedAt": "2026-07-27T09:49:44.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
-      "lane": "ai",
-      "accent": "#ff7139",
-      "topic": "模型与研究",
-      "score": 61,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 9,
-      "category": "research",
-      "slot": "update",
-      "language": "en",
-      "candidateScore": 65,
-      "bodyHash": "b4dff80ad530b212da503b94",
-      "extraction": {
-        "method": "readability",
-        "length": 6525,
-        "originalLength": 6525,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "别再追新模型了：一次构建，接入所有模型",
-      "analysis": {
-        "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
-              "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
-              "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
-              "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
-              "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
-              "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
-              "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
-              "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
-              "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
-              "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
-              "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
-              "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
-              "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
-          "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
-          "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
-          "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
-          "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
-          "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
-            "basis": "source"
-          },
-          {
-            "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
-            "basis": "source"
-          },
-          {
-            "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
-            "basis": "source"
-          },
-          {
-            "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
-            "basis": "source"
-          },
-          {
-            "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "团队希望快速评估新模型而不重写应用代码",
-            "steps": [
-              "部署Otari网关或类似服务，配置至少一个提供方凭证。",
-              "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
-              "在网关中配置路由策略，指定不同工作负载使用不同模型。",
-              "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
-              "设置预算和用量监控，跟踪各模型成本。"
-            ],
-            "tools": [
-              "Otari网关",
-              "OpenAI或Anthropic SDK（用于测试兼容性）",
-              "API测试工具（如Postman）"
-            ],
-            "verification": [
-              "应用发送请求后，网关日志显示请求被路由到指定模型。",
-              "切换模型后，应用无需重新部署，响应正常。",
-              "成本仪表板显示各模型的使用量和费用。"
+              "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+              "提交多个查询，观察虚拟线程并发处理",
+              "工具调用日志显示模型正确调用自定义工具"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "依赖地狱",
-          "稳定接口",
-          "成本可见性"
+          "框架无关",
+          "@CopilotTool 注解",
+          "虚拟线程",
+          "系统消息定制",
+          "代理循环"
         ],
         "searchTerms": [
           {
-            "term": "依赖地狱",
-            "query": "dependency hell 软件工程"
+            "term": "GitHub Copilot SDK for Java",
+            "query": "GitHub Copilot SDK Java 使用教程"
+          },
+          {
+            "term": "@CopilotTool 注解",
+            "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+          },
+          {
+            "term": "虚拟线程",
+            "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+          },
+          {
+            "term": "Jakarta EE 11",
+            "query": "Jakarta EE 11 新特性 虚拟线程"
+          },
+          {
+            "term": "BYOK",
+            "query": "BYOK 自带密钥 AI 模型提供商"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:49.028Z",
+      "analyzedAt": "2026-08-10T22:18:38.347Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "fa86927a13aa9f1f",
+      "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+      "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+      "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+      "publishedAt": "2026-08-10T13:27:19.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "b12a65f41ee8e9b015ce0937",
+      "extraction": {
+        "method": "readability",
+        "length": 5178,
+        "originalLength": 5178,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+      "analysis": {
+        "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+              "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+              "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+              "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+              "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+              "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+              "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+              "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+          "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+          "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+          "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+          "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+            "basis": "source"
+          },
+          {
+            "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+            "steps": [
+              "从 HuggingFace 下载 Muse Glimmer 权重。",
+              "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+              "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+              "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+              "部署后测试多步骤任务，如代码生成或文档修订。"
+            ],
+            "tools": [
+              "HuggingFace",
+              "vLLM",
+              "SGLang",
+              "NVIDIA NIM",
+              "NeMo AutoModel"
+            ],
+            "verification": [
+              "模型成功加载并响应指令，无显存溢出错误。",
+              "在长上下文任务中，输出保持连贯，无中断或错误。",
+              "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "稠密架构",
+          "本地智能体工作流",
+          "每秒 2 万 token",
+          "隐私设计"
+        ],
+        "searchTerms": [
+          {
+            "term": "Muse Glimmer",
+            "query": "Muse Glimmer model Meta"
+          },
+          {
+            "term": "稠密架构",
+            "query": "dense architecture LLM"
+          },
+          {
+            "term": "NVIDIA NIM",
+            "query": "NVIDIA NIM inference container"
+          },
+          {
+            "term": "NeMo AutoModel",
+            "query": "NVIDIA NeMo AutoModel fine-tuning"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:50.372Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "1abb5239d6c83d29",
-      "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
-      "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
-      "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
-      "publishedAt": "2026-08-08T22:36:03.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "2880c1eaa96df809",
+      "title": "Using the GitHub Copilot SDK for Java",
+      "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+      "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+      "publishedAt": "2026-08-10T19:30:00.000Z",
+      "sourceId": "github-ai",
+      "sourceName": "GitHub AI & ML",
+      "sourceSite": "https://github.blog/ai-and-ml/",
       "lane": "ai",
-      "accent": "#b36b00",
+      "accent": "#24292f",
       "topic": "开发实践",
-      "score": 66,
+      "score": 88,
       "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-      "readMinutes": 5,
-      "category": "opinion",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 81,
-      "bodyHash": "9ac7bebb0abb7d08788e3490",
-      "extraction": {
-        "method": "readability",
-        "length": 3579,
-        "originalLength": 3579,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
-      "analysis": {
-        "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
-              "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
-              "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
-              "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
-              "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
-              "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
-          "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
-          "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
-          "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
-          "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
-            "basis": "source"
-          },
-          {
-            "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
-            "basis": "source"
-          },
-          {
-            "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
-            "steps": [
-              "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
-              "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
-              "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
-              "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
-              "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
-            ],
-            "tools": [
-              "Claude Code 自动模式设置",
-              "日志监控工具（如 ELK Stack）",
-              "权限管理工具（如 IAM）"
-            ],
-            "verification": [
-              "观察自动模式下的操作成功率，确保效率提升。",
-              "检查日志中是否有未授权操作记录。",
-              "通过模拟攻击测试，确认安全策略有效。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "自动模式",
-          "确认疲劳",
-          "提示注入",
-          "数据泄露",
-          "独立验证"
-        ],
-        "searchTerms": [
-          {
-            "term": "自动模式",
-            "query": "Claude Code auto mode 安全评估"
-          },
-          {
-            "term": "提示注入",
-            "query": "prompt injection 防御 编程代理"
-          },
-          {
-            "term": "确认疲劳",
-            "query": "confirmation fatigue AI 审批"
-          },
-          {
-            "term": "数据泄露",
-            "query": "data exfiltration AI 代理 风险"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:20.109Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "0b0df736865e6ac1",
-      "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
-      "url": "https://www.langchain.com/blog/introducing-llm-gateway",
-      "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
-      "publishedAt": "2026-08-07T19:39:38.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
-      "lane": "ai",
-      "accent": "#1c3c3c",
-      "topic": "Agent 与自动化",
-      "score": 49,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 10,
+      "readMinutes": 21,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 78,
-      "bodyHash": "7b94e6696238f1304fec3282",
+      "candidateScore": 96,
+      "bodyHash": "0e6e511fa3bdf752140bdcd7",
       "extraction": {
         "method": "readability",
-        "length": 6924,
-        "originalLength": 6924,
+        "length": 14974,
+        "originalLength": 14974,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
+      "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
       "analysis": {
-        "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
+        "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
-              "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
-              "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
-              "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
+              "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+              "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+              "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
-              "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
-              "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
-              "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
-              "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
+              "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+              "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+              "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+              "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+              "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+              "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+              "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+              "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
-              "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
-              "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
-              "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
+              "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+              "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+              "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
             ]
           }
         ],
         "keyPoints": [
-          "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
-          "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
-          "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
-          "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
-          "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
+          "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+          "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+          "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+          "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+          "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+          "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
         ],
         "technicalDetails": [
           {
-            "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
+            "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
             "basis": "source"
           },
           {
-            "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
+            "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
             "basis": "source"
           },
           {
-            "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
+            "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
             "basis": "source"
           },
           {
-            "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
+            "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
             "basis": "source"
           },
           {
-            "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
-            "basis": "source"
-          },
-          {
-            "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
+            "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
+            "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
             "steps": [
-              "登录 LangSmith，在侧边栏选择 LLM Gateway。",
-              "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
-              "在 LangSmith 工作区设置中添加提供商 API 密钥。",
-              "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
-              "触发一次测试请求，验证策略是否生效。"
+              "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+              "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+              "定义 @CopilotTool 方法，描述工具功能和参数",
+              "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+              "创建 SessionConfig，设置可用工具集和权限处理器",
+              "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+              "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
             ],
             "tools": [
-              "LangSmith",
-              "LLM Gateway"
+              "Maven 3.9+",
+              "JDK 17 或 25",
+              "GitHub Copilot CLI 1.0.71+"
             ],
             "verification": [
-              "在 LangSmith 中看到网关调用产生的追踪。",
-              "当费用上限触发时，代理收到 402 响应。",
-              "在追踪中确认敏感数据已被脱敏。"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [],
-        "searchTerms": [
-          {
-            "term": "LLM Gateway",
-            "query": "LangSmith LLM Gateway 功能"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:35.050Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "d7b2e7a54cd91fe6",
-      "title": "Stop Chasing New Models. Build Once and Access Them All.",
-      "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
-      "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
-      "publishedAt": "2026-07-27T09:49:44.000Z",
-      "sourceId": "mozilla-ai",
-      "sourceName": "Mozilla AI",
-      "sourceSite": "https://blog.mozilla.ai/",
-      "lane": "ai",
-      "accent": "#ff7139",
-      "topic": "模型与研究",
-      "score": 61,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 9,
-      "category": "research",
-      "slot": "update",
-      "language": "en",
-      "candidateScore": 65,
-      "bodyHash": "b4dff80ad530b212da503b94",
-      "extraction": {
-        "method": "readability",
-        "length": 6525,
-        "originalLength": 6525,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "别再追新模型了：一次构建，接入所有模型",
-      "analysis": {
-        "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
-              "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
-              "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
-              "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
-              "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
-              "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
-              "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
-              "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
-              "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
-              "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
-              "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
-              "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
-              "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
-          "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
-          "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
-          "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
-          "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
-          "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
-            "basis": "source"
-          },
-          {
-            "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
-            "basis": "source"
-          },
-          {
-            "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
-            "basis": "source"
-          },
-          {
-            "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
-            "basis": "source"
-          },
-          {
-            "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "团队希望快速评估新模型而不重写应用代码",
-            "steps": [
-              "部署Otari网关或类似服务，配置至少一个提供方凭证。",
-              "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
-              "在网关中配置路由策略，指定不同工作负载使用不同模型。",
-              "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
-              "设置预算和用量监控，跟踪各模型成本。"
-            ],
-            "tools": [
-              "Otari网关",
-              "OpenAI或Anthropic SDK（用于测试兼容性）",
-              "API测试工具（如Postman）"
-            ],
-            "verification": [
-              "应用发送请求后，网关日志显示请求被路由到指定模型。",
-              "切换模型后，应用无需重新部署，响应正常。",
-              "成本仪表板显示各模型的使用量和费用。"
+              "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+              "提交多个查询，观察虚拟线程并发处理",
+              "工具调用日志显示模型正确调用自定义工具"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "依赖地狱",
-          "稳定接口",
-          "成本可见性"
+          "框架无关",
+          "@CopilotTool 注解",
+          "虚拟线程",
+          "系统消息定制",
+          "代理循环"
         ],
         "searchTerms": [
           {
-            "term": "依赖地狱",
-            "query": "dependency hell 软件工程"
+            "term": "GitHub Copilot SDK for Java",
+            "query": "GitHub Copilot SDK Java 使用教程"
+          },
+          {
+            "term": "@CopilotTool 注解",
+            "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+          },
+          {
+            "term": "虚拟线程",
+            "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+          },
+          {
+            "term": "Jakarta EE 11",
+            "query": "Jakarta EE 11 新特性 虚拟线程"
+          },
+          {
+            "term": "BYOK",
+            "query": "BYOK 自带密钥 AI 模型提供商"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-09T22:02:49.028Z",
+      "analyzedAt": "2026-08-10T22:18:38.347Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "fa86927a13aa9f1f",
+      "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+      "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+      "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+      "publishedAt": "2026-08-10T13:27:19.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 70,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 91,
+      "bodyHash": "b12a65f41ee8e9b015ce0937",
+      "extraction": {
+        "method": "readability",
+        "length": 5178,
+        "originalLength": 5178,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+      "analysis": {
+        "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+              "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+              "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+              "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+              "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+              "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+              "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+              "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+          "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+          "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+          "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+          "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+            "basis": "source"
+          },
+          {
+            "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+            "basis": "source"
+          },
+          {
+            "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+            "steps": [
+              "从 HuggingFace 下载 Muse Glimmer 权重。",
+              "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+              "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+              "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+              "部署后测试多步骤任务，如代码生成或文档修订。"
+            ],
+            "tools": [
+              "HuggingFace",
+              "vLLM",
+              "SGLang",
+              "NVIDIA NIM",
+              "NeMo AutoModel"
+            ],
+            "verification": [
+              "模型成功加载并响应指令，无显存溢出错误。",
+              "在长上下文任务中，输出保持连贯，无中断或错误。",
+              "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "稠密架构",
+          "本地智能体工作流",
+          "每秒 2 万 token",
+          "隐私设计"
+        ],
+        "searchTerms": [
+          {
+            "term": "Muse Glimmer",
+            "query": "Muse Glimmer model Meta"
+          },
+          {
+            "term": "稠密架构",
+            "query": "dense architecture LLM"
+          },
+          {
+            "term": "NVIDIA NIM",
+            "query": "NVIDIA NIM inference container"
+          },
+          {
+            "term": "NeMo AutoModel",
+            "query": "NVIDIA NeMo AutoModel fine-tuning"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-10T22:18:50.372Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "1abb5239d6c83d29",
-        "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
-        "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
-        "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
-        "publishedAt": "2026-08-08T22:36:03.000Z",
-        "sourceId": "simon-willison",
-        "sourceName": "Simon Willison",
-        "sourceSite": "https://simonwillison.net/",
+        "id": "2880c1eaa96df809",
+        "title": "Using the GitHub Copilot SDK for Java",
+        "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+        "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+        "publishedAt": "2026-08-10T19:30:00.000Z",
+        "sourceId": "github-ai",
+        "sourceName": "GitHub AI & ML",
+        "sourceSite": "https://github.blog/ai-and-ml/",
         "lane": "ai",
-        "accent": "#b36b00",
+        "accent": "#24292f",
         "topic": "开发实践",
-        "score": 66,
+        "score": 88,
         "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-        "readMinutes": 5,
-        "category": "opinion",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 81,
-        "bodyHash": "9ac7bebb0abb7d08788e3490",
-        "extraction": {
-          "method": "readability",
-          "length": 3579,
-          "originalLength": 3579,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
-        "analysis": {
-          "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
-                "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
-                "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
-                "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
-                "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
-                "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
-            "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
-            "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
-            "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
-            "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
-              "basis": "source"
-            },
-            {
-              "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
-              "basis": "source"
-            },
-            {
-              "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
-              "steps": [
-                "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
-                "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
-                "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
-                "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
-                "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
-              ],
-              "tools": [
-                "Claude Code 自动模式设置",
-                "日志监控工具（如 ELK Stack）",
-                "权限管理工具（如 IAM）"
-              ],
-              "verification": [
-                "观察自动模式下的操作成功率，确保效率提升。",
-                "检查日志中是否有未授权操作记录。",
-                "通过模拟攻击测试，确认安全策略有效。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "自动模式",
-            "确认疲劳",
-            "提示注入",
-            "数据泄露",
-            "独立验证"
-          ],
-          "searchTerms": [
-            {
-              "term": "自动模式",
-              "query": "Claude Code auto mode 安全评估"
-            },
-            {
-              "term": "提示注入",
-              "query": "prompt injection 防御 编程代理"
-            },
-            {
-              "term": "确认疲劳",
-              "query": "confirmation fatigue AI 审批"
-            },
-            {
-              "term": "数据泄露",
-              "query": "data exfiltration AI 代理 风险"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T22:02:20.109Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "0b0df736865e6ac1",
-        "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
-        "url": "https://www.langchain.com/blog/introducing-llm-gateway",
-        "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
-        "publishedAt": "2026-08-07T19:39:38.000Z",
-        "sourceId": "langchain",
-        "sourceName": "LangChain Blog",
-        "sourceSite": "https://blog.langchain.com/",
-        "lane": "ai",
-        "accent": "#1c3c3c",
-        "topic": "Agent 与自动化",
-        "score": 49,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 10,
+        "readMinutes": 21,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 78,
-        "bodyHash": "7b94e6696238f1304fec3282",
+        "candidateScore": 96,
+        "bodyHash": "0e6e511fa3bdf752140bdcd7",
         "extraction": {
           "method": "readability",
-          "length": 6924,
-          "originalLength": 6924,
+          "length": 14974,
+          "originalLength": 14974,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
+        "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
         "analysis": {
-          "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
+          "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
-                "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
-                "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
-                "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
+                "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+                "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+                "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
-                "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
-                "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
-                "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
-                "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
+                "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+                "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+                "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+                "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+                "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+                "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+                "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+                "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
-                "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
-                "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
-                "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
+                "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+                "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+                "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
               ]
             }
           ],
           "keyPoints": [
-            "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
-            "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
-            "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
-            "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
-            "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
+            "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+            "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+            "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+            "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+            "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+            "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
           ],
           "technicalDetails": [
             {
-              "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
+              "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
               "basis": "source"
             },
             {
-              "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
+              "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
               "basis": "source"
             },
             {
-              "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
+              "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
               "basis": "source"
             },
             {
-              "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
+              "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
               "basis": "source"
             },
             {
-              "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
-              "basis": "source"
-            },
-            {
-              "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
+              "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
+              "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
               "steps": [
-                "登录 LangSmith，在侧边栏选择 LLM Gateway。",
-                "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
-                "在 LangSmith 工作区设置中添加提供商 API 密钥。",
-                "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
-                "触发一次测试请求，验证策略是否生效。"
+                "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+                "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+                "定义 @CopilotTool 方法，描述工具功能和参数",
+                "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+                "创建 SessionConfig，设置可用工具集和权限处理器",
+                "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+                "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
               ],
               "tools": [
-                "LangSmith",
-                "LLM Gateway"
+                "Maven 3.9+",
+                "JDK 17 或 25",
+                "GitHub Copilot CLI 1.0.71+"
               ],
               "verification": [
-                "在 LangSmith 中看到网关调用产生的追踪。",
-                "当费用上限触发时，代理收到 402 响应。",
-                "在追踪中确认敏感数据已被脱敏。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [],
-          "searchTerms": [
-            {
-              "term": "LLM Gateway",
-              "query": "LangSmith LLM Gateway 功能"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T22:02:35.050Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "d7b2e7a54cd91fe6",
-        "title": "Stop Chasing New Models. Build Once and Access Them All.",
-        "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
-        "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
-        "publishedAt": "2026-07-27T09:49:44.000Z",
-        "sourceId": "mozilla-ai",
-        "sourceName": "Mozilla AI",
-        "sourceSite": "https://blog.mozilla.ai/",
-        "lane": "ai",
-        "accent": "#ff7139",
-        "topic": "模型与研究",
-        "score": 61,
-        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 9,
-        "category": "research",
-        "slot": "update",
-        "language": "en",
-        "candidateScore": 65,
-        "bodyHash": "b4dff80ad530b212da503b94",
-        "extraction": {
-          "method": "readability",
-          "length": 6525,
-          "originalLength": 6525,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "别再追新模型了：一次构建，接入所有模型",
-        "analysis": {
-          "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
-                "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
-                "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
-                "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
-                "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
-                "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
-                "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
-                "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
-                "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
-                "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
-                "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
-                "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
-                "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
-            "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
-            "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
-            "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
-            "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
-            "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
-              "basis": "source"
-            },
-            {
-              "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
-              "basis": "source"
-            },
-            {
-              "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
-              "basis": "source"
-            },
-            {
-              "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
-              "basis": "source"
-            },
-            {
-              "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "团队希望快速评估新模型而不重写应用代码",
-              "steps": [
-                "部署Otari网关或类似服务，配置至少一个提供方凭证。",
-                "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
-                "在网关中配置路由策略，指定不同工作负载使用不同模型。",
-                "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
-                "设置预算和用量监控，跟踪各模型成本。"
-              ],
-              "tools": [
-                "Otari网关",
-                "OpenAI或Anthropic SDK（用于测试兼容性）",
-                "API测试工具（如Postman）"
-              ],
-              "verification": [
-                "应用发送请求后，网关日志显示请求被路由到指定模型。",
-                "切换模型后，应用无需重新部署，响应正常。",
-                "成本仪表板显示各模型的使用量和费用。"
+                "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+                "提交多个查询，观察虚拟线程并发处理",
+                "工具调用日志显示模型正确调用自定义工具"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "依赖地狱",
-            "稳定接口",
-            "成本可见性"
+            "框架无关",
+            "@CopilotTool 注解",
+            "虚拟线程",
+            "系统消息定制",
+            "代理循环"
           ],
           "searchTerms": [
             {
-              "term": "依赖地狱",
-              "query": "dependency hell 软件工程"
+              "term": "GitHub Copilot SDK for Java",
+              "query": "GitHub Copilot SDK Java 使用教程"
+            },
+            {
+              "term": "@CopilotTool 注解",
+              "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+            },
+            {
+              "term": "虚拟线程",
+              "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+            },
+            {
+              "term": "Jakarta EE 11",
+              "query": "Jakarta EE 11 新特性 虚拟线程"
+            },
+            {
+              "term": "BYOK",
+              "query": "BYOK 自带密钥 AI 模型提供商"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T22:02:49.028Z",
+        "analyzedAt": "2026-08-10T22:18:38.347Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "fa86927a13aa9f1f",
+        "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+        "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+        "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+        "publishedAt": "2026-08-10T13:27:19.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
+        "lane": "ai",
+        "accent": "#76b900",
+        "topic": "Agent 与自动化",
+        "score": 70,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 7,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 91,
+        "bodyHash": "b12a65f41ee8e9b015ce0937",
+        "extraction": {
+          "method": "readability",
+          "length": 5178,
+          "originalLength": 5178,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+        "analysis": {
+          "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+                "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+                "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+                "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+                "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+                "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+                "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+                "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+            "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+            "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+            "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+            "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+              "basis": "source"
+            },
+            {
+              "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+              "basis": "source"
+            },
+            {
+              "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+              "basis": "source"
+            },
+            {
+              "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+              "steps": [
+                "从 HuggingFace 下载 Muse Glimmer 权重。",
+                "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+                "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+                "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+                "部署后测试多步骤任务，如代码生成或文档修订。"
+              ],
+              "tools": [
+                "HuggingFace",
+                "vLLM",
+                "SGLang",
+                "NVIDIA NIM",
+                "NeMo AutoModel"
+              ],
+              "verification": [
+                "模型成功加载并响应指令，无显存溢出错误。",
+                "在长上下文任务中，输出保持连贯，无中断或错误。",
+                "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "稠密架构",
+            "本地智能体工作流",
+            "每秒 2 万 token",
+            "隐私设计"
+          ],
+          "searchTerms": [
+            {
+              "term": "Muse Glimmer",
+              "query": "Muse Glimmer model Meta"
+            },
+            {
+              "term": "稠密架构",
+              "query": "dense architecture LLM"
+            },
+            {
+              "term": "NVIDIA NIM",
+              "query": "NVIDIA NIM inference container"
+            },
+            {
+              "term": "NeMo AutoModel",
+              "query": "NVIDIA NeMo AutoModel fine-tuning"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-10T22:18:50.372Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2595,393 +2187,291 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "1abb5239d6c83d29",
-        "title": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans",
-        "url": "https://simonwillison.net/2026/Aug/8/auto-mode/",
-        "summary": "Auto mode is now the default in Claude Code for Pro, Max, and Team plans Anthropic are really confident in Claude Code's auto mode , to the point that they are making it the default setting for new sessions in most Claude Code plans starting on August 14th. This was one of the topics discussed in our Fireside Chat with Cat Wu and Thariq Shihipar at the AI Engineer World’s Fair last month. I asked them how they run Claude Code safely within Anthropic (given the threat of prompt injection) and they replied that \"Broadly within Anthropic, almost every single person uses auto mode\". Cat Wu then said: We’re going to publish some evals in the coming weeks, but we’ve pretty much mitigated every attack. [...] for the main categories of risks that we’re concerned about, like prompt injection and data exfiltration, the risks are far lower than the average human reviewer. This new article has those",
-        "publishedAt": "2026-08-08T22:36:03.000Z",
-        "sourceId": "simon-willison",
-        "sourceName": "Simon Willison",
-        "sourceSite": "https://simonwillison.net/",
+        "id": "2880c1eaa96df809",
+        "title": "Using the GitHub Copilot SDK for Java",
+        "url": "https://github.blog/engineering/using-the-github-copilot-sdk-for-java/",
+        "summary": "Enterprise Java developers have a new superpower—drive GitHub Copilot from idiomatic Java code with annotations, virtual threads, and more. The post Using the GitHub Copilot SDK for Java appeared first on The GitHub Blog .",
+        "publishedAt": "2026-08-10T19:30:00.000Z",
+        "sourceId": "github-ai",
+        "sourceName": "GitHub AI & ML",
+        "sourceSite": "https://github.blog/ai-and-ml/",
         "lane": "ai",
-        "accent": "#b36b00",
+        "accent": "#24292f",
         "topic": "开发实践",
-        "score": 66,
+        "score": 88,
         "learningNote": "尝试把核心方法缩成一个最小示例，并记录适用边界。",
-        "readMinutes": 5,
-        "category": "opinion",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 81,
-        "bodyHash": "9ac7bebb0abb7d08788e3490",
-        "extraction": {
-          "method": "readability",
-          "length": 3579,
-          "originalLength": 3579,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "Claude Code 自动模式成为默认：安全升级还是隐患？",
-        "analysis": {
-          "listSummary": "本文介绍了 Anthropic 将 Claude Code 的自动模式设为 Pro、Max 和 Team 计划新会话的默认设置，并提供了安全评估数据。文章解释了自动模式如何减少人工确认疲劳，同时讨论了其面对提示注入等风险的能力和局限。对使用 AI 编程工具的开发者而言，本文提供了安全实践的重要参考，值得一读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "自动模式是 Claude Code 中的一种操作方式，它允许 AI 自主执行代码操作，而无需每次请求用户批准。Anthropic 计划从 8 月 14 日起，在大多数计划中将其设为默认，这反映了他们对自动模式安全性的高度信心。",
-                "传统的人工审批模式存在确认疲劳问题，即用户频繁点击“允许”后，可能变得麻木，从而忽略危险操作。自动模式旨在通过减少不必要的交互来提高效率，但同时也引发了关于安全性的讨论，特别是如何防止 AI 执行恶意指令。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "为了评估自动模式的安全性，Anthropic 进行了一项涉及 1053 名付费测试者的实验。在会话中途，他们将一个明显的危险命令替换掉原本的权限请求，观察测试者是否批准。结果显示，仅 13.6% 的人类拒绝了这个有害操作，而自动模式能阻止 89% 的此类行为。",
-                "此外，Anthropic 委托第三方机构 Trajectory Labs 测试了 Claude Code 和 Codex 的多个模型，针对 72 个间接提示注入场景进行了 720 次攻击尝试。结果显示，Claude Fable 5、Opus 5 和 Sonnet 5 在自动模式下均未被成功攻击。",
-                "作者认为，自动模式在减少人为错误方面优于人工审批，但指出仍有 11% 的案例无法完全阻止。他特别担心提示注入攻击，即恶意指令隐藏在 AI 消费的内容中，可能绕过自动模式的安全机制。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "原文证据表明，自动模式在测试中表现优于人类审批，且 Anthropic 声称已缓解主要风险，如提示注入和数据泄露。然而，作者强调这些结论需要更多独立验证，因为测试场景可能未覆盖所有攻击类型。",
-                "作者举例说明，一个恶意第三方包可能指示 AI 运行看似正常的命令，但实际会泄露数据。这种情况下，自动模式可能无法有效防护。因此，作者建议在运行 AI 代理时，限制其访问敏感数据和工具，以降低潜在危害。",
-                "本文的边界在于，评估基于特定版本和场景，结果可能不适用于所有环境。作者对 Anthropic 的乐观态度表示谨慎，并呼吁社区进行更多独立测试。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "自动模式默认化旨在减少用户确认疲劳，提高效率，但安全性需权衡。",
-            "实验显示，自动模式能阻止 89% 的危险操作，优于人类审批的 13.6% 拒绝率。",
-            "第三方测试中，Claude 最新模型在自动模式下成功抵御了 720 次提示注入攻击。",
-            "作者认为自动模式并非万能，仍有 11% 的漏洞，特别是针对恶意第三方包的攻击。",
-            "建议在关键任务中限制 AI 代理的权限，以降低数据泄露风险。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "自动模式是 Claude Code 的一项功能，允许 AI 在无需用户逐次批准的情况下执行操作。它通过预设的安全策略和风险评估来决定是否执行命令，旨在平衡效率与安全。其重要性在于减少人为干预，但需要确保安全机制足够强大。",
-              "basis": "source"
-            },
-            {
-              "text": "提示注入是一种攻击，恶意指令隐藏在 AI 处理的内容中，诱导其执行非预期操作。Claude Code 通过模型训练和过滤机制来检测此类攻击，但完全防御仍具挑战。",
-              "basis": "source"
-            },
-            {
-              "text": "评估实验涉及 1053 名测试者，通过替换权限请求为危险命令，测试人类和自动模式的响应。自动模式阻止了 89% 的危险操作，而人类仅拒绝 13.6%，表明自动模式在特定场景下更安全。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "在开发环境中使用 Claude Code 自动模式时，如何平衡效率与安全",
-              "steps": [
-                "评估项目风险：确定哪些操作可能造成不可逆损害，如删除文件或修改数据库。",
-                "配置自动模式的安全策略：设置敏感操作的审批阈值，例如涉及生产环境时强制人工确认。",
-                "定期审查 AI 执行日志：检查是否有异常操作，及时调整策略。",
-                "限制 AI 的权限：使用最小权限原则，确保 AI 只能访问必要的数据和工具。",
-                "进行安全测试：模拟提示注入攻击，验证自动模式的防御能力。"
-              ],
-              "tools": [
-                "Claude Code 自动模式设置",
-                "日志监控工具（如 ELK Stack）",
-                "权限管理工具（如 IAM）"
-              ],
-              "verification": [
-                "观察自动模式下的操作成功率，确保效率提升。",
-                "检查日志中是否有未授权操作记录。",
-                "通过模拟攻击测试，确认安全策略有效。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "自动模式",
-            "确认疲劳",
-            "提示注入",
-            "数据泄露",
-            "独立验证"
-          ],
-          "searchTerms": [
-            {
-              "term": "自动模式",
-              "query": "Claude Code auto mode 安全评估"
-            },
-            {
-              "term": "提示注入",
-              "query": "prompt injection 防御 编程代理"
-            },
-            {
-              "term": "确认疲劳",
-              "query": "confirmation fatigue AI 审批"
-            },
-            {
-              "term": "数据泄露",
-              "query": "data exfiltration AI 代理 风险"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T22:02:20.109Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "0b0df736865e6ac1",
-        "title": "LangSmith LLM Gateway: runtime governance built into the agent lifecycle",
-        "url": "https://www.langchain.com/blog/introducing-llm-gateway",
-        "summary": "Introducing LangSmith LLM Gateway: runtime governance for AI agents with spend limits, PII redaction, and trace continuity, built directly into LangSmith.",
-        "publishedAt": "2026-08-07T19:39:38.000Z",
-        "sourceId": "langchain",
-        "sourceName": "LangChain Blog",
-        "sourceSite": "https://blog.langchain.com/",
-        "lane": "ai",
-        "accent": "#1c3c3c",
-        "topic": "Agent 与自动化",
-        "score": 49,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 10,
+        "readMinutes": 21,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 78,
-        "bodyHash": "7b94e6696238f1304fec3282",
+        "candidateScore": 96,
+        "bodyHash": "0e6e511fa3bdf752140bdcd7",
         "extraction": {
           "method": "readability",
-          "length": 6924,
-          "originalLength": 6924,
+          "length": 14974,
+          "originalLength": 14974,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LangSmith LLM Gateway：把 AI 代理的运行规则嵌入开发平台",
+        "displayTitle": "用 Java 原生方式驱动 GitHub Copilot：Copilot SDK for Java 入门指南",
         "analysis": {
-          "listSummary": "本文介绍 LangSmith 新推出的 LLM Gateway，一个位于 AI 代理与模型之间的治理层。它解决代理失控调用、敏感数据泄露等问题，提供费用上限、PII 脱敏、审计日志等功能。对已使用 LangSmith 的团队，可减少工具切换，直接在原有平台处理策略事件。文章适合关心 AI 生产环境安全与成本控制的开发者阅读，内容具体，值得一读。",
+          "listSummary": "本文介绍 GitHub Copilot SDK for Java，这是一个让 Java 开发者用熟悉的语法（注解、lambda、虚拟线程）在服务端代码中驱动 AI 的客户端库。它解决了以往 Java 框架绑定特定 AI 供应商或框架的问题，支持 BYOK（自带密钥），可对接 OpenAI、Azure 等模型提供商。文章通过一个完整的 Jakarta EE 11 示例应用，演示了如何定义工具、定制系统消息、处理事件流，并集成到企业级 Java 环境中。对希望在企业 Java 应用中集成 AI 的开发者很有价值，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "AI 代理在生产环境中运行，可能因重试循环或处理敏感信息而引发严重问题。",
-                "例如，一个编码代理在夜间陷入重试循环，可能产生 10,000 次模型调用，导致高额账单；客服代理处理退款时，可能将社会安全号码发送给模型提供商，造成数据泄露。",
-                "这些问题并非边缘案例，而是日常现实。可观测性工具能告诉你发生了什么，但无法在问题发生前阻止。",
-                "传统方案需要将独立的网关、护栏平台和可观测性堆栈拼接在一起，当问题出现时，还要跨三个系统关联信号，效率低且复杂。"
+                "在 Java 中集成 AI 曾经很麻烦，因为要么依赖特定框架，要么被框架的设计选择所限制。Langchain4j 虽然解耦了 AI 供应商，但你还是依赖 Langchain4j 本身；Spring AI 则依赖 Spring 的设计。这些框架都让 Java 开发者无法自由选择技术栈。",
+                "GitHub Copilot SDK for Java 号称是第一个真正框架无关的 Java AI 驱动方式。它不绑定任何 Java 框架，也不绑定特定 AI 供应商。通过 BYOK（自带密钥）支持，你可以传入自己的 baseUrl 和 apiKey，直接对接 OpenAI、Azure、Anthropic 等模型提供商，甚至不需要 Copilot 订阅。这意味着你可以在任何 Java 服务端环境中使用它，包括 Jakarta EE 和 Spring。",
+                "这个 SDK 是一个客户端库，让你在服务端代码中以编程方式创建 Copilot 代理会话、注册工具、发送提示词并接收结构化响应。它使用 Java 开发者熟悉的 API，如 CompletableFuture、注解、lambda 和虚拟线程，让集成体验非常自然。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "LangSmith LLM Gateway 的解决方案是将治理直接嵌入代理生命周期，即代理构建、观察和评估的同一平台。",
-                "它位于代理和模型之间，强制执行成本限制和敏感数据脱敏，在请求到达模型前就进行拦截。",
-                "当策略触发时，事件直接流入 LangSmith，无需单独仪表盘或审计日志，可从被阻止的请求直接跳转到触发它的追踪，再到修复，全程在一个产品内完成。",
-                "当前测试版提供多项控制：组织、工作区、用户或 API 密钥级别的费用上限，实时成本汇总，PII 和秘密检测，追踪连续性，LangSmith Engine 集成，审计日志，以及分层执行策略。",
-                "设置过程简单：将代理指向 LangSmith Gateway 端点，使用 LangSmith API 密钥，添加提供商 API 密钥到工作区秘密，然后在 UI 中设置策略。无需更改代码，只需交换 base_url。"
+                "文章通过一个完整的示例应用来展示 SDK 的功能。这个应用是一个房地产线索管理代理管道，使用 Jakarta EE 11 构建，运行在 Open Liberty 26.0.0.5 上，UI 使用 PrimeFaces，数据库用 H2 内存数据库。当客户提交查询（如“我想找伦敦 80 万英镑以下的三居室”）时，系统会在虚拟线程上启动一个隔离的 Copilot 代理，处理整个管道。",
+                "SDK 的核心特性之一是 @CopilotTool 注解。你只需像写普通 Java 方法一样定义工具，SDK 会自动生成 JSON Schema、解析参数并分发调用。例如，一个设置当前阶段的方法，用 @CopilotTool 声明工具名称和描述，用 @CopilotToolParam 描述参数，模型就能自动调用它。这个注解 API 目前是实验性的，需要配置 Maven 编译器参数 -Acopilot.experimental.allowed=true，并注册注解处理器。",
+                "除了注解，SDK 还支持 lambda 风格的工具定义，适合在调用点内联定义。你可以用 ToolDefinition.from(...) 创建工具，并指定是否覆盖内置工具。工具还可以跨类扫描，比如在独立的 CDI bean 中定义数据库查询工具，然后通过 ToolDefinition.fromObject() 注册。",
+                "系统消息定制是另一个亮点。通过 SystemMessageMode.CUSTOMIZE，你可以替换系统消息的特定部分，比如身份描述，而保留安全护栏。SystemMessageMode.APPEND 则允许在默认消息后追加内容。这让你能精细控制代理的行为。",
+                "代理循环只需一行代码：session.sendAndWait(escapedEnquiry).get()。这背后，模型会推理、调用你的工具（可能多次），并返回最终响应。在虚拟线程上，.get() 不会消耗平台线程，非常高效。SDK 自动处理工具调用的分发和结果回传。",
+                "实时事件处理通过 session.on(...) 实现。每个工具调用、结果、助手消息都会触发事件。你可以用模式匹配处理特定事件类型，比如 AssistantMessageEvent 或 ToolExecutionStartEvent。示例应用通过 Jakarta WebSocket 将事件推送到浏览器，实现实时仪表盘更新。",
+                "对于权限处理，示例使用 PermissionHandler.APPROVE_ALL，这仅适用于演示。生产环境必须实现真正的权限策略，验证模型允许调用哪些工具。此外，SessionConfig 允许你指定每个会话可用的工具集，例如只允许自定义工具和 web_fetch，而不是暴露所有内置工具。",
+                "与 Jakarta EE 的集成是 SDK 的一个关键优势。通过 Executor 参数，你可以注入容器管理的虚拟线程工厂（ManagedThreadFactory），这样工具回调就能自动传播 CDI、JNDI 和事务上下文。这意味着在工具方法中可以直接注入 JPA 仓库并查询数据库。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "文章对比了三种现有治理工具：网络层网关提供基础设施控制但缺乏追踪上下文；独立护栏平台功能强大但需维护第二套可观测性；数据平台治理层适合已嵌入该平台的团队，否则迁移成本高。",
-                "LLM Gateway 的优势在于锚定代理框架本身，策略事件与追踪、评估在同一工作区，且能基于真实生产行为调整策略，无需额外微调循环。",
-                "作者认为，代理治理不应是事后添加，而应内置于构建和运行代理的产品中。",
-                "边界是：当前仅覆盖 LLM 调用，未来计划扩展至工具调用、代理间调用和 MCP 服务器交互，并增加更灵活的强制执行方式，如软发布和模型回退。"
+                "文章提供的证据主要来自示例应用的代码片段和运行说明。作者 Ed Burns 是 Jakarta EE 11 的发布协调负责人，他选择 Jakarta EE 11 演示是因为相信开放标准。这解释了为什么示例应用基于 Jakarta EE，但 SDK 本身是框架无关的，开发者可以自由选择其他框架。",
+                "结论是：GitHub Copilot SDK for Java 提供了 Java 原生的 API，支持注解、lambda、虚拟线程，让 AI 集成感觉像在写普通 Java 代码。它支持三种工具定义风格（注解、lambda、JSON Schema），系统消息定制灵活，代理循环一行代码完成，事件流实时推送，且无需 IDE，可在任何有 Copilot CLI 的环境运行。",
+                "边界在于：@CopilotTool 注解 API 目前是实验性的，需要特殊配置；权限处理在演示中使用 APPROVE_ALL，生产环境必须自定义；SDK 依赖 Copilot CLI 的本地安装（版本 1.0.71 或更高），这限制了部署环境。此外，虽然支持 BYOK，但文章未详细说明如何配置不同的模型提供商。"
               ]
             }
           ],
           "keyPoints": [
-            "LLM Gateway 是一个运行时治理层，位于代理和模型之间，在请求到达前拦截并执行策略。",
-            "它提供费用上限、PII 脱敏、审计日志等功能，且策略事件直接流入 LangSmith，无需额外工具。",
-            "设置只需交换 base_url 并添加 API 密钥，无需更改代码。",
-            "与网络层网关和独立护栏平台相比，它更贴近代理开发流程，减少上下文切换。",
-            "当前仅支持 LLM 调用，未来将扩展至工具和 MCP 网关。"
+            "GitHub Copilot SDK for Java 是框架无关的 AI 驱动库，支持 BYOK，可对接 OpenAI、Azure 等模型提供商，无需 Copilot 订阅。",
+            "通过 @CopilotTool 注解定义工具，SDK 自动处理 JSON Schema 生成和参数解析，但该功能目前是实验性的，需要配置 Maven 编译器参数。",
+            "支持 lambda 风格的工具定义，适合内联场景，并可覆盖内置工具。",
+            "系统消息可通过 SystemMessageMode.CUSTOMIZE 或 APPEND 定制，实现精细控制。",
+            "sendAndWait() 一行代码启动完整代理循环，虚拟线程上 .get() 不阻塞平台线程。",
+            "通过 Executor 参数集成 Jakarta EE 的 ManagedThreadFactory，实现容器上下文自动传播。"
           ],
           "technicalDetails": [
             {
-              "text": "LLM Gateway 是一个代理网关，它拦截代理发出的请求，在转发给模型前检查并执行策略，如费用上限和 PII 脱敏。它通过 LangSmith API 密钥认证，使用 LangSmith UI 配置策略。",
+              "text": "@CopilotTool 注解：它是什么——一个标记方法为 AI 可调用工具的注解。怎么工作——在编译时通过注解处理器生成工具元数据，运行时 SDK 自动生成 JSON Schema、解析参数并分发调用。为什么重要——让开发者用普通 Java 方法定义工具，无需手动处理协议细节。",
               "basis": "source"
             },
             {
-              "text": "当费用上限达到时，代理会收到 402 响应，并附带清晰错误信息。这通过硬性限制防止意外高额账单。",
+              "text": "ToolDefinition.from(...) 方法：它是什么——用于创建工具定义的 lambda 风格 API。怎么工作——接受工具名称、描述、参数定义和 lambda 函数作为参数，并可通过 overridesBuiltInTool(true) 覆盖同名内置工具。为什么重要——提供灵活的内联工具定义方式，适合简单场景。",
               "basis": "source"
             },
             {
-              "text": "PII 检测在请求和响应到达模型或写入追踪前进行脱敏，防止敏感数据传播。这通过将敏感数据替换或移除，确保下游系统不接收。",
+              "text": "SystemMessageConfig 类：它是什么——用于定制系统消息的配置类。怎么工作——通过 setMode(SystemMessageMode.CUSTOMIZE) 和 setSections() 替换特定部分，或使用 APPEND 模式追加内容。为什么重要——允许开发者控制代理行为，同时保留安全护栏。",
               "basis": "source"
             },
             {
-              "text": "追踪连续性确保所有通过网关的调用都出现在 LangSmith 工作区，与代理的其他追踪一致，不分割可观测性。这通过将网关集成到 LangSmith 的追踪管道实现。",
+              "text": "CopilotClientMode.EMPTY：它是什么——客户端运行模式，表示无 IDE 集成。怎么工作——客户端直接与 Copilot CLI 通信，通过 setCopilotHome() 指定 CLI 位置。为什么重要——支持无头服务器端运行，无需 IDE。",
               "basis": "source"
             },
             {
-              "text": "LangSmith Engine 集成允许从策略事件点击跳转到产生该事件的追踪，便于调查和修复。这通过将事件与追踪数据关联实现。",
-              "basis": "source"
-            },
-            {
-              "text": "分层执行策略可在组织、工作区、用户或 API 密钥级别设置，实现精细控制。这通过策略继承和覆盖机制实现。",
+              "text": "ManagedThreadFactory 集成：它是什么——Jakarta Concurrency 规范中的线程工厂接口。怎么工作——通过 @Resource 注入，创建虚拟线程，自动传播 CDI、JNDI 和事务上下文。为什么重要——确保工具回调在正确的容器上下文中执行，支持依赖注入。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "团队已使用 LangSmith 构建和监控代理，希望在不增加额外工具的情况下加强安全与成本控制。",
+              "scenario": "在企业 Java 应用中集成 AI 代理，需要自定义工具和实时事件流",
               "steps": [
-                "登录 LangSmith，在侧边栏选择 LLM Gateway。",
-                "将代理的 base_url 指向 LangSmith Gateway 端点，并配置 LangSmith API 密钥。",
-                "在 LangSmith 工作区设置中添加提供商 API 密钥。",
-                "在 UI 中设置费用上限和 PII 脱敏策略，例如按用户或 API 密钥级别。",
-                "触发一次测试请求，验证策略是否生效。"
+                "克隆示例应用：git clone https://github.com/microsoft/Build26-BRK206-your-agent-anywhere-multiclient-multidevice-with-github-copilot-sdk.git",
+                "配置 Maven 编译器参数 -Acopilot.experimental.allowed=true 和注解处理器路径",
+                "定义 @CopilotTool 方法，描述工具功能和参数",
+                "创建 CopilotClient，设置模式为 EMPTY，指定 CopilotHome 和 Executor",
+                "创建 SessionConfig，设置可用工具集和权限处理器",
+                "调用 session.sendAndWait() 启动代理循环，并通过 session.on() 监听事件",
+                "运行应用：mvn clean package liberty:run，打开 http://localhost:9080/index.xhtml"
               ],
               "tools": [
-                "LangSmith",
-                "LLM Gateway"
+                "Maven 3.9+",
+                "JDK 17 或 25",
+                "GitHub Copilot CLI 1.0.71+"
               ],
               "verification": [
-                "在 LangSmith 中看到网关调用产生的追踪。",
-                "当费用上限触发时，代理收到 402 响应。",
-                "在追踪中确认敏感数据已被脱敏。"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [],
-          "searchTerms": [
-            {
-              "term": "LLM Gateway",
-              "query": "LangSmith LLM Gateway 功能"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T22:02:35.050Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "d7b2e7a54cd91fe6",
-        "title": "Stop Chasing New Models. Build Once and Access Them All.",
-        "url": "https://blog.mozilla.ai/stop-chasing-new-models-build-once-and-access-them-all/",
-        "summary": "Swapping LLMs sounds simple, but managing separate SDKs, credentials, and billing turns model evaluation into an infrastructure headache. Otari solves this with a unified gateway, decoupling application logic from providers so teams can seamlessly route traffic, test new models, and control spend.",
-        "publishedAt": "2026-07-27T09:49:44.000Z",
-        "sourceId": "mozilla-ai",
-        "sourceName": "Mozilla AI",
-        "sourceSite": "https://blog.mozilla.ai/",
-        "lane": "ai",
-        "accent": "#ff7139",
-        "topic": "模型与研究",
-        "score": 61,
-        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 9,
-        "category": "research",
-        "slot": "update",
-        "language": "en",
-        "candidateScore": 65,
-        "bodyHash": "b4dff80ad530b212da503b94",
-        "extraction": {
-          "method": "readability",
-          "length": 6525,
-          "originalLength": 6525,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "别再追新模型了：一次构建，接入所有模型",
-        "analysis": {
-          "listSummary": "本文讨论AI应用开发中一个常见但常被忽视的问题：接入新的大语言模型（LLM）为何如此复杂。作者指出，直接连接不同模型提供方会导致代码、安全、成本管理碎片化，就像过去的“依赖地狱”。文章介绍Otari网关如何通过统一接口解耦应用与模型，让模型切换变成简单配置。对开发者、技术决策者很有价值，能帮你理解模型集成的最佳实践，避免重复造轮子。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "新模型发布时，产品团队想快速测试，但从平台角度看，这远非改个模型名那么简单。",
-                "每个模型提供方都有自己的SDK（软件开发工具包，即预写好的代码库）、认证方式、请求格式和错误处理，这意味着额外的工作。",
-                "真正的挑战不是访问更多模型，而是防止每个新模型都变成一个新的基础设施项目。",
-                "直接连接提供方时，应用不仅依赖模型，还依赖其SDK、凭证、数据格式、流式实现、工具调用约定、速率限制等，这些逻辑会散布在代码、安全、监控和部署中。",
-                "当提供方增多，团队实际上在维护一个内部的兼容层，而不是AI应用。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "作者类比了软件工程中的“依赖地狱”问题——包管理器和容器（如Docker）通过稳定边界解决了它。",
-                "LLM提供方现在就像独立的依赖生态系统，直接连接会重现过去的耦合问题。",
-                "解决方案是解耦应用生命周期和模型生命周期：模型切换应成为配置变更，而非代码重写。",
-                "Otari网关提供稳定的OpenAI/Anthropic兼容端点，应用只需一个API密钥，其余由网关处理，支持40多个提供方。",
-                "这允许团队问“哪个模型适合这个工作负载”，而不是“需要改什么代码”。",
-                "作者强调，Otari不替代工程判断，只是移除重复集成工作。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "作者认为，模型能力和平台能力不同，轻量模型可能缺少托管功能，但Otari通过提供模型无关的工具（如网络搜索、沙箱代码执行）来弥补。",
-                "直接集成还导致凭证分散和成本可见性差，Otari集中存储凭证，使用工作区API密钥，并统一记录请求和成本，支持预算和控制。",
-                "结论是，模型选择会持续变化，应用应构建在稳定接口上，让模型层在背后演进。",
-                "边界：Otari不负责模型质量评估、延迟、隐私等，这些仍需团队自行决策；它只解决集成和运维问题。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "直接连接多个LLM提供方会导致代码、安全、成本管理碎片化，类似过去的“依赖地狱”。",
-            "模型切换应通过统一网关实现，让应用只依赖一个稳定接口，而非每个提供方的SDK。",
-            "Otari网关支持40多个提供方，提供OpenAI/Anthropic兼容端点，简化集成。",
-            "集中管理凭证和成本数据，能减少安全风险并提升财务可见性。",
-            "模型能力不等于平台能力，小模型可通过网关获得工具支持。",
-            "工程判断（如质量、延迟、隐私）仍需团队负责，网关只解决集成问题。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "SDK（软件开发工具包）是提供方预写的代码库，用于简化API调用，但每个提供方的SDK不同，导致集成工作重复。",
-              "basis": "source"
-            },
-            {
-              "text": "OpenAI/Anthropic兼容端点：Otari提供与OpenAI和Anthropic API格式兼容的接口，应用只需按此格式发送请求，网关负责转换。",
-              "basis": "source"
-            },
-            {
-              "text": "工作区API密钥：应用使用作用域受限的密钥调用网关，而非直接使用提供方凭证，从而隔离安全边界。",
-              "basis": "source"
-            },
-            {
-              "text": "模型无关工具：如网络搜索和沙箱代码执行，通过网关提供，使小模型也能使用高级功能。",
-              "basis": "source"
-            },
-            {
-              "text": "依赖地狱：指依赖版本冲突导致应用崩溃的问题，本文类比LLM集成问题。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "团队希望快速评估新模型而不重写应用代码",
-              "steps": [
-                "部署Otari网关或类似服务，配置至少一个提供方凭证。",
-                "将应用中的API调用改为指向网关的兼容端点，使用单一API密钥。",
-                "在网关中配置路由策略，指定不同工作负载使用不同模型。",
-                "测试新模型时，仅修改网关中的模型选择，无需改动应用代码。",
-                "设置预算和用量监控，跟踪各模型成本。"
-              ],
-              "tools": [
-                "Otari网关",
-                "OpenAI或Anthropic SDK（用于测试兼容性）",
-                "API测试工具（如Postman）"
-              ],
-              "verification": [
-                "应用发送请求后，网关日志显示请求被路由到指定模型。",
-                "切换模型后，应用无需重新部署，响应正常。",
-                "成本仪表板显示各模型的使用量和费用。"
+                "应用启动后，浏览器显示实时仪表盘，可以看到代理阶段更新",
+                "提交多个查询，观察虚拟线程并发处理",
+                "工具调用日志显示模型正确调用自定义工具"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "依赖地狱",
-            "稳定接口",
-            "成本可见性"
+            "框架无关",
+            "@CopilotTool 注解",
+            "虚拟线程",
+            "系统消息定制",
+            "代理循环"
           ],
           "searchTerms": [
             {
-              "term": "依赖地狱",
-              "query": "dependency hell 软件工程"
+              "term": "GitHub Copilot SDK for Java",
+              "query": "GitHub Copilot SDK Java 使用教程"
+            },
+            {
+              "term": "@CopilotTool 注解",
+              "query": "GitHub Copilot SDK @CopilotTool 注解 示例"
+            },
+            {
+              "term": "虚拟线程",
+              "query": "Java 虚拟线程 ManagedThreadFactory 示例"
+            },
+            {
+              "term": "Jakarta EE 11",
+              "query": "Jakarta EE 11 新特性 虚拟线程"
+            },
+            {
+              "term": "BYOK",
+              "query": "BYOK 自带密钥 AI 模型提供商"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-09T22:02:49.028Z",
+        "analyzedAt": "2026-08-10T22:18:38.347Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "fa86927a13aa9f1f",
+        "title": "Run Local Agentic AI Workflows with Meta’s Muse Glimmer on NVIDIA",
+        "url": "https://developer.nvidia.com/blog/run-local-agentic-ai-workflows-with-metas-muse-glimmer-on-nvidia/",
+        "summary": "Meta returns to the open source ecosystem with the release of Muse Glimmer, a 30B open-weight dense model with a 120K+ context window built for local AI...",
+        "publishedAt": "2026-08-10T13:27:19.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
+        "lane": "ai",
+        "accent": "#76b900",
+        "topic": "Agent 与自动化",
+        "score": 70,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 7,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 91,
+        "bodyHash": "b12a65f41ee8e9b015ce0937",
+        "extraction": {
+          "method": "readability",
+          "length": 5178,
+          "originalLength": 5178,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "本地运行 Meta Muse Glimmer：NVIDIA 平台上的智能体 AI 工作流指南",
+        "analysis": {
+          "listSummary": "本文介绍 Meta 新发布的开源模型 Muse Glimmer，这是一个 300 亿参数的稠密模型，专为本地智能体工作流设计，支持 12 万以上的上下文窗口。它解决了传统聊天模型在长时任务中可靠性不足的问题，能在单张 NVIDIA GPU 上实现每秒 2 万 token 的高吞吐。文章详细说明了模型架构、NVIDIA 硬件优化、部署方式及微调工具，适合希望构建本地 AI 助手或自动化工作流的开发者阅读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "大多数大语言模型（LLM）是为聊天设计的，优先快速响应单轮对话，但智能体工作流需要不同的能力。",
+                "智能体工作流指 AI 自动执行多步骤任务，例如编写代码、更新文档或管理知识库，它需要连续调用多个工具，并保持长上下文的一致性。",
+                "聊天模型在长时任务中容易出错，因为它们不擅长遵循复杂指令和维持稳定输出，而 Muse Glimmer 正是为此而生。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Muse Glimmer 采用稠密架构，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为的一致性和可预测性。",
+                "这种设计适合智能体工作流，因为它能可靠地遵循指令，在长上下文中保持连贯，并减少失败模式。",
+                "NVIDIA 硬件优化是关键，例如 GeForce RTX 5090 的 32GB 显存可本地运行模型，DGX Spark 提供工作站级性能，而 Jetson 支持边缘部署。",
+                "性能测试显示，在 Blackwell Ultra 上，Muse Glimmer 能以 BF16 精度达到每秒 2 万 token 的吞吐，且无需模型分片或 CPU 卸载。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文提供性能数据：在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 以上，并支持高并发。",
+                "结论是 Muse Glimmer 适合本地智能体工作流，但边界是它需要 NVIDIA GPU 的 Tensor Core 加速，且模型大小（30B）可能不适合低显存设备。",
+                "作者强调隐私设计，所有推理都在本地完成，不离开机器，这适用于处理敏感数据的场景。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Muse Glimmer 是 Meta 发布的开源模型，300 亿参数，支持 12 万以上上下文，专为本地智能体工作流设计。",
+            "稠密架构意味着每个 token 处理时激活所有参数，提供稳定输出，适合多步骤任务。",
+            "在 NVIDIA Blackwell Ultra 上，Muse Glimmer 达到每秒 2 万 token 吞吐，单 GPU 即可运行。",
+            "支持多种部署方式：HuggingFace 权重、NVIDIA NIM 容器、以及 Jetson 边缘设备。",
+            "微调可使用 NVIDIA NeMo AutoModel，支持全量微调和 LoRA，无需转换模型格式。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Muse Glimmer 是稠密模型，处理每个 token 时激活所有参数，没有路由或专家选择，这保证了行为一致性和可预测性，适合需要可靠指令遵循的智能体工作流。",
+              "basis": "source"
+            },
+            {
+              "text": "NVIDIA NIM 是预构建的优化推理容器，自动选择运行时配置和服务器设置，使部署成为一键操作，简化了本地部署流程。",
+              "basis": "source"
+            },
+            {
+              "text": "NVIDIA NeMo AutoModel 是微调库，支持 Hugging Face 检查点，无需模型转换，提供全量 SFT 和 LoRA 微调，优化了实验效率。",
+              "basis": "source"
+            },
+            {
+              "text": "性能数据：在 Blackwell Ultra 上，Muse Glimmer 以 BF16 精度达到每秒 2 万 token 吞吐，且单 GPU 可容纳全模型，留有余量给 KV 缓存。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发者希望构建本地运行的 AI 助手，处理代码生成或文档管理任务，且要求数据不出本地。",
+              "steps": [
+                "从 HuggingFace 下载 Muse Glimmer 权重。",
+                "选择推理栈：使用 vLLM 或 SGLang 进行开源部署，或拉取 NVIDIA NIM 容器。",
+                "配置 NVIDIA GPU 环境，确保显存至少 32GB（如 RTX 5090）。",
+                "使用 NVIDIA NeMo AutoModel 进行微调，以适配特定任务。",
+                "部署后测试多步骤任务，如代码生成或文档修订。"
+              ],
+              "tools": [
+                "HuggingFace",
+                "vLLM",
+                "SGLang",
+                "NVIDIA NIM",
+                "NeMo AutoModel"
+              ],
+              "verification": [
+                "模型成功加载并响应指令，无显存溢出错误。",
+                "在长上下文任务中，输出保持连贯，无中断或错误。",
+                "吞吐量达到预期，例如在 Blackwell Ultra 上接近每秒 2 万 token。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "稠密架构",
+            "本地智能体工作流",
+            "每秒 2 万 token",
+            "隐私设计"
+          ],
+          "searchTerms": [
+            {
+              "term": "Muse Glimmer",
+              "query": "Muse Glimmer model Meta"
+            },
+            {
+              "term": "稠密架构",
+              "query": "dense architecture LLM"
+            },
+            {
+              "term": "NVIDIA NIM",
+              "query": "NVIDIA NIM inference container"
+            },
+            {
+              "term": "NeMo AutoModel",
+              "query": "NVIDIA NeMo AutoModel fine-tuning"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-10T22:18:50.372Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -3003,7 +2493,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 267,
+      "latencyMs": 193,
       "itemCount": 35
     },
     {
@@ -3020,7 +2510,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 298,
+      "latencyMs": 215,
       "itemCount": 10
     },
     {
@@ -3037,7 +2527,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 471,
+      "latencyMs": 951,
       "itemCount": 32
     },
     {
@@ -3054,7 +2544,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1028,
+      "latencyMs": 1419,
       "itemCount": 10
     },
     {
@@ -3071,7 +2561,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 141,
+      "latencyMs": 387,
       "itemCount": 35
     },
     {
@@ -3088,7 +2578,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 245,
+      "latencyMs": 248,
       "itemCount": 35
     },
     {
@@ -3105,7 +2595,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 183,
+      "latencyMs": 504,
       "itemCount": 35
     },
     {
@@ -3122,7 +2612,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 169,
+      "latencyMs": 300,
       "itemCount": 30
     },
     {
@@ -3139,7 +2629,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 193,
+      "latencyMs": 290,
       "itemCount": 35
     },
     {
@@ -3156,7 +2646,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 544,
+      "latencyMs": 954,
       "itemCount": 20
     },
     {
@@ -3173,7 +2663,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 472,
+      "latencyMs": 685,
       "itemCount": 35
     },
     {
@@ -3190,7 +2680,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 259,
+      "latencyMs": 550,
       "itemCount": 15
     },
     {
@@ -3207,7 +2697,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1255,
+      "latencyMs": 1580,
       "itemCount": 15
     },
     {
@@ -3224,7 +2714,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 19820,
+      "latencyMs": 18230,
       "itemCount": 35
     },
     {
@@ -3241,7 +2731,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 672,
+      "latencyMs": 878,
       "itemCount": 35
     },
     {
@@ -3263,7 +2753,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1224,
+      "latencyMs": 1742,
       "itemCount": 4
     },
     {
@@ -3280,7 +2770,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 615,
+      "latencyMs": 1050,
       "itemCount": 10
     }
   ],
@@ -3339,7 +2829,9 @@
       "a5ba9d6c0363a1ef",
       "1abb5239d6c83d29",
       "0b0df736865e6ac1",
-      "d7b2e7a54cd91fe6"
+      "d7b2e7a54cd91fe6",
+      "2880c1eaa96df809",
+      "fa86927a13aa9f1f"
     ],
     "processedManualUrls": []
   },
@@ -3348,10 +2840,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 0,
-    "rejectedCount": 266,
+    "calls": 3,
+    "rejectedCount": 277,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-09T22:02:49.029Z"
+  "previousGeneratedAt": "2026-08-10T06:02:47.593Z"
 }
