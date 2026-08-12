@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-09T20:57:30.723Z",
+  "generatedAt": "2026-08-12T21:09:31.858Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Mon & Thu 04:25 Asia/Shanghai",
   "weekStart": "2026-08-10",
@@ -51,6 +51,51 @@
       "summary": "pdf-inspector 是一个用 Rust 编写的快速 PDF 检查和文本提取库，能智能区分扫描版和文本版 PDF，并在无需 OCR 的情况下提取带位置信息的文本、转换为 Markdown。它支持多列布局、表格检测和 CID 字体，并提供 Python、Node.js 和 WebAssembly 绑定。",
       "whyRecommended": "该项目展示了如何高效处理 PDF 文档，对构建 RAG 系统或文档处理管道的读者非常实用。其性能优化和纯 Rust 实现提供了很好的学习范例，且易于集成到现有项目中。",
       "firstLook": "建议先查看 README 中的 Features 部分，了解其分类和提取能力，然后尝试在本地运行示例，验证其对不同类型 PDF 的处理效果。"
+    },
+    {
+      "id": "addyosmani/agent-skills",
+      "fullName": "addyosmani/agent-skills",
+      "name": "agent-skills",
+      "url": "https://github.com/addyosmani/agent-skills",
+      "description": "Production-grade engineering skills for AI coding agents.",
+      "language": "JavaScript",
+      "stars": 86559,
+      "forks": 9298,
+      "weeklyStars": 4671,
+      "topics": [],
+      "summary": "Agent Skills 是一个为 AI 编码代理提供生产级工程技能的开源项目，包含覆盖开发全生命周期的 8 个斜杠命令，如 /spec、/build、/test 等，将资深工程师的工作流程、质量门禁和最佳实践编码为技能，供代理在开发各阶段一致遵循。",
+      "whyRecommended": "该项目直接契合读者对 AI 学习和编程自动化的兴趣，通过实际可用的技能包提升代理的工程实践能力，具有很高的学习价值和实用性，且热度高、文档完整。",
+      "firstLook": "先阅读 README 中的 'Commands' 部分，了解每个斜杠命令的用途和适用阶段，然后查看 'Quick Start' 了解如何安装到支持的代理中。"
+    },
+    {
+      "id": "huangruiteng/loopx",
+      "fullName": "huangruiteng/loopx",
+      "name": "loopx",
+      "url": "https://github.com/huangruiteng/loopx",
+      "description": "Lightweight loop engineering state kernel for long-running AI agent teams. Agent-loop agnostic across Codex, Claude Code, and other coding agents, with durable goals, quota-aware auto-wake, executable todos, evidence logs, and verifiable handoffs.",
+      "language": "Python",
+      "stars": 4382,
+      "forks": 373,
+      "weeklyStars": 2687,
+      "topics": [],
+      "summary": "LoopX 是一个轻量级的循环工程状态内核，为长期运行的 AI 代理团队提供状态管理，支持跨 Codex、Claude Code 等代理，具备持久目标、配额感知自动唤醒、可执行待办、证据日志和可验证交接等功能。",
+      "whyRecommended": "对于关注 Agent 和自动化开发的读者，LoopX 提供了管理长期代理任务的新思路，其状态内核设计具有学习价值，且近期热度高，文档详细。",
+      "firstLook": "先查看 README 中的 'Why LoopX' 部分，理解其解决的问题，然后阅读 'Getting started' 了解安装和连接项目的基本步骤。"
+    },
+    {
+      "id": "comfy-org/comfyui",
+      "fullName": "Comfy-Org/ComfyUI",
+      "name": "ComfyUI",
+      "url": "https://github.com/Comfy-Org/ComfyUI",
+      "description": "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface.",
+      "language": "Python",
+      "stars": 127070,
+      "forks": 14968,
+      "weeklyStars": 3252,
+      "topics": [],
+      "summary": "ComfyUI 是一个模块化的扩散模型 GUI、API 和后端，采用图/节点接口，是 AI 内容创作引擎，支持自定义工作流，适用于图像生成等任务。",
+      "whyRecommended": "ComfyUI 是 AI 创作领域的知名项目，对游戏开发和像素美术感兴趣的读者可借助其强大的节点式界面探索生成艺术，且社区活跃、文档丰富。",
+      "firstLook": "先阅读 README 了解其核心特性，然后查看 'Installation' 部分，确认系统要求并尝试运行。"
     }
   ]
 }
