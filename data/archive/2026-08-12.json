@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-11T22:24:19.290Z",
+  "generatedAt": "2026-08-12T06:05:52.917Z",
   "timezone": "Asia/Shanghai",
   "edition": {
     "date": "2026-08-12",
@@ -9,17 +9,17 @@
   },
   "stats": {
     "candidates": 23,
-    "selected": 2,
-    "ai": 2,
+    "selected": 3,
+    "ai": 3,
     "practice": 2,
-    "update": 0,
+    "update": 1,
     "manual": 0,
     "game": 0,
     "art": 0,
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 3
+    "bailianCalls": 2
   },
   "items": [
     {
@@ -342,6 +342,147 @@
       },
       "analysisStatus": "complete",
       "analyzedAt": "2026-08-11T22:24:19.289Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f686e6bd29768b57",
+      "title": "Evolve your marketing with new AI tools",
+      "url": "https://blog.google/products/ads-commerce/google-ads-analytics-ai-updates/",
+      "summary": "Learn how new AI and agentic experiences across Google Ads and Google Analytics can simplify your marketing workflow.",
+      "publishedAt": "2026-08-10T14:30:00.000Z",
+      "sourceId": "google-ai",
+      "sourceName": "Google AI",
+      "sourceSite": "https://blog.google/technology/ai/",
+      "lane": "ai",
+      "accent": "#4285f4",
+      "topic": "AI 辅助学习",
+      "score": 62,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 5,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 69,
+      "bodyHash": "e8f5a92790ce4ef79934d5e2",
+      "extraction": {
+        "method": "readability",
+        "length": 3367,
+        "originalLength": 3367,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用新AI工具升级你的营销：Google Ads与Analytics的智能体验",
+      "analysis": {
+        "listSummary": "本文介绍Google在Google Ads和Google Analytics中新增的AI与代理式功能，旨在简化营销工作流程并加速业务增长。内容包括首页AI概览、洞察卡片、可视化报告和基准比较等，帮助营销人员更快发现机会、理解数据并做出决策。文章适合营销人员、数据分析师及对AI应用感兴趣的入门者，通过实际案例和工具说明，展示了如何利用这些新功能提升效率。值得一读，尤其对于希望利用AI优化营销策略的用户。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "营销工作一直需要深度测量技能来发现数据背后的“为什么”，以及战略敏捷性来执行“如何做”。这往往耗时且复杂，尤其对于非专业分析师。",
+              "为解决此问题，Google推出了Ask Advisor，一个内置于营销平台的AI代理（即能自主执行任务的AI系统），帮助营销人员直接获取答案和行动建议。",
+              "现在，Google进一步扩展了这些功能，在Google Ads和Google Analytics中加入更多代理式能力，旨在让营销人员更快洞察、更明智决策，并保持控制权。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Google Analytics的新AI概览位于首页顶部，提供自上次登录以来的重要更新摘要，如销售高峰或流量变化，帮助用户快速了解当前重点。用户点击数据卡片即可将上下文带入Ask Advisor进行深入分析，并可选通知频率。",
+              "Google Ads首页也改版，展示个性化的AI洞察卡片，提供调整策略所需背景信息。用户可通过提示框生成自定义洞察，例如了解竞争对手对展示份额的影响。",
+              "新增的仪表板功能（Google Ads中已可用，Google Analytics即将推出）允许用户通过文本提示将原始数据转化为可视化图表，并自动生成实时摘要解释数据背后的原因。",
+              "Ask Advisor新增基准比较功能，将活动表现与类似业务的匿名平均值对比，帮助用户识别增长空间并优化策略。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章引用了付费媒体总监Kevin Marshall的证言，称Ask Advisor已成为其检查付费媒体表现的常用工具，因为速度提升让他有更多时间深入分析和优化。",
+              "这些新功能基于Gemini（Google的AI模型）构建，强调从洞察到行动的加速。但文章未提供具体性能数据或对比实验，仅说明功能存在。",
+              "边界在于：功能可能逐步推出（如仪表板在Analytics中即将到来），且AI生成内容仍处于实验阶段，用户需保持批判性思维。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Google Analytics首页新增AI概览，自动总结关键更新，点击即可深入分析。",
+          "Google Ads首页改版，提供个性化AI洞察卡片和提示框，支持自定义问题。",
+          "新仪表板功能通过文本提示生成可视化报告，并附实时摘要解释。",
+          "Ask Advisor新增基准比较，对比类似业务匿名数据，帮助识别改进空间。",
+          "所有新功能基于Gemini模型，旨在简化营销工作流。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Ask Advisor是Google营销平台内置的AI代理，用户可通过自然语言提问获取数据洞察和行动建议。它通过分析平台数据，提供个性化回答，并支持进一步操作。其重要性在于降低数据分析门槛，让非专家也能快速获得专业级洞察。",
+            "basis": "source"
+          },
+          {
+            "text": "AI概览是Google Analytics首页顶部的自动生成摘要，显示自上次登录以来的重要变化，如销售高峰或流量波动。用户点击数据卡片即可将上下文传递给Ask Advisor进行深入分析。该功能帮助用户快速掌握关键信息，节省手动检查时间。",
+            "basis": "source"
+          },
+          {
+            "text": "仪表板功能允许用户通过文本提示将原始数据转化为可视化图表，并自动生成实时摘要解释数据背后的原因。这简化了报告创建过程，使用户能快速理解性能或为新活动提供依据。",
+            "basis": "source"
+          },
+          {
+            "text": "基准比较功能通过Ask Advisor提供，将活动表现与类似业务的匿名平均值对比，帮助用户识别增长机会。这基于聚合数据，确保隐私，同时提供行业参考。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "营销人员希望快速了解广告活动表现并优化策略",
+            "steps": [
+              "登录Google Analytics，查看首页AI概览，识别关键变化。",
+              "点击感兴趣的数据卡片，在Ask Advisor中提问以获取深入分析。",
+              "使用Google Ads首页的提示框，输入如“竞争对手如何影响我的展示份额”等问题，生成自定义洞察。",
+              "在仪表板功能中，用文本提示创建可视化报告，并利用实时摘要理解数据。",
+              "使用Ask Advisor的基准比较功能，对比类似业务数据，调整策略。"
+            ],
+            "tools": [
+              "Google Analytics",
+              "Google Ads",
+              "Ask Advisor"
+            ],
+            "verification": [
+              "首页出现AI概览摘要，且内容与近期数据变化一致。",
+              "Ask Advisor能回答具体问题并提供相关数据。",
+              "仪表板生成图表并显示解释性摘要。",
+              "基准比较结果与行业趋势相符。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "AI概览",
+          "Ask Advisor",
+          "仪表板",
+          "基准比较",
+          "Gemini"
+        ],
+        "searchTerms": [
+          {
+            "term": "Ask Advisor",
+            "query": "Google Ask Advisor marketing AI agent"
+          },
+          {
+            "term": "AI概览",
+            "query": "Google Analytics AI overviews homepage"
+          },
+          {
+            "term": "仪表板",
+            "query": "Google Ads dashboards text prompts visualization"
+          },
+          {
+            "term": "基准比较",
+            "query": "Google Analytics benchmarking feature anonymized averages"
+          },
+          {
+            "term": "Gemini",
+            "query": "Gemini Google AI model marketing tools"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-12T06:05:52.917Z",
       "model": "deepseek-v4-flash"
     }
   ],
@@ -667,6 +808,147 @@
       "analysisStatus": "complete",
       "analyzedAt": "2026-08-11T22:24:19.289Z",
       "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f686e6bd29768b57",
+      "title": "Evolve your marketing with new AI tools",
+      "url": "https://blog.google/products/ads-commerce/google-ads-analytics-ai-updates/",
+      "summary": "Learn how new AI and agentic experiences across Google Ads and Google Analytics can simplify your marketing workflow.",
+      "publishedAt": "2026-08-10T14:30:00.000Z",
+      "sourceId": "google-ai",
+      "sourceName": "Google AI",
+      "sourceSite": "https://blog.google/technology/ai/",
+      "lane": "ai",
+      "accent": "#4285f4",
+      "topic": "AI 辅助学习",
+      "score": 62,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 5,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 69,
+      "bodyHash": "e8f5a92790ce4ef79934d5e2",
+      "extraction": {
+        "method": "readability",
+        "length": 3367,
+        "originalLength": 3367,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用新AI工具升级你的营销：Google Ads与Analytics的智能体验",
+      "analysis": {
+        "listSummary": "本文介绍Google在Google Ads和Google Analytics中新增的AI与代理式功能，旨在简化营销工作流程并加速业务增长。内容包括首页AI概览、洞察卡片、可视化报告和基准比较等，帮助营销人员更快发现机会、理解数据并做出决策。文章适合营销人员、数据分析师及对AI应用感兴趣的入门者，通过实际案例和工具说明，展示了如何利用这些新功能提升效率。值得一读，尤其对于希望利用AI优化营销策略的用户。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "营销工作一直需要深度测量技能来发现数据背后的“为什么”，以及战略敏捷性来执行“如何做”。这往往耗时且复杂，尤其对于非专业分析师。",
+              "为解决此问题，Google推出了Ask Advisor，一个内置于营销平台的AI代理（即能自主执行任务的AI系统），帮助营销人员直接获取答案和行动建议。",
+              "现在，Google进一步扩展了这些功能，在Google Ads和Google Analytics中加入更多代理式能力，旨在让营销人员更快洞察、更明智决策，并保持控制权。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Google Analytics的新AI概览位于首页顶部，提供自上次登录以来的重要更新摘要，如销售高峰或流量变化，帮助用户快速了解当前重点。用户点击数据卡片即可将上下文带入Ask Advisor进行深入分析，并可选通知频率。",
+              "Google Ads首页也改版，展示个性化的AI洞察卡片，提供调整策略所需背景信息。用户可通过提示框生成自定义洞察，例如了解竞争对手对展示份额的影响。",
+              "新增的仪表板功能（Google Ads中已可用，Google Analytics即将推出）允许用户通过文本提示将原始数据转化为可视化图表，并自动生成实时摘要解释数据背后的原因。",
+              "Ask Advisor新增基准比较功能，将活动表现与类似业务的匿名平均值对比，帮助用户识别增长空间并优化策略。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章引用了付费媒体总监Kevin Marshall的证言，称Ask Advisor已成为其检查付费媒体表现的常用工具，因为速度提升让他有更多时间深入分析和优化。",
+              "这些新功能基于Gemini（Google的AI模型）构建，强调从洞察到行动的加速。但文章未提供具体性能数据或对比实验，仅说明功能存在。",
+              "边界在于：功能可能逐步推出（如仪表板在Analytics中即将到来），且AI生成内容仍处于实验阶段，用户需保持批判性思维。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Google Analytics首页新增AI概览，自动总结关键更新，点击即可深入分析。",
+          "Google Ads首页改版，提供个性化AI洞察卡片和提示框，支持自定义问题。",
+          "新仪表板功能通过文本提示生成可视化报告，并附实时摘要解释。",
+          "Ask Advisor新增基准比较，对比类似业务匿名数据，帮助识别改进空间。",
+          "所有新功能基于Gemini模型，旨在简化营销工作流。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Ask Advisor是Google营销平台内置的AI代理，用户可通过自然语言提问获取数据洞察和行动建议。它通过分析平台数据，提供个性化回答，并支持进一步操作。其重要性在于降低数据分析门槛，让非专家也能快速获得专业级洞察。",
+            "basis": "source"
+          },
+          {
+            "text": "AI概览是Google Analytics首页顶部的自动生成摘要，显示自上次登录以来的重要变化，如销售高峰或流量波动。用户点击数据卡片即可将上下文传递给Ask Advisor进行深入分析。该功能帮助用户快速掌握关键信息，节省手动检查时间。",
+            "basis": "source"
+          },
+          {
+            "text": "仪表板功能允许用户通过文本提示将原始数据转化为可视化图表，并自动生成实时摘要解释数据背后的原因。这简化了报告创建过程，使用户能快速理解性能或为新活动提供依据。",
+            "basis": "source"
+          },
+          {
+            "text": "基准比较功能通过Ask Advisor提供，将活动表现与类似业务的匿名平均值对比，帮助用户识别增长机会。这基于聚合数据，确保隐私，同时提供行业参考。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "营销人员希望快速了解广告活动表现并优化策略",
+            "steps": [
+              "登录Google Analytics，查看首页AI概览，识别关键变化。",
+              "点击感兴趣的数据卡片，在Ask Advisor中提问以获取深入分析。",
+              "使用Google Ads首页的提示框，输入如“竞争对手如何影响我的展示份额”等问题，生成自定义洞察。",
+              "在仪表板功能中，用文本提示创建可视化报告，并利用实时摘要理解数据。",
+              "使用Ask Advisor的基准比较功能，对比类似业务数据，调整策略。"
+            ],
+            "tools": [
+              "Google Analytics",
+              "Google Ads",
+              "Ask Advisor"
+            ],
+            "verification": [
+              "首页出现AI概览摘要，且内容与近期数据变化一致。",
+              "Ask Advisor能回答具体问题并提供相关数据。",
+              "仪表板生成图表并显示解释性摘要。",
+              "基准比较结果与行业趋势相符。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "AI概览",
+          "Ask Advisor",
+          "仪表板",
+          "基准比较",
+          "Gemini"
+        ],
+        "searchTerms": [
+          {
+            "term": "Ask Advisor",
+            "query": "Google Ask Advisor marketing AI agent"
+          },
+          {
+            "term": "AI概览",
+            "query": "Google Analytics AI overviews homepage"
+          },
+          {
+            "term": "仪表板",
+            "query": "Google Ads dashboards text prompts visualization"
+          },
+          {
+            "term": "基准比较",
+            "query": "Google Analytics benchmarking feature anonymized averages"
+          },
+          {
+            "term": "Gemini",
+            "query": "Gemini Google AI model marketing tools"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-12T06:05:52.917Z",
+      "model": "deepseek-v4-flash"
     }
   ],
   "study": [
@@ -990,6 +1272,147 @@
       },
       "analysisStatus": "complete",
       "analyzedAt": "2026-08-11T22:24:19.289Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "f686e6bd29768b57",
+      "title": "Evolve your marketing with new AI tools",
+      "url": "https://blog.google/products/ads-commerce/google-ads-analytics-ai-updates/",
+      "summary": "Learn how new AI and agentic experiences across Google Ads and Google Analytics can simplify your marketing workflow.",
+      "publishedAt": "2026-08-10T14:30:00.000Z",
+      "sourceId": "google-ai",
+      "sourceName": "Google AI",
+      "sourceSite": "https://blog.google/technology/ai/",
+      "lane": "ai",
+      "accent": "#4285f4",
+      "topic": "AI 辅助学习",
+      "score": 62,
+      "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+      "readMinutes": 5,
+      "category": "update",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 69,
+      "bodyHash": "e8f5a92790ce4ef79934d5e2",
+      "extraction": {
+        "method": "readability",
+        "length": 3367,
+        "originalLength": 3367,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用新AI工具升级你的营销：Google Ads与Analytics的智能体验",
+      "analysis": {
+        "listSummary": "本文介绍Google在Google Ads和Google Analytics中新增的AI与代理式功能，旨在简化营销工作流程并加速业务增长。内容包括首页AI概览、洞察卡片、可视化报告和基准比较等，帮助营销人员更快发现机会、理解数据并做出决策。文章适合营销人员、数据分析师及对AI应用感兴趣的入门者，通过实际案例和工具说明，展示了如何利用这些新功能提升效率。值得一读，尤其对于希望利用AI优化营销策略的用户。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "营销工作一直需要深度测量技能来发现数据背后的“为什么”，以及战略敏捷性来执行“如何做”。这往往耗时且复杂，尤其对于非专业分析师。",
+              "为解决此问题，Google推出了Ask Advisor，一个内置于营销平台的AI代理（即能自主执行任务的AI系统），帮助营销人员直接获取答案和行动建议。",
+              "现在，Google进一步扩展了这些功能，在Google Ads和Google Analytics中加入更多代理式能力，旨在让营销人员更快洞察、更明智决策，并保持控制权。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Google Analytics的新AI概览位于首页顶部，提供自上次登录以来的重要更新摘要，如销售高峰或流量变化，帮助用户快速了解当前重点。用户点击数据卡片即可将上下文带入Ask Advisor进行深入分析，并可选通知频率。",
+              "Google Ads首页也改版，展示个性化的AI洞察卡片，提供调整策略所需背景信息。用户可通过提示框生成自定义洞察，例如了解竞争对手对展示份额的影响。",
+              "新增的仪表板功能（Google Ads中已可用，Google Analytics即将推出）允许用户通过文本提示将原始数据转化为可视化图表，并自动生成实时摘要解释数据背后的原因。",
+              "Ask Advisor新增基准比较功能，将活动表现与类似业务的匿名平均值对比，帮助用户识别增长空间并优化策略。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章引用了付费媒体总监Kevin Marshall的证言，称Ask Advisor已成为其检查付费媒体表现的常用工具，因为速度提升让他有更多时间深入分析和优化。",
+              "这些新功能基于Gemini（Google的AI模型）构建，强调从洞察到行动的加速。但文章未提供具体性能数据或对比实验，仅说明功能存在。",
+              "边界在于：功能可能逐步推出（如仪表板在Analytics中即将到来），且AI生成内容仍处于实验阶段，用户需保持批判性思维。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Google Analytics首页新增AI概览，自动总结关键更新，点击即可深入分析。",
+          "Google Ads首页改版，提供个性化AI洞察卡片和提示框，支持自定义问题。",
+          "新仪表板功能通过文本提示生成可视化报告，并附实时摘要解释。",
+          "Ask Advisor新增基准比较，对比类似业务匿名数据，帮助识别改进空间。",
+          "所有新功能基于Gemini模型，旨在简化营销工作流。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Ask Advisor是Google营销平台内置的AI代理，用户可通过自然语言提问获取数据洞察和行动建议。它通过分析平台数据，提供个性化回答，并支持进一步操作。其重要性在于降低数据分析门槛，让非专家也能快速获得专业级洞察。",
+            "basis": "source"
+          },
+          {
+            "text": "AI概览是Google Analytics首页顶部的自动生成摘要，显示自上次登录以来的重要变化，如销售高峰或流量波动。用户点击数据卡片即可将上下文传递给Ask Advisor进行深入分析。该功能帮助用户快速掌握关键信息，节省手动检查时间。",
+            "basis": "source"
+          },
+          {
+            "text": "仪表板功能允许用户通过文本提示将原始数据转化为可视化图表，并自动生成实时摘要解释数据背后的原因。这简化了报告创建过程，使用户能快速理解性能或为新活动提供依据。",
+            "basis": "source"
+          },
+          {
+            "text": "基准比较功能通过Ask Advisor提供，将活动表现与类似业务的匿名平均值对比，帮助用户识别增长机会。这基于聚合数据，确保隐私，同时提供行业参考。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "营销人员希望快速了解广告活动表现并优化策略",
+            "steps": [
+              "登录Google Analytics，查看首页AI概览，识别关键变化。",
+              "点击感兴趣的数据卡片，在Ask Advisor中提问以获取深入分析。",
+              "使用Google Ads首页的提示框，输入如“竞争对手如何影响我的展示份额”等问题，生成自定义洞察。",
+              "在仪表板功能中，用文本提示创建可视化报告，并利用实时摘要理解数据。",
+              "使用Ask Advisor的基准比较功能，对比类似业务数据，调整策略。"
+            ],
+            "tools": [
+              "Google Analytics",
+              "Google Ads",
+              "Ask Advisor"
+            ],
+            "verification": [
+              "首页出现AI概览摘要，且内容与近期数据变化一致。",
+              "Ask Advisor能回答具体问题并提供相关数据。",
+              "仪表板生成图表并显示解释性摘要。",
+              "基准比较结果与行业趋势相符。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "AI概览",
+          "Ask Advisor",
+          "仪表板",
+          "基准比较",
+          "Gemini"
+        ],
+        "searchTerms": [
+          {
+            "term": "Ask Advisor",
+            "query": "Google Ask Advisor marketing AI agent"
+          },
+          {
+            "term": "AI概览",
+            "query": "Google Analytics AI overviews homepage"
+          },
+          {
+            "term": "仪表板",
+            "query": "Google Ads dashboards text prompts visualization"
+          },
+          {
+            "term": "基准比较",
+            "query": "Google Analytics benchmarking feature anonymized averages"
+          },
+          {
+            "term": "Gemini",
+            "query": "Gemini Google AI model marketing tools"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-12T06:05:52.917Z",
       "model": "deepseek-v4-flash"
     }
   ],
@@ -1315,6 +1738,147 @@
         },
         "analysisStatus": "complete",
         "analyzedAt": "2026-08-11T22:24:19.289Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "f686e6bd29768b57",
+        "title": "Evolve your marketing with new AI tools",
+        "url": "https://blog.google/products/ads-commerce/google-ads-analytics-ai-updates/",
+        "summary": "Learn how new AI and agentic experiences across Google Ads and Google Analytics can simplify your marketing workflow.",
+        "publishedAt": "2026-08-10T14:30:00.000Z",
+        "sourceId": "google-ai",
+        "sourceName": "Google AI",
+        "sourceSite": "https://blog.google/technology/ai/",
+        "lane": "ai",
+        "accent": "#4285f4",
+        "topic": "AI 辅助学习",
+        "score": 62,
+        "learningNote": "关注它如何改变练习、反馈与知识迁移，而不只是生成答案。",
+        "readMinutes": 5,
+        "category": "update",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 69,
+        "bodyHash": "e8f5a92790ce4ef79934d5e2",
+        "extraction": {
+          "method": "readability",
+          "length": 3367,
+          "originalLength": 3367,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "用新AI工具升级你的营销：Google Ads与Analytics的智能体验",
+        "analysis": {
+          "listSummary": "本文介绍Google在Google Ads和Google Analytics中新增的AI与代理式功能，旨在简化营销工作流程并加速业务增长。内容包括首页AI概览、洞察卡片、可视化报告和基准比较等，帮助营销人员更快发现机会、理解数据并做出决策。文章适合营销人员、数据分析师及对AI应用感兴趣的入门者，通过实际案例和工具说明，展示了如何利用这些新功能提升效率。值得一读，尤其对于希望利用AI优化营销策略的用户。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "营销工作一直需要深度测量技能来发现数据背后的“为什么”，以及战略敏捷性来执行“如何做”。这往往耗时且复杂，尤其对于非专业分析师。",
+                "为解决此问题，Google推出了Ask Advisor，一个内置于营销平台的AI代理（即能自主执行任务的AI系统），帮助营销人员直接获取答案和行动建议。",
+                "现在，Google进一步扩展了这些功能，在Google Ads和Google Analytics中加入更多代理式能力，旨在让营销人员更快洞察、更明智决策，并保持控制权。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Google Analytics的新AI概览位于首页顶部，提供自上次登录以来的重要更新摘要，如销售高峰或流量变化，帮助用户快速了解当前重点。用户点击数据卡片即可将上下文带入Ask Advisor进行深入分析，并可选通知频率。",
+                "Google Ads首页也改版，展示个性化的AI洞察卡片，提供调整策略所需背景信息。用户可通过提示框生成自定义洞察，例如了解竞争对手对展示份额的影响。",
+                "新增的仪表板功能（Google Ads中已可用，Google Analytics即将推出）允许用户通过文本提示将原始数据转化为可视化图表，并自动生成实时摘要解释数据背后的原因。",
+                "Ask Advisor新增基准比较功能，将活动表现与类似业务的匿名平均值对比，帮助用户识别增长空间并优化策略。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章引用了付费媒体总监Kevin Marshall的证言，称Ask Advisor已成为其检查付费媒体表现的常用工具，因为速度提升让他有更多时间深入分析和优化。",
+                "这些新功能基于Gemini（Google的AI模型）构建，强调从洞察到行动的加速。但文章未提供具体性能数据或对比实验，仅说明功能存在。",
+                "边界在于：功能可能逐步推出（如仪表板在Analytics中即将到来），且AI生成内容仍处于实验阶段，用户需保持批判性思维。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Google Analytics首页新增AI概览，自动总结关键更新，点击即可深入分析。",
+            "Google Ads首页改版，提供个性化AI洞察卡片和提示框，支持自定义问题。",
+            "新仪表板功能通过文本提示生成可视化报告，并附实时摘要解释。",
+            "Ask Advisor新增基准比较，对比类似业务匿名数据，帮助识别改进空间。",
+            "所有新功能基于Gemini模型，旨在简化营销工作流。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Ask Advisor是Google营销平台内置的AI代理，用户可通过自然语言提问获取数据洞察和行动建议。它通过分析平台数据，提供个性化回答，并支持进一步操作。其重要性在于降低数据分析门槛，让非专家也能快速获得专业级洞察。",
+              "basis": "source"
+            },
+            {
+              "text": "AI概览是Google Analytics首页顶部的自动生成摘要，显示自上次登录以来的重要变化，如销售高峰或流量波动。用户点击数据卡片即可将上下文传递给Ask Advisor进行深入分析。该功能帮助用户快速掌握关键信息，节省手动检查时间。",
+              "basis": "source"
+            },
+            {
+              "text": "仪表板功能允许用户通过文本提示将原始数据转化为可视化图表，并自动生成实时摘要解释数据背后的原因。这简化了报告创建过程，使用户能快速理解性能或为新活动提供依据。",
+              "basis": "source"
+            },
+            {
+              "text": "基准比较功能通过Ask Advisor提供，将活动表现与类似业务的匿名平均值对比，帮助用户识别增长机会。这基于聚合数据，确保隐私，同时提供行业参考。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "营销人员希望快速了解广告活动表现并优化策略",
+              "steps": [
+                "登录Google Analytics，查看首页AI概览，识别关键变化。",
+                "点击感兴趣的数据卡片，在Ask Advisor中提问以获取深入分析。",
+                "使用Google Ads首页的提示框，输入如“竞争对手如何影响我的展示份额”等问题，生成自定义洞察。",
+                "在仪表板功能中，用文本提示创建可视化报告，并利用实时摘要理解数据。",
+                "使用Ask Advisor的基准比较功能，对比类似业务数据，调整策略。"
+              ],
+              "tools": [
+                "Google Analytics",
+                "Google Ads",
+                "Ask Advisor"
+              ],
+              "verification": [
+                "首页出现AI概览摘要，且内容与近期数据变化一致。",
+                "Ask Advisor能回答具体问题并提供相关数据。",
+                "仪表板生成图表并显示解释性摘要。",
+                "基准比较结果与行业趋势相符。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "AI概览",
+            "Ask Advisor",
+            "仪表板",
+            "基准比较",
+            "Gemini"
+          ],
+          "searchTerms": [
+            {
+              "term": "Ask Advisor",
+              "query": "Google Ask Advisor marketing AI agent"
+            },
+            {
+              "term": "AI概览",
+              "query": "Google Analytics AI overviews homepage"
+            },
+            {
+              "term": "仪表板",
+              "query": "Google Ads dashboards text prompts visualization"
+            },
+            {
+              "term": "基准比较",
+              "query": "Google Analytics benchmarking feature anonymized averages"
+            },
+            {
+              "term": "Gemini",
+              "query": "Gemini Google AI model marketing tools"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-12T06:05:52.917Z",
         "model": "deepseek-v4-flash"
       }
     ],
