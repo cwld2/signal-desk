@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-14T21:56:40.027Z",
+  "generatedAt": "2026-08-15T05:04:56.916Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
@@ -10,17 +10,17 @@
   },
   "stats": {
     "candidates": 25,
-    "selected": 2,
-    "ai": 2,
+    "selected": 3,
+    "ai": 3,
     "practice": 2,
-    "update": 0,
+    "update": 1,
     "manual": 0,
     "game": 0,
     "art": 0,
     "currentGame": 2,
     "currentArt": 2,
     "studyMinutes": 30,
-    "bailianCalls": 3
+    "bailianCalls": 2
   },
   "items": [
     {
@@ -346,6 +346,137 @@
       },
       "analysisStatus": "complete",
       "analyzedAt": "2026-08-14T21:56:40.027Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "02d1762b6f41532b",
+      "title": "Putting sign language AI into users’ hands",
+      "url": "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/",
+      "summary": "Introducing sign-language-to-text (SL2T), our breakthrough model powering new sign language features for Deaf and hard of hearing users.",
+      "publishedAt": "2026-08-12T14:01:59.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
+      "lane": "ai",
+      "accent": "#5c6bc0",
+      "topic": "模型与研究",
+      "score": 60,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 14,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 66,
+      "bodyHash": "ba5fb3455637295ebdd286dd",
+      "extraction": {
+        "method": "readability",
+        "length": 9997,
+        "originalLength": 9997,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "手语转文字模型 SL2T：让手语成为手机输入方式",
+      "analysis": {
+        "listSummary": "本文介绍 Google DeepMind 发布的手语转文字模型 SL2T，它首次将手语 AI 带入消费产品，支持美国手语转英语，并集成在 Gboard 和 Live Transcribe 中。文章解释了手语翻译的挑战、模型如何通过姿态关键点保护隐私、以及如何与聋人社区合作开发。对关注 AI 应用、无障碍技术和语言处理的读者有价值，展示了从研究到产品的完整路径。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "手语是聋人社区的主要语言，但 AI 对 200 多种手语的支持几乎为零，全球约 7000 万聋人和重听者无法享受语音 AI 的便利。",
+              "手语翻译比语音转文字更难：手语有独立语法，不是英语的逐词对应；而且模型需要实时理解全身动作，包括手、手臂、躯干、头和脸的同时运动。",
+              "早期尝试如手语手套失败，因为手语不是“手上的英语”，需要复杂的视觉感知和真正的机器翻译。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "SL2T 采用大规模数据训练，使用超过 10 万小时、50 多种手语的数据，其中约四分之一为美国手语，联合训练让模型学习共享结构，性能优于单语言模型。",
+              "隐私保护是关键：模型不处理原始视频，而是通过设备端模型 MediaPipe Holistic 跟踪身体关键点，只发送坐标到服务器，视频立即丢弃。",
+              "SL2T 直接从坐标序列翻译成文本，跳过中间标注（称为 gloss），因为 gloss 无法捕捉手语的非线性特征如面部表情和空间构型。",
+              "在基准测试 FLEURS-ASL 上，SL2T 达到 70 BLEURT 的零样本分数，显著高于以往结果，但团队还优化了流式延迟、防止幻觉、左手支持和单手手语等实际问题。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提供多个翻译示例，展示 SL2T 能将复杂美国手语准确翻译成流畅英语，但承认仍有错误，如罕见手势、快速手指拼写、被动语态和分类词描绘。",
+              "团队与聋人社区合作，从概念化到数据收集、评估和影响评估，并成立 AI 手语咨询委员会（AISLAC）指导负责任部署。",
+              "SL2T 目前仅支持美国手语转英语，且首批设备为 Pixel 11，更多设备和语言将陆续推出，但文章未给出具体时间表。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "SL2T 是首个集成到消费产品的手语转文字模型，支持美国手语转英语，用于 Gboard 和 Live Transcribe。",
+          "模型使用姿态关键点而非原始视频，保护用户隐私，视频在设备端立即丢弃。",
+          "训练数据超过 10 万小时，覆盖 50 多种手语，联合训练提升模型泛化能力。",
+          "SL2T 直接翻译坐标序列，跳过 gloss 中间标注，避免词汇限制。",
+          "在 FLEURS-ASL 基准上达到 70 BLEURT，但实际应用中仍有错误，如罕见手势和快速手指拼写。",
+          "开发过程与聋人社区合作，成立 AISLAC 委员会，确保技术符合社区需求。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "SL2T 是一种手语转文字模型，输入为手语者的姿态关键点序列，输出为流式文本。它通过设备端 MediaPipe Holistic 跟踪身体关键点，仅发送坐标到服务器，视频被丢弃，从而保护隐私。这种设计让翻译质量随数据规模提升，同时避免原始视频传输的风险。",
+            "basis": "source"
+          },
+          {
+            "text": "FLEURS-ASL 是评估美国手语转英语质量的基准测试，SL2T 在 sd-test 上达到 70 BLEURT 零样本分数，显著高于以往报告。BLEURT 是衡量翻译质量的指标，分数越高表示质量越好。这证明了模型在标准测试上的领先性，但基准测试不代表真实场景。",
+            "basis": "source"
+          },
+          {
+            "text": "MediaPipe Holistic 是设备端模型，用于跟踪手语者的姿态关键点。它运行在手机上，不依赖云端，确保原始视频不出设备。这降低了延迟和带宽需求，同时增强隐私保护。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者想在应用中集成手语输入功能",
+            "steps": [
+              "确认目标设备支持 Pixel 11 或后续兼容设备，并安装最新版 Gboard 或 Live Transcribe。",
+              "在应用设置中启用手语输入选项，选择美国手语转英语模式。",
+              "测试手语输入，确保网络连接稳定，因为姿态坐标需发送到服务器。",
+              "收集用户反馈，关注左手支持和单手手语场景，优化体验。"
+            ],
+            "tools": [
+              "Gboard",
+              "Live Transcribe",
+              "Pixel 11"
+            ],
+            "verification": [
+              "手语输入能正确转换为英语文本，且延迟在可接受范围内。",
+              "在弱网环境下，输入仍能工作，但可能延迟增加。",
+              "左手用户和单手用户能正常使用，无识别错误。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "MediaPipe Holistic",
+          "FLEURS-ASL",
+          "70 BLEURT",
+          "AISLAC"
+        ],
+        "searchTerms": [
+          {
+            "term": "SL2T",
+            "query": "SL2T sign language translation model"
+          },
+          {
+            "term": "FLEURS-ASL",
+            "query": "FLEURS-ASL benchmark sign language"
+          },
+          {
+            "term": "MediaPipe Holistic",
+            "query": "MediaPipe Holistic pose tracking"
+          },
+          {
+            "term": "BLEURT",
+            "query": "BLEURT metric translation quality"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-15T05:04:56.915Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -1172,6 +1303,137 @@
       "analysisStatus": "complete",
       "analyzedAt": "2026-08-14T21:56:40.027Z",
       "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "02d1762b6f41532b",
+      "title": "Putting sign language AI into users’ hands",
+      "url": "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/",
+      "summary": "Introducing sign-language-to-text (SL2T), our breakthrough model powering new sign language features for Deaf and hard of hearing users.",
+      "publishedAt": "2026-08-12T14:01:59.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
+      "lane": "ai",
+      "accent": "#5c6bc0",
+      "topic": "模型与研究",
+      "score": 60,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 14,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 66,
+      "bodyHash": "ba5fb3455637295ebdd286dd",
+      "extraction": {
+        "method": "readability",
+        "length": 9997,
+        "originalLength": 9997,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "手语转文字模型 SL2T：让手语成为手机输入方式",
+      "analysis": {
+        "listSummary": "本文介绍 Google DeepMind 发布的手语转文字模型 SL2T，它首次将手语 AI 带入消费产品，支持美国手语转英语，并集成在 Gboard 和 Live Transcribe 中。文章解释了手语翻译的挑战、模型如何通过姿态关键点保护隐私、以及如何与聋人社区合作开发。对关注 AI 应用、无障碍技术和语言处理的读者有价值，展示了从研究到产品的完整路径。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "手语是聋人社区的主要语言，但 AI 对 200 多种手语的支持几乎为零，全球约 7000 万聋人和重听者无法享受语音 AI 的便利。",
+              "手语翻译比语音转文字更难：手语有独立语法，不是英语的逐词对应；而且模型需要实时理解全身动作，包括手、手臂、躯干、头和脸的同时运动。",
+              "早期尝试如手语手套失败，因为手语不是“手上的英语”，需要复杂的视觉感知和真正的机器翻译。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "SL2T 采用大规模数据训练，使用超过 10 万小时、50 多种手语的数据，其中约四分之一为美国手语，联合训练让模型学习共享结构，性能优于单语言模型。",
+              "隐私保护是关键：模型不处理原始视频，而是通过设备端模型 MediaPipe Holistic 跟踪身体关键点，只发送坐标到服务器，视频立即丢弃。",
+              "SL2T 直接从坐标序列翻译成文本，跳过中间标注（称为 gloss），因为 gloss 无法捕捉手语的非线性特征如面部表情和空间构型。",
+              "在基准测试 FLEURS-ASL 上，SL2T 达到 70 BLEURT 的零样本分数，显著高于以往结果，但团队还优化了流式延迟、防止幻觉、左手支持和单手手语等实际问题。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提供多个翻译示例，展示 SL2T 能将复杂美国手语准确翻译成流畅英语，但承认仍有错误，如罕见手势、快速手指拼写、被动语态和分类词描绘。",
+              "团队与聋人社区合作，从概念化到数据收集、评估和影响评估，并成立 AI 手语咨询委员会（AISLAC）指导负责任部署。",
+              "SL2T 目前仅支持美国手语转英语，且首批设备为 Pixel 11，更多设备和语言将陆续推出，但文章未给出具体时间表。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "SL2T 是首个集成到消费产品的手语转文字模型，支持美国手语转英语，用于 Gboard 和 Live Transcribe。",
+          "模型使用姿态关键点而非原始视频，保护用户隐私，视频在设备端立即丢弃。",
+          "训练数据超过 10 万小时，覆盖 50 多种手语，联合训练提升模型泛化能力。",
+          "SL2T 直接翻译坐标序列，跳过 gloss 中间标注，避免词汇限制。",
+          "在 FLEURS-ASL 基准上达到 70 BLEURT，但实际应用中仍有错误，如罕见手势和快速手指拼写。",
+          "开发过程与聋人社区合作，成立 AISLAC 委员会，确保技术符合社区需求。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "SL2T 是一种手语转文字模型，输入为手语者的姿态关键点序列，输出为流式文本。它通过设备端 MediaPipe Holistic 跟踪身体关键点，仅发送坐标到服务器，视频被丢弃，从而保护隐私。这种设计让翻译质量随数据规模提升，同时避免原始视频传输的风险。",
+            "basis": "source"
+          },
+          {
+            "text": "FLEURS-ASL 是评估美国手语转英语质量的基准测试，SL2T 在 sd-test 上达到 70 BLEURT 零样本分数，显著高于以往报告。BLEURT 是衡量翻译质量的指标，分数越高表示质量越好。这证明了模型在标准测试上的领先性，但基准测试不代表真实场景。",
+            "basis": "source"
+          },
+          {
+            "text": "MediaPipe Holistic 是设备端模型，用于跟踪手语者的姿态关键点。它运行在手机上，不依赖云端，确保原始视频不出设备。这降低了延迟和带宽需求，同时增强隐私保护。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者想在应用中集成手语输入功能",
+            "steps": [
+              "确认目标设备支持 Pixel 11 或后续兼容设备，并安装最新版 Gboard 或 Live Transcribe。",
+              "在应用设置中启用手语输入选项，选择美国手语转英语模式。",
+              "测试手语输入，确保网络连接稳定，因为姿态坐标需发送到服务器。",
+              "收集用户反馈，关注左手支持和单手手语场景，优化体验。"
+            ],
+            "tools": [
+              "Gboard",
+              "Live Transcribe",
+              "Pixel 11"
+            ],
+            "verification": [
+              "手语输入能正确转换为英语文本，且延迟在可接受范围内。",
+              "在弱网环境下，输入仍能工作，但可能延迟增加。",
+              "左手用户和单手用户能正常使用，无识别错误。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "MediaPipe Holistic",
+          "FLEURS-ASL",
+          "70 BLEURT",
+          "AISLAC"
+        ],
+        "searchTerms": [
+          {
+            "term": "SL2T",
+            "query": "SL2T sign language translation model"
+          },
+          {
+            "term": "FLEURS-ASL",
+            "query": "FLEURS-ASL benchmark sign language"
+          },
+          {
+            "term": "MediaPipe Holistic",
+            "query": "MediaPipe Holistic pose tracking"
+          },
+          {
+            "term": "BLEURT",
+            "query": "BLEURT metric translation quality"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-15T05:04:56.915Z",
+      "model": "deepseek-v4-flash"
     }
   ],
   "study": [
@@ -1498,6 +1760,137 @@
       },
       "analysisStatus": "complete",
       "analyzedAt": "2026-08-14T21:56:40.027Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "02d1762b6f41532b",
+      "title": "Putting sign language AI into users’ hands",
+      "url": "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/",
+      "summary": "Introducing sign-language-to-text (SL2T), our breakthrough model powering new sign language features for Deaf and hard of hearing users.",
+      "publishedAt": "2026-08-12T14:01:59.000Z",
+      "sourceId": "deepmind",
+      "sourceName": "Google DeepMind",
+      "sourceSite": "https://deepmind.google/discover/blog/",
+      "lane": "ai",
+      "accent": "#5c6bc0",
+      "topic": "模型与研究",
+      "score": 60,
+      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+      "readMinutes": 14,
+      "category": "research",
+      "slot": "update",
+      "language": "en",
+      "candidateScore": 66,
+      "bodyHash": "ba5fb3455637295ebdd286dd",
+      "extraction": {
+        "method": "readability",
+        "length": 9997,
+        "originalLength": 9997,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "手语转文字模型 SL2T：让手语成为手机输入方式",
+      "analysis": {
+        "listSummary": "本文介绍 Google DeepMind 发布的手语转文字模型 SL2T，它首次将手语 AI 带入消费产品，支持美国手语转英语，并集成在 Gboard 和 Live Transcribe 中。文章解释了手语翻译的挑战、模型如何通过姿态关键点保护隐私、以及如何与聋人社区合作开发。对关注 AI 应用、无障碍技术和语言处理的读者有价值，展示了从研究到产品的完整路径。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "手语是聋人社区的主要语言，但 AI 对 200 多种手语的支持几乎为零，全球约 7000 万聋人和重听者无法享受语音 AI 的便利。",
+              "手语翻译比语音转文字更难：手语有独立语法，不是英语的逐词对应；而且模型需要实时理解全身动作，包括手、手臂、躯干、头和脸的同时运动。",
+              "早期尝试如手语手套失败，因为手语不是“手上的英语”，需要复杂的视觉感知和真正的机器翻译。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "SL2T 采用大规模数据训练，使用超过 10 万小时、50 多种手语的数据，其中约四分之一为美国手语，联合训练让模型学习共享结构，性能优于单语言模型。",
+              "隐私保护是关键：模型不处理原始视频，而是通过设备端模型 MediaPipe Holistic 跟踪身体关键点，只发送坐标到服务器，视频立即丢弃。",
+              "SL2T 直接从坐标序列翻译成文本，跳过中间标注（称为 gloss），因为 gloss 无法捕捉手语的非线性特征如面部表情和空间构型。",
+              "在基准测试 FLEURS-ASL 上，SL2T 达到 70 BLEURT 的零样本分数，显著高于以往结果，但团队还优化了流式延迟、防止幻觉、左手支持和单手手语等实际问题。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "文章提供多个翻译示例，展示 SL2T 能将复杂美国手语准确翻译成流畅英语，但承认仍有错误，如罕见手势、快速手指拼写、被动语态和分类词描绘。",
+              "团队与聋人社区合作，从概念化到数据收集、评估和影响评估，并成立 AI 手语咨询委员会（AISLAC）指导负责任部署。",
+              "SL2T 目前仅支持美国手语转英语，且首批设备为 Pixel 11，更多设备和语言将陆续推出，但文章未给出具体时间表。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "SL2T 是首个集成到消费产品的手语转文字模型，支持美国手语转英语，用于 Gboard 和 Live Transcribe。",
+          "模型使用姿态关键点而非原始视频，保护用户隐私，视频在设备端立即丢弃。",
+          "训练数据超过 10 万小时，覆盖 50 多种手语，联合训练提升模型泛化能力。",
+          "SL2T 直接翻译坐标序列，跳过 gloss 中间标注，避免词汇限制。",
+          "在 FLEURS-ASL 基准上达到 70 BLEURT，但实际应用中仍有错误，如罕见手势和快速手指拼写。",
+          "开发过程与聋人社区合作，成立 AISLAC 委员会，确保技术符合社区需求。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "SL2T 是一种手语转文字模型，输入为手语者的姿态关键点序列，输出为流式文本。它通过设备端 MediaPipe Holistic 跟踪身体关键点，仅发送坐标到服务器，视频被丢弃，从而保护隐私。这种设计让翻译质量随数据规模提升，同时避免原始视频传输的风险。",
+            "basis": "source"
+          },
+          {
+            "text": "FLEURS-ASL 是评估美国手语转英语质量的基准测试，SL2T 在 sd-test 上达到 70 BLEURT 零样本分数，显著高于以往报告。BLEURT 是衡量翻译质量的指标，分数越高表示质量越好。这证明了模型在标准测试上的领先性，但基准测试不代表真实场景。",
+            "basis": "source"
+          },
+          {
+            "text": "MediaPipe Holistic 是设备端模型，用于跟踪手语者的姿态关键点。它运行在手机上，不依赖云端，确保原始视频不出设备。这降低了延迟和带宽需求，同时增强隐私保护。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "开发者想在应用中集成手语输入功能",
+            "steps": [
+              "确认目标设备支持 Pixel 11 或后续兼容设备，并安装最新版 Gboard 或 Live Transcribe。",
+              "在应用设置中启用手语输入选项，选择美国手语转英语模式。",
+              "测试手语输入，确保网络连接稳定，因为姿态坐标需发送到服务器。",
+              "收集用户反馈，关注左手支持和单手手语场景，优化体验。"
+            ],
+            "tools": [
+              "Gboard",
+              "Live Transcribe",
+              "Pixel 11"
+            ],
+            "verification": [
+              "手语输入能正确转换为英语文本，且延迟在可接受范围内。",
+              "在弱网环境下，输入仍能工作，但可能延迟增加。",
+              "左手用户和单手用户能正常使用，无识别错误。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "MediaPipe Holistic",
+          "FLEURS-ASL",
+          "70 BLEURT",
+          "AISLAC"
+        ],
+        "searchTerms": [
+          {
+            "term": "SL2T",
+            "query": "SL2T sign language translation model"
+          },
+          {
+            "term": "FLEURS-ASL",
+            "query": "FLEURS-ASL benchmark sign language"
+          },
+          {
+            "term": "MediaPipe Holistic",
+            "query": "MediaPipe Holistic pose tracking"
+          },
+          {
+            "term": "BLEURT",
+            "query": "BLEURT metric translation quality"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-15T05:04:56.915Z",
       "model": "deepseek-v4-flash"
     }
   ],
@@ -1826,6 +2219,137 @@
         },
         "analysisStatus": "complete",
         "analyzedAt": "2026-08-14T21:56:40.027Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "02d1762b6f41532b",
+        "title": "Putting sign language AI into users’ hands",
+        "url": "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/",
+        "summary": "Introducing sign-language-to-text (SL2T), our breakthrough model powering new sign language features for Deaf and hard of hearing users.",
+        "publishedAt": "2026-08-12T14:01:59.000Z",
+        "sourceId": "deepmind",
+        "sourceName": "Google DeepMind",
+        "sourceSite": "https://deepmind.google/discover/blog/",
+        "lane": "ai",
+        "accent": "#5c6bc0",
+        "topic": "模型与研究",
+        "score": 60,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 14,
+        "category": "research",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 66,
+        "bodyHash": "ba5fb3455637295ebdd286dd",
+        "extraction": {
+          "method": "readability",
+          "length": 9997,
+          "originalLength": 9997,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "手语转文字模型 SL2T：让手语成为手机输入方式",
+        "analysis": {
+          "listSummary": "本文介绍 Google DeepMind 发布的手语转文字模型 SL2T，它首次将手语 AI 带入消费产品，支持美国手语转英语，并集成在 Gboard 和 Live Transcribe 中。文章解释了手语翻译的挑战、模型如何通过姿态关键点保护隐私、以及如何与聋人社区合作开发。对关注 AI 应用、无障碍技术和语言处理的读者有价值，展示了从研究到产品的完整路径。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "手语是聋人社区的主要语言，但 AI 对 200 多种手语的支持几乎为零，全球约 7000 万聋人和重听者无法享受语音 AI 的便利。",
+                "手语翻译比语音转文字更难：手语有独立语法，不是英语的逐词对应；而且模型需要实时理解全身动作，包括手、手臂、躯干、头和脸的同时运动。",
+                "早期尝试如手语手套失败，因为手语不是“手上的英语”，需要复杂的视觉感知和真正的机器翻译。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "SL2T 采用大规模数据训练，使用超过 10 万小时、50 多种手语的数据，其中约四分之一为美国手语，联合训练让模型学习共享结构，性能优于单语言模型。",
+                "隐私保护是关键：模型不处理原始视频，而是通过设备端模型 MediaPipe Holistic 跟踪身体关键点，只发送坐标到服务器，视频立即丢弃。",
+                "SL2T 直接从坐标序列翻译成文本，跳过中间标注（称为 gloss），因为 gloss 无法捕捉手语的非线性特征如面部表情和空间构型。",
+                "在基准测试 FLEURS-ASL 上，SL2T 达到 70 BLEURT 的零样本分数，显著高于以往结果，但团队还优化了流式延迟、防止幻觉、左手支持和单手手语等实际问题。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章提供多个翻译示例，展示 SL2T 能将复杂美国手语准确翻译成流畅英语，但承认仍有错误，如罕见手势、快速手指拼写、被动语态和分类词描绘。",
+                "团队与聋人社区合作，从概念化到数据收集、评估和影响评估，并成立 AI 手语咨询委员会（AISLAC）指导负责任部署。",
+                "SL2T 目前仅支持美国手语转英语，且首批设备为 Pixel 11，更多设备和语言将陆续推出，但文章未给出具体时间表。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "SL2T 是首个集成到消费产品的手语转文字模型，支持美国手语转英语，用于 Gboard 和 Live Transcribe。",
+            "模型使用姿态关键点而非原始视频，保护用户隐私，视频在设备端立即丢弃。",
+            "训练数据超过 10 万小时，覆盖 50 多种手语，联合训练提升模型泛化能力。",
+            "SL2T 直接翻译坐标序列，跳过 gloss 中间标注，避免词汇限制。",
+            "在 FLEURS-ASL 基准上达到 70 BLEURT，但实际应用中仍有错误，如罕见手势和快速手指拼写。",
+            "开发过程与聋人社区合作，成立 AISLAC 委员会，确保技术符合社区需求。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "SL2T 是一种手语转文字模型，输入为手语者的姿态关键点序列，输出为流式文本。它通过设备端 MediaPipe Holistic 跟踪身体关键点，仅发送坐标到服务器，视频被丢弃，从而保护隐私。这种设计让翻译质量随数据规模提升，同时避免原始视频传输的风险。",
+              "basis": "source"
+            },
+            {
+              "text": "FLEURS-ASL 是评估美国手语转英语质量的基准测试，SL2T 在 sd-test 上达到 70 BLEURT 零样本分数，显著高于以往报告。BLEURT 是衡量翻译质量的指标，分数越高表示质量越好。这证明了模型在标准测试上的领先性，但基准测试不代表真实场景。",
+              "basis": "source"
+            },
+            {
+              "text": "MediaPipe Holistic 是设备端模型，用于跟踪手语者的姿态关键点。它运行在手机上，不依赖云端，确保原始视频不出设备。这降低了延迟和带宽需求，同时增强隐私保护。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发者想在应用中集成手语输入功能",
+              "steps": [
+                "确认目标设备支持 Pixel 11 或后续兼容设备，并安装最新版 Gboard 或 Live Transcribe。",
+                "在应用设置中启用手语输入选项，选择美国手语转英语模式。",
+                "测试手语输入，确保网络连接稳定，因为姿态坐标需发送到服务器。",
+                "收集用户反馈，关注左手支持和单手手语场景，优化体验。"
+              ],
+              "tools": [
+                "Gboard",
+                "Live Transcribe",
+                "Pixel 11"
+              ],
+              "verification": [
+                "手语输入能正确转换为英语文本，且延迟在可接受范围内。",
+                "在弱网环境下，输入仍能工作，但可能延迟增加。",
+                "左手用户和单手用户能正常使用，无识别错误。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "MediaPipe Holistic",
+            "FLEURS-ASL",
+            "70 BLEURT",
+            "AISLAC"
+          ],
+          "searchTerms": [
+            {
+              "term": "SL2T",
+              "query": "SL2T sign language translation model"
+            },
+            {
+              "term": "FLEURS-ASL",
+              "query": "FLEURS-ASL benchmark sign language"
+            },
+            {
+              "term": "MediaPipe Holistic",
+              "query": "MediaPipe Holistic pose tracking"
+            },
+            {
+              "term": "BLEURT",
+              "query": "BLEURT metric translation quality"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-15T05:04:56.915Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2658,6 +3182,137 @@
         "analysisStatus": "complete",
         "analyzedAt": "2026-08-14T21:56:40.027Z",
         "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "02d1762b6f41532b",
+        "title": "Putting sign language AI into users’ hands",
+        "url": "https://deepmind.google/blog/putting-sign-language-ai-into-users-hands/",
+        "summary": "Introducing sign-language-to-text (SL2T), our breakthrough model powering new sign language features for Deaf and hard of hearing users.",
+        "publishedAt": "2026-08-12T14:01:59.000Z",
+        "sourceId": "deepmind",
+        "sourceName": "Google DeepMind",
+        "sourceSite": "https://deepmind.google/discover/blog/",
+        "lane": "ai",
+        "accent": "#5c6bc0",
+        "topic": "模型与研究",
+        "score": 60,
+        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
+        "readMinutes": 14,
+        "category": "research",
+        "slot": "update",
+        "language": "en",
+        "candidateScore": 66,
+        "bodyHash": "ba5fb3455637295ebdd286dd",
+        "extraction": {
+          "method": "readability",
+          "length": 9997,
+          "originalLength": 9997,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "手语转文字模型 SL2T：让手语成为手机输入方式",
+        "analysis": {
+          "listSummary": "本文介绍 Google DeepMind 发布的手语转文字模型 SL2T，它首次将手语 AI 带入消费产品，支持美国手语转英语，并集成在 Gboard 和 Live Transcribe 中。文章解释了手语翻译的挑战、模型如何通过姿态关键点保护隐私、以及如何与聋人社区合作开发。对关注 AI 应用、无障碍技术和语言处理的读者有价值，展示了从研究到产品的完整路径。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "手语是聋人社区的主要语言，但 AI 对 200 多种手语的支持几乎为零，全球约 7000 万聋人和重听者无法享受语音 AI 的便利。",
+                "手语翻译比语音转文字更难：手语有独立语法，不是英语的逐词对应；而且模型需要实时理解全身动作，包括手、手臂、躯干、头和脸的同时运动。",
+                "早期尝试如手语手套失败，因为手语不是“手上的英语”，需要复杂的视觉感知和真正的机器翻译。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "SL2T 采用大规模数据训练，使用超过 10 万小时、50 多种手语的数据，其中约四分之一为美国手语，联合训练让模型学习共享结构，性能优于单语言模型。",
+                "隐私保护是关键：模型不处理原始视频，而是通过设备端模型 MediaPipe Holistic 跟踪身体关键点，只发送坐标到服务器，视频立即丢弃。",
+                "SL2T 直接从坐标序列翻译成文本，跳过中间标注（称为 gloss），因为 gloss 无法捕捉手语的非线性特征如面部表情和空间构型。",
+                "在基准测试 FLEURS-ASL 上，SL2T 达到 70 BLEURT 的零样本分数，显著高于以往结果，但团队还优化了流式延迟、防止幻觉、左手支持和单手手语等实际问题。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "文章提供多个翻译示例，展示 SL2T 能将复杂美国手语准确翻译成流畅英语，但承认仍有错误，如罕见手势、快速手指拼写、被动语态和分类词描绘。",
+                "团队与聋人社区合作，从概念化到数据收集、评估和影响评估，并成立 AI 手语咨询委员会（AISLAC）指导负责任部署。",
+                "SL2T 目前仅支持美国手语转英语，且首批设备为 Pixel 11，更多设备和语言将陆续推出，但文章未给出具体时间表。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "SL2T 是首个集成到消费产品的手语转文字模型，支持美国手语转英语，用于 Gboard 和 Live Transcribe。",
+            "模型使用姿态关键点而非原始视频，保护用户隐私，视频在设备端立即丢弃。",
+            "训练数据超过 10 万小时，覆盖 50 多种手语，联合训练提升模型泛化能力。",
+            "SL2T 直接翻译坐标序列，跳过 gloss 中间标注，避免词汇限制。",
+            "在 FLEURS-ASL 基准上达到 70 BLEURT，但实际应用中仍有错误，如罕见手势和快速手指拼写。",
+            "开发过程与聋人社区合作，成立 AISLAC 委员会，确保技术符合社区需求。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "SL2T 是一种手语转文字模型，输入为手语者的姿态关键点序列，输出为流式文本。它通过设备端 MediaPipe Holistic 跟踪身体关键点，仅发送坐标到服务器，视频被丢弃，从而保护隐私。这种设计让翻译质量随数据规模提升，同时避免原始视频传输的风险。",
+              "basis": "source"
+            },
+            {
+              "text": "FLEURS-ASL 是评估美国手语转英语质量的基准测试，SL2T 在 sd-test 上达到 70 BLEURT 零样本分数，显著高于以往报告。BLEURT 是衡量翻译质量的指标，分数越高表示质量越好。这证明了模型在标准测试上的领先性，但基准测试不代表真实场景。",
+              "basis": "source"
+            },
+            {
+              "text": "MediaPipe Holistic 是设备端模型，用于跟踪手语者的姿态关键点。它运行在手机上，不依赖云端，确保原始视频不出设备。这降低了延迟和带宽需求，同时增强隐私保护。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "开发者想在应用中集成手语输入功能",
+              "steps": [
+                "确认目标设备支持 Pixel 11 或后续兼容设备，并安装最新版 Gboard 或 Live Transcribe。",
+                "在应用设置中启用手语输入选项，选择美国手语转英语模式。",
+                "测试手语输入，确保网络连接稳定，因为姿态坐标需发送到服务器。",
+                "收集用户反馈，关注左手支持和单手手语场景，优化体验。"
+              ],
+              "tools": [
+                "Gboard",
+                "Live Transcribe",
+                "Pixel 11"
+              ],
+              "verification": [
+                "手语输入能正确转换为英语文本，且延迟在可接受范围内。",
+                "在弱网环境下，输入仍能工作，但可能延迟增加。",
+                "左手用户和单手用户能正常使用，无识别错误。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "MediaPipe Holistic",
+            "FLEURS-ASL",
+            "70 BLEURT",
+            "AISLAC"
+          ],
+          "searchTerms": [
+            {
+              "term": "SL2T",
+              "query": "SL2T sign language translation model"
+            },
+            {
+              "term": "FLEURS-ASL",
+              "query": "FLEURS-ASL benchmark sign language"
+            },
+            {
+              "term": "MediaPipe Holistic",
+              "query": "MediaPipe Holistic pose tracking"
+            },
+            {
+              "term": "BLEURT",
+              "query": "BLEURT metric translation quality"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-15T05:04:56.915Z",
+        "model": "deepseek-v4-flash"
       }
     ],
     "game": [],
@@ -2678,7 +3333,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 284,
+      "latencyMs": 242,
       "itemCount": 35
     },
     {
@@ -2695,7 +3350,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 205,
+      "latencyMs": 166,
       "itemCount": 10
     },
     {
@@ -2712,7 +3367,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 749,
+      "latencyMs": 554,
       "itemCount": 33
     },
     {
@@ -2729,7 +3384,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 995,
+      "latencyMs": 873,
       "itemCount": 10
     },
     {
@@ -2746,7 +3401,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 192,
+      "latencyMs": 173,
       "itemCount": 35
     },
     {
@@ -2763,7 +3418,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 212,
+      "latencyMs": 167,
       "itemCount": 35
     },
     {
@@ -2780,7 +3435,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 391,
+      "latencyMs": 918,
       "itemCount": 35
     },
     {
@@ -2797,7 +3452,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 220,
+      "latencyMs": 227,
       "itemCount": 30
     },
     {
@@ -2814,7 +3469,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 261,
+      "latencyMs": 203,
       "itemCount": 35
     },
     {
@@ -2831,7 +3486,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 716,
+      "latencyMs": 571,
       "itemCount": 20
     },
     {
@@ -2848,7 +3503,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 398,
+      "latencyMs": 439,
       "itemCount": 35
     },
     {
@@ -2865,7 +3520,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 360,
+      "latencyMs": 287,
       "itemCount": 15
     },
     {
@@ -2882,7 +3537,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1160,
+      "latencyMs": 1097,
       "itemCount": 15
     },
     {
@@ -2899,7 +3554,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 18834,
+      "latencyMs": 17620,
       "itemCount": 35
     },
     {
@@ -2916,7 +3571,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 697,
+      "latencyMs": 538,
       "itemCount": 35
     },
     {
@@ -2938,7 +3593,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 952,
+      "latencyMs": 827,
       "itemCount": 4
     },
     {
@@ -2955,7 +3610,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 965,
+      "latencyMs": 1012,
       "itemCount": 10
     }
   ],
@@ -3026,7 +3681,8 @@
       "092d43b7e5fdad30",
       "a9c266b4bd5f2af6",
       "b83e5a67d8bd1ec7",
-      "0bac0e2e64cd4835"
+      "0bac0e2e64cd4835",
+      "02d1762b6f41532b"
     ],
     "processedManualUrls": []
   },
@@ -3035,10 +3691,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 3,
-    "rejectedCount": 269,
+    "calls": 2,
+    "rejectedCount": 270,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-14T06:05:52.445Z"
+  "previousGeneratedAt": "2026-08-14T21:56:40.027Z"
 }
