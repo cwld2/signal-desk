@@ -1,6 +1,11 @@
 {
-  "updatedAt": "2026-08-12T21:09:31.858Z",
+  "updatedAt": "2026-08-16T20:43:20.642Z",
   "entries": [
+    {
+      "weekStart": "2026-08-17",
+      "generatedAt": "2026-08-16T20:43:20.642Z",
+      "count": 3
+    },
     {
       "weekStart": "2026-08-10",
       "generatedAt": "2026-08-12T21:09:31.858Z",
