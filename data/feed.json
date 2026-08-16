@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-15T21:55:41.326Z",
+  "generatedAt": "2026-08-16T05:13:23.891Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
@@ -9,7 +9,7 @@
     "weeklyReason": "sun"
   },
   "stats": {
-    "candidates": 40,
+    "candidates": 39,
     "selected": 5,
     "ai": 2,
     "practice": 2,
@@ -20,7 +20,7 @@
     "currentGame": 2,
     "currentArt": 1,
     "studyMinutes": 30,
-    "bailianCalls": 6
+    "bailianCalls": 1
   },
   "items": [
     {
@@ -3170,7 +3170,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 151,
+      "latencyMs": 272,
       "itemCount": 35
     },
     {
@@ -3187,7 +3187,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 79,
+      "latencyMs": 200,
       "itemCount": 10
     },
     {
@@ -3204,7 +3204,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 645,
+      "latencyMs": 769,
       "itemCount": 33
     },
     {
@@ -3221,7 +3221,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1347,
+      "latencyMs": 836,
       "itemCount": 10
     },
     {
@@ -3238,7 +3238,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 93,
+      "latencyMs": 158,
       "itemCount": 35
     },
     {
@@ -3255,7 +3255,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 204,
+      "latencyMs": 297,
       "itemCount": 35
     },
     {
@@ -3272,7 +3272,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 300,
+      "latencyMs": 397,
       "itemCount": 35
     },
     {
@@ -3289,7 +3289,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 268,
+      "latencyMs": 334,
       "itemCount": 30
     },
     {
@@ -3306,7 +3306,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 259,
+      "latencyMs": 284,
       "itemCount": 35
     },
     {
@@ -3323,7 +3323,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 677,
+      "latencyMs": 743,
       "itemCount": 20
     },
     {
@@ -3340,7 +3340,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 477,
+      "latencyMs": 603,
       "itemCount": 35
     },
     {
@@ -3357,7 +3357,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 281,
+      "latencyMs": 532,
       "itemCount": 15
     },
     {
@@ -3374,7 +3374,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1436,
+      "latencyMs": 1123,
       "itemCount": 15
     },
     {
@@ -3391,7 +3391,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 17866,
+      "latencyMs": 19809,
       "itemCount": 35
     },
     {
@@ -3408,7 +3408,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 697,
+      "latencyMs": 786,
       "itemCount": 35
     },
     {
@@ -3430,7 +3430,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1205,
+      "latencyMs": 1113,
       "itemCount": 4
     },
     {
@@ -3447,7 +3447,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 860,
+      "latencyMs": 772,
       "itemCount": 10
     }
   ],
@@ -3533,10 +3533,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 6,
-    "rejectedCount": 279,
+    "calls": 1,
+    "rejectedCount": 281,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-15T05:04:56.916Z"
+  "previousGeneratedAt": "2026-08-15T21:55:41.326Z"
 }
