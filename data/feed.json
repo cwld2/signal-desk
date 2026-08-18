@@ -1,10 +1,10 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-18T05:14:45.461Z",
+  "generatedAt": "2026-08-18T21:55:43.500Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-08-18",
+    "date": "2026-08-19",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
@@ -20,291 +20,282 @@
     "currentGame": 2,
     "currentArt": 1,
     "studyMinutes": 30,
-    "bailianCalls": 1
+    "bailianCalls": 3
   },
   "items": [
     {
-      "id": "072f7760e32a9d80",
-      "title": "AgentCore Payments middleware for LangChain agents",
-      "url": "https://www.langchain.com/blog/langchain-agentcore-payments",
-      "summary": "Let your LangChain agents pay for APIs with deterministic session budgets. AgentCore Payments middleware signs x402 payments; LangSmith traces every one.",
-      "publishedAt": "2026-08-17T14:52:56.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
+      "id": "ade55fa2cd6d0d6f",
+      "title": "How Much Memory Does Your Agent Actually Need?",
+      "url": "https://huggingface.co/blog/ibm-research/altk-evolve-hmm",
+      "summary": "",
+      "publishedAt": "2026-08-18T18:09:38.000Z",
+      "sourceId": "huggingface",
+      "sourceName": "Hugging Face Blog",
+      "sourceSite": "https://huggingface.co/blog",
       "lane": "ai",
-      "accent": "#1c3c3c",
+      "accent": "#ff9d00",
       "topic": "Agent 与自动化",
-      "score": 59,
+      "score": 74,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 18,
+      "readMinutes": 15,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "3a22154a16456ab902ec84a5",
+      "candidateScore": 95,
+      "bodyHash": "191537fc2ebd36c44e715385",
       "extraction": {
         "method": "readability",
-        "length": 12517,
-        "originalLength": 12517,
+        "length": 10665,
+        "originalLength": 10665,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangChain 智能体支付中间件：让 AI 代理安全地按次付费",
+      "displayTitle": "AI 代理需要多少记忆？剂量校准指南",
       "analysis": {
-        "listSummary": "本文介绍 Amazon Bedrock AgentCore Payments 中间件，它让 LangChain 智能体能在预算内自动支付 API 费用。文章解释了为什么需要确定性支付限制、x402 协议如何工作，以及如何通过 LangSmith 追踪和评估支付行为。对于构建需要访问付费数据或服务的 AI 代理的开发者，这是一个实用的解决方案，值得一读。",
+        "listSummary": "本文基于 Hugging Face 的 ALTK-Evolve 实验，探讨 AI 代理（能自主完成多步任务的程序）需要多少“记忆”才能表现最好。作者发现，记忆不是越多越好，而是像药物一样需要根据模型能力调整剂量：强模型适合完整指南集，弱模型适合精简核心加按需检索，饱和模型则无明显提升。文章用 AppWorld 基准测试的 585 个任务验证了观点，并指出精选检索既准确又省钱。对想优化 AI 代理性能的开发者，本文提供了实用的校准思路和成本控制建议，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "智能体经济即将到来，AI 代理不再只使用免费 API，而是需要访问付费服务。这些服务包括高级数据、付费内容和专用计算资源，构成了快速增长的智能体商业生态。",
-              "当智能体可以花钱时，你需要确定性的支付限制：在每次交易前，在基础设施层强制执行会话级预算，而不是依赖 LLM 提示词。这意味着预算控制必须由系统保证，而不是靠模型自觉。",
-              "传统支付方式不适合智能体交易。信用卡处理费用使按美分计价的 API 调用不经济；月度订阅假设人类提前决定购买什么。而 x402 协议（由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理）使 HTTP 原生微支付成为可能，智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。",
-              "目前，大多数团队处理智能体支付有三种方式：使用免费数据源（数据质量差）、为每个 API 编写自定义支付逻辑（每个服务 30 到 50 行包装代码）、或放弃自主性（让智能体向人类请求授权）。这些方法在付费服务数量增长到数千个时都无法扩展。"
+              "本文讨论的是 AI 代理的“记忆”问题：代理在执行任务时，应该从过去的经验中学习多少内容，才能提升未来的表现？作者指出，简单地把所有经验塞给代理并不总是有效，甚至可能拖累性能。",
+              "这里的“记忆”不是指回放过去的对话记录，而是指从代理自身的历史轨迹中提炼出的行为指南，包括有效策略、常见错误和边界情况。这些指南在推理时注入到上下文中，帮助代理做出更好的决策。",
+              "作者通过实验发现，不同能力的模型对记忆的“剂量”需求不同。强模型（如 DeepSeek-V3.2）能吸收完整指南集，性能提升明显；弱模型（如 gpt-oss-120b）则会被大量指南淹没，更适合精简核心加少量按需检索；而已经饱和的模型（如 GLM-5）则没有任何提升。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "AgentCore Payments 中间件提供了完整的解决方案。它通过 LangChain 中间件钩子，在智能体执行的每个步骤拦截模型调用或工具调用，无需修改智能体本身。",
-              "工作流程分为五步：检测（工具调用返回 HTTP 402 和 x402 负载）、验证（检查支付金额是否在会话预算内）、签名（在预算内时通过 AgentCore PaymentManager 签名支付）、重试（携带支付证明重试原始请求）、继续（智能体收到内容，如同第一次就返回 200）。",
-              "设置非常简单：一个配置对象和一个中间件条目。配置包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）和 auto_session_budget（会话预算上限）。",
-              "该中间件适用于多种场景：研究代理访问付费数据库、多步骤工作流在总预算内访问多个付费服务、SaaS 产品中每个用户有自己的预算和支付工具、MCP 服务器消费（当工具返回 402 时自动支付）、浏览器代理导航付费网站。"
+              "作者使用 ALTK-Evolve 方法，让代理从自己的成功和失败轨迹中提取行为指南，并在推理时注入。整个过程不更新模型权重，也不需人工标注，因此成本低且可移植。",
+              "实验在 AppWorld 基准上进行，包含 585 个多步任务（168 个测试正常 + 417 个测试挑战），覆盖日历、消息、支付等 9 个模拟应用。任务用两个指标评分：TGC（任务目标完成率）和 SGC（场景目标完成率，更严格，要求同一场景的所有变体都通过）。",
+              "作者比较了三种配置：基线（无记忆）、完整指南集（每步注入所有指南）、精选检索（固定核心加按任务检索的少量指南）。结果发现，精选检索对弱模型效果最好，完整指南集对强模型效果最好，而饱和模型无论哪种配置都无提升。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "添加成本控制可以限制超支，但不会影响导致交易的智能体行为。例如，智能体可能在预算内但购买决策不合理，或在两步内花光预算然后失败，或发送不应离开系统的数据，或被恶意工具描述重定向到未请求的端点。",
-              "区块链支付账本只记录某工具在某时间向某地址发送了 0.02 美元，不记录智能体为何选择该端点。这种上下文只存在于智能体追踪中，因此治理（避免意外支出）和审计（可查询的购买记录）需要 LangSmith。",
-              "LangSmith 追踪可以显示每个导致支付的步骤：工具调用出现、返回 402、再次出现并带有支付头，周围是用户的原始请求和模型的推理过程。当支付超过预算时，AgentCore 会拒绝，拒绝记录会出现在追踪中，让开发者确认限制是否生效。",
-              "测试方法包括单步评估（测试一个决策）、全轮评估（评分整个对话轨迹，检查总支出、付费调用次数和任务完成度）和在线评估（对生产追踪运行相同检查）。示例中，十个研究任务在预算内完成，但只有七个任务的数据是相关的，说明预算控制不等于数据质量保证。"
+              "数据支持了“剂量依赖能力”的观点：gpt-oss-120b 用精选检索时 TGC 提升 +16.1 个百分点，且仅增加 5% 的 token 消耗；DeepSeek-V3.2 用完整指南集时 TGC 提升 +9.5 个百分点，SGC 提升 +16.1 个百分点。",
+              "成本方面，完整指南集会显著增加输入 token（如 DeepSeek 增加 78%），但精选检索几乎不增加成本。作者建议利用提示缓存（prompt caching）来降低完整指南集的生产成本，因为静态部分可以缓存。",
+              "作者明确表示，模型落入哪种模式并非仅由参数数量决定，还受基准余量、上下文窗口大小、架构、指南质量和任务分布影响，但分离这些因素的研究仍在进行中。结论的边界是：结果只在 AppWorld 上验证，其他基准和真实部署尚在探索。"
             ]
           }
         ],
         "keyPoints": [
-          "AgentCore Payments 中间件在基础设施层强制执行会话级预算，防止智能体失控消费。",
-          "x402 协议支持 HTTP 原生微支付，使按次计费的 API 调用在经济上可行。",
-          "LangSmith 追踪提供支付决策的完整上下文，弥补区块链账本缺少的推理信息。",
-          "评估方法包括单步、全轮和在线评估，用于验证智能体的购买行为是否符合预期。",
-          "设置只需一个配置对象和一个中间件条目，支持任何 LangChain 支持的模型提供商。",
-          "该方案适用于研究代理、多步骤工作流、SaaS 按用户控制和 MCP 服务器消费等场景。"
+          "AI 代理的记忆不是越多越好，而是需要根据模型能力校准剂量。",
+          "强模型（如 DeepSeek-V3.2）适合完整指南集，弱模型（如 gpt-oss-120b）适合精选检索。",
+          "精选检索在弱模型上既提升准确率（+16.1pp TGC）又几乎不增加成本（+5% tokens）。",
+          "饱和模型（如 GLM-5）对记忆无反应，增加上下文纯属浪费。",
+          "提示缓存可以大幅降低完整指南集的生产成本，值得工程优化。",
+          "模型落入哪种模式受多种因素影响，参数数量不是唯一决定因素。"
         ],
         "technicalDetails": [
           {
-            "text": "x402 协议：由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理。它使智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。它解决了传统支付方式在微支付场景下的高成本和低效率问题。",
+            "text": "它是什么：ALKTL-Evolve 是一种让代理从自身历史轨迹中提取行为指南的方法，不更新权重、不需人工标注。怎么工作：代理尝试任务产生轨迹，提取成功和失败中的指南，整合成可复用集，在推理时注入完整或精选部分。为什么重要：它提供了一种廉价、可移植的代理学习方式，适用于多种模型。",
             "basis": "source"
           },
           {
-            "text": "AgentCore Payments 中间件：通过 LangChain 中间件钩子拦截工具调用。当检测到 HTTP 402 响应时，它验证支付金额是否在会话预算内，如果通过则签名支付并重试请求。它使开发者无需修改智能体逻辑即可添加支付功能。",
+            "text": "它是什么：TGC（Task Goal Completion）是任务目标完成率，SGC（Scenario Goal Completion）是场景目标完成率。怎么工作：TGC 统计单个任务完全完成的占比，SGC 要求同一场景的所有变体全部通过才算通过。为什么重要：SGC 更严格，能反映代理的可靠性，且通常比 TGC 提升更大。",
             "basis": "source"
           },
           {
-            "text": "配置对象：包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）、auto_session_budget（会话预算上限）。这些参数定义了支付基础设施的连接和预算控制。",
+            "text": "它是什么：精选检索是一种记忆注入策略，包含固定核心指南和按任务检索的少量指南。怎么工作：固定部分保持稳定，变量部分根据任务相关性检索。为什么重要：在弱模型上既提升准确率又控制成本，如 gpt-oss-120b 的 TGC 提升 +16.1pp，token 仅增加 5%。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 追踪：记录每次支付尝试，包括成功支付和预算拒绝。它提供了区块链账本所缺少的上下文，如智能体为何选择某端点、任务目标和推理过程。这对于治理和审计至关重要。",
-            "basis": "source"
-          },
-          {
-            "text": "评估方法：单步评估测试单个决策，全轮评估评分整个对话轨迹，在线评估对生产追踪运行检查。它们用于验证智能体的购买行为是否符合预期，而不仅仅是控制支出。",
+            "text": "它是什么：提示缓存（prompt caching）是一种生产优化技术，缓存静态输入部分。怎么工作：指南集的静态前缀在步骤间不变，可以缓存，减少重复计算。为什么重要：能大幅降低完整指南集的成本，作者建议设计缓存感知的提示。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "为 LangChain 智能体添加安全的支付功能并验证其行为",
+            "scenario": "开发者想为 AI 代理添加记忆功能，但不确定该注入多少指南。",
             "steps": [
-              "在 AWS 上配置 AgentCore Payments：使用 AgentCore Payments skill（通过 Claude Code、Kiro 或 Codex 引导）或手动使用 AgentCore CLI、AWS SDK 或 Boto3 设置 PaymentManager 和支付工具。",
-              "安装中间件：运行 pip install -U \"bedrock-agentcore[langgraph,strands-agents]\"，注意必须包含 strands-agents，否则导入会失败。",
-              "添加中间件配置：创建一个 AgentCorePaymentsConfig 对象，设置 payment_manager_arn、user_id、payment_instrument_id 和 auto_session_budget（例如 \"5.00\"），然后将其添加到 create_agent 的 middleware 列表中。",
-              "启用 LangSmith 追踪并运行一个付费任务，从追踪中确认能否回答\"这个花费了什么，为什么\"。",
-              "在 LangSmith 上创建一个小型评估数据集，添加在线规则，标记超过阈值的运行。"
+              "先评估目标模型的能力：在基准任务上测试基线 TGC 和 SGC，判断是否有提升空间。",
+              "如果模型较弱，使用精选检索：固定高置信度核心指南，加上按任务检索的少量指南。",
+              "如果模型较强且有提升空间，尝试完整指南集，并利用提示缓存降低 token 成本。",
+              "如果模型已饱和，先不增加记忆，分析剩余失败模式后再决定。"
             ],
             "tools": [
-              "AgentCore Payments middleware",
-              "LangSmith",
-              "Claude Code 或 Kiro 或 Codex",
-              "AgentCore CLI 或 AWS SDK 或 Boto3"
+              "ALKTL-Evolve 库",
+              "AppWorld 基准测试",
+              "提示缓存工具（如 OpenAI 的缓存功能）"
             ],
             "verification": [
-              "从 LangSmith 追踪中能明确看到每次支付的原因和金额",
-              "预算超限时，追踪中显示拒绝记录和智能体的响应",
-              "在线评估规则能自动标记超支或异常支付端点"
+              "对比基线 TGC 和 SGC 分数，看是否有提升。",
+              "监控 token 使用量，确保成本在可接受范围。",
+              "在多个任务上测试，确认提升不是偶然。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "会话级预算",
-          "HTTP 原生微支付",
-          "支付证明",
-          "智能体追踪",
-          "全轮评估",
-          "在线评估"
+          "完整指南集",
+          "精选检索",
+          "提示缓存",
+          "TGC",
+          "SGC"
         ],
         "searchTerms": [
           {
-            "term": "x402 协议",
-            "query": "x402 protocol Coinbase Linux Foundation"
+            "term": "ALKTL-Evolve",
+            "query": "ALKTL-Evolve agent memory"
           },
           {
-            "term": "AgentCore Payments",
-            "query": "Amazon Bedrock AgentCore Payments middleware"
+            "term": "AppWorld",
+            "query": "AppWorld benchmark agent tasks"
           },
           {
-            "term": "LangChain 中间件",
-            "query": "LangChain middleware hooks agent execution"
+            "term": "TGC",
+            "query": "Task Goal Completion metric"
           },
           {
-            "term": "LangSmith 追踪",
-            "query": "LangSmith tracing agent payments"
+            "term": "SGC",
+            "query": "Scenario Goal Completion metric"
+          },
+          {
+            "term": "prompt caching",
+            "query": "prompt caching AI inference cost"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-17T21:57:07.567Z",
+      "analyzedAt": "2026-08-18T21:55:24.246Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "1e88c2bc6390f3ae",
-      "title": "Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things",
-      "url": "https://simonwillison.net/2026/Aug/16/qwen-38-27b/",
-      "summary": "Friday's big release was Qwen 3.8 27B , an Apache 2 licensed 27B parameter vision-capable LLM from Alibaba's Qwen research lab. I've been looking forward to this one: 27B is an excellent size for running a model on a reasonably specced laptop, and its predecessor Qwen 3.6 27B was impressive. Qwen's self-reported benchmarks for this model are eye-opening. They show a boost from both Qwen 3.6 27B and the closed-weight Qwen 3.7-Plus, which was one of Qwen's strongest models of any size as recently as May this year . It will be interesting to hear what independent benchmarks have to say about the model. I've been running the model on two different machines: my 128GB M5 Max MacBook Pro, and an NVIDIA DGX Spark . On both machines I'm running LM Studio and their 17GB Q4_K_M quantized build . I also tried using llama-server directly on the Spark. The default of extra high results in spectacular ",
-      "publishedAt": "2026-08-16T22:00:39.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "c0dbb0bf5ccc0065",
+      "title": "How AI Coding Agents Can Unlock Materials Simulation with NVIDIA ALCHEMI Toolkit",
+      "url": "https://developer.nvidia.com/blog/how-ai-coding-agents-can-unlock-materials-simulation-with-nvidia-alchemi-toolkit/",
+      "summary": "Atomistic simulation requires three things: knowledge of the science, compute-efficient implementation of simulations, and accessible interfaces to the...",
+      "publishedAt": "2026-08-18T18:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "模型与研究",
-      "score": 66,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 17,
-      "category": "opinion",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 83,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 22,
+      "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "a74a42d487e76562718f3182",
+      "candidateScore": 95,
+      "bodyHash": "eca45b08c895e2defb905266",
       "extraction": {
         "method": "readability",
-        "length": 12127,
-        "originalLength": 12127,
+        "length": 15340,
+        "originalLength": 15340,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Qwen 3.8 27B：本地大模型的性能与“过度思考”问题",
+      "displayTitle": "用 AI 编程助手解锁材料模拟：NVIDIA ALCHEMI Toolkit 实战指南",
       "analysis": {
-        "listSummary": "本文介绍了阿里开源的 Qwen 3.8 27B 模型，它是一款 27B 参数、支持视觉的本地大模型。作者 Simon Willison 在 MacBook Pro 和 DGX Spark 上测试后发现，模型默认的“极度高”推理模式会导致严重过度思考，生成简单 SVG 竟耗时 21 分钟。尽管性能强大，能处理边界框、编写代码，但速度较慢。文章建议用户手动调低推理级别，并介绍了通过多 token 预测加速的方法。对关注本地模型实用性的读者很有价值。",
+        "listSummary": "本文介绍如何用 AI 编程助手（如 Claude Code）结合 NVIDIA ALCHEMI Toolkit，从自然语言描述生成 GPU 加速的原子级材料模拟流程。它解决了 MLIP 生态中接口不友好、学习成本高的问题，让你用日常语言描述模拟目标，自动生成可运行的代码。文章通过 45 个模拟流程的基准测试，展示了不同提示词级别对代码质量和物理结果的影响，并给出了实用建议。如果你做材料模拟或想用 AI 辅助科研编程，这篇文章值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "Qwen 3.8 27B 是阿里 Qwen 实验室发布的开源模型，采用 Apache 2 许可，支持视觉功能。27B 参数规模适合在配置较好的笔记本上运行，其前代 Qwen 3.6 27B 已表现不错。作者期待它能在本地设备上提供接近商业模型的性能。",
-              "模型默认的推理级别是“xhigh”，即极度高。这个默认值导致模型在回答简单问题时也会进行大量内部思考，消耗大量上下文 token。作者在 LM Studio 中遇到默认 8192 token 上下文限制，模型甚至会用完这些 token 来思考“最平凡的问题”。",
-              "作者将上下文限制提升到最大 262144 token 后，问题才缓解。例如，生成一个鹈鹕骑自行车的 SVG 图片，模型用了 22276 个推理 token 和 3223 个输出 token，耗时 21 分钟。这展示了默认设置对性能和可用性的严重影响。"
+              "原子级模拟（模拟原子和分子如何运动和相互作用）需要三样东西：科学知识、高效的模拟实现代码、以及容易使用的接口。科学知识只能靠研究者自己，AI 无法替代；但代码和接口这两块，正是 AI 编程助手能帮忙的地方。",
+              "NVIDIA ALCHEMI Toolkit（一个用于构建机器学习原子间势模拟的工具包）解决了代码效率问题，它提供了可组合的 PyTorch 原生模块，支持 GPU 加速和批量处理。但接口问题一直存在：MLIP（机器学习原子间势，用神经网络预测原子间作用力）生态太新，不像传统力场那样有成熟的软件接口，而且它的软件栈和化学家常用的工具不一样，学习成本高。",
+              "AI 编程助手（能根据自然语言描述自动生成并执行代码的工具）可以解决接口问题，但通用助手不了解 ALCHEMI Toolkit 的 API，可能生成看似正确但实际错误的代码。为此，ALCHEMI Toolkit 提供了 agent skills（给 AI 助手的技能包）和参考文件，让助手能按需获取正确的 API 模式，这样你只需要描述你的科学问题，比如材料、条件和模拟约束。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者通过对比实验展示问题：同样提示词，关闭推理后，生成 SVG 仅需 137 秒，输出 3715 token。这说明默认的“xhigh”设置并非必要，反而严重拖慢速度。作者还尝试了更简单的“画一个圆形”提示，模型却生成一个带有动画和复杂设计的“几何研究”作品，完全偏离用户需求。",
-              "作者测试了模型的视觉能力，要求它返回照片中鹈鹕的边界框。模型成功返回了 0-1000 坐标系的 JSON 数据，且匹配度很高。作者还让模型根据这些 JSON 数据构建一个 HTML 工具，用于在图片上标注边界框。模型在默认推理级别下生成了一个功能完整的界面，甚至添加了未要求的示例场景。",
-              "作者还测试了模型驱动编码代理的能力。使用 Pi 代理工具，模型能成功回答关于代码库的问题，并编写 Python 脚本将 JSONL 转录文件转换为 Markdown。这表明模型具备长上下文、代码生成和工具调用能力，足以支持编码工作流。"
+              "文章用一个完整的流程来展示：研究者从自然语言提示开始，AI 助手生成代码和模拟流程，最后在 NVIDIA H200 GPU 上验证结果。系统要求是 Python 3.11-3.14、PyTorch 2.8+、CUDA 12 或 13、Linux 系统、NVIDIA GPU（RTX 20xx 或更新）。安装步骤包括用 uv 创建环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0，下载匹配的 agent skills，然后安装 Claude Code 等助手。",
+              "关键建议是：让 AI 助手在可运行的环境中执行它生成的脚本。这样能消除大部分机械错误（比如导入失败、引用不存在的 API）。在 45 个流程的测试中，这种设置没有出现任何导入错误。相比之下，只读源码（git checkout）也能消除导入错误，但仅用 pip 安装且不让助手运行代码的效果最差。",
+              "提示词的质量至关重要。文章提出了五个级别的提示词（从 Sketch 到 Contract），并给出了最佳实践：总是明确材料、方法和尺度；指定科学目标和交付物，让 skills 提供 API 模式；指定约束而非实现细节；明确要求自我评估和前提检查。例如，不指定恒温器时，脚本默认使用 Langevin 动力学，导致扩散系数被阻尼 3-5 倍；而明确要求 NVE 后，所有脚本都正确使用了测量系综。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者的核心结论是：Qwen 3.8 27B 是一个强大的本地模型，但默认的“xhigh”推理设置是糟糕的起点。他强烈建议用户先使用“low”或关闭推理。关闭推理后，模型速度显著提升，但某些任务（如构建工具）的准确性会下降，说明推理在某些场景下仍有价值。",
-              "性能是主要瓶颈。作者在 M5 Max MacBook Pro 和 DGX Spark 上测得速度约为 15-30 token/秒，远低于托管 API 模型（如 OpenAI 5.6 Sol 的 74 token/秒）。作者指出，这类密集模型需要高内存带宽，而他的机器并非顶尖。",
-              "社区已探索加速方法。模型支持多 token 预测（MTP），通过一个廉价机制预测多个 token，再由主模型验证。作者在 Spark 上使用 llama-server 的 MTP 模式，对比 LM Studio 默认配置，性能提升约 72%。作者认为，17GB 文件能实现如此多功能是“奇迹”，但速度问题限制了其作为日常工具的潜力。"
+              "基准测试包含 45 个模拟流程，覆盖三个工作流（硅的状态方程、氧在 Cu(111) 上的吸附、液态锂的自扩散），五个提示词级别，每个级别三个样本。评估方式有两种：确定性代码特征检查（属性覆盖、API 模式覆盖、可重用性）和在 H200 GPU 上执行作为地面真相。所有 45 个脚本都使用了批量 GPU 执行，38 个通过筛选，15 个生产代表全部完成。",
+              "结果：硅的状态方程在所有提示词级别下结果一致，a0 = 5.4661 Å，B0 = 88.15 GPa，在 PBE 参考窗口内。氧吸附所有级别都找到 fcc 空位最稳定，Eads(fcc) = -4.799 ± 0.004 eV，与参考值（-4.31 eV 在 0.25 单层）有差异，但覆盖度和模型误差可解释。锂扩散中，NVE 系综的结果在实验外推的约 2 倍范围内，而 Langevin 系综低 3-5 倍。提示词具体性提高了代码结构（API 模式覆盖从 0.52 到 0.96），但物理结果不变。",
+              "结论：提示词具体性影响代码结构和成本，但不影响物理结果（只要提示词正确）。但存在局限：AI 助手不会质疑物理上不合理的任务（如要求测量完美晶体 LiF 中的 Li 离子扩散），也不会自动选择适合材料的步长和恒温器。MLIP 基础模型（如 MACE-MPA-0）在训练分布外准确性可能下降，因此每个新化学体系都应验证。此外，统计上可靠的结果可能在物理上无意义（如 Langevin 阻尼），必须与独立参考对比。"
             ]
           }
         ],
         "keyPoints": [
-          "Qwen 3.8 27B 是 Apache 2 许可的 27B 参数视觉模型，17GB 文件即可本地运行。",
-          "模型默认推理级别为“xhigh”，会导致过度思考，生成简单 SVG 耗时 21 分钟。",
-          "关闭推理后，同一任务仅需 2 分钟，但某些复杂任务（如构建工具）准确性下降。",
-          "模型在边界框标注和编码代理任务上表现出色，能生成 JSON 和完整 HTML 工具。",
-          "本地运行速度约 15-30 token/秒，远慢于托管 API，但可通过多 token 预测加速。",
-          "作者建议用户手动调低推理级别，以获得更实用的性能。"
+          "AI 编程助手能根据自然语言描述生成 GPU 加速的模拟代码，但需要提供正确的 API 模式（如通过 agent skills）才能避免错误。",
+          "让 AI 助手在可运行环境中执行生成的代码，能消除导入错误和 API 引用错误，这是提高可靠性的关键。",
+          "提示词应明确材料、方法和尺度，指定科学目标而非实现细节，并要求自我评估和前提检查。",
+          "提示词具体性影响代码结构和成本（如 Contract 级别比 Sketch 多 4 倍 token），但不改变物理结果。",
+          "AI 助手不会质疑物理上不合理的任务，也不会自动选择合适参数，因此科学判断和独立验证仍然必要。",
+          "MLIP 基础模型（如 MACE-MPA-0）的准确性在训练分布外可能下降，每个新体系都应验证。"
         ],
         "technicalDetails": [
           {
-            "text": "Qwen 3.8 27B 是阿里 Qwen 实验室发布的 27B 参数模型，采用 Apache 2 许可，支持视觉输入。它通过自回归方式生成文本，在本地硬件上运行。其重要性在于提供了开源、可本地部署的通用模型。",
+            "text": "ALCHEMI Toolkit 是一个用于构建机器学习原子间势模拟的工具包，提供 PyTorch 原生的可组合模块，支持 GPU 加速和批量执行。它通过提供标准化的 API 模式，让 AI 助手能生成正确的代码。",
             "basis": "source"
           },
           {
-            "text": "推理级别（reasoning_effort）是模型控制思考深度的参数，可选 xhigh、medium、low。xhigh 为默认，适合复杂任务，但消耗大量 token 和时间。用户可通过 API 调整此参数以平衡速度与准确性。",
+            "text": "Agent skills 是给 AI 助手的技能包，包含 API 模式示例，让助手能按需加载正确的用法。它解决了通用助手不了解特定 API 的问题，是提高生成代码准确性的关键。",
             "basis": "source"
           },
           {
-            "text": "多 token 预测（MTP）是一种架构优化，通过辅助机制预测多个未来 token，主模型验证结果。这能显著提升推理速度。作者在 llama-server 中使用 --spec-type draft-mtp 参数启用，性能提升约 72%。",
+            "text": "MACE-MPA-0 是一个 MLIP 基础模型，用于预测原子间势能。它在训练分布内表现良好，但分布外准确性可能下降，因此需要验证。",
             "basis": "source"
           },
           {
-            "text": "LM Studio 是本地模型运行工具，默认上下文限制为 8192 token。作者将其提升至最大 262144 token，以容纳模型的长时间思考。Q4_K_M 是一种量化格式，将模型压缩至 17GB，减少内存占用。",
+            "text": "Langevin 动力学是一种恒温器方法，通过摩擦项控制温度，但会抑制原子运动，导致扩散系数低估 3-5 倍。NVE 系综（恒定能量）则不会，更适合测量扩散。",
+            "basis": "source"
+          },
+          {
+            "text": "批量 GPU 执行是指同时处理多个模拟副本（如多个应变体积或吸附位点），利用 GPU 并行性提高效率。所有 45 个脚本都使用了此方法。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在本地硬件上运行 Qwen 3.8 27B，用于生成 SVG、标注图像或驱动编码代理。",
+            "scenario": "用 AI 编程助手生成 ALCHEMI Toolkit 模拟流程",
             "steps": [
-              "下载 Qwen 3.8 27B 的 Q4_K_M 量化模型文件（约 17GB）。",
-              "在 LM Studio 中加载模型，并将上下文长度设置为最大 262144 token。",
-              "将推理级别调至“low”或关闭，避免过度思考。",
-              "对于视觉任务，使用 0-1000 坐标系的提示词请求边界框。",
-              "如需加速，在 llama-server 中启用 MTP 模式（--spec-type draft-mtp）。"
+              "创建 Python 环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0（根据 CUDA 版本添加 cu13 等额外依赖）",
+              "下载匹配的 agent skills（如 npx degit NVIDIA/nvalchemi-toolkit/.claude/skills#v0.2.0）",
+              "安装并启动 Claude Code（或其他支持 Agent Skills 的助手）",
+              "在提示词中明确材料、方法、尺度、参考约定和交付物，并要求自我评估",
+              "让助手执行生成的脚本，观察输出并检查错误",
+              "在目标 GPU 上运行生产规模的模拟，并与独立参考结果对比"
             ],
             "tools": [
-              "LM Studio",
-              "llama-server",
-              "Pi 代理",
-              "OpenRouter"
+              "uv",
+              "nvalchemi-toolkit",
+              "Claude Code",
+              "NVIDIA H200 GPU",
+              "MACE-MPA-0"
             ],
             "verification": [
-              "生成简单 SVG 的时间从 21 分钟降至 2 分钟。",
-              "边界框 JSON 结果与照片中物体位置匹配。",
-              "编码代理能成功回答代码库问题并生成可运行脚本。",
-              "MTP 模式下，token 生成速度提升约 72%。"
+              "脚本无导入错误，API 调用正确",
+              "模拟结果与实验或 DFT 参考值一致（如硅的 a0 和 B0）",
+              "扩散系数在实验外推的 2 倍范围内（使用 NVE 系综）"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "推理级别",
-          "多 token 预测",
-          "17GB 文件",
-          "边界框",
-          "编码代理",
-          "默认设置"
+          "agent skills",
+          "MACE-MPA-0"
         ],
         "searchTerms": [
           {
-            "term": "Qwen 3.8 27B",
-            "query": "Qwen 3.8 27B 模型"
+            "term": "ALCHEMI Toolkit",
+            "query": "NVIDIA ALCHEMI Toolkit materials simulation"
           },
           {
-            "term": "reasoning_effort",
-            "query": "reasoning_effort 参数"
+            "term": "Agent Skills",
+            "query": "Agent Skills standard AI coding agent"
           },
           {
-            "term": "多 token 预测",
-            "query": "Multi-Token Prediction 大模型"
-          },
-          {
-            "term": "LM Studio",
-            "query": "LM Studio 本地模型运行"
+            "term": "MACE-MPA-0",
+            "query": "MACE-MPA-0 model accuracy"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-17T21:57:22.892Z",
+      "analyzedAt": "2026-08-18T21:55:43.500Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -724,860 +715,833 @@
   ],
   "editionItems": [
     {
-      "id": "072f7760e32a9d80",
-      "title": "AgentCore Payments middleware for LangChain agents",
-      "url": "https://www.langchain.com/blog/langchain-agentcore-payments",
-      "summary": "Let your LangChain agents pay for APIs with deterministic session budgets. AgentCore Payments middleware signs x402 payments; LangSmith traces every one.",
-      "publishedAt": "2026-08-17T14:52:56.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
+      "id": "ade55fa2cd6d0d6f",
+      "title": "How Much Memory Does Your Agent Actually Need?",
+      "url": "https://huggingface.co/blog/ibm-research/altk-evolve-hmm",
+      "summary": "",
+      "publishedAt": "2026-08-18T18:09:38.000Z",
+      "sourceId": "huggingface",
+      "sourceName": "Hugging Face Blog",
+      "sourceSite": "https://huggingface.co/blog",
       "lane": "ai",
-      "accent": "#1c3c3c",
+      "accent": "#ff9d00",
       "topic": "Agent 与自动化",
-      "score": 59,
+      "score": 74,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 18,
+      "readMinutes": 15,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "3a22154a16456ab902ec84a5",
+      "candidateScore": 95,
+      "bodyHash": "191537fc2ebd36c44e715385",
       "extraction": {
         "method": "readability",
-        "length": 12517,
-        "originalLength": 12517,
+        "length": 10665,
+        "originalLength": 10665,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangChain 智能体支付中间件：让 AI 代理安全地按次付费",
+      "displayTitle": "AI 代理需要多少记忆？剂量校准指南",
       "analysis": {
-        "listSummary": "本文介绍 Amazon Bedrock AgentCore Payments 中间件，它让 LangChain 智能体能在预算内自动支付 API 费用。文章解释了为什么需要确定性支付限制、x402 协议如何工作，以及如何通过 LangSmith 追踪和评估支付行为。对于构建需要访问付费数据或服务的 AI 代理的开发者，这是一个实用的解决方案，值得一读。",
+        "listSummary": "本文基于 Hugging Face 的 ALTK-Evolve 实验，探讨 AI 代理（能自主完成多步任务的程序）需要多少“记忆”才能表现最好。作者发现，记忆不是越多越好，而是像药物一样需要根据模型能力调整剂量：强模型适合完整指南集，弱模型适合精简核心加按需检索，饱和模型则无明显提升。文章用 AppWorld 基准测试的 585 个任务验证了观点，并指出精选检索既准确又省钱。对想优化 AI 代理性能的开发者，本文提供了实用的校准思路和成本控制建议，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "智能体经济即将到来，AI 代理不再只使用免费 API，而是需要访问付费服务。这些服务包括高级数据、付费内容和专用计算资源，构成了快速增长的智能体商业生态。",
-              "当智能体可以花钱时，你需要确定性的支付限制：在每次交易前，在基础设施层强制执行会话级预算，而不是依赖 LLM 提示词。这意味着预算控制必须由系统保证，而不是靠模型自觉。",
-              "传统支付方式不适合智能体交易。信用卡处理费用使按美分计价的 API 调用不经济；月度订阅假设人类提前决定购买什么。而 x402 协议（由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理）使 HTTP 原生微支付成为可能，智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。",
-              "目前，大多数团队处理智能体支付有三种方式：使用免费数据源（数据质量差）、为每个 API 编写自定义支付逻辑（每个服务 30 到 50 行包装代码）、或放弃自主性（让智能体向人类请求授权）。这些方法在付费服务数量增长到数千个时都无法扩展。"
+              "本文讨论的是 AI 代理的“记忆”问题：代理在执行任务时，应该从过去的经验中学习多少内容，才能提升未来的表现？作者指出，简单地把所有经验塞给代理并不总是有效，甚至可能拖累性能。",
+              "这里的“记忆”不是指回放过去的对话记录，而是指从代理自身的历史轨迹中提炼出的行为指南，包括有效策略、常见错误和边界情况。这些指南在推理时注入到上下文中，帮助代理做出更好的决策。",
+              "作者通过实验发现，不同能力的模型对记忆的“剂量”需求不同。强模型（如 DeepSeek-V3.2）能吸收完整指南集，性能提升明显；弱模型（如 gpt-oss-120b）则会被大量指南淹没，更适合精简核心加少量按需检索；而已经饱和的模型（如 GLM-5）则没有任何提升。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "AgentCore Payments 中间件提供了完整的解决方案。它通过 LangChain 中间件钩子，在智能体执行的每个步骤拦截模型调用或工具调用，无需修改智能体本身。",
-              "工作流程分为五步：检测（工具调用返回 HTTP 402 和 x402 负载）、验证（检查支付金额是否在会话预算内）、签名（在预算内时通过 AgentCore PaymentManager 签名支付）、重试（携带支付证明重试原始请求）、继续（智能体收到内容，如同第一次就返回 200）。",
-              "设置非常简单：一个配置对象和一个中间件条目。配置包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）和 auto_session_budget（会话预算上限）。",
-              "该中间件适用于多种场景：研究代理访问付费数据库、多步骤工作流在总预算内访问多个付费服务、SaaS 产品中每个用户有自己的预算和支付工具、MCP 服务器消费（当工具返回 402 时自动支付）、浏览器代理导航付费网站。"
+              "作者使用 ALTK-Evolve 方法，让代理从自己的成功和失败轨迹中提取行为指南，并在推理时注入。整个过程不更新模型权重，也不需人工标注，因此成本低且可移植。",
+              "实验在 AppWorld 基准上进行，包含 585 个多步任务（168 个测试正常 + 417 个测试挑战），覆盖日历、消息、支付等 9 个模拟应用。任务用两个指标评分：TGC（任务目标完成率）和 SGC（场景目标完成率，更严格，要求同一场景的所有变体都通过）。",
+              "作者比较了三种配置：基线（无记忆）、完整指南集（每步注入所有指南）、精选检索（固定核心加按任务检索的少量指南）。结果发现，精选检索对弱模型效果最好，完整指南集对强模型效果最好，而饱和模型无论哪种配置都无提升。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "添加成本控制可以限制超支，但不会影响导致交易的智能体行为。例如，智能体可能在预算内但购买决策不合理，或在两步内花光预算然后失败，或发送不应离开系统的数据，或被恶意工具描述重定向到未请求的端点。",
-              "区块链支付账本只记录某工具在某时间向某地址发送了 0.02 美元，不记录智能体为何选择该端点。这种上下文只存在于智能体追踪中，因此治理（避免意外支出）和审计（可查询的购买记录）需要 LangSmith。",
-              "LangSmith 追踪可以显示每个导致支付的步骤：工具调用出现、返回 402、再次出现并带有支付头，周围是用户的原始请求和模型的推理过程。当支付超过预算时，AgentCore 会拒绝，拒绝记录会出现在追踪中，让开发者确认限制是否生效。",
-              "测试方法包括单步评估（测试一个决策）、全轮评估（评分整个对话轨迹，检查总支出、付费调用次数和任务完成度）和在线评估（对生产追踪运行相同检查）。示例中，十个研究任务在预算内完成，但只有七个任务的数据是相关的，说明预算控制不等于数据质量保证。"
+              "数据支持了“剂量依赖能力”的观点：gpt-oss-120b 用精选检索时 TGC 提升 +16.1 个百分点，且仅增加 5% 的 token 消耗；DeepSeek-V3.2 用完整指南集时 TGC 提升 +9.5 个百分点，SGC 提升 +16.1 个百分点。",
+              "成本方面，完整指南集会显著增加输入 token（如 DeepSeek 增加 78%），但精选检索几乎不增加成本。作者建议利用提示缓存（prompt caching）来降低完整指南集的生产成本，因为静态部分可以缓存。",
+              "作者明确表示，模型落入哪种模式并非仅由参数数量决定，还受基准余量、上下文窗口大小、架构、指南质量和任务分布影响，但分离这些因素的研究仍在进行中。结论的边界是：结果只在 AppWorld 上验证，其他基准和真实部署尚在探索。"
             ]
           }
         ],
         "keyPoints": [
-          "AgentCore Payments 中间件在基础设施层强制执行会话级预算，防止智能体失控消费。",
-          "x402 协议支持 HTTP 原生微支付，使按次计费的 API 调用在经济上可行。",
-          "LangSmith 追踪提供支付决策的完整上下文，弥补区块链账本缺少的推理信息。",
-          "评估方法包括单步、全轮和在线评估，用于验证智能体的购买行为是否符合预期。",
-          "设置只需一个配置对象和一个中间件条目，支持任何 LangChain 支持的模型提供商。",
-          "该方案适用于研究代理、多步骤工作流、SaaS 按用户控制和 MCP 服务器消费等场景。"
+          "AI 代理的记忆不是越多越好，而是需要根据模型能力校准剂量。",
+          "强模型（如 DeepSeek-V3.2）适合完整指南集，弱模型（如 gpt-oss-120b）适合精选检索。",
+          "精选检索在弱模型上既提升准确率（+16.1pp TGC）又几乎不增加成本（+5% tokens）。",
+          "饱和模型（如 GLM-5）对记忆无反应，增加上下文纯属浪费。",
+          "提示缓存可以大幅降低完整指南集的生产成本，值得工程优化。",
+          "模型落入哪种模式受多种因素影响，参数数量不是唯一决定因素。"
         ],
         "technicalDetails": [
           {
-            "text": "x402 协议：由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理。它使智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。它解决了传统支付方式在微支付场景下的高成本和低效率问题。",
+            "text": "它是什么：ALKTL-Evolve 是一种让代理从自身历史轨迹中提取行为指南的方法，不更新权重、不需人工标注。怎么工作：代理尝试任务产生轨迹，提取成功和失败中的指南，整合成可复用集，在推理时注入完整或精选部分。为什么重要：它提供了一种廉价、可移植的代理学习方式，适用于多种模型。",
             "basis": "source"
           },
           {
-            "text": "AgentCore Payments 中间件：通过 LangChain 中间件钩子拦截工具调用。当检测到 HTTP 402 响应时，它验证支付金额是否在会话预算内，如果通过则签名支付并重试请求。它使开发者无需修改智能体逻辑即可添加支付功能。",
+            "text": "它是什么：TGC（Task Goal Completion）是任务目标完成率，SGC（Scenario Goal Completion）是场景目标完成率。怎么工作：TGC 统计单个任务完全完成的占比，SGC 要求同一场景的所有变体全部通过才算通过。为什么重要：SGC 更严格，能反映代理的可靠性，且通常比 TGC 提升更大。",
             "basis": "source"
           },
           {
-            "text": "配置对象：包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）、auto_session_budget（会话预算上限）。这些参数定义了支付基础设施的连接和预算控制。",
+            "text": "它是什么：精选检索是一种记忆注入策略，包含固定核心指南和按任务检索的少量指南。怎么工作：固定部分保持稳定，变量部分根据任务相关性检索。为什么重要：在弱模型上既提升准确率又控制成本，如 gpt-oss-120b 的 TGC 提升 +16.1pp，token 仅增加 5%。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 追踪：记录每次支付尝试，包括成功支付和预算拒绝。它提供了区块链账本所缺少的上下文，如智能体为何选择某端点、任务目标和推理过程。这对于治理和审计至关重要。",
-            "basis": "source"
-          },
-          {
-            "text": "评估方法：单步评估测试单个决策，全轮评估评分整个对话轨迹，在线评估对生产追踪运行检查。它们用于验证智能体的购买行为是否符合预期，而不仅仅是控制支出。",
+            "text": "它是什么：提示缓存（prompt caching）是一种生产优化技术，缓存静态输入部分。怎么工作：指南集的静态前缀在步骤间不变，可以缓存，减少重复计算。为什么重要：能大幅降低完整指南集的成本，作者建议设计缓存感知的提示。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "为 LangChain 智能体添加安全的支付功能并验证其行为",
+            "scenario": "开发者想为 AI 代理添加记忆功能，但不确定该注入多少指南。",
             "steps": [
-              "在 AWS 上配置 AgentCore Payments：使用 AgentCore Payments skill（通过 Claude Code、Kiro 或 Codex 引导）或手动使用 AgentCore CLI、AWS SDK 或 Boto3 设置 PaymentManager 和支付工具。",
-              "安装中间件：运行 pip install -U \"bedrock-agentcore[langgraph,strands-agents]\"，注意必须包含 strands-agents，否则导入会失败。",
-              "添加中间件配置：创建一个 AgentCorePaymentsConfig 对象，设置 payment_manager_arn、user_id、payment_instrument_id 和 auto_session_budget（例如 \"5.00\"），然后将其添加到 create_agent 的 middleware 列表中。",
-              "启用 LangSmith 追踪并运行一个付费任务，从追踪中确认能否回答\"这个花费了什么，为什么\"。",
-              "在 LangSmith 上创建一个小型评估数据集，添加在线规则，标记超过阈值的运行。"
+              "先评估目标模型的能力：在基准任务上测试基线 TGC 和 SGC，判断是否有提升空间。",
+              "如果模型较弱，使用精选检索：固定高置信度核心指南，加上按任务检索的少量指南。",
+              "如果模型较强且有提升空间，尝试完整指南集，并利用提示缓存降低 token 成本。",
+              "如果模型已饱和，先不增加记忆，分析剩余失败模式后再决定。"
             ],
             "tools": [
-              "AgentCore Payments middleware",
-              "LangSmith",
-              "Claude Code 或 Kiro 或 Codex",
-              "AgentCore CLI 或 AWS SDK 或 Boto3"
+              "ALKTL-Evolve 库",
+              "AppWorld 基准测试",
+              "提示缓存工具（如 OpenAI 的缓存功能）"
             ],
             "verification": [
-              "从 LangSmith 追踪中能明确看到每次支付的原因和金额",
-              "预算超限时，追踪中显示拒绝记录和智能体的响应",
-              "在线评估规则能自动标记超支或异常支付端点"
+              "对比基线 TGC 和 SGC 分数，看是否有提升。",
+              "监控 token 使用量，确保成本在可接受范围。",
+              "在多个任务上测试，确认提升不是偶然。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "会话级预算",
-          "HTTP 原生微支付",
-          "支付证明",
-          "智能体追踪",
-          "全轮评估",
-          "在线评估"
+          "完整指南集",
+          "精选检索",
+          "提示缓存",
+          "TGC",
+          "SGC"
         ],
         "searchTerms": [
           {
-            "term": "x402 协议",
-            "query": "x402 protocol Coinbase Linux Foundation"
+            "term": "ALKTL-Evolve",
+            "query": "ALKTL-Evolve agent memory"
           },
           {
-            "term": "AgentCore Payments",
-            "query": "Amazon Bedrock AgentCore Payments middleware"
+            "term": "AppWorld",
+            "query": "AppWorld benchmark agent tasks"
           },
           {
-            "term": "LangChain 中间件",
-            "query": "LangChain middleware hooks agent execution"
+            "term": "TGC",
+            "query": "Task Goal Completion metric"
           },
           {
-            "term": "LangSmith 追踪",
-            "query": "LangSmith tracing agent payments"
+            "term": "SGC",
+            "query": "Scenario Goal Completion metric"
+          },
+          {
+            "term": "prompt caching",
+            "query": "prompt caching AI inference cost"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-17T21:57:07.567Z",
+      "analyzedAt": "2026-08-18T21:55:24.246Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "1e88c2bc6390f3ae",
-      "title": "Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things",
-      "url": "https://simonwillison.net/2026/Aug/16/qwen-38-27b/",
-      "summary": "Friday's big release was Qwen 3.8 27B , an Apache 2 licensed 27B parameter vision-capable LLM from Alibaba's Qwen research lab. I've been looking forward to this one: 27B is an excellent size for running a model on a reasonably specced laptop, and its predecessor Qwen 3.6 27B was impressive. Qwen's self-reported benchmarks for this model are eye-opening. They show a boost from both Qwen 3.6 27B and the closed-weight Qwen 3.7-Plus, which was one of Qwen's strongest models of any size as recently as May this year . It will be interesting to hear what independent benchmarks have to say about the model. I've been running the model on two different machines: my 128GB M5 Max MacBook Pro, and an NVIDIA DGX Spark . On both machines I'm running LM Studio and their 17GB Q4_K_M quantized build . I also tried using llama-server directly on the Spark. The default of extra high results in spectacular ",
-      "publishedAt": "2026-08-16T22:00:39.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "c0dbb0bf5ccc0065",
+      "title": "How AI Coding Agents Can Unlock Materials Simulation with NVIDIA ALCHEMI Toolkit",
+      "url": "https://developer.nvidia.com/blog/how-ai-coding-agents-can-unlock-materials-simulation-with-nvidia-alchemi-toolkit/",
+      "summary": "Atomistic simulation requires three things: knowledge of the science, compute-efficient implementation of simulations, and accessible interfaces to the...",
+      "publishedAt": "2026-08-18T18:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "模型与研究",
-      "score": 66,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 17,
-      "category": "opinion",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 83,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 22,
+      "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "a74a42d487e76562718f3182",
+      "candidateScore": 95,
+      "bodyHash": "eca45b08c895e2defb905266",
       "extraction": {
         "method": "readability",
-        "length": 12127,
-        "originalLength": 12127,
+        "length": 15340,
+        "originalLength": 15340,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Qwen 3.8 27B：本地大模型的性能与“过度思考”问题",
+      "displayTitle": "用 AI 编程助手解锁材料模拟：NVIDIA ALCHEMI Toolkit 实战指南",
       "analysis": {
-        "listSummary": "本文介绍了阿里开源的 Qwen 3.8 27B 模型，它是一款 27B 参数、支持视觉的本地大模型。作者 Simon Willison 在 MacBook Pro 和 DGX Spark 上测试后发现，模型默认的“极度高”推理模式会导致严重过度思考，生成简单 SVG 竟耗时 21 分钟。尽管性能强大，能处理边界框、编写代码，但速度较慢。文章建议用户手动调低推理级别，并介绍了通过多 token 预测加速的方法。对关注本地模型实用性的读者很有价值。",
+        "listSummary": "本文介绍如何用 AI 编程助手（如 Claude Code）结合 NVIDIA ALCHEMI Toolkit，从自然语言描述生成 GPU 加速的原子级材料模拟流程。它解决了 MLIP 生态中接口不友好、学习成本高的问题，让你用日常语言描述模拟目标，自动生成可运行的代码。文章通过 45 个模拟流程的基准测试，展示了不同提示词级别对代码质量和物理结果的影响，并给出了实用建议。如果你做材料模拟或想用 AI 辅助科研编程，这篇文章值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "Qwen 3.8 27B 是阿里 Qwen 实验室发布的开源模型，采用 Apache 2 许可，支持视觉功能。27B 参数规模适合在配置较好的笔记本上运行，其前代 Qwen 3.6 27B 已表现不错。作者期待它能在本地设备上提供接近商业模型的性能。",
-              "模型默认的推理级别是“xhigh”，即极度高。这个默认值导致模型在回答简单问题时也会进行大量内部思考，消耗大量上下文 token。作者在 LM Studio 中遇到默认 8192 token 上下文限制，模型甚至会用完这些 token 来思考“最平凡的问题”。",
-              "作者将上下文限制提升到最大 262144 token 后，问题才缓解。例如，生成一个鹈鹕骑自行车的 SVG 图片，模型用了 22276 个推理 token 和 3223 个输出 token，耗时 21 分钟。这展示了默认设置对性能和可用性的严重影响。"
+              "原子级模拟（模拟原子和分子如何运动和相互作用）需要三样东西：科学知识、高效的模拟实现代码、以及容易使用的接口。科学知识只能靠研究者自己，AI 无法替代；但代码和接口这两块，正是 AI 编程助手能帮忙的地方。",
+              "NVIDIA ALCHEMI Toolkit（一个用于构建机器学习原子间势模拟的工具包）解决了代码效率问题，它提供了可组合的 PyTorch 原生模块，支持 GPU 加速和批量处理。但接口问题一直存在：MLIP（机器学习原子间势，用神经网络预测原子间作用力）生态太新，不像传统力场那样有成熟的软件接口，而且它的软件栈和化学家常用的工具不一样，学习成本高。",
+              "AI 编程助手（能根据自然语言描述自动生成并执行代码的工具）可以解决接口问题，但通用助手不了解 ALCHEMI Toolkit 的 API，可能生成看似正确但实际错误的代码。为此，ALCHEMI Toolkit 提供了 agent skills（给 AI 助手的技能包）和参考文件，让助手能按需获取正确的 API 模式，这样你只需要描述你的科学问题，比如材料、条件和模拟约束。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者通过对比实验展示问题：同样提示词，关闭推理后，生成 SVG 仅需 137 秒，输出 3715 token。这说明默认的“xhigh”设置并非必要，反而严重拖慢速度。作者还尝试了更简单的“画一个圆形”提示，模型却生成一个带有动画和复杂设计的“几何研究”作品，完全偏离用户需求。",
-              "作者测试了模型的视觉能力，要求它返回照片中鹈鹕的边界框。模型成功返回了 0-1000 坐标系的 JSON 数据，且匹配度很高。作者还让模型根据这些 JSON 数据构建一个 HTML 工具，用于在图片上标注边界框。模型在默认推理级别下生成了一个功能完整的界面，甚至添加了未要求的示例场景。",
-              "作者还测试了模型驱动编码代理的能力。使用 Pi 代理工具，模型能成功回答关于代码库的问题，并编写 Python 脚本将 JSONL 转录文件转换为 Markdown。这表明模型具备长上下文、代码生成和工具调用能力，足以支持编码工作流。"
+              "文章用一个完整的流程来展示：研究者从自然语言提示开始，AI 助手生成代码和模拟流程，最后在 NVIDIA H200 GPU 上验证结果。系统要求是 Python 3.11-3.14、PyTorch 2.8+、CUDA 12 或 13、Linux 系统、NVIDIA GPU（RTX 20xx 或更新）。安装步骤包括用 uv 创建环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0，下载匹配的 agent skills，然后安装 Claude Code 等助手。",
+              "关键建议是：让 AI 助手在可运行的环境中执行它生成的脚本。这样能消除大部分机械错误（比如导入失败、引用不存在的 API）。在 45 个流程的测试中，这种设置没有出现任何导入错误。相比之下，只读源码（git checkout）也能消除导入错误，但仅用 pip 安装且不让助手运行代码的效果最差。",
+              "提示词的质量至关重要。文章提出了五个级别的提示词（从 Sketch 到 Contract），并给出了最佳实践：总是明确材料、方法和尺度；指定科学目标和交付物，让 skills 提供 API 模式；指定约束而非实现细节；明确要求自我评估和前提检查。例如，不指定恒温器时，脚本默认使用 Langevin 动力学，导致扩散系数被阻尼 3-5 倍；而明确要求 NVE 后，所有脚本都正确使用了测量系综。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者的核心结论是：Qwen 3.8 27B 是一个强大的本地模型，但默认的“xhigh”推理设置是糟糕的起点。他强烈建议用户先使用“low”或关闭推理。关闭推理后，模型速度显著提升，但某些任务（如构建工具）的准确性会下降，说明推理在某些场景下仍有价值。",
-              "性能是主要瓶颈。作者在 M5 Max MacBook Pro 和 DGX Spark 上测得速度约为 15-30 token/秒，远低于托管 API 模型（如 OpenAI 5.6 Sol 的 74 token/秒）。作者指出，这类密集模型需要高内存带宽，而他的机器并非顶尖。",
-              "社区已探索加速方法。模型支持多 token 预测（MTP），通过一个廉价机制预测多个 token，再由主模型验证。作者在 Spark 上使用 llama-server 的 MTP 模式，对比 LM Studio 默认配置，性能提升约 72%。作者认为，17GB 文件能实现如此多功能是“奇迹”，但速度问题限制了其作为日常工具的潜力。"
+              "基准测试包含 45 个模拟流程，覆盖三个工作流（硅的状态方程、氧在 Cu(111) 上的吸附、液态锂的自扩散），五个提示词级别，每个级别三个样本。评估方式有两种：确定性代码特征检查（属性覆盖、API 模式覆盖、可重用性）和在 H200 GPU 上执行作为地面真相。所有 45 个脚本都使用了批量 GPU 执行，38 个通过筛选，15 个生产代表全部完成。",
+              "结果：硅的状态方程在所有提示词级别下结果一致，a0 = 5.4661 Å，B0 = 88.15 GPa，在 PBE 参考窗口内。氧吸附所有级别都找到 fcc 空位最稳定，Eads(fcc) = -4.799 ± 0.004 eV，与参考值（-4.31 eV 在 0.25 单层）有差异，但覆盖度和模型误差可解释。锂扩散中，NVE 系综的结果在实验外推的约 2 倍范围内，而 Langevin 系综低 3-5 倍。提示词具体性提高了代码结构（API 模式覆盖从 0.52 到 0.96），但物理结果不变。",
+              "结论：提示词具体性影响代码结构和成本，但不影响物理结果（只要提示词正确）。但存在局限：AI 助手不会质疑物理上不合理的任务（如要求测量完美晶体 LiF 中的 Li 离子扩散），也不会自动选择适合材料的步长和恒温器。MLIP 基础模型（如 MACE-MPA-0）在训练分布外准确性可能下降，因此每个新化学体系都应验证。此外，统计上可靠的结果可能在物理上无意义（如 Langevin 阻尼），必须与独立参考对比。"
             ]
           }
         ],
         "keyPoints": [
-          "Qwen 3.8 27B 是 Apache 2 许可的 27B 参数视觉模型，17GB 文件即可本地运行。",
-          "模型默认推理级别为“xhigh”，会导致过度思考，生成简单 SVG 耗时 21 分钟。",
-          "关闭推理后，同一任务仅需 2 分钟，但某些复杂任务（如构建工具）准确性下降。",
-          "模型在边界框标注和编码代理任务上表现出色，能生成 JSON 和完整 HTML 工具。",
-          "本地运行速度约 15-30 token/秒，远慢于托管 API，但可通过多 token 预测加速。",
-          "作者建议用户手动调低推理级别，以获得更实用的性能。"
+          "AI 编程助手能根据自然语言描述生成 GPU 加速的模拟代码，但需要提供正确的 API 模式（如通过 agent skills）才能避免错误。",
+          "让 AI 助手在可运行环境中执行生成的代码，能消除导入错误和 API 引用错误，这是提高可靠性的关键。",
+          "提示词应明确材料、方法和尺度，指定科学目标而非实现细节，并要求自我评估和前提检查。",
+          "提示词具体性影响代码结构和成本（如 Contract 级别比 Sketch 多 4 倍 token），但不改变物理结果。",
+          "AI 助手不会质疑物理上不合理的任务，也不会自动选择合适参数，因此科学判断和独立验证仍然必要。",
+          "MLIP 基础模型（如 MACE-MPA-0）的准确性在训练分布外可能下降，每个新体系都应验证。"
         ],
         "technicalDetails": [
           {
-            "text": "Qwen 3.8 27B 是阿里 Qwen 实验室发布的 27B 参数模型，采用 Apache 2 许可，支持视觉输入。它通过自回归方式生成文本，在本地硬件上运行。其重要性在于提供了开源、可本地部署的通用模型。",
+            "text": "ALCHEMI Toolkit 是一个用于构建机器学习原子间势模拟的工具包，提供 PyTorch 原生的可组合模块，支持 GPU 加速和批量执行。它通过提供标准化的 API 模式，让 AI 助手能生成正确的代码。",
             "basis": "source"
           },
           {
-            "text": "推理级别（reasoning_effort）是模型控制思考深度的参数，可选 xhigh、medium、low。xhigh 为默认，适合复杂任务，但消耗大量 token 和时间。用户可通过 API 调整此参数以平衡速度与准确性。",
+            "text": "Agent skills 是给 AI 助手的技能包，包含 API 模式示例，让助手能按需加载正确的用法。它解决了通用助手不了解特定 API 的问题，是提高生成代码准确性的关键。",
             "basis": "source"
           },
           {
-            "text": "多 token 预测（MTP）是一种架构优化，通过辅助机制预测多个未来 token，主模型验证结果。这能显著提升推理速度。作者在 llama-server 中使用 --spec-type draft-mtp 参数启用，性能提升约 72%。",
+            "text": "MACE-MPA-0 是一个 MLIP 基础模型，用于预测原子间势能。它在训练分布内表现良好，但分布外准确性可能下降，因此需要验证。",
             "basis": "source"
           },
           {
-            "text": "LM Studio 是本地模型运行工具，默认上下文限制为 8192 token。作者将其提升至最大 262144 token，以容纳模型的长时间思考。Q4_K_M 是一种量化格式，将模型压缩至 17GB，减少内存占用。",
+            "text": "Langevin 动力学是一种恒温器方法，通过摩擦项控制温度，但会抑制原子运动，导致扩散系数低估 3-5 倍。NVE 系综（恒定能量）则不会，更适合测量扩散。",
+            "basis": "source"
+          },
+          {
+            "text": "批量 GPU 执行是指同时处理多个模拟副本（如多个应变体积或吸附位点），利用 GPU 并行性提高效率。所有 45 个脚本都使用了此方法。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在本地硬件上运行 Qwen 3.8 27B，用于生成 SVG、标注图像或驱动编码代理。",
+            "scenario": "用 AI 编程助手生成 ALCHEMI Toolkit 模拟流程",
             "steps": [
-              "下载 Qwen 3.8 27B 的 Q4_K_M 量化模型文件（约 17GB）。",
-              "在 LM Studio 中加载模型，并将上下文长度设置为最大 262144 token。",
-              "将推理级别调至“low”或关闭，避免过度思考。",
-              "对于视觉任务，使用 0-1000 坐标系的提示词请求边界框。",
-              "如需加速，在 llama-server 中启用 MTP 模式（--spec-type draft-mtp）。"
+              "创建 Python 环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0（根据 CUDA 版本添加 cu13 等额外依赖）",
+              "下载匹配的 agent skills（如 npx degit NVIDIA/nvalchemi-toolkit/.claude/skills#v0.2.0）",
+              "安装并启动 Claude Code（或其他支持 Agent Skills 的助手）",
+              "在提示词中明确材料、方法、尺度、参考约定和交付物，并要求自我评估",
+              "让助手执行生成的脚本，观察输出并检查错误",
+              "在目标 GPU 上运行生产规模的模拟，并与独立参考结果对比"
             ],
             "tools": [
-              "LM Studio",
-              "llama-server",
-              "Pi 代理",
-              "OpenRouter"
+              "uv",
+              "nvalchemi-toolkit",
+              "Claude Code",
+              "NVIDIA H200 GPU",
+              "MACE-MPA-0"
             ],
             "verification": [
-              "生成简单 SVG 的时间从 21 分钟降至 2 分钟。",
-              "边界框 JSON 结果与照片中物体位置匹配。",
-              "编码代理能成功回答代码库问题并生成可运行脚本。",
-              "MTP 模式下，token 生成速度提升约 72%。"
+              "脚本无导入错误，API 调用正确",
+              "模拟结果与实验或 DFT 参考值一致（如硅的 a0 和 B0）",
+              "扩散系数在实验外推的 2 倍范围内（使用 NVE 系综）"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "推理级别",
-          "多 token 预测",
-          "17GB 文件",
-          "边界框",
-          "编码代理",
-          "默认设置"
+          "agent skills",
+          "MACE-MPA-0"
         ],
         "searchTerms": [
           {
-            "term": "Qwen 3.8 27B",
-            "query": "Qwen 3.8 27B 模型"
+            "term": "ALCHEMI Toolkit",
+            "query": "NVIDIA ALCHEMI Toolkit materials simulation"
           },
           {
-            "term": "reasoning_effort",
-            "query": "reasoning_effort 参数"
+            "term": "Agent Skills",
+            "query": "Agent Skills standard AI coding agent"
           },
           {
-            "term": "多 token 预测",
-            "query": "Multi-Token Prediction 大模型"
-          },
-          {
-            "term": "LM Studio",
-            "query": "LM Studio 本地模型运行"
+            "term": "MACE-MPA-0",
+            "query": "MACE-MPA-0 model accuracy"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-17T21:57:22.892Z",
+      "analyzedAt": "2026-08-18T21:55:43.500Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "072f7760e32a9d80",
-      "title": "AgentCore Payments middleware for LangChain agents",
-      "url": "https://www.langchain.com/blog/langchain-agentcore-payments",
-      "summary": "Let your LangChain agents pay for APIs with deterministic session budgets. AgentCore Payments middleware signs x402 payments; LangSmith traces every one.",
-      "publishedAt": "2026-08-17T14:52:56.000Z",
-      "sourceId": "langchain",
-      "sourceName": "LangChain Blog",
-      "sourceSite": "https://blog.langchain.com/",
+      "id": "ade55fa2cd6d0d6f",
+      "title": "How Much Memory Does Your Agent Actually Need?",
+      "url": "https://huggingface.co/blog/ibm-research/altk-evolve-hmm",
+      "summary": "",
+      "publishedAt": "2026-08-18T18:09:38.000Z",
+      "sourceId": "huggingface",
+      "sourceName": "Hugging Face Blog",
+      "sourceSite": "https://huggingface.co/blog",
       "lane": "ai",
-      "accent": "#1c3c3c",
+      "accent": "#ff9d00",
       "topic": "Agent 与自动化",
-      "score": 59,
+      "score": 74,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 18,
+      "readMinutes": 15,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "3a22154a16456ab902ec84a5",
+      "candidateScore": 95,
+      "bodyHash": "191537fc2ebd36c44e715385",
       "extraction": {
         "method": "readability",
-        "length": 12517,
-        "originalLength": 12517,
+        "length": 10665,
+        "originalLength": 10665,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangChain 智能体支付中间件：让 AI 代理安全地按次付费",
+      "displayTitle": "AI 代理需要多少记忆？剂量校准指南",
       "analysis": {
-        "listSummary": "本文介绍 Amazon Bedrock AgentCore Payments 中间件，它让 LangChain 智能体能在预算内自动支付 API 费用。文章解释了为什么需要确定性支付限制、x402 协议如何工作，以及如何通过 LangSmith 追踪和评估支付行为。对于构建需要访问付费数据或服务的 AI 代理的开发者，这是一个实用的解决方案，值得一读。",
+        "listSummary": "本文基于 Hugging Face 的 ALTK-Evolve 实验，探讨 AI 代理（能自主完成多步任务的程序）需要多少“记忆”才能表现最好。作者发现，记忆不是越多越好，而是像药物一样需要根据模型能力调整剂量：强模型适合完整指南集，弱模型适合精简核心加按需检索，饱和模型则无明显提升。文章用 AppWorld 基准测试的 585 个任务验证了观点，并指出精选检索既准确又省钱。对想优化 AI 代理性能的开发者，本文提供了实用的校准思路和成本控制建议，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "智能体经济即将到来，AI 代理不再只使用免费 API，而是需要访问付费服务。这些服务包括高级数据、付费内容和专用计算资源，构成了快速增长的智能体商业生态。",
-              "当智能体可以花钱时，你需要确定性的支付限制：在每次交易前，在基础设施层强制执行会话级预算，而不是依赖 LLM 提示词。这意味着预算控制必须由系统保证，而不是靠模型自觉。",
-              "传统支付方式不适合智能体交易。信用卡处理费用使按美分计价的 API 调用不经济；月度订阅假设人类提前决定购买什么。而 x402 协议（由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理）使 HTTP 原生微支付成为可能，智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。",
-              "目前，大多数团队处理智能体支付有三种方式：使用免费数据源（数据质量差）、为每个 API 编写自定义支付逻辑（每个服务 30 到 50 行包装代码）、或放弃自主性（让智能体向人类请求授权）。这些方法在付费服务数量增长到数千个时都无法扩展。"
+              "本文讨论的是 AI 代理的“记忆”问题：代理在执行任务时，应该从过去的经验中学习多少内容，才能提升未来的表现？作者指出，简单地把所有经验塞给代理并不总是有效，甚至可能拖累性能。",
+              "这里的“记忆”不是指回放过去的对话记录，而是指从代理自身的历史轨迹中提炼出的行为指南，包括有效策略、常见错误和边界情况。这些指南在推理时注入到上下文中，帮助代理做出更好的决策。",
+              "作者通过实验发现，不同能力的模型对记忆的“剂量”需求不同。强模型（如 DeepSeek-V3.2）能吸收完整指南集，性能提升明显；弱模型（如 gpt-oss-120b）则会被大量指南淹没，更适合精简核心加少量按需检索；而已经饱和的模型（如 GLM-5）则没有任何提升。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "AgentCore Payments 中间件提供了完整的解决方案。它通过 LangChain 中间件钩子，在智能体执行的每个步骤拦截模型调用或工具调用，无需修改智能体本身。",
-              "工作流程分为五步：检测（工具调用返回 HTTP 402 和 x402 负载）、验证（检查支付金额是否在会话预算内）、签名（在预算内时通过 AgentCore PaymentManager 签名支付）、重试（携带支付证明重试原始请求）、继续（智能体收到内容，如同第一次就返回 200）。",
-              "设置非常简单：一个配置对象和一个中间件条目。配置包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）和 auto_session_budget（会话预算上限）。",
-              "该中间件适用于多种场景：研究代理访问付费数据库、多步骤工作流在总预算内访问多个付费服务、SaaS 产品中每个用户有自己的预算和支付工具、MCP 服务器消费（当工具返回 402 时自动支付）、浏览器代理导航付费网站。"
+              "作者使用 ALTK-Evolve 方法，让代理从自己的成功和失败轨迹中提取行为指南，并在推理时注入。整个过程不更新模型权重，也不需人工标注，因此成本低且可移植。",
+              "实验在 AppWorld 基准上进行，包含 585 个多步任务（168 个测试正常 + 417 个测试挑战），覆盖日历、消息、支付等 9 个模拟应用。任务用两个指标评分：TGC（任务目标完成率）和 SGC（场景目标完成率，更严格，要求同一场景的所有变体都通过）。",
+              "作者比较了三种配置：基线（无记忆）、完整指南集（每步注入所有指南）、精选检索（固定核心加按任务检索的少量指南）。结果发现，精选检索对弱模型效果最好，完整指南集对强模型效果最好，而饱和模型无论哪种配置都无提升。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "添加成本控制可以限制超支，但不会影响导致交易的智能体行为。例如，智能体可能在预算内但购买决策不合理，或在两步内花光预算然后失败，或发送不应离开系统的数据，或被恶意工具描述重定向到未请求的端点。",
-              "区块链支付账本只记录某工具在某时间向某地址发送了 0.02 美元，不记录智能体为何选择该端点。这种上下文只存在于智能体追踪中，因此治理（避免意外支出）和审计（可查询的购买记录）需要 LangSmith。",
-              "LangSmith 追踪可以显示每个导致支付的步骤：工具调用出现、返回 402、再次出现并带有支付头，周围是用户的原始请求和模型的推理过程。当支付超过预算时，AgentCore 会拒绝，拒绝记录会出现在追踪中，让开发者确认限制是否生效。",
-              "测试方法包括单步评估（测试一个决策）、全轮评估（评分整个对话轨迹，检查总支出、付费调用次数和任务完成度）和在线评估（对生产追踪运行相同检查）。示例中，十个研究任务在预算内完成，但只有七个任务的数据是相关的，说明预算控制不等于数据质量保证。"
+              "数据支持了“剂量依赖能力”的观点：gpt-oss-120b 用精选检索时 TGC 提升 +16.1 个百分点，且仅增加 5% 的 token 消耗；DeepSeek-V3.2 用完整指南集时 TGC 提升 +9.5 个百分点，SGC 提升 +16.1 个百分点。",
+              "成本方面，完整指南集会显著增加输入 token（如 DeepSeek 增加 78%），但精选检索几乎不增加成本。作者建议利用提示缓存（prompt caching）来降低完整指南集的生产成本，因为静态部分可以缓存。",
+              "作者明确表示，模型落入哪种模式并非仅由参数数量决定，还受基准余量、上下文窗口大小、架构、指南质量和任务分布影响，但分离这些因素的研究仍在进行中。结论的边界是：结果只在 AppWorld 上验证，其他基准和真实部署尚在探索。"
             ]
           }
         ],
         "keyPoints": [
-          "AgentCore Payments 中间件在基础设施层强制执行会话级预算，防止智能体失控消费。",
-          "x402 协议支持 HTTP 原生微支付，使按次计费的 API 调用在经济上可行。",
-          "LangSmith 追踪提供支付决策的完整上下文，弥补区块链账本缺少的推理信息。",
-          "评估方法包括单步、全轮和在线评估，用于验证智能体的购买行为是否符合预期。",
-          "设置只需一个配置对象和一个中间件条目，支持任何 LangChain 支持的模型提供商。",
-          "该方案适用于研究代理、多步骤工作流、SaaS 按用户控制和 MCP 服务器消费等场景。"
+          "AI 代理的记忆不是越多越好，而是需要根据模型能力校准剂量。",
+          "强模型（如 DeepSeek-V3.2）适合完整指南集，弱模型（如 gpt-oss-120b）适合精选检索。",
+          "精选检索在弱模型上既提升准确率（+16.1pp TGC）又几乎不增加成本（+5% tokens）。",
+          "饱和模型（如 GLM-5）对记忆无反应，增加上下文纯属浪费。",
+          "提示缓存可以大幅降低完整指南集的生产成本，值得工程优化。",
+          "模型落入哪种模式受多种因素影响，参数数量不是唯一决定因素。"
         ],
         "technicalDetails": [
           {
-            "text": "x402 协议：由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理。它使智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。它解决了传统支付方式在微支付场景下的高成本和低效率问题。",
+            "text": "它是什么：ALKTL-Evolve 是一种让代理从自身历史轨迹中提取行为指南的方法，不更新权重、不需人工标注。怎么工作：代理尝试任务产生轨迹，提取成功和失败中的指南，整合成可复用集，在推理时注入完整或精选部分。为什么重要：它提供了一种廉价、可移植的代理学习方式，适用于多种模型。",
             "basis": "source"
           },
           {
-            "text": "AgentCore Payments 中间件：通过 LangChain 中间件钩子拦截工具调用。当检测到 HTTP 402 响应时，它验证支付金额是否在会话预算内，如果通过则签名支付并重试请求。它使开发者无需修改智能体逻辑即可添加支付功能。",
+            "text": "它是什么：TGC（Task Goal Completion）是任务目标完成率，SGC（Scenario Goal Completion）是场景目标完成率。怎么工作：TGC 统计单个任务完全完成的占比，SGC 要求同一场景的所有变体全部通过才算通过。为什么重要：SGC 更严格，能反映代理的可靠性，且通常比 TGC 提升更大。",
             "basis": "source"
           },
           {
-            "text": "配置对象：包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）、auto_session_budget（会话预算上限）。这些参数定义了支付基础设施的连接和预算控制。",
+            "text": "它是什么：精选检索是一种记忆注入策略，包含固定核心指南和按任务检索的少量指南。怎么工作：固定部分保持稳定，变量部分根据任务相关性检索。为什么重要：在弱模型上既提升准确率又控制成本，如 gpt-oss-120b 的 TGC 提升 +16.1pp，token 仅增加 5%。",
             "basis": "source"
           },
           {
-            "text": "LangSmith 追踪：记录每次支付尝试，包括成功支付和预算拒绝。它提供了区块链账本所缺少的上下文，如智能体为何选择某端点、任务目标和推理过程。这对于治理和审计至关重要。",
-            "basis": "source"
-          },
-          {
-            "text": "评估方法：单步评估测试单个决策，全轮评估评分整个对话轨迹，在线评估对生产追踪运行检查。它们用于验证智能体的购买行为是否符合预期，而不仅仅是控制支出。",
+            "text": "它是什么：提示缓存（prompt caching）是一种生产优化技术，缓存静态输入部分。怎么工作：指南集的静态前缀在步骤间不变，可以缓存，减少重复计算。为什么重要：能大幅降低完整指南集的成本，作者建议设计缓存感知的提示。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "为 LangChain 智能体添加安全的支付功能并验证其行为",
+            "scenario": "开发者想为 AI 代理添加记忆功能，但不确定该注入多少指南。",
             "steps": [
-              "在 AWS 上配置 AgentCore Payments：使用 AgentCore Payments skill（通过 Claude Code、Kiro 或 Codex 引导）或手动使用 AgentCore CLI、AWS SDK 或 Boto3 设置 PaymentManager 和支付工具。",
-              "安装中间件：运行 pip install -U \"bedrock-agentcore[langgraph,strands-agents]\"，注意必须包含 strands-agents，否则导入会失败。",
-              "添加中间件配置：创建一个 AgentCorePaymentsConfig 对象，设置 payment_manager_arn、user_id、payment_instrument_id 和 auto_session_budget（例如 \"5.00\"），然后将其添加到 create_agent 的 middleware 列表中。",
-              "启用 LangSmith 追踪并运行一个付费任务，从追踪中确认能否回答\"这个花费了什么，为什么\"。",
-              "在 LangSmith 上创建一个小型评估数据集，添加在线规则，标记超过阈值的运行。"
+              "先评估目标模型的能力：在基准任务上测试基线 TGC 和 SGC，判断是否有提升空间。",
+              "如果模型较弱，使用精选检索：固定高置信度核心指南，加上按任务检索的少量指南。",
+              "如果模型较强且有提升空间，尝试完整指南集，并利用提示缓存降低 token 成本。",
+              "如果模型已饱和，先不增加记忆，分析剩余失败模式后再决定。"
             ],
             "tools": [
-              "AgentCore Payments middleware",
-              "LangSmith",
-              "Claude Code 或 Kiro 或 Codex",
-              "AgentCore CLI 或 AWS SDK 或 Boto3"
+              "ALKTL-Evolve 库",
+              "AppWorld 基准测试",
+              "提示缓存工具（如 OpenAI 的缓存功能）"
             ],
             "verification": [
-              "从 LangSmith 追踪中能明确看到每次支付的原因和金额",
-              "预算超限时，追踪中显示拒绝记录和智能体的响应",
-              "在线评估规则能自动标记超支或异常支付端点"
+              "对比基线 TGC 和 SGC 分数，看是否有提升。",
+              "监控 token 使用量，确保成本在可接受范围。",
+              "在多个任务上测试，确认提升不是偶然。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "会话级预算",
-          "HTTP 原生微支付",
-          "支付证明",
-          "智能体追踪",
-          "全轮评估",
-          "在线评估"
+          "完整指南集",
+          "精选检索",
+          "提示缓存",
+          "TGC",
+          "SGC"
         ],
         "searchTerms": [
           {
-            "term": "x402 协议",
-            "query": "x402 protocol Coinbase Linux Foundation"
+            "term": "ALKTL-Evolve",
+            "query": "ALKTL-Evolve agent memory"
           },
           {
-            "term": "AgentCore Payments",
-            "query": "Amazon Bedrock AgentCore Payments middleware"
+            "term": "AppWorld",
+            "query": "AppWorld benchmark agent tasks"
           },
           {
-            "term": "LangChain 中间件",
-            "query": "LangChain middleware hooks agent execution"
+            "term": "TGC",
+            "query": "Task Goal Completion metric"
           },
           {
-            "term": "LangSmith 追踪",
-            "query": "LangSmith tracing agent payments"
+            "term": "SGC",
+            "query": "Scenario Goal Completion metric"
+          },
+          {
+            "term": "prompt caching",
+            "query": "prompt caching AI inference cost"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-17T21:57:07.567Z",
+      "analyzedAt": "2026-08-18T21:55:24.246Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "1e88c2bc6390f3ae",
-      "title": "Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things",
-      "url": "https://simonwillison.net/2026/Aug/16/qwen-38-27b/",
-      "summary": "Friday's big release was Qwen 3.8 27B , an Apache 2 licensed 27B parameter vision-capable LLM from Alibaba's Qwen research lab. I've been looking forward to this one: 27B is an excellent size for running a model on a reasonably specced laptop, and its predecessor Qwen 3.6 27B was impressive. Qwen's self-reported benchmarks for this model are eye-opening. They show a boost from both Qwen 3.6 27B and the closed-weight Qwen 3.7-Plus, which was one of Qwen's strongest models of any size as recently as May this year . It will be interesting to hear what independent benchmarks have to say about the model. I've been running the model on two different machines: my 128GB M5 Max MacBook Pro, and an NVIDIA DGX Spark . On both machines I'm running LM Studio and their 17GB Q4_K_M quantized build . I also tried using llama-server directly on the Spark. The default of extra high results in spectacular ",
-      "publishedAt": "2026-08-16T22:00:39.000Z",
-      "sourceId": "simon-willison",
-      "sourceName": "Simon Willison",
-      "sourceSite": "https://simonwillison.net/",
+      "id": "c0dbb0bf5ccc0065",
+      "title": "How AI Coding Agents Can Unlock Materials Simulation with NVIDIA ALCHEMI Toolkit",
+      "url": "https://developer.nvidia.com/blog/how-ai-coding-agents-can-unlock-materials-simulation-with-nvidia-alchemi-toolkit/",
+      "summary": "Atomistic simulation requires three things: knowledge of the science, compute-efficient implementation of simulations, and accessible interfaces to the...",
+      "publishedAt": "2026-08-18T18:00:00.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#b36b00",
-      "topic": "模型与研究",
-      "score": 66,
-      "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-      "readMinutes": 17,
-      "category": "opinion",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 83,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 22,
+      "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 79,
-      "bodyHash": "a74a42d487e76562718f3182",
+      "candidateScore": 95,
+      "bodyHash": "eca45b08c895e2defb905266",
       "extraction": {
         "method": "readability",
-        "length": 12127,
-        "originalLength": 12127,
+        "length": 15340,
+        "originalLength": 15340,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "Qwen 3.8 27B：本地大模型的性能与“过度思考”问题",
+      "displayTitle": "用 AI 编程助手解锁材料模拟：NVIDIA ALCHEMI Toolkit 实战指南",
       "analysis": {
-        "listSummary": "本文介绍了阿里开源的 Qwen 3.8 27B 模型，它是一款 27B 参数、支持视觉的本地大模型。作者 Simon Willison 在 MacBook Pro 和 DGX Spark 上测试后发现，模型默认的“极度高”推理模式会导致严重过度思考，生成简单 SVG 竟耗时 21 分钟。尽管性能强大，能处理边界框、编写代码，但速度较慢。文章建议用户手动调低推理级别，并介绍了通过多 token 预测加速的方法。对关注本地模型实用性的读者很有价值。",
+        "listSummary": "本文介绍如何用 AI 编程助手（如 Claude Code）结合 NVIDIA ALCHEMI Toolkit，从自然语言描述生成 GPU 加速的原子级材料模拟流程。它解决了 MLIP 生态中接口不友好、学习成本高的问题，让你用日常语言描述模拟目标，自动生成可运行的代码。文章通过 45 个模拟流程的基准测试，展示了不同提示词级别对代码质量和物理结果的影响，并给出了实用建议。如果你做材料模拟或想用 AI 辅助科研编程，这篇文章值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "Qwen 3.8 27B 是阿里 Qwen 实验室发布的开源模型，采用 Apache 2 许可，支持视觉功能。27B 参数规模适合在配置较好的笔记本上运行，其前代 Qwen 3.6 27B 已表现不错。作者期待它能在本地设备上提供接近商业模型的性能。",
-              "模型默认的推理级别是“xhigh”，即极度高。这个默认值导致模型在回答简单问题时也会进行大量内部思考，消耗大量上下文 token。作者在 LM Studio 中遇到默认 8192 token 上下文限制，模型甚至会用完这些 token 来思考“最平凡的问题”。",
-              "作者将上下文限制提升到最大 262144 token 后，问题才缓解。例如，生成一个鹈鹕骑自行车的 SVG 图片，模型用了 22276 个推理 token 和 3223 个输出 token，耗时 21 分钟。这展示了默认设置对性能和可用性的严重影响。"
+              "原子级模拟（模拟原子和分子如何运动和相互作用）需要三样东西：科学知识、高效的模拟实现代码、以及容易使用的接口。科学知识只能靠研究者自己，AI 无法替代；但代码和接口这两块，正是 AI 编程助手能帮忙的地方。",
+              "NVIDIA ALCHEMI Toolkit（一个用于构建机器学习原子间势模拟的工具包）解决了代码效率问题，它提供了可组合的 PyTorch 原生模块，支持 GPU 加速和批量处理。但接口问题一直存在：MLIP（机器学习原子间势，用神经网络预测原子间作用力）生态太新，不像传统力场那样有成熟的软件接口，而且它的软件栈和化学家常用的工具不一样，学习成本高。",
+              "AI 编程助手（能根据自然语言描述自动生成并执行代码的工具）可以解决接口问题，但通用助手不了解 ALCHEMI Toolkit 的 API，可能生成看似正确但实际错误的代码。为此，ALCHEMI Toolkit 提供了 agent skills（给 AI 助手的技能包）和参考文件，让助手能按需获取正确的 API 模式，这样你只需要描述你的科学问题，比如材料、条件和模拟约束。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "作者通过对比实验展示问题：同样提示词，关闭推理后，生成 SVG 仅需 137 秒，输出 3715 token。这说明默认的“xhigh”设置并非必要，反而严重拖慢速度。作者还尝试了更简单的“画一个圆形”提示，模型却生成一个带有动画和复杂设计的“几何研究”作品，完全偏离用户需求。",
-              "作者测试了模型的视觉能力，要求它返回照片中鹈鹕的边界框。模型成功返回了 0-1000 坐标系的 JSON 数据，且匹配度很高。作者还让模型根据这些 JSON 数据构建一个 HTML 工具，用于在图片上标注边界框。模型在默认推理级别下生成了一个功能完整的界面，甚至添加了未要求的示例场景。",
-              "作者还测试了模型驱动编码代理的能力。使用 Pi 代理工具，模型能成功回答关于代码库的问题，并编写 Python 脚本将 JSONL 转录文件转换为 Markdown。这表明模型具备长上下文、代码生成和工具调用能力，足以支持编码工作流。"
+              "文章用一个完整的流程来展示：研究者从自然语言提示开始，AI 助手生成代码和模拟流程，最后在 NVIDIA H200 GPU 上验证结果。系统要求是 Python 3.11-3.14、PyTorch 2.8+、CUDA 12 或 13、Linux 系统、NVIDIA GPU（RTX 20xx 或更新）。安装步骤包括用 uv 创建环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0，下载匹配的 agent skills，然后安装 Claude Code 等助手。",
+              "关键建议是：让 AI 助手在可运行的环境中执行它生成的脚本。这样能消除大部分机械错误（比如导入失败、引用不存在的 API）。在 45 个流程的测试中，这种设置没有出现任何导入错误。相比之下，只读源码（git checkout）也能消除导入错误，但仅用 pip 安装且不让助手运行代码的效果最差。",
+              "提示词的质量至关重要。文章提出了五个级别的提示词（从 Sketch 到 Contract），并给出了最佳实践：总是明确材料、方法和尺度；指定科学目标和交付物，让 skills 提供 API 模式；指定约束而非实现细节；明确要求自我评估和前提检查。例如，不指定恒温器时，脚本默认使用 Langevin 动力学，导致扩散系数被阻尼 3-5 倍；而明确要求 NVE 后，所有脚本都正确使用了测量系综。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "作者的核心结论是：Qwen 3.8 27B 是一个强大的本地模型，但默认的“xhigh”推理设置是糟糕的起点。他强烈建议用户先使用“low”或关闭推理。关闭推理后，模型速度显著提升，但某些任务（如构建工具）的准确性会下降，说明推理在某些场景下仍有价值。",
-              "性能是主要瓶颈。作者在 M5 Max MacBook Pro 和 DGX Spark 上测得速度约为 15-30 token/秒，远低于托管 API 模型（如 OpenAI 5.6 Sol 的 74 token/秒）。作者指出，这类密集模型需要高内存带宽，而他的机器并非顶尖。",
-              "社区已探索加速方法。模型支持多 token 预测（MTP），通过一个廉价机制预测多个 token，再由主模型验证。作者在 Spark 上使用 llama-server 的 MTP 模式，对比 LM Studio 默认配置，性能提升约 72%。作者认为，17GB 文件能实现如此多功能是“奇迹”，但速度问题限制了其作为日常工具的潜力。"
+              "基准测试包含 45 个模拟流程，覆盖三个工作流（硅的状态方程、氧在 Cu(111) 上的吸附、液态锂的自扩散），五个提示词级别，每个级别三个样本。评估方式有两种：确定性代码特征检查（属性覆盖、API 模式覆盖、可重用性）和在 H200 GPU 上执行作为地面真相。所有 45 个脚本都使用了批量 GPU 执行，38 个通过筛选，15 个生产代表全部完成。",
+              "结果：硅的状态方程在所有提示词级别下结果一致，a0 = 5.4661 Å，B0 = 88.15 GPa，在 PBE 参考窗口内。氧吸附所有级别都找到 fcc 空位最稳定，Eads(fcc) = -4.799 ± 0.004 eV，与参考值（-4.31 eV 在 0.25 单层）有差异，但覆盖度和模型误差可解释。锂扩散中，NVE 系综的结果在实验外推的约 2 倍范围内，而 Langevin 系综低 3-5 倍。提示词具体性提高了代码结构（API 模式覆盖从 0.52 到 0.96），但物理结果不变。",
+              "结论：提示词具体性影响代码结构和成本，但不影响物理结果（只要提示词正确）。但存在局限：AI 助手不会质疑物理上不合理的任务（如要求测量完美晶体 LiF 中的 Li 离子扩散），也不会自动选择适合材料的步长和恒温器。MLIP 基础模型（如 MACE-MPA-0）在训练分布外准确性可能下降，因此每个新化学体系都应验证。此外，统计上可靠的结果可能在物理上无意义（如 Langevin 阻尼），必须与独立参考对比。"
             ]
           }
         ],
         "keyPoints": [
-          "Qwen 3.8 27B 是 Apache 2 许可的 27B 参数视觉模型，17GB 文件即可本地运行。",
-          "模型默认推理级别为“xhigh”，会导致过度思考，生成简单 SVG 耗时 21 分钟。",
-          "关闭推理后，同一任务仅需 2 分钟，但某些复杂任务（如构建工具）准确性下降。",
-          "模型在边界框标注和编码代理任务上表现出色，能生成 JSON 和完整 HTML 工具。",
-          "本地运行速度约 15-30 token/秒，远慢于托管 API，但可通过多 token 预测加速。",
-          "作者建议用户手动调低推理级别，以获得更实用的性能。"
+          "AI 编程助手能根据自然语言描述生成 GPU 加速的模拟代码，但需要提供正确的 API 模式（如通过 agent skills）才能避免错误。",
+          "让 AI 助手在可运行环境中执行生成的代码，能消除导入错误和 API 引用错误，这是提高可靠性的关键。",
+          "提示词应明确材料、方法和尺度，指定科学目标而非实现细节，并要求自我评估和前提检查。",
+          "提示词具体性影响代码结构和成本（如 Contract 级别比 Sketch 多 4 倍 token），但不改变物理结果。",
+          "AI 助手不会质疑物理上不合理的任务，也不会自动选择合适参数，因此科学判断和独立验证仍然必要。",
+          "MLIP 基础模型（如 MACE-MPA-0）的准确性在训练分布外可能下降，每个新体系都应验证。"
         ],
         "technicalDetails": [
           {
-            "text": "Qwen 3.8 27B 是阿里 Qwen 实验室发布的 27B 参数模型，采用 Apache 2 许可，支持视觉输入。它通过自回归方式生成文本，在本地硬件上运行。其重要性在于提供了开源、可本地部署的通用模型。",
+            "text": "ALCHEMI Toolkit 是一个用于构建机器学习原子间势模拟的工具包，提供 PyTorch 原生的可组合模块，支持 GPU 加速和批量执行。它通过提供标准化的 API 模式，让 AI 助手能生成正确的代码。",
             "basis": "source"
           },
           {
-            "text": "推理级别（reasoning_effort）是模型控制思考深度的参数，可选 xhigh、medium、low。xhigh 为默认，适合复杂任务，但消耗大量 token 和时间。用户可通过 API 调整此参数以平衡速度与准确性。",
+            "text": "Agent skills 是给 AI 助手的技能包，包含 API 模式示例，让助手能按需加载正确的用法。它解决了通用助手不了解特定 API 的问题，是提高生成代码准确性的关键。",
             "basis": "source"
           },
           {
-            "text": "多 token 预测（MTP）是一种架构优化，通过辅助机制预测多个未来 token，主模型验证结果。这能显著提升推理速度。作者在 llama-server 中使用 --spec-type draft-mtp 参数启用，性能提升约 72%。",
+            "text": "MACE-MPA-0 是一个 MLIP 基础模型，用于预测原子间势能。它在训练分布内表现良好，但分布外准确性可能下降，因此需要验证。",
             "basis": "source"
           },
           {
-            "text": "LM Studio 是本地模型运行工具，默认上下文限制为 8192 token。作者将其提升至最大 262144 token，以容纳模型的长时间思考。Q4_K_M 是一种量化格式，将模型压缩至 17GB，减少内存占用。",
+            "text": "Langevin 动力学是一种恒温器方法，通过摩擦项控制温度，但会抑制原子运动，导致扩散系数低估 3-5 倍。NVE 系综（恒定能量）则不会，更适合测量扩散。",
+            "basis": "source"
+          },
+          {
+            "text": "批量 GPU 执行是指同时处理多个模拟副本（如多个应变体积或吸附位点），利用 GPU 并行性提高效率。所有 45 个脚本都使用了此方法。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "在本地硬件上运行 Qwen 3.8 27B，用于生成 SVG、标注图像或驱动编码代理。",
+            "scenario": "用 AI 编程助手生成 ALCHEMI Toolkit 模拟流程",
             "steps": [
-              "下载 Qwen 3.8 27B 的 Q4_K_M 量化模型文件（约 17GB）。",
-              "在 LM Studio 中加载模型，并将上下文长度设置为最大 262144 token。",
-              "将推理级别调至“low”或关闭，避免过度思考。",
-              "对于视觉任务，使用 0-1000 坐标系的提示词请求边界框。",
-              "如需加速，在 llama-server 中启用 MTP 模式（--spec-type draft-mtp）。"
+              "创建 Python 环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0（根据 CUDA 版本添加 cu13 等额外依赖）",
+              "下载匹配的 agent skills（如 npx degit NVIDIA/nvalchemi-toolkit/.claude/skills#v0.2.0）",
+              "安装并启动 Claude Code（或其他支持 Agent Skills 的助手）",
+              "在提示词中明确材料、方法、尺度、参考约定和交付物，并要求自我评估",
+              "让助手执行生成的脚本，观察输出并检查错误",
+              "在目标 GPU 上运行生产规模的模拟，并与独立参考结果对比"
             ],
             "tools": [
-              "LM Studio",
-              "llama-server",
-              "Pi 代理",
-              "OpenRouter"
+              "uv",
+              "nvalchemi-toolkit",
+              "Claude Code",
+              "NVIDIA H200 GPU",
+              "MACE-MPA-0"
             ],
             "verification": [
-              "生成简单 SVG 的时间从 21 分钟降至 2 分钟。",
-              "边界框 JSON 结果与照片中物体位置匹配。",
-              "编码代理能成功回答代码库问题并生成可运行脚本。",
-              "MTP 模式下，token 生成速度提升约 72%。"
+              "脚本无导入错误，API 调用正确",
+              "模拟结果与实验或 DFT 参考值一致（如硅的 a0 和 B0）",
+              "扩散系数在实验外推的 2 倍范围内（使用 NVE 系综）"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "推理级别",
-          "多 token 预测",
-          "17GB 文件",
-          "边界框",
-          "编码代理",
-          "默认设置"
+          "agent skills",
+          "MACE-MPA-0"
         ],
         "searchTerms": [
           {
-            "term": "Qwen 3.8 27B",
-            "query": "Qwen 3.8 27B 模型"
+            "term": "ALCHEMI Toolkit",
+            "query": "NVIDIA ALCHEMI Toolkit materials simulation"
           },
           {
-            "term": "reasoning_effort",
-            "query": "reasoning_effort 参数"
+            "term": "Agent Skills",
+            "query": "Agent Skills standard AI coding agent"
           },
           {
-            "term": "多 token 预测",
-            "query": "Multi-Token Prediction 大模型"
-          },
-          {
-            "term": "LM Studio",
-            "query": "LM Studio 本地模型运行"
+            "term": "MACE-MPA-0",
+            "query": "MACE-MPA-0 model accuracy"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-17T21:57:22.892Z",
+      "analyzedAt": "2026-08-18T21:55:43.500Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "072f7760e32a9d80",
-        "title": "AgentCore Payments middleware for LangChain agents",
-        "url": "https://www.langchain.com/blog/langchain-agentcore-payments",
-        "summary": "Let your LangChain agents pay for APIs with deterministic session budgets. AgentCore Payments middleware signs x402 payments; LangSmith traces every one.",
-        "publishedAt": "2026-08-17T14:52:56.000Z",
-        "sourceId": "langchain",
-        "sourceName": "LangChain Blog",
-        "sourceSite": "https://blog.langchain.com/",
+        "id": "ade55fa2cd6d0d6f",
+        "title": "How Much Memory Does Your Agent Actually Need?",
+        "url": "https://huggingface.co/blog/ibm-research/altk-evolve-hmm",
+        "summary": "",
+        "publishedAt": "2026-08-18T18:09:38.000Z",
+        "sourceId": "huggingface",
+        "sourceName": "Hugging Face Blog",
+        "sourceSite": "https://huggingface.co/blog",
         "lane": "ai",
-        "accent": "#1c3c3c",
+        "accent": "#ff9d00",
         "topic": "Agent 与自动化",
-        "score": 59,
+        "score": 74,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 18,
+        "readMinutes": 15,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 92,
-        "bodyHash": "3a22154a16456ab902ec84a5",
+        "candidateScore": 95,
+        "bodyHash": "191537fc2ebd36c44e715385",
         "extraction": {
           "method": "readability",
-          "length": 12517,
-          "originalLength": 12517,
+          "length": 10665,
+          "originalLength": 10665,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LangChain 智能体支付中间件：让 AI 代理安全地按次付费",
+        "displayTitle": "AI 代理需要多少记忆？剂量校准指南",
         "analysis": {
-          "listSummary": "本文介绍 Amazon Bedrock AgentCore Payments 中间件，它让 LangChain 智能体能在预算内自动支付 API 费用。文章解释了为什么需要确定性支付限制、x402 协议如何工作，以及如何通过 LangSmith 追踪和评估支付行为。对于构建需要访问付费数据或服务的 AI 代理的开发者，这是一个实用的解决方案，值得一读。",
+          "listSummary": "本文基于 Hugging Face 的 ALTK-Evolve 实验，探讨 AI 代理（能自主完成多步任务的程序）需要多少“记忆”才能表现最好。作者发现，记忆不是越多越好，而是像药物一样需要根据模型能力调整剂量：强模型适合完整指南集，弱模型适合精简核心加按需检索，饱和模型则无明显提升。文章用 AppWorld 基准测试的 585 个任务验证了观点，并指出精选检索既准确又省钱。对想优化 AI 代理性能的开发者，本文提供了实用的校准思路和成本控制建议，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "智能体经济即将到来，AI 代理不再只使用免费 API，而是需要访问付费服务。这些服务包括高级数据、付费内容和专用计算资源，构成了快速增长的智能体商业生态。",
-                "当智能体可以花钱时，你需要确定性的支付限制：在每次交易前，在基础设施层强制执行会话级预算，而不是依赖 LLM 提示词。这意味着预算控制必须由系统保证，而不是靠模型自觉。",
-                "传统支付方式不适合智能体交易。信用卡处理费用使按美分计价的 API 调用不经济；月度订阅假设人类提前决定购买什么。而 x402 协议（由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理）使 HTTP 原生微支付成为可能，智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。",
-                "目前，大多数团队处理智能体支付有三种方式：使用免费数据源（数据质量差）、为每个 API 编写自定义支付逻辑（每个服务 30 到 50 行包装代码）、或放弃自主性（让智能体向人类请求授权）。这些方法在付费服务数量增长到数千个时都无法扩展。"
+                "本文讨论的是 AI 代理的“记忆”问题：代理在执行任务时，应该从过去的经验中学习多少内容，才能提升未来的表现？作者指出，简单地把所有经验塞给代理并不总是有效，甚至可能拖累性能。",
+                "这里的“记忆”不是指回放过去的对话记录，而是指从代理自身的历史轨迹中提炼出的行为指南，包括有效策略、常见错误和边界情况。这些指南在推理时注入到上下文中，帮助代理做出更好的决策。",
+                "作者通过实验发现，不同能力的模型对记忆的“剂量”需求不同。强模型（如 DeepSeek-V3.2）能吸收完整指南集，性能提升明显；弱模型（如 gpt-oss-120b）则会被大量指南淹没，更适合精简核心加少量按需检索；而已经饱和的模型（如 GLM-5）则没有任何提升。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "AgentCore Payments 中间件提供了完整的解决方案。它通过 LangChain 中间件钩子，在智能体执行的每个步骤拦截模型调用或工具调用，无需修改智能体本身。",
-                "工作流程分为五步：检测（工具调用返回 HTTP 402 和 x402 负载）、验证（检查支付金额是否在会话预算内）、签名（在预算内时通过 AgentCore PaymentManager 签名支付）、重试（携带支付证明重试原始请求）、继续（智能体收到内容，如同第一次就返回 200）。",
-                "设置非常简单：一个配置对象和一个中间件条目。配置包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）和 auto_session_budget（会话预算上限）。",
-                "该中间件适用于多种场景：研究代理访问付费数据库、多步骤工作流在总预算内访问多个付费服务、SaaS 产品中每个用户有自己的预算和支付工具、MCP 服务器消费（当工具返回 402 时自动支付）、浏览器代理导航付费网站。"
+                "作者使用 ALTK-Evolve 方法，让代理从自己的成功和失败轨迹中提取行为指南，并在推理时注入。整个过程不更新模型权重，也不需人工标注，因此成本低且可移植。",
+                "实验在 AppWorld 基准上进行，包含 585 个多步任务（168 个测试正常 + 417 个测试挑战），覆盖日历、消息、支付等 9 个模拟应用。任务用两个指标评分：TGC（任务目标完成率）和 SGC（场景目标完成率，更严格，要求同一场景的所有变体都通过）。",
+                "作者比较了三种配置：基线（无记忆）、完整指南集（每步注入所有指南）、精选检索（固定核心加按任务检索的少量指南）。结果发现，精选检索对弱模型效果最好，完整指南集对强模型效果最好，而饱和模型无论哪种配置都无提升。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "添加成本控制可以限制超支，但不会影响导致交易的智能体行为。例如，智能体可能在预算内但购买决策不合理，或在两步内花光预算然后失败，或发送不应离开系统的数据，或被恶意工具描述重定向到未请求的端点。",
-                "区块链支付账本只记录某工具在某时间向某地址发送了 0.02 美元，不记录智能体为何选择该端点。这种上下文只存在于智能体追踪中，因此治理（避免意外支出）和审计（可查询的购买记录）需要 LangSmith。",
-                "LangSmith 追踪可以显示每个导致支付的步骤：工具调用出现、返回 402、再次出现并带有支付头，周围是用户的原始请求和模型的推理过程。当支付超过预算时，AgentCore 会拒绝，拒绝记录会出现在追踪中，让开发者确认限制是否生效。",
-                "测试方法包括单步评估（测试一个决策）、全轮评估（评分整个对话轨迹，检查总支出、付费调用次数和任务完成度）和在线评估（对生产追踪运行相同检查）。示例中，十个研究任务在预算内完成，但只有七个任务的数据是相关的，说明预算控制不等于数据质量保证。"
+                "数据支持了“剂量依赖能力”的观点：gpt-oss-120b 用精选检索时 TGC 提升 +16.1 个百分点，且仅增加 5% 的 token 消耗；DeepSeek-V3.2 用完整指南集时 TGC 提升 +9.5 个百分点，SGC 提升 +16.1 个百分点。",
+                "成本方面，完整指南集会显著增加输入 token（如 DeepSeek 增加 78%），但精选检索几乎不增加成本。作者建议利用提示缓存（prompt caching）来降低完整指南集的生产成本，因为静态部分可以缓存。",
+                "作者明确表示，模型落入哪种模式并非仅由参数数量决定，还受基准余量、上下文窗口大小、架构、指南质量和任务分布影响，但分离这些因素的研究仍在进行中。结论的边界是：结果只在 AppWorld 上验证，其他基准和真实部署尚在探索。"
               ]
             }
           ],
           "keyPoints": [
-            "AgentCore Payments 中间件在基础设施层强制执行会话级预算，防止智能体失控消费。",
-            "x402 协议支持 HTTP 原生微支付，使按次计费的 API 调用在经济上可行。",
-            "LangSmith 追踪提供支付决策的完整上下文，弥补区块链账本缺少的推理信息。",
-            "评估方法包括单步、全轮和在线评估，用于验证智能体的购买行为是否符合预期。",
-            "设置只需一个配置对象和一个中间件条目，支持任何 LangChain 支持的模型提供商。",
-            "该方案适用于研究代理、多步骤工作流、SaaS 按用户控制和 MCP 服务器消费等场景。"
+            "AI 代理的记忆不是越多越好，而是需要根据模型能力校准剂量。",
+            "强模型（如 DeepSeek-V3.2）适合完整指南集，弱模型（如 gpt-oss-120b）适合精选检索。",
+            "精选检索在弱模型上既提升准确率（+16.1pp TGC）又几乎不增加成本（+5% tokens）。",
+            "饱和模型（如 GLM-5）对记忆无反应，增加上下文纯属浪费。",
+            "提示缓存可以大幅降低完整指南集的生产成本，值得工程优化。",
+            "模型落入哪种模式受多种因素影响，参数数量不是唯一决定因素。"
           ],
           "technicalDetails": [
             {
-              "text": "x402 协议：由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理。它使智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。它解决了传统支付方式在微支付场景下的高成本和低效率问题。",
+              "text": "它是什么：ALKTL-Evolve 是一种让代理从自身历史轨迹中提取行为指南的方法，不更新权重、不需人工标注。怎么工作：代理尝试任务产生轨迹，提取成功和失败中的指南，整合成可复用集，在推理时注入完整或精选部分。为什么重要：它提供了一种廉价、可移植的代理学习方式，适用于多种模型。",
               "basis": "source"
             },
             {
-              "text": "AgentCore Payments 中间件：通过 LangChain 中间件钩子拦截工具调用。当检测到 HTTP 402 响应时，它验证支付金额是否在会话预算内，如果通过则签名支付并重试请求。它使开发者无需修改智能体逻辑即可添加支付功能。",
+              "text": "它是什么：TGC（Task Goal Completion）是任务目标完成率，SGC（Scenario Goal Completion）是场景目标完成率。怎么工作：TGC 统计单个任务完全完成的占比，SGC 要求同一场景的所有变体全部通过才算通过。为什么重要：SGC 更严格，能反映代理的可靠性，且通常比 TGC 提升更大。",
               "basis": "source"
             },
             {
-              "text": "配置对象：包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）、auto_session_budget（会话预算上限）。这些参数定义了支付基础设施的连接和预算控制。",
+              "text": "它是什么：精选检索是一种记忆注入策略，包含固定核心指南和按任务检索的少量指南。怎么工作：固定部分保持稳定，变量部分根据任务相关性检索。为什么重要：在弱模型上既提升准确率又控制成本，如 gpt-oss-120b 的 TGC 提升 +16.1pp，token 仅增加 5%。",
               "basis": "source"
             },
             {
-              "text": "LangSmith 追踪：记录每次支付尝试，包括成功支付和预算拒绝。它提供了区块链账本所缺少的上下文，如智能体为何选择某端点、任务目标和推理过程。这对于治理和审计至关重要。",
-              "basis": "source"
-            },
-            {
-              "text": "评估方法：单步评估测试单个决策，全轮评估评分整个对话轨迹，在线评估对生产追踪运行检查。它们用于验证智能体的购买行为是否符合预期，而不仅仅是控制支出。",
+              "text": "它是什么：提示缓存（prompt caching）是一种生产优化技术，缓存静态输入部分。怎么工作：指南集的静态前缀在步骤间不变，可以缓存，减少重复计算。为什么重要：能大幅降低完整指南集的成本，作者建议设计缓存感知的提示。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "为 LangChain 智能体添加安全的支付功能并验证其行为",
+              "scenario": "开发者想为 AI 代理添加记忆功能，但不确定该注入多少指南。",
               "steps": [
-                "在 AWS 上配置 AgentCore Payments：使用 AgentCore Payments skill（通过 Claude Code、Kiro 或 Codex 引导）或手动使用 AgentCore CLI、AWS SDK 或 Boto3 设置 PaymentManager 和支付工具。",
-                "安装中间件：运行 pip install -U \"bedrock-agentcore[langgraph,strands-agents]\"，注意必须包含 strands-agents，否则导入会失败。",
-                "添加中间件配置：创建一个 AgentCorePaymentsConfig 对象，设置 payment_manager_arn、user_id、payment_instrument_id 和 auto_session_budget（例如 \"5.00\"），然后将其添加到 create_agent 的 middleware 列表中。",
-                "启用 LangSmith 追踪并运行一个付费任务，从追踪中确认能否回答\"这个花费了什么，为什么\"。",
-                "在 LangSmith 上创建一个小型评估数据集，添加在线规则，标记超过阈值的运行。"
+                "先评估目标模型的能力：在基准任务上测试基线 TGC 和 SGC，判断是否有提升空间。",
+                "如果模型较弱，使用精选检索：固定高置信度核心指南，加上按任务检索的少量指南。",
+                "如果模型较强且有提升空间，尝试完整指南集，并利用提示缓存降低 token 成本。",
+                "如果模型已饱和，先不增加记忆，分析剩余失败模式后再决定。"
               ],
               "tools": [
-                "AgentCore Payments middleware",
-                "LangSmith",
-                "Claude Code 或 Kiro 或 Codex",
-                "AgentCore CLI 或 AWS SDK 或 Boto3"
+                "ALKTL-Evolve 库",
+                "AppWorld 基准测试",
+                "提示缓存工具（如 OpenAI 的缓存功能）"
               ],
               "verification": [
-                "从 LangSmith 追踪中能明确看到每次支付的原因和金额",
-                "预算超限时，追踪中显示拒绝记录和智能体的响应",
-                "在线评估规则能自动标记超支或异常支付端点"
+                "对比基线 TGC 和 SGC 分数，看是否有提升。",
+                "监控 token 使用量，确保成本在可接受范围。",
+                "在多个任务上测试，确认提升不是偶然。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "会话级预算",
-            "HTTP 原生微支付",
-            "支付证明",
-            "智能体追踪",
-            "全轮评估",
-            "在线评估"
+            "完整指南集",
+            "精选检索",
+            "提示缓存",
+            "TGC",
+            "SGC"
           ],
           "searchTerms": [
             {
-              "term": "x402 协议",
-              "query": "x402 protocol Coinbase Linux Foundation"
+              "term": "ALKTL-Evolve",
+              "query": "ALKTL-Evolve agent memory"
             },
             {
-              "term": "AgentCore Payments",
-              "query": "Amazon Bedrock AgentCore Payments middleware"
+              "term": "AppWorld",
+              "query": "AppWorld benchmark agent tasks"
             },
             {
-              "term": "LangChain 中间件",
-              "query": "LangChain middleware hooks agent execution"
+              "term": "TGC",
+              "query": "Task Goal Completion metric"
             },
             {
-              "term": "LangSmith 追踪",
-              "query": "LangSmith tracing agent payments"
+              "term": "SGC",
+              "query": "Scenario Goal Completion metric"
+            },
+            {
+              "term": "prompt caching",
+              "query": "prompt caching AI inference cost"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-17T21:57:07.567Z",
+        "analyzedAt": "2026-08-18T21:55:24.246Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "1e88c2bc6390f3ae",
-        "title": "Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things",
-        "url": "https://simonwillison.net/2026/Aug/16/qwen-38-27b/",
-        "summary": "Friday's big release was Qwen 3.8 27B , an Apache 2 licensed 27B parameter vision-capable LLM from Alibaba's Qwen research lab. I've been looking forward to this one: 27B is an excellent size for running a model on a reasonably specced laptop, and its predecessor Qwen 3.6 27B was impressive. Qwen's self-reported benchmarks for this model are eye-opening. They show a boost from both Qwen 3.6 27B and the closed-weight Qwen 3.7-Plus, which was one of Qwen's strongest models of any size as recently as May this year . It will be interesting to hear what independent benchmarks have to say about the model. I've been running the model on two different machines: my 128GB M5 Max MacBook Pro, and an NVIDIA DGX Spark . On both machines I'm running LM Studio and their 17GB Q4_K_M quantized build . I also tried using llama-server directly on the Spark. The default of extra high results in spectacular ",
-        "publishedAt": "2026-08-16T22:00:39.000Z",
-        "sourceId": "simon-willison",
-        "sourceName": "Simon Willison",
-        "sourceSite": "https://simonwillison.net/",
+        "id": "c0dbb0bf5ccc0065",
+        "title": "How AI Coding Agents Can Unlock Materials Simulation with NVIDIA ALCHEMI Toolkit",
+        "url": "https://developer.nvidia.com/blog/how-ai-coding-agents-can-unlock-materials-simulation-with-nvidia-alchemi-toolkit/",
+        "summary": "Atomistic simulation requires three things: knowledge of the science, compute-efficient implementation of simulations, and accessible interfaces to the...",
+        "publishedAt": "2026-08-18T18:00:00.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
         "lane": "ai",
-        "accent": "#b36b00",
-        "topic": "模型与研究",
-        "score": 66,
-        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 17,
-        "category": "opinion",
+        "accent": "#76b900",
+        "topic": "Agent 与自动化",
+        "score": 83,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 22,
+        "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 79,
-        "bodyHash": "a74a42d487e76562718f3182",
+        "candidateScore": 95,
+        "bodyHash": "eca45b08c895e2defb905266",
         "extraction": {
           "method": "readability",
-          "length": 12127,
-          "originalLength": 12127,
+          "length": 15340,
+          "originalLength": 15340,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Qwen 3.8 27B：本地大模型的性能与“过度思考”问题",
+        "displayTitle": "用 AI 编程助手解锁材料模拟：NVIDIA ALCHEMI Toolkit 实战指南",
         "analysis": {
-          "listSummary": "本文介绍了阿里开源的 Qwen 3.8 27B 模型，它是一款 27B 参数、支持视觉的本地大模型。作者 Simon Willison 在 MacBook Pro 和 DGX Spark 上测试后发现，模型默认的“极度高”推理模式会导致严重过度思考，生成简单 SVG 竟耗时 21 分钟。尽管性能强大，能处理边界框、编写代码，但速度较慢。文章建议用户手动调低推理级别，并介绍了通过多 token 预测加速的方法。对关注本地模型实用性的读者很有价值。",
+          "listSummary": "本文介绍如何用 AI 编程助手（如 Claude Code）结合 NVIDIA ALCHEMI Toolkit，从自然语言描述生成 GPU 加速的原子级材料模拟流程。它解决了 MLIP 生态中接口不友好、学习成本高的问题，让你用日常语言描述模拟目标，自动生成可运行的代码。文章通过 45 个模拟流程的基准测试，展示了不同提示词级别对代码质量和物理结果的影响，并给出了实用建议。如果你做材料模拟或想用 AI 辅助科研编程，这篇文章值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "Qwen 3.8 27B 是阿里 Qwen 实验室发布的开源模型，采用 Apache 2 许可，支持视觉功能。27B 参数规模适合在配置较好的笔记本上运行，其前代 Qwen 3.6 27B 已表现不错。作者期待它能在本地设备上提供接近商业模型的性能。",
-                "模型默认的推理级别是“xhigh”，即极度高。这个默认值导致模型在回答简单问题时也会进行大量内部思考，消耗大量上下文 token。作者在 LM Studio 中遇到默认 8192 token 上下文限制，模型甚至会用完这些 token 来思考“最平凡的问题”。",
-                "作者将上下文限制提升到最大 262144 token 后，问题才缓解。例如，生成一个鹈鹕骑自行车的 SVG 图片，模型用了 22276 个推理 token 和 3223 个输出 token，耗时 21 分钟。这展示了默认设置对性能和可用性的严重影响。"
+                "原子级模拟（模拟原子和分子如何运动和相互作用）需要三样东西：科学知识、高效的模拟实现代码、以及容易使用的接口。科学知识只能靠研究者自己，AI 无法替代；但代码和接口这两块，正是 AI 编程助手能帮忙的地方。",
+                "NVIDIA ALCHEMI Toolkit（一个用于构建机器学习原子间势模拟的工具包）解决了代码效率问题，它提供了可组合的 PyTorch 原生模块，支持 GPU 加速和批量处理。但接口问题一直存在：MLIP（机器学习原子间势，用神经网络预测原子间作用力）生态太新，不像传统力场那样有成熟的软件接口，而且它的软件栈和化学家常用的工具不一样，学习成本高。",
+                "AI 编程助手（能根据自然语言描述自动生成并执行代码的工具）可以解决接口问题，但通用助手不了解 ALCHEMI Toolkit 的 API，可能生成看似正确但实际错误的代码。为此，ALCHEMI Toolkit 提供了 agent skills（给 AI 助手的技能包）和参考文件，让助手能按需获取正确的 API 模式，这样你只需要描述你的科学问题，比如材料、条件和模拟约束。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "作者通过对比实验展示问题：同样提示词，关闭推理后，生成 SVG 仅需 137 秒，输出 3715 token。这说明默认的“xhigh”设置并非必要，反而严重拖慢速度。作者还尝试了更简单的“画一个圆形”提示，模型却生成一个带有动画和复杂设计的“几何研究”作品，完全偏离用户需求。",
-                "作者测试了模型的视觉能力，要求它返回照片中鹈鹕的边界框。模型成功返回了 0-1000 坐标系的 JSON 数据，且匹配度很高。作者还让模型根据这些 JSON 数据构建一个 HTML 工具，用于在图片上标注边界框。模型在默认推理级别下生成了一个功能完整的界面，甚至添加了未要求的示例场景。",
-                "作者还测试了模型驱动编码代理的能力。使用 Pi 代理工具，模型能成功回答关于代码库的问题，并编写 Python 脚本将 JSONL 转录文件转换为 Markdown。这表明模型具备长上下文、代码生成和工具调用能力，足以支持编码工作流。"
+                "文章用一个完整的流程来展示：研究者从自然语言提示开始，AI 助手生成代码和模拟流程，最后在 NVIDIA H200 GPU 上验证结果。系统要求是 Python 3.11-3.14、PyTorch 2.8+、CUDA 12 或 13、Linux 系统、NVIDIA GPU（RTX 20xx 或更新）。安装步骤包括用 uv 创建环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0，下载匹配的 agent skills，然后安装 Claude Code 等助手。",
+                "关键建议是：让 AI 助手在可运行的环境中执行它生成的脚本。这样能消除大部分机械错误（比如导入失败、引用不存在的 API）。在 45 个流程的测试中，这种设置没有出现任何导入错误。相比之下，只读源码（git checkout）也能消除导入错误，但仅用 pip 安装且不让助手运行代码的效果最差。",
+                "提示词的质量至关重要。文章提出了五个级别的提示词（从 Sketch 到 Contract），并给出了最佳实践：总是明确材料、方法和尺度；指定科学目标和交付物，让 skills 提供 API 模式；指定约束而非实现细节；明确要求自我评估和前提检查。例如，不指定恒温器时，脚本默认使用 Langevin 动力学，导致扩散系数被阻尼 3-5 倍；而明确要求 NVE 后，所有脚本都正确使用了测量系综。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者的核心结论是：Qwen 3.8 27B 是一个强大的本地模型，但默认的“xhigh”推理设置是糟糕的起点。他强烈建议用户先使用“low”或关闭推理。关闭推理后，模型速度显著提升，但某些任务（如构建工具）的准确性会下降，说明推理在某些场景下仍有价值。",
-                "性能是主要瓶颈。作者在 M5 Max MacBook Pro 和 DGX Spark 上测得速度约为 15-30 token/秒，远低于托管 API 模型（如 OpenAI 5.6 Sol 的 74 token/秒）。作者指出，这类密集模型需要高内存带宽，而他的机器并非顶尖。",
-                "社区已探索加速方法。模型支持多 token 预测（MTP），通过一个廉价机制预测多个 token，再由主模型验证。作者在 Spark 上使用 llama-server 的 MTP 模式，对比 LM Studio 默认配置，性能提升约 72%。作者认为，17GB 文件能实现如此多功能是“奇迹”，但速度问题限制了其作为日常工具的潜力。"
+                "基准测试包含 45 个模拟流程，覆盖三个工作流（硅的状态方程、氧在 Cu(111) 上的吸附、液态锂的自扩散），五个提示词级别，每个级别三个样本。评估方式有两种：确定性代码特征检查（属性覆盖、API 模式覆盖、可重用性）和在 H200 GPU 上执行作为地面真相。所有 45 个脚本都使用了批量 GPU 执行，38 个通过筛选，15 个生产代表全部完成。",
+                "结果：硅的状态方程在所有提示词级别下结果一致，a0 = 5.4661 Å，B0 = 88.15 GPa，在 PBE 参考窗口内。氧吸附所有级别都找到 fcc 空位最稳定，Eads(fcc) = -4.799 ± 0.004 eV，与参考值（-4.31 eV 在 0.25 单层）有差异，但覆盖度和模型误差可解释。锂扩散中，NVE 系综的结果在实验外推的约 2 倍范围内，而 Langevin 系综低 3-5 倍。提示词具体性提高了代码结构（API 模式覆盖从 0.52 到 0.96），但物理结果不变。",
+                "结论：提示词具体性影响代码结构和成本，但不影响物理结果（只要提示词正确）。但存在局限：AI 助手不会质疑物理上不合理的任务（如要求测量完美晶体 LiF 中的 Li 离子扩散），也不会自动选择适合材料的步长和恒温器。MLIP 基础模型（如 MACE-MPA-0）在训练分布外准确性可能下降，因此每个新化学体系都应验证。此外，统计上可靠的结果可能在物理上无意义（如 Langevin 阻尼），必须与独立参考对比。"
               ]
             }
           ],
           "keyPoints": [
-            "Qwen 3.8 27B 是 Apache 2 许可的 27B 参数视觉模型，17GB 文件即可本地运行。",
-            "模型默认推理级别为“xhigh”，会导致过度思考，生成简单 SVG 耗时 21 分钟。",
-            "关闭推理后，同一任务仅需 2 分钟，但某些复杂任务（如构建工具）准确性下降。",
-            "模型在边界框标注和编码代理任务上表现出色，能生成 JSON 和完整 HTML 工具。",
-            "本地运行速度约 15-30 token/秒，远慢于托管 API，但可通过多 token 预测加速。",
-            "作者建议用户手动调低推理级别，以获得更实用的性能。"
+            "AI 编程助手能根据自然语言描述生成 GPU 加速的模拟代码，但需要提供正确的 API 模式（如通过 agent skills）才能避免错误。",
+            "让 AI 助手在可运行环境中执行生成的代码，能消除导入错误和 API 引用错误，这是提高可靠性的关键。",
+            "提示词应明确材料、方法和尺度，指定科学目标而非实现细节，并要求自我评估和前提检查。",
+            "提示词具体性影响代码结构和成本（如 Contract 级别比 Sketch 多 4 倍 token），但不改变物理结果。",
+            "AI 助手不会质疑物理上不合理的任务，也不会自动选择合适参数，因此科学判断和独立验证仍然必要。",
+            "MLIP 基础模型（如 MACE-MPA-0）的准确性在训练分布外可能下降，每个新体系都应验证。"
           ],
           "technicalDetails": [
             {
-              "text": "Qwen 3.8 27B 是阿里 Qwen 实验室发布的 27B 参数模型，采用 Apache 2 许可，支持视觉输入。它通过自回归方式生成文本，在本地硬件上运行。其重要性在于提供了开源、可本地部署的通用模型。",
+              "text": "ALCHEMI Toolkit 是一个用于构建机器学习原子间势模拟的工具包，提供 PyTorch 原生的可组合模块，支持 GPU 加速和批量执行。它通过提供标准化的 API 模式，让 AI 助手能生成正确的代码。",
               "basis": "source"
             },
             {
-              "text": "推理级别（reasoning_effort）是模型控制思考深度的参数，可选 xhigh、medium、low。xhigh 为默认，适合复杂任务，但消耗大量 token 和时间。用户可通过 API 调整此参数以平衡速度与准确性。",
+              "text": "Agent skills 是给 AI 助手的技能包，包含 API 模式示例，让助手能按需加载正确的用法。它解决了通用助手不了解特定 API 的问题，是提高生成代码准确性的关键。",
               "basis": "source"
             },
             {
-              "text": "多 token 预测（MTP）是一种架构优化，通过辅助机制预测多个未来 token，主模型验证结果。这能显著提升推理速度。作者在 llama-server 中使用 --spec-type draft-mtp 参数启用，性能提升约 72%。",
+              "text": "MACE-MPA-0 是一个 MLIP 基础模型，用于预测原子间势能。它在训练分布内表现良好，但分布外准确性可能下降，因此需要验证。",
               "basis": "source"
             },
             {
-              "text": "LM Studio 是本地模型运行工具，默认上下文限制为 8192 token。作者将其提升至最大 262144 token，以容纳模型的长时间思考。Q4_K_M 是一种量化格式，将模型压缩至 17GB，减少内存占用。",
+              "text": "Langevin 动力学是一种恒温器方法，通过摩擦项控制温度，但会抑制原子运动，导致扩散系数低估 3-5 倍。NVE 系综（恒定能量）则不会，更适合测量扩散。",
+              "basis": "source"
+            },
+            {
+              "text": "批量 GPU 执行是指同时处理多个模拟副本（如多个应变体积或吸附位点），利用 GPU 并行性提高效率。所有 45 个脚本都使用了此方法。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在本地硬件上运行 Qwen 3.8 27B，用于生成 SVG、标注图像或驱动编码代理。",
+              "scenario": "用 AI 编程助手生成 ALCHEMI Toolkit 模拟流程",
               "steps": [
-                "下载 Qwen 3.8 27B 的 Q4_K_M 量化模型文件（约 17GB）。",
-                "在 LM Studio 中加载模型，并将上下文长度设置为最大 262144 token。",
-                "将推理级别调至“low”或关闭，避免过度思考。",
-                "对于视觉任务，使用 0-1000 坐标系的提示词请求边界框。",
-                "如需加速，在 llama-server 中启用 MTP 模式（--spec-type draft-mtp）。"
+                "创建 Python 环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0（根据 CUDA 版本添加 cu13 等额外依赖）",
+                "下载匹配的 agent skills（如 npx degit NVIDIA/nvalchemi-toolkit/.claude/skills#v0.2.0）",
+                "安装并启动 Claude Code（或其他支持 Agent Skills 的助手）",
+                "在提示词中明确材料、方法、尺度、参考约定和交付物，并要求自我评估",
+                "让助手执行生成的脚本，观察输出并检查错误",
+                "在目标 GPU 上运行生产规模的模拟，并与独立参考结果对比"
               ],
               "tools": [
-                "LM Studio",
-                "llama-server",
-                "Pi 代理",
-                "OpenRouter"
+                "uv",
+                "nvalchemi-toolkit",
+                "Claude Code",
+                "NVIDIA H200 GPU",
+                "MACE-MPA-0"
               ],
               "verification": [
-                "生成简单 SVG 的时间从 21 分钟降至 2 分钟。",
-                "边界框 JSON 结果与照片中物体位置匹配。",
-                "编码代理能成功回答代码库问题并生成可运行脚本。",
-                "MTP 模式下，token 生成速度提升约 72%。"
+                "脚本无导入错误，API 调用正确",
+                "模拟结果与实验或 DFT 参考值一致（如硅的 a0 和 B0）",
+                "扩散系数在实验外推的 2 倍范围内（使用 NVE 系综）"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "推理级别",
-            "多 token 预测",
-            "17GB 文件",
-            "边界框",
-            "编码代理",
-            "默认设置"
+            "agent skills",
+            "MACE-MPA-0"
           ],
           "searchTerms": [
             {
-              "term": "Qwen 3.8 27B",
-              "query": "Qwen 3.8 27B 模型"
+              "term": "ALCHEMI Toolkit",
+              "query": "NVIDIA ALCHEMI Toolkit materials simulation"
             },
             {
-              "term": "reasoning_effort",
-              "query": "reasoning_effort 参数"
+              "term": "Agent Skills",
+              "query": "Agent Skills standard AI coding agent"
             },
             {
-              "term": "多 token 预测",
-              "query": "Multi-Token Prediction 大模型"
-            },
-            {
-              "term": "LM Studio",
-              "query": "LM Studio 本地模型运行"
+              "term": "MACE-MPA-0",
+              "query": "MACE-MPA-0 model accuracy"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-17T21:57:22.892Z",
+        "analyzedAt": "2026-08-18T21:55:43.500Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2003,287 +1967,278 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "072f7760e32a9d80",
-        "title": "AgentCore Payments middleware for LangChain agents",
-        "url": "https://www.langchain.com/blog/langchain-agentcore-payments",
-        "summary": "Let your LangChain agents pay for APIs with deterministic session budgets. AgentCore Payments middleware signs x402 payments; LangSmith traces every one.",
-        "publishedAt": "2026-08-17T14:52:56.000Z",
-        "sourceId": "langchain",
-        "sourceName": "LangChain Blog",
-        "sourceSite": "https://blog.langchain.com/",
+        "id": "ade55fa2cd6d0d6f",
+        "title": "How Much Memory Does Your Agent Actually Need?",
+        "url": "https://huggingface.co/blog/ibm-research/altk-evolve-hmm",
+        "summary": "",
+        "publishedAt": "2026-08-18T18:09:38.000Z",
+        "sourceId": "huggingface",
+        "sourceName": "Hugging Face Blog",
+        "sourceSite": "https://huggingface.co/blog",
         "lane": "ai",
-        "accent": "#1c3c3c",
+        "accent": "#ff9d00",
         "topic": "Agent 与自动化",
-        "score": 59,
+        "score": 74,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 18,
+        "readMinutes": 15,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 92,
-        "bodyHash": "3a22154a16456ab902ec84a5",
+        "candidateScore": 95,
+        "bodyHash": "191537fc2ebd36c44e715385",
         "extraction": {
           "method": "readability",
-          "length": 12517,
-          "originalLength": 12517,
+          "length": 10665,
+          "originalLength": 10665,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LangChain 智能体支付中间件：让 AI 代理安全地按次付费",
+        "displayTitle": "AI 代理需要多少记忆？剂量校准指南",
         "analysis": {
-          "listSummary": "本文介绍 Amazon Bedrock AgentCore Payments 中间件，它让 LangChain 智能体能在预算内自动支付 API 费用。文章解释了为什么需要确定性支付限制、x402 协议如何工作，以及如何通过 LangSmith 追踪和评估支付行为。对于构建需要访问付费数据或服务的 AI 代理的开发者，这是一个实用的解决方案，值得一读。",
+          "listSummary": "本文基于 Hugging Face 的 ALTK-Evolve 实验，探讨 AI 代理（能自主完成多步任务的程序）需要多少“记忆”才能表现最好。作者发现，记忆不是越多越好，而是像药物一样需要根据模型能力调整剂量：强模型适合完整指南集，弱模型适合精简核心加按需检索，饱和模型则无明显提升。文章用 AppWorld 基准测试的 585 个任务验证了观点，并指出精选检索既准确又省钱。对想优化 AI 代理性能的开发者，本文提供了实用的校准思路和成本控制建议，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "智能体经济即将到来，AI 代理不再只使用免费 API，而是需要访问付费服务。这些服务包括高级数据、付费内容和专用计算资源，构成了快速增长的智能体商业生态。",
-                "当智能体可以花钱时，你需要确定性的支付限制：在每次交易前，在基础设施层强制执行会话级预算，而不是依赖 LLM 提示词。这意味着预算控制必须由系统保证，而不是靠模型自觉。",
-                "传统支付方式不适合智能体交易。信用卡处理费用使按美分计价的 API 调用不经济；月度订阅假设人类提前决定购买什么。而 x402 协议（由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理）使 HTTP 原生微支付成为可能，智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。",
-                "目前，大多数团队处理智能体支付有三种方式：使用免费数据源（数据质量差）、为每个 API 编写自定义支付逻辑（每个服务 30 到 50 行包装代码）、或放弃自主性（让智能体向人类请求授权）。这些方法在付费服务数量增长到数千个时都无法扩展。"
+                "本文讨论的是 AI 代理的“记忆”问题：代理在执行任务时，应该从过去的经验中学习多少内容，才能提升未来的表现？作者指出，简单地把所有经验塞给代理并不总是有效，甚至可能拖累性能。",
+                "这里的“记忆”不是指回放过去的对话记录，而是指从代理自身的历史轨迹中提炼出的行为指南，包括有效策略、常见错误和边界情况。这些指南在推理时注入到上下文中，帮助代理做出更好的决策。",
+                "作者通过实验发现，不同能力的模型对记忆的“剂量”需求不同。强模型（如 DeepSeek-V3.2）能吸收完整指南集，性能提升明显；弱模型（如 gpt-oss-120b）则会被大量指南淹没，更适合精简核心加少量按需检索；而已经饱和的模型（如 GLM-5）则没有任何提升。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "AgentCore Payments 中间件提供了完整的解决方案。它通过 LangChain 中间件钩子，在智能体执行的每个步骤拦截模型调用或工具调用，无需修改智能体本身。",
-                "工作流程分为五步：检测（工具调用返回 HTTP 402 和 x402 负载）、验证（检查支付金额是否在会话预算内）、签名（在预算内时通过 AgentCore PaymentManager 签名支付）、重试（携带支付证明重试原始请求）、继续（智能体收到内容，如同第一次就返回 200）。",
-                "设置非常简单：一个配置对象和一个中间件条目。配置包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）和 auto_session_budget（会话预算上限）。",
-                "该中间件适用于多种场景：研究代理访问付费数据库、多步骤工作流在总预算内访问多个付费服务、SaaS 产品中每个用户有自己的预算和支付工具、MCP 服务器消费（当工具返回 402 时自动支付）、浏览器代理导航付费网站。"
+                "作者使用 ALTK-Evolve 方法，让代理从自己的成功和失败轨迹中提取行为指南，并在推理时注入。整个过程不更新模型权重，也不需人工标注，因此成本低且可移植。",
+                "实验在 AppWorld 基准上进行，包含 585 个多步任务（168 个测试正常 + 417 个测试挑战），覆盖日历、消息、支付等 9 个模拟应用。任务用两个指标评分：TGC（任务目标完成率）和 SGC（场景目标完成率，更严格，要求同一场景的所有变体都通过）。",
+                "作者比较了三种配置：基线（无记忆）、完整指南集（每步注入所有指南）、精选检索（固定核心加按任务检索的少量指南）。结果发现，精选检索对弱模型效果最好，完整指南集对强模型效果最好，而饱和模型无论哪种配置都无提升。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "添加成本控制可以限制超支，但不会影响导致交易的智能体行为。例如，智能体可能在预算内但购买决策不合理，或在两步内花光预算然后失败，或发送不应离开系统的数据，或被恶意工具描述重定向到未请求的端点。",
-                "区块链支付账本只记录某工具在某时间向某地址发送了 0.02 美元，不记录智能体为何选择该端点。这种上下文只存在于智能体追踪中，因此治理（避免意外支出）和审计（可查询的购买记录）需要 LangSmith。",
-                "LangSmith 追踪可以显示每个导致支付的步骤：工具调用出现、返回 402、再次出现并带有支付头，周围是用户的原始请求和模型的推理过程。当支付超过预算时，AgentCore 会拒绝，拒绝记录会出现在追踪中，让开发者确认限制是否生效。",
-                "测试方法包括单步评估（测试一个决策）、全轮评估（评分整个对话轨迹，检查总支出、付费调用次数和任务完成度）和在线评估（对生产追踪运行相同检查）。示例中，十个研究任务在预算内完成，但只有七个任务的数据是相关的，说明预算控制不等于数据质量保证。"
+                "数据支持了“剂量依赖能力”的观点：gpt-oss-120b 用精选检索时 TGC 提升 +16.1 个百分点，且仅增加 5% 的 token 消耗；DeepSeek-V3.2 用完整指南集时 TGC 提升 +9.5 个百分点，SGC 提升 +16.1 个百分点。",
+                "成本方面，完整指南集会显著增加输入 token（如 DeepSeek 增加 78%），但精选检索几乎不增加成本。作者建议利用提示缓存（prompt caching）来降低完整指南集的生产成本，因为静态部分可以缓存。",
+                "作者明确表示，模型落入哪种模式并非仅由参数数量决定，还受基准余量、上下文窗口大小、架构、指南质量和任务分布影响，但分离这些因素的研究仍在进行中。结论的边界是：结果只在 AppWorld 上验证，其他基准和真实部署尚在探索。"
               ]
             }
           ],
           "keyPoints": [
-            "AgentCore Payments 中间件在基础设施层强制执行会话级预算，防止智能体失控消费。",
-            "x402 协议支持 HTTP 原生微支付，使按次计费的 API 调用在经济上可行。",
-            "LangSmith 追踪提供支付决策的完整上下文，弥补区块链账本缺少的推理信息。",
-            "评估方法包括单步、全轮和在线评估，用于验证智能体的购买行为是否符合预期。",
-            "设置只需一个配置对象和一个中间件条目，支持任何 LangChain 支持的模型提供商。",
-            "该方案适用于研究代理、多步骤工作流、SaaS 按用户控制和 MCP 服务器消费等场景。"
+            "AI 代理的记忆不是越多越好，而是需要根据模型能力校准剂量。",
+            "强模型（如 DeepSeek-V3.2）适合完整指南集，弱模型（如 gpt-oss-120b）适合精选检索。",
+            "精选检索在弱模型上既提升准确率（+16.1pp TGC）又几乎不增加成本（+5% tokens）。",
+            "饱和模型（如 GLM-5）对记忆无反应，增加上下文纯属浪费。",
+            "提示缓存可以大幅降低完整指南集的生产成本，值得工程优化。",
+            "模型落入哪种模式受多种因素影响，参数数量不是唯一决定因素。"
           ],
           "technicalDetails": [
             {
-              "text": "x402 协议：由 Coinbase 于 2025 年 5 月创建，现由 Linux 基金会管理。它使智能体在单个 HTTP 请求-响应周期内完成价格获取、稳定币支付和内容接收。它解决了传统支付方式在微支付场景下的高成本和低效率问题。",
+              "text": "它是什么：ALKTL-Evolve 是一种让代理从自身历史轨迹中提取行为指南的方法，不更新权重、不需人工标注。怎么工作：代理尝试任务产生轨迹，提取成功和失败中的指南，整合成可复用集，在推理时注入完整或精选部分。为什么重要：它提供了一种廉价、可移植的代理学习方式，适用于多种模型。",
               "basis": "source"
             },
             {
-              "text": "AgentCore Payments 中间件：通过 LangChain 中间件钩子拦截工具调用。当检测到 HTTP 402 响应时，它验证支付金额是否在会话预算内，如果通过则签名支付并重试请求。它使开发者无需修改智能体逻辑即可添加支付功能。",
+              "text": "它是什么：TGC（Task Goal Completion）是任务目标完成率，SGC（Scenario Goal Completion）是场景目标完成率。怎么工作：TGC 统计单个任务完全完成的占比，SGC 要求同一场景的所有变体全部通过才算通过。为什么重要：SGC 更严格，能反映代理的可靠性，且通常比 TGC 提升更大。",
               "basis": "source"
             },
             {
-              "text": "配置对象：包括 payment_manager_arn（支付管理器 ARN）、user_id（用户 ID）、payment_instrument_id（支付工具 ID）、region（区域）、auto_session（自动创建会话）、auto_session_budget（会话预算上限）。这些参数定义了支付基础设施的连接和预算控制。",
+              "text": "它是什么：精选检索是一种记忆注入策略，包含固定核心指南和按任务检索的少量指南。怎么工作：固定部分保持稳定，变量部分根据任务相关性检索。为什么重要：在弱模型上既提升准确率又控制成本，如 gpt-oss-120b 的 TGC 提升 +16.1pp，token 仅增加 5%。",
               "basis": "source"
             },
             {
-              "text": "LangSmith 追踪：记录每次支付尝试，包括成功支付和预算拒绝。它提供了区块链账本所缺少的上下文，如智能体为何选择某端点、任务目标和推理过程。这对于治理和审计至关重要。",
-              "basis": "source"
-            },
-            {
-              "text": "评估方法：单步评估测试单个决策，全轮评估评分整个对话轨迹，在线评估对生产追踪运行检查。它们用于验证智能体的购买行为是否符合预期，而不仅仅是控制支出。",
+              "text": "它是什么：提示缓存（prompt caching）是一种生产优化技术，缓存静态输入部分。怎么工作：指南集的静态前缀在步骤间不变，可以缓存，减少重复计算。为什么重要：能大幅降低完整指南集的成本，作者建议设计缓存感知的提示。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "为 LangChain 智能体添加安全的支付功能并验证其行为",
+              "scenario": "开发者想为 AI 代理添加记忆功能，但不确定该注入多少指南。",
               "steps": [
-                "在 AWS 上配置 AgentCore Payments：使用 AgentCore Payments skill（通过 Claude Code、Kiro 或 Codex 引导）或手动使用 AgentCore CLI、AWS SDK 或 Boto3 设置 PaymentManager 和支付工具。",
-                "安装中间件：运行 pip install -U \"bedrock-agentcore[langgraph,strands-agents]\"，注意必须包含 strands-agents，否则导入会失败。",
-                "添加中间件配置：创建一个 AgentCorePaymentsConfig 对象，设置 payment_manager_arn、user_id、payment_instrument_id 和 auto_session_budget（例如 \"5.00\"），然后将其添加到 create_agent 的 middleware 列表中。",
-                "启用 LangSmith 追踪并运行一个付费任务，从追踪中确认能否回答\"这个花费了什么，为什么\"。",
-                "在 LangSmith 上创建一个小型评估数据集，添加在线规则，标记超过阈值的运行。"
+                "先评估目标模型的能力：在基准任务上测试基线 TGC 和 SGC，判断是否有提升空间。",
+                "如果模型较弱，使用精选检索：固定高置信度核心指南，加上按任务检索的少量指南。",
+                "如果模型较强且有提升空间，尝试完整指南集，并利用提示缓存降低 token 成本。",
+                "如果模型已饱和，先不增加记忆，分析剩余失败模式后再决定。"
               ],
               "tools": [
-                "AgentCore Payments middleware",
-                "LangSmith",
-                "Claude Code 或 Kiro 或 Codex",
-                "AgentCore CLI 或 AWS SDK 或 Boto3"
+                "ALKTL-Evolve 库",
+                "AppWorld 基准测试",
+                "提示缓存工具（如 OpenAI 的缓存功能）"
               ],
               "verification": [
-                "从 LangSmith 追踪中能明确看到每次支付的原因和金额",
-                "预算超限时，追踪中显示拒绝记录和智能体的响应",
-                "在线评估规则能自动标记超支或异常支付端点"
+                "对比基线 TGC 和 SGC 分数，看是否有提升。",
+                "监控 token 使用量，确保成本在可接受范围。",
+                "在多个任务上测试，确认提升不是偶然。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "会话级预算",
-            "HTTP 原生微支付",
-            "支付证明",
-            "智能体追踪",
-            "全轮评估",
-            "在线评估"
+            "完整指南集",
+            "精选检索",
+            "提示缓存",
+            "TGC",
+            "SGC"
           ],
           "searchTerms": [
             {
-              "term": "x402 协议",
-              "query": "x402 protocol Coinbase Linux Foundation"
+              "term": "ALKTL-Evolve",
+              "query": "ALKTL-Evolve agent memory"
             },
             {
-              "term": "AgentCore Payments",
-              "query": "Amazon Bedrock AgentCore Payments middleware"
+              "term": "AppWorld",
+              "query": "AppWorld benchmark agent tasks"
             },
             {
-              "term": "LangChain 中间件",
-              "query": "LangChain middleware hooks agent execution"
+              "term": "TGC",
+              "query": "Task Goal Completion metric"
             },
             {
-              "term": "LangSmith 追踪",
-              "query": "LangSmith tracing agent payments"
+              "term": "SGC",
+              "query": "Scenario Goal Completion metric"
+            },
+            {
+              "term": "prompt caching",
+              "query": "prompt caching AI inference cost"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-17T21:57:07.567Z",
+        "analyzedAt": "2026-08-18T21:55:24.246Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "1e88c2bc6390f3ae",
-        "title": "Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things",
-        "url": "https://simonwillison.net/2026/Aug/16/qwen-38-27b/",
-        "summary": "Friday's big release was Qwen 3.8 27B , an Apache 2 licensed 27B parameter vision-capable LLM from Alibaba's Qwen research lab. I've been looking forward to this one: 27B is an excellent size for running a model on a reasonably specced laptop, and its predecessor Qwen 3.6 27B was impressive. Qwen's self-reported benchmarks for this model are eye-opening. They show a boost from both Qwen 3.6 27B and the closed-weight Qwen 3.7-Plus, which was one of Qwen's strongest models of any size as recently as May this year . It will be interesting to hear what independent benchmarks have to say about the model. I've been running the model on two different machines: my 128GB M5 Max MacBook Pro, and an NVIDIA DGX Spark . On both machines I'm running LM Studio and their 17GB Q4_K_M quantized build . I also tried using llama-server directly on the Spark. The default of extra high results in spectacular ",
-        "publishedAt": "2026-08-16T22:00:39.000Z",
-        "sourceId": "simon-willison",
-        "sourceName": "Simon Willison",
-        "sourceSite": "https://simonwillison.net/",
+        "id": "c0dbb0bf5ccc0065",
+        "title": "How AI Coding Agents Can Unlock Materials Simulation with NVIDIA ALCHEMI Toolkit",
+        "url": "https://developer.nvidia.com/blog/how-ai-coding-agents-can-unlock-materials-simulation-with-nvidia-alchemi-toolkit/",
+        "summary": "Atomistic simulation requires three things: knowledge of the science, compute-efficient implementation of simulations, and accessible interfaces to the...",
+        "publishedAt": "2026-08-18T18:00:00.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
         "lane": "ai",
-        "accent": "#b36b00",
-        "topic": "模型与研究",
-        "score": 66,
-        "learningNote": "先找实验设置和评价指标，再看结论；不要只依据模型排名。",
-        "readMinutes": 17,
-        "category": "opinion",
+        "accent": "#76b900",
+        "topic": "Agent 与自动化",
+        "score": 83,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 22,
+        "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 79,
-        "bodyHash": "a74a42d487e76562718f3182",
+        "candidateScore": 95,
+        "bodyHash": "eca45b08c895e2defb905266",
         "extraction": {
           "method": "readability",
-          "length": 12127,
-          "originalLength": 12127,
+          "length": 15340,
+          "originalLength": 15340,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "Qwen 3.8 27B：本地大模型的性能与“过度思考”问题",
+        "displayTitle": "用 AI 编程助手解锁材料模拟：NVIDIA ALCHEMI Toolkit 实战指南",
         "analysis": {
-          "listSummary": "本文介绍了阿里开源的 Qwen 3.8 27B 模型，它是一款 27B 参数、支持视觉的本地大模型。作者 Simon Willison 在 MacBook Pro 和 DGX Spark 上测试后发现，模型默认的“极度高”推理模式会导致严重过度思考，生成简单 SVG 竟耗时 21 分钟。尽管性能强大，能处理边界框、编写代码，但速度较慢。文章建议用户手动调低推理级别，并介绍了通过多 token 预测加速的方法。对关注本地模型实用性的读者很有价值。",
+          "listSummary": "本文介绍如何用 AI 编程助手（如 Claude Code）结合 NVIDIA ALCHEMI Toolkit，从自然语言描述生成 GPU 加速的原子级材料模拟流程。它解决了 MLIP 生态中接口不友好、学习成本高的问题，让你用日常语言描述模拟目标，自动生成可运行的代码。文章通过 45 个模拟流程的基准测试，展示了不同提示词级别对代码质量和物理结果的影响，并给出了实用建议。如果你做材料模拟或想用 AI 辅助科研编程，这篇文章值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "Qwen 3.8 27B 是阿里 Qwen 实验室发布的开源模型，采用 Apache 2 许可，支持视觉功能。27B 参数规模适合在配置较好的笔记本上运行，其前代 Qwen 3.6 27B 已表现不错。作者期待它能在本地设备上提供接近商业模型的性能。",
-                "模型默认的推理级别是“xhigh”，即极度高。这个默认值导致模型在回答简单问题时也会进行大量内部思考，消耗大量上下文 token。作者在 LM Studio 中遇到默认 8192 token 上下文限制，模型甚至会用完这些 token 来思考“最平凡的问题”。",
-                "作者将上下文限制提升到最大 262144 token 后，问题才缓解。例如，生成一个鹈鹕骑自行车的 SVG 图片，模型用了 22276 个推理 token 和 3223 个输出 token，耗时 21 分钟。这展示了默认设置对性能和可用性的严重影响。"
+                "原子级模拟（模拟原子和分子如何运动和相互作用）需要三样东西：科学知识、高效的模拟实现代码、以及容易使用的接口。科学知识只能靠研究者自己，AI 无法替代；但代码和接口这两块，正是 AI 编程助手能帮忙的地方。",
+                "NVIDIA ALCHEMI Toolkit（一个用于构建机器学习原子间势模拟的工具包）解决了代码效率问题，它提供了可组合的 PyTorch 原生模块，支持 GPU 加速和批量处理。但接口问题一直存在：MLIP（机器学习原子间势，用神经网络预测原子间作用力）生态太新，不像传统力场那样有成熟的软件接口，而且它的软件栈和化学家常用的工具不一样，学习成本高。",
+                "AI 编程助手（能根据自然语言描述自动生成并执行代码的工具）可以解决接口问题，但通用助手不了解 ALCHEMI Toolkit 的 API，可能生成看似正确但实际错误的代码。为此，ALCHEMI Toolkit 提供了 agent skills（给 AI 助手的技能包）和参考文件，让助手能按需获取正确的 API 模式，这样你只需要描述你的科学问题，比如材料、条件和模拟约束。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "作者通过对比实验展示问题：同样提示词，关闭推理后，生成 SVG 仅需 137 秒，输出 3715 token。这说明默认的“xhigh”设置并非必要，反而严重拖慢速度。作者还尝试了更简单的“画一个圆形”提示，模型却生成一个带有动画和复杂设计的“几何研究”作品，完全偏离用户需求。",
-                "作者测试了模型的视觉能力，要求它返回照片中鹈鹕的边界框。模型成功返回了 0-1000 坐标系的 JSON 数据，且匹配度很高。作者还让模型根据这些 JSON 数据构建一个 HTML 工具，用于在图片上标注边界框。模型在默认推理级别下生成了一个功能完整的界面，甚至添加了未要求的示例场景。",
-                "作者还测试了模型驱动编码代理的能力。使用 Pi 代理工具，模型能成功回答关于代码库的问题，并编写 Python 脚本将 JSONL 转录文件转换为 Markdown。这表明模型具备长上下文、代码生成和工具调用能力，足以支持编码工作流。"
+                "文章用一个完整的流程来展示：研究者从自然语言提示开始，AI 助手生成代码和模拟流程，最后在 NVIDIA H200 GPU 上验证结果。系统要求是 Python 3.11-3.14、PyTorch 2.8+、CUDA 12 或 13、Linux 系统、NVIDIA GPU（RTX 20xx 或更新）。安装步骤包括用 uv 创建环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0，下载匹配的 agent skills，然后安装 Claude Code 等助手。",
+                "关键建议是：让 AI 助手在可运行的环境中执行它生成的脚本。这样能消除大部分机械错误（比如导入失败、引用不存在的 API）。在 45 个流程的测试中，这种设置没有出现任何导入错误。相比之下，只读源码（git checkout）也能消除导入错误，但仅用 pip 安装且不让助手运行代码的效果最差。",
+                "提示词的质量至关重要。文章提出了五个级别的提示词（从 Sketch 到 Contract），并给出了最佳实践：总是明确材料、方法和尺度；指定科学目标和交付物，让 skills 提供 API 模式；指定约束而非实现细节；明确要求自我评估和前提检查。例如，不指定恒温器时，脚本默认使用 Langevin 动力学，导致扩散系数被阻尼 3-5 倍；而明确要求 NVE 后，所有脚本都正确使用了测量系综。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "作者的核心结论是：Qwen 3.8 27B 是一个强大的本地模型，但默认的“xhigh”推理设置是糟糕的起点。他强烈建议用户先使用“low”或关闭推理。关闭推理后，模型速度显著提升，但某些任务（如构建工具）的准确性会下降，说明推理在某些场景下仍有价值。",
-                "性能是主要瓶颈。作者在 M5 Max MacBook Pro 和 DGX Spark 上测得速度约为 15-30 token/秒，远低于托管 API 模型（如 OpenAI 5.6 Sol 的 74 token/秒）。作者指出，这类密集模型需要高内存带宽，而他的机器并非顶尖。",
-                "社区已探索加速方法。模型支持多 token 预测（MTP），通过一个廉价机制预测多个 token，再由主模型验证。作者在 Spark 上使用 llama-server 的 MTP 模式，对比 LM Studio 默认配置，性能提升约 72%。作者认为，17GB 文件能实现如此多功能是“奇迹”，但速度问题限制了其作为日常工具的潜力。"
+                "基准测试包含 45 个模拟流程，覆盖三个工作流（硅的状态方程、氧在 Cu(111) 上的吸附、液态锂的自扩散），五个提示词级别，每个级别三个样本。评估方式有两种：确定性代码特征检查（属性覆盖、API 模式覆盖、可重用性）和在 H200 GPU 上执行作为地面真相。所有 45 个脚本都使用了批量 GPU 执行，38 个通过筛选，15 个生产代表全部完成。",
+                "结果：硅的状态方程在所有提示词级别下结果一致，a0 = 5.4661 Å，B0 = 88.15 GPa，在 PBE 参考窗口内。氧吸附所有级别都找到 fcc 空位最稳定，Eads(fcc) = -4.799 ± 0.004 eV，与参考值（-4.31 eV 在 0.25 单层）有差异，但覆盖度和模型误差可解释。锂扩散中，NVE 系综的结果在实验外推的约 2 倍范围内，而 Langevin 系综低 3-5 倍。提示词具体性提高了代码结构（API 模式覆盖从 0.52 到 0.96），但物理结果不变。",
+                "结论：提示词具体性影响代码结构和成本，但不影响物理结果（只要提示词正确）。但存在局限：AI 助手不会质疑物理上不合理的任务（如要求测量完美晶体 LiF 中的 Li 离子扩散），也不会自动选择适合材料的步长和恒温器。MLIP 基础模型（如 MACE-MPA-0）在训练分布外准确性可能下降，因此每个新化学体系都应验证。此外，统计上可靠的结果可能在物理上无意义（如 Langevin 阻尼），必须与独立参考对比。"
               ]
             }
           ],
           "keyPoints": [
-            "Qwen 3.8 27B 是 Apache 2 许可的 27B 参数视觉模型，17GB 文件即可本地运行。",
-            "模型默认推理级别为“xhigh”，会导致过度思考，生成简单 SVG 耗时 21 分钟。",
-            "关闭推理后，同一任务仅需 2 分钟，但某些复杂任务（如构建工具）准确性下降。",
-            "模型在边界框标注和编码代理任务上表现出色，能生成 JSON 和完整 HTML 工具。",
-            "本地运行速度约 15-30 token/秒，远慢于托管 API，但可通过多 token 预测加速。",
-            "作者建议用户手动调低推理级别，以获得更实用的性能。"
+            "AI 编程助手能根据自然语言描述生成 GPU 加速的模拟代码，但需要提供正确的 API 模式（如通过 agent skills）才能避免错误。",
+            "让 AI 助手在可运行环境中执行生成的代码，能消除导入错误和 API 引用错误，这是提高可靠性的关键。",
+            "提示词应明确材料、方法和尺度，指定科学目标而非实现细节，并要求自我评估和前提检查。",
+            "提示词具体性影响代码结构和成本（如 Contract 级别比 Sketch 多 4 倍 token），但不改变物理结果。",
+            "AI 助手不会质疑物理上不合理的任务，也不会自动选择合适参数，因此科学判断和独立验证仍然必要。",
+            "MLIP 基础模型（如 MACE-MPA-0）的准确性在训练分布外可能下降，每个新体系都应验证。"
           ],
           "technicalDetails": [
             {
-              "text": "Qwen 3.8 27B 是阿里 Qwen 实验室发布的 27B 参数模型，采用 Apache 2 许可，支持视觉输入。它通过自回归方式生成文本，在本地硬件上运行。其重要性在于提供了开源、可本地部署的通用模型。",
+              "text": "ALCHEMI Toolkit 是一个用于构建机器学习原子间势模拟的工具包，提供 PyTorch 原生的可组合模块，支持 GPU 加速和批量执行。它通过提供标准化的 API 模式，让 AI 助手能生成正确的代码。",
               "basis": "source"
             },
             {
-              "text": "推理级别（reasoning_effort）是模型控制思考深度的参数，可选 xhigh、medium、low。xhigh 为默认，适合复杂任务，但消耗大量 token 和时间。用户可通过 API 调整此参数以平衡速度与准确性。",
+              "text": "Agent skills 是给 AI 助手的技能包，包含 API 模式示例，让助手能按需加载正确的用法。它解决了通用助手不了解特定 API 的问题，是提高生成代码准确性的关键。",
               "basis": "source"
             },
             {
-              "text": "多 token 预测（MTP）是一种架构优化，通过辅助机制预测多个未来 token，主模型验证结果。这能显著提升推理速度。作者在 llama-server 中使用 --spec-type draft-mtp 参数启用，性能提升约 72%。",
+              "text": "MACE-MPA-0 是一个 MLIP 基础模型，用于预测原子间势能。它在训练分布内表现良好，但分布外准确性可能下降，因此需要验证。",
               "basis": "source"
             },
             {
-              "text": "LM Studio 是本地模型运行工具，默认上下文限制为 8192 token。作者将其提升至最大 262144 token，以容纳模型的长时间思考。Q4_K_M 是一种量化格式，将模型压缩至 17GB，减少内存占用。",
+              "text": "Langevin 动力学是一种恒温器方法，通过摩擦项控制温度，但会抑制原子运动，导致扩散系数低估 3-5 倍。NVE 系综（恒定能量）则不会，更适合测量扩散。",
+              "basis": "source"
+            },
+            {
+              "text": "批量 GPU 执行是指同时处理多个模拟副本（如多个应变体积或吸附位点），利用 GPU 并行性提高效率。所有 45 个脚本都使用了此方法。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "在本地硬件上运行 Qwen 3.8 27B，用于生成 SVG、标注图像或驱动编码代理。",
+              "scenario": "用 AI 编程助手生成 ALCHEMI Toolkit 模拟流程",
               "steps": [
-                "下载 Qwen 3.8 27B 的 Q4_K_M 量化模型文件（约 17GB）。",
-                "在 LM Studio 中加载模型，并将上下文长度设置为最大 262144 token。",
-                "将推理级别调至“low”或关闭，避免过度思考。",
-                "对于视觉任务，使用 0-1000 坐标系的提示词请求边界框。",
-                "如需加速，在 llama-server 中启用 MTP 模式（--spec-type draft-mtp）。"
+                "创建 Python 环境并安装 nvalchemi-toolkit[mace,ase]==0.2.0（根据 CUDA 版本添加 cu13 等额外依赖）",
+                "下载匹配的 agent skills（如 npx degit NVIDIA/nvalchemi-toolkit/.claude/skills#v0.2.0）",
+                "安装并启动 Claude Code（或其他支持 Agent Skills 的助手）",
+                "在提示词中明确材料、方法、尺度、参考约定和交付物，并要求自我评估",
+                "让助手执行生成的脚本，观察输出并检查错误",
+                "在目标 GPU 上运行生产规模的模拟，并与独立参考结果对比"
               ],
               "tools": [
-                "LM Studio",
-                "llama-server",
-                "Pi 代理",
-                "OpenRouter"
+                "uv",
+                "nvalchemi-toolkit",
+                "Claude Code",
+                "NVIDIA H200 GPU",
+                "MACE-MPA-0"
               ],
               "verification": [
-                "生成简单 SVG 的时间从 21 分钟降至 2 分钟。",
-                "边界框 JSON 结果与照片中物体位置匹配。",
-                "编码代理能成功回答代码库问题并生成可运行脚本。",
-                "MTP 模式下，token 生成速度提升约 72%。"
+                "脚本无导入错误，API 调用正确",
+                "模拟结果与实验或 DFT 参考值一致（如硅的 a0 和 B0）",
+                "扩散系数在实验外推的 2 倍范围内（使用 NVE 系综）"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "推理级别",
-            "多 token 预测",
-            "17GB 文件",
-            "边界框",
-            "编码代理",
-            "默认设置"
+            "agent skills",
+            "MACE-MPA-0"
           ],
           "searchTerms": [
             {
-              "term": "Qwen 3.8 27B",
-              "query": "Qwen 3.8 27B 模型"
+              "term": "ALCHEMI Toolkit",
+              "query": "NVIDIA ALCHEMI Toolkit materials simulation"
             },
             {
-              "term": "reasoning_effort",
-              "query": "reasoning_effort 参数"
+              "term": "Agent Skills",
+              "query": "Agent Skills standard AI coding agent"
             },
             {
-              "term": "多 token 预测",
-              "query": "Multi-Token Prediction 大模型"
-            },
-            {
-              "term": "LM Studio",
-              "query": "LM Studio 本地模型运行"
+              "term": "MACE-MPA-0",
+              "query": "MACE-MPA-0 model accuracy"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-17T21:57:22.892Z",
+        "analyzedAt": "2026-08-18T21:55:43.500Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2305,7 +2260,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 307,
+      "latencyMs": 124,
       "itemCount": 35
     },
     {
@@ -2322,7 +2277,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 248,
+      "latencyMs": 67,
       "itemCount": 10
     },
     {
@@ -2339,7 +2294,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 867,
+      "latencyMs": 448,
       "itemCount": 33
     },
     {
@@ -2356,7 +2311,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1447,
+      "latencyMs": 705,
       "itemCount": 10
     },
     {
@@ -2373,7 +2328,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 230,
+      "latencyMs": 71,
       "itemCount": 35
     },
     {
@@ -2390,7 +2345,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 258,
+      "latencyMs": 155,
       "itemCount": 35
     },
     {
@@ -2407,7 +2362,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 694,
+      "latencyMs": 275,
       "itemCount": 35
     },
     {
@@ -2424,7 +2379,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 291,
+      "latencyMs": 194,
       "itemCount": 30
     },
     {
@@ -2441,7 +2396,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 275,
+      "latencyMs": 224,
       "itemCount": 35
     },
     {
@@ -2458,7 +2413,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 845,
+      "latencyMs": 452,
       "itemCount": 20
     },
     {
@@ -2475,7 +2430,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 608,
+      "latencyMs": 432,
       "itemCount": 35
     },
     {
@@ -2492,7 +2447,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 462,
+      "latencyMs": 247,
       "itemCount": 15
     },
     {
@@ -2509,7 +2464,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1064,
+      "latencyMs": 807,
       "itemCount": 15
     },
     {
@@ -2525,10 +2480,9 @@
       "weight": 1.05,
       "dailyLimit": 1,
       "accent": "#222c37",
-      "ok": false,
-      "latencyMs": 20000,
-      "error": "The operation was aborted due to timeout",
-      "itemCount": 0
+      "ok": true,
+      "latencyMs": 19509,
+      "itemCount": 35
     },
     {
       "id": "red-blob",
@@ -2544,7 +2498,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 717,
+      "latencyMs": 348,
       "itemCount": 35
     },
     {
@@ -2566,7 +2520,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1300,
+      "latencyMs": 660,
       "itemCount": 4
     },
     {
@@ -2583,7 +2537,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 906,
+      "latencyMs": 849,
       "itemCount": 10
     }
   ],
@@ -2665,7 +2619,9 @@
       "6c34b121f5d456ba",
       "90f11cf4e9c54299",
       "072f7760e32a9d80",
-      "1e88c2bc6390f3ae"
+      "1e88c2bc6390f3ae",
+      "ade55fa2cd6d0d6f",
+      "c0dbb0bf5ccc0065"
     ],
     "processedManualUrls": []
   },
@@ -2674,10 +2630,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 1,
-    "rejectedCount": 245,
-    "sourceFailureCount": 1
+    "calls": 3,
+    "rejectedCount": 264,
+    "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-17T21:57:22.892Z"
+  "previousGeneratedAt": "2026-08-18T05:14:45.461Z"
 }
