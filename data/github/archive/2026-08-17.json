@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T20:43:20.642Z",
+  "generatedAt": "2026-08-19T20:50:06.895Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Mon & Thu 04:25 Asia/Shanghai",
   "weekStart": "2026-08-17",
@@ -51,6 +51,51 @@
       "summary": "Code Graph RAG 是一个针对多语言代码库的 RAG 工具，使用 Tree-sitter 解析代码并构建知识图谱（存储于 Memgraph），支持自然语言查询、代码编辑和优化。它包含运行时调用追踪、AST 模式搜索替换等高级功能，可跨语言统一处理。",
       "whyRecommended": "对于关注 RAG 和编程自动化的读者，该项目展示了如何将知识图谱与 RAG 结合，实现对复杂代码库的深度理解和智能编辑，是学习高级代码检索与生成式修改的实用范例。",
       "firstLook": "查看 README 中的功能列表和快速开始指南，了解如何安装和指向一个代码库，然后尝试用自然语言查询一个函数或类，验证图谱构建和查询效果。"
+    },
+    {
+      "id": "volcengine/openviking",
+      "fullName": "volcengine/OpenViking",
+      "name": "OpenViking",
+      "url": "https://github.com/volcengine/OpenViking",
+      "description": "Self-evolving Context Database for AI Agents. Unify Agent Memory, Knowledge RAG and Skills.",
+      "language": "Python",
+      "stars": 30082,
+      "forks": 2331,
+      "weeklyStars": 985,
+      "topics": [],
+      "summary": "OpenViking 是一个面向 AI Agent 的上下文数据库，将记忆、资源和技能统一为虚拟文件系统，通过 viking:// 协议管理。内容按 L0/L1/L2 三层处理并按需加载，支持可观测的检索轨迹，帮助 Agent 更高效地管理和使用上下文。",
+      "whyRecommended": "该项目直接关联 AI Agent、RAG 和上下文管理，是当前热门方向。它提供了全新的上下文处理范式，对希望深入理解 Agent 记忆和知识检索的读者有很高的学习价值，且项目活跃、文档完善。",
+      "firstLook": "建议先阅读 README 中的 'Getting started' 和 'Architecture' 部分，了解其核心的 viking:// 协议和三层内容处理机制，然后可尝试在浏览器中打开其提供的 OpenViking Studio 在线演示。"
+    },
+    {
+      "id": "unslothai/unsloth",
+      "fullName": "unslothai/unsloth",
+      "name": "unsloth",
+      "url": "https://github.com/unslothai/unsloth",
+      "description": "Local UI to run and train LLMs and diffusion models, including Qwen3.8, Kimi K3, MiniMax-H3, Gemma 4, DeepSeek-V4, FLUX and more.",
+      "language": "Python",
+      "stars": 73823,
+      "forks": 6670,
+      "weeklyStars": 3636,
+      "topics": [],
+      "summary": "Unsloth 是一个本地运行的桌面应用，用于运行和训练 LLM 及扩散模型。它支持多种模型架构，提供微调、导出（GGUF 等）、RAG 和 Agent 工具集成等功能，并兼容 CPU、Apple、NVIDIA 等多种硬件平台。",
+      "whyRecommended": "该项目是本地模型运行和微调的一站式工具，对 AI 学习者和开发者非常实用。它降低了本地模型实验的门槛，且功能全面，从运行到训练再到部署都有覆盖，是学习本地模型技术的优秀实践项目。",
+      "firstLook": "建议先查看 README 中的 'Features' 部分，了解其支持的具体功能，然后根据你的操作系统，从 Releases 页面下载对应安装包进行实际体验。"
+    },
+    {
+      "id": "cactus-compute/needle",
+      "fullName": "cactus-compute/needle",
+      "name": "needle",
+      "url": "https://github.com/cactus-compute/needle",
+      "description": "14MB foundation model for tiny devices; phones, wearables, smart home, and robots.",
+      "language": "Python",
+      "stars": 7775,
+      "forks": 506,
+      "weeklyStars": 3772,
+      "topics": [],
+      "summary": "Needle 是一个极小的 45M 参数基础模型，专为手机、可穿戴设备等微型设备设计。整个模型打包为 14MB 的二进制文件，支持工具调用、设备使用和结构化数据提取，并提供 Python 包用于推理和微调。",
+      "whyRecommended": "该项目展示了在资源受限设备上部署 AI 模型的创新方案，对关注边缘计算和模型优化的读者极具启发性。它证明了小模型也能实现复杂功能，是学习模型压缩和高效推理的绝佳案例。",
+      "firstLook": "建议先阅读 README 中关于模型架构和 'Simple Attention Network' 的部分，了解其技术原理，然后按照 'pip install cactus-needle' 的指引尝试运行模型。"
     }
   ]
 }
