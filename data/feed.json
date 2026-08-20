@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-19T21:58:08.458Z",
+  "generatedAt": "2026-08-20T05:16:36.496Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
@@ -9,7 +9,7 @@
     "weeklyReason": null
   },
   "stats": {
-    "candidates": 23,
+    "candidates": 22,
     "selected": 3,
     "ai": 3,
     "practice": 2,
@@ -20,7 +20,7 @@
     "currentGame": 2,
     "currentArt": 1,
     "studyMinutes": 30,
-    "bailianCalls": 4
+    "bailianCalls": 0
   },
   "items": [
     {
@@ -2930,7 +2930,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 174,
+      "latencyMs": 163,
       "itemCount": 35
     },
     {
@@ -2947,7 +2947,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 104,
+      "latencyMs": 122,
       "itemCount": 10
     },
     {
@@ -2964,7 +2964,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 607,
+      "latencyMs": 583,
       "itemCount": 33
     },
     {
@@ -2981,7 +2981,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 1163,
+      "latencyMs": 864,
       "itemCount": 10
     },
     {
@@ -2998,7 +2998,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 193,
+      "latencyMs": 105,
       "itemCount": 35
     },
     {
@@ -3015,7 +3015,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 158,
+      "latencyMs": 129,
       "itemCount": 35
     },
     {
@@ -3032,7 +3032,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 719,
+      "latencyMs": 617,
       "itemCount": 35
     },
     {
@@ -3049,7 +3049,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 203,
+      "latencyMs": 153,
       "itemCount": 30
     },
     {
@@ -3066,7 +3066,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 237,
+      "latencyMs": 166,
       "itemCount": 35
     },
     {
@@ -3083,7 +3083,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 584,
+      "latencyMs": 610,
       "itemCount": 20
     },
     {
@@ -3100,7 +3100,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 490,
+      "latencyMs": 342,
       "itemCount": 35
     },
     {
@@ -3117,7 +3117,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 269,
+      "latencyMs": 319,
       "itemCount": 15
     },
     {
@@ -3134,7 +3134,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 1383,
+      "latencyMs": 959,
       "itemCount": 15
     },
     {
@@ -3150,10 +3150,9 @@
       "weight": 1.05,
       "dailyLimit": 1,
       "accent": "#222c37",
-      "ok": false,
-      "latencyMs": 19999,
-      "error": "The operation was aborted due to timeout",
-      "itemCount": 0
+      "ok": true,
+      "latencyMs": 18732,
+      "itemCount": 35
     },
     {
       "id": "red-blob",
@@ -3169,7 +3168,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 670,
+      "latencyMs": 441,
       "itemCount": 35
     },
     {
@@ -3191,7 +3190,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 1267,
+      "latencyMs": 799,
       "itemCount": 4
     },
     {
@@ -3208,7 +3207,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 738,
+      "latencyMs": 943,
       "itemCount": 10
     }
   ],
@@ -3304,10 +3303,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 4,
-    "rejectedCount": 238,
-    "sourceFailureCount": 1
+    "calls": 0,
+    "rejectedCount": 248,
+    "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-19T05:15:37.356Z"
+  "previousGeneratedAt": "2026-08-19T21:58:08.458Z"
 }
