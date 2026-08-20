@@ -1,0 +1,1212 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-20T21:59:31.511Z",
+  "timezone": "Asia/Shanghai",
+  "edition": {
+    "date": "2026-08-21",
+    "isWeeklyEdition": false,
+    "weeklyReason": null
+  },
+  "stats": {
+    "candidates": 23,
+    "selected": 2,
+    "ai": 2,
+    "practice": 2,
+    "update": 0,
+    "manual": 0,
+    "game": 0,
+    "art": 0,
+    "currentGame": 2,
+    "currentArt": 1,
+    "studyMinutes": 30,
+    "bailianCalls": 3
+  },
+  "items": [
+    {
+      "id": "3dddaf9068ffc6c5",
+      "title": "Test Agent Changes with LangSmith Preview Builds",
+      "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+      "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+      "publishedAt": "2026-08-20T19:20:50.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 92,
+      "bodyHash": "46fd2c9e2367d020ab90abe3",
+      "extraction": {
+        "method": "readability",
+        "length": 4730,
+        "originalLength": 4730,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
+      "analysis": {
+        "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+              "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+              "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+              "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+              "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+              "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+              "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+              "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+              "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+              "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+              "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+              "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+          "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+          "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+          "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+          "预览环境共享，非工程人员也能直接测试并反馈。",
+          "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
+            "basis": "source"
+          },
+          {
+            "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
+            "basis": "source"
+          },
+          {
+            "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
+            "basis": "source"
+          },
+          {
+            "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+            "basis": "source"
+          },
+          {
+            "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+            "basis": "source"
+          },
+          {
+            "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+            "basis": "source"
+          },
+          {
+            "text": "并发限制控制同一父部署同时运行的预览数量。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
+            "steps": [
+              "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+              "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+              "创建拉取请求，触发预览部署。",
+              "分享预览部署链接给审查者，让他们测试 Agent。",
+              "根据反馈推送新提交，预览自动更新。",
+              "测试完成后，手动删除预览或等待 TTL 过期。"
+            ],
+            "tools": [
+              "LangSmith",
+              "GitHub"
+            ],
+            "verification": [
+              "在 LangSmith 界面看到预览部署状态为活跃。",
+              "审查者能访问预览链接并执行测试。",
+              "推送新提交后，预览部署的修订版本更新。",
+              "超过 TTL 后，预览自动消失。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Preview Builds",
+          "空闲 TTL",
+          "并发限制",
+          "公开测试"
+        ],
+        "searchTerms": [
+          {
+            "term": "Preview Builds",
+            "query": "LangSmith Preview Builds"
+          },
+          {
+            "term": "LangSmith Deployment",
+            "query": "LangSmith Deployment features"
+          },
+          {
+            "term": "拉取请求",
+            "query": "GitHub pull request testing"
+          },
+          {
+            "term": "空闲 TTL",
+            "query": "idle TTL deployment"
+          },
+          {
+            "term": "并发限制",
+            "query": "concurrency limit preview deployment"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-20T21:59:12.362Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "ae3d2b5d8f1b2918",
+      "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+      "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+      "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+      "publishedAt": "2026-08-19T22:22:37.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 74,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "ef2cca74fb2b9ce60b9685fa",
+      "extraction": {
+        "method": "readability",
+        "length": 13954,
+        "originalLength": 13954,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
+      "analysis": {
+        "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+              "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+              "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+              "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+              "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+              "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+              "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+              "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+              "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+          "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+          "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+          "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+          "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+          "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
+            "basis": "source"
+          },
+          {
+            "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
+            "basis": "source"
+          },
+          {
+            "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
+            "basis": "source"
+          },
+          {
+            "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
+            "basis": "source"
+          },
+          {
+            "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
+            "steps": [
+              "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+              "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+              "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+              "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+              "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+              "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+              "审查AI助手的代码和输出，设定下一轮优化目标。"
+            ],
+            "tools": [
+              "Holoscan CLI (./holohub)",
+              "HoloHub技能库 (holohub-app-lifecycle)",
+              "Codex with GPT-5.6 Sol",
+              "MONAI endoscopic tool segmentation model"
+            ],
+            "verification": [
+              "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+              "`./holohub test <app>`返回通过结果。",
+              "benchmark模式生成延迟图表，且多次运行结果一致。",
+              "优化后版本在5次测试中均快于基线版本。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "迭代式开发",
+          "消融实验",
+          "TensorRT推理",
+          "Data Flow Tracking"
+        ],
+        "searchTerms": [
+          {
+            "term": "Holoscan CLI",
+            "query": "NVIDIA Holoscan CLI usage"
+          },
+          {
+            "term": "Data Flow Tracking",
+            "query": "Holoscan Data Flow Tracking latency"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-20T21:59:31.510Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "editionItems": [
+    {
+      "id": "3dddaf9068ffc6c5",
+      "title": "Test Agent Changes with LangSmith Preview Builds",
+      "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+      "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+      "publishedAt": "2026-08-20T19:20:50.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 92,
+      "bodyHash": "46fd2c9e2367d020ab90abe3",
+      "extraction": {
+        "method": "readability",
+        "length": 4730,
+        "originalLength": 4730,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
+      "analysis": {
+        "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+              "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+              "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+              "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+              "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+              "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+              "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+              "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+              "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+              "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+              "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+              "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+          "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+          "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+          "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+          "预览环境共享，非工程人员也能直接测试并反馈。",
+          "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
+            "basis": "source"
+          },
+          {
+            "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
+            "basis": "source"
+          },
+          {
+            "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
+            "basis": "source"
+          },
+          {
+            "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+            "basis": "source"
+          },
+          {
+            "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+            "basis": "source"
+          },
+          {
+            "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+            "basis": "source"
+          },
+          {
+            "text": "并发限制控制同一父部署同时运行的预览数量。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
+            "steps": [
+              "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+              "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+              "创建拉取请求，触发预览部署。",
+              "分享预览部署链接给审查者，让他们测试 Agent。",
+              "根据反馈推送新提交，预览自动更新。",
+              "测试完成后，手动删除预览或等待 TTL 过期。"
+            ],
+            "tools": [
+              "LangSmith",
+              "GitHub"
+            ],
+            "verification": [
+              "在 LangSmith 界面看到预览部署状态为活跃。",
+              "审查者能访问预览链接并执行测试。",
+              "推送新提交后，预览部署的修订版本更新。",
+              "超过 TTL 后，预览自动消失。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Preview Builds",
+          "空闲 TTL",
+          "并发限制",
+          "公开测试"
+        ],
+        "searchTerms": [
+          {
+            "term": "Preview Builds",
+            "query": "LangSmith Preview Builds"
+          },
+          {
+            "term": "LangSmith Deployment",
+            "query": "LangSmith Deployment features"
+          },
+          {
+            "term": "拉取请求",
+            "query": "GitHub pull request testing"
+          },
+          {
+            "term": "空闲 TTL",
+            "query": "idle TTL deployment"
+          },
+          {
+            "term": "并发限制",
+            "query": "concurrency limit preview deployment"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-20T21:59:12.362Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "ae3d2b5d8f1b2918",
+      "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+      "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+      "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+      "publishedAt": "2026-08-19T22:22:37.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 74,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "ef2cca74fb2b9ce60b9685fa",
+      "extraction": {
+        "method": "readability",
+        "length": 13954,
+        "originalLength": 13954,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
+      "analysis": {
+        "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+              "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+              "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+              "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+              "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+              "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+              "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+              "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+              "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+          "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+          "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+          "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+          "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+          "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
+            "basis": "source"
+          },
+          {
+            "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
+            "basis": "source"
+          },
+          {
+            "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
+            "basis": "source"
+          },
+          {
+            "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
+            "basis": "source"
+          },
+          {
+            "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
+            "steps": [
+              "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+              "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+              "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+              "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+              "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+              "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+              "审查AI助手的代码和输出，设定下一轮优化目标。"
+            ],
+            "tools": [
+              "Holoscan CLI (./holohub)",
+              "HoloHub技能库 (holohub-app-lifecycle)",
+              "Codex with GPT-5.6 Sol",
+              "MONAI endoscopic tool segmentation model"
+            ],
+            "verification": [
+              "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+              "`./holohub test <app>`返回通过结果。",
+              "benchmark模式生成延迟图表，且多次运行结果一致。",
+              "优化后版本在5次测试中均快于基线版本。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "迭代式开发",
+          "消融实验",
+          "TensorRT推理",
+          "Data Flow Tracking"
+        ],
+        "searchTerms": [
+          {
+            "term": "Holoscan CLI",
+            "query": "NVIDIA Holoscan CLI usage"
+          },
+          {
+            "term": "Data Flow Tracking",
+            "query": "Holoscan Data Flow Tracking latency"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-20T21:59:31.510Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "study": [
+    {
+      "id": "3dddaf9068ffc6c5",
+      "title": "Test Agent Changes with LangSmith Preview Builds",
+      "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+      "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+      "publishedAt": "2026-08-20T19:20:50.000Z",
+      "sourceId": "langchain",
+      "sourceName": "LangChain Blog",
+      "sourceSite": "https://blog.langchain.com/",
+      "lane": "ai",
+      "accent": "#1c3c3c",
+      "topic": "Agent 与自动化",
+      "score": 72,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 7,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 92,
+      "bodyHash": "46fd2c9e2367d020ab90abe3",
+      "extraction": {
+        "method": "readability",
+        "length": 4730,
+        "originalLength": 4730,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
+      "analysis": {
+        "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+              "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+              "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+              "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+              "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+              "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+              "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+              "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+              "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+              "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+              "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+              "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+          "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+          "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+          "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+          "预览环境共享，非工程人员也能直接测试并反馈。",
+          "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
+            "basis": "source"
+          },
+          {
+            "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
+            "basis": "source"
+          },
+          {
+            "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
+            "basis": "source"
+          },
+          {
+            "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+            "basis": "source"
+          },
+          {
+            "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+            "basis": "source"
+          },
+          {
+            "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+            "basis": "source"
+          },
+          {
+            "text": "并发限制控制同一父部署同时运行的预览数量。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
+            "steps": [
+              "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+              "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+              "创建拉取请求，触发预览部署。",
+              "分享预览部署链接给审查者，让他们测试 Agent。",
+              "根据反馈推送新提交，预览自动更新。",
+              "测试完成后，手动删除预览或等待 TTL 过期。"
+            ],
+            "tools": [
+              "LangSmith",
+              "GitHub"
+            ],
+            "verification": [
+              "在 LangSmith 界面看到预览部署状态为活跃。",
+              "审查者能访问预览链接并执行测试。",
+              "推送新提交后，预览部署的修订版本更新。",
+              "超过 TTL 后，预览自动消失。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "Preview Builds",
+          "空闲 TTL",
+          "并发限制",
+          "公开测试"
+        ],
+        "searchTerms": [
+          {
+            "term": "Preview Builds",
+            "query": "LangSmith Preview Builds"
+          },
+          {
+            "term": "LangSmith Deployment",
+            "query": "LangSmith Deployment features"
+          },
+          {
+            "term": "拉取请求",
+            "query": "GitHub pull request testing"
+          },
+          {
+            "term": "空闲 TTL",
+            "query": "idle TTL deployment"
+          },
+          {
+            "term": "并发限制",
+            "query": "concurrency limit preview deployment"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-20T21:59:12.362Z",
+      "model": "deepseek-v4-flash"
+    },
+    {
+      "id": "ae3d2b5d8f1b2918",
+      "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+      "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+      "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+      "publishedAt": "2026-08-19T22:22:37.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
+      "lane": "ai",
+      "accent": "#76b900",
+      "topic": "Agent 与自动化",
+      "score": 74,
+      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
+      "language": "en",
+      "candidateScore": 89,
+      "bodyHash": "ef2cca74fb2b9ce60b9685fa",
+      "extraction": {
+        "method": "readability",
+        "length": 13954,
+        "originalLength": 13954,
+        "trusted": true
+      },
+      "schemaVersion": 2,
+      "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
+      "analysis": {
+        "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
+        "fullAnalysis": [
+          {
+            "heading": "背景与问题",
+            "paragraphs": [
+              "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+              "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+              "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
+            ]
+          },
+          {
+            "heading": "方法与论证",
+            "paragraphs": [
+              "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+              "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+              "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+              "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+              "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
+            ]
+          },
+          {
+            "heading": "证据、结论与边界",
+            "paragraphs": [
+              "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+              "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+              "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
+            ]
+          }
+        ],
+        "keyPoints": [
+          "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+          "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+          "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+          "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+          "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+          "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
+        ],
+        "technicalDetails": [
+          {
+            "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
+            "basis": "source"
+          },
+          {
+            "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
+            "basis": "source"
+          },
+          {
+            "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
+            "basis": "source"
+          },
+          {
+            "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
+            "basis": "source"
+          },
+          {
+            "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
+            "basis": "source"
+          }
+        ],
+        "engineeringPractice": [
+          {
+            "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
+            "steps": [
+              "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+              "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+              "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+              "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+              "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+              "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+              "审查AI助手的代码和输出，设定下一轮优化目标。"
+            ],
+            "tools": [
+              "Holoscan CLI (./holohub)",
+              "HoloHub技能库 (holohub-app-lifecycle)",
+              "Codex with GPT-5.6 Sol",
+              "MONAI endoscopic tool segmentation model"
+            ],
+            "verification": [
+              "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+              "`./holohub test <app>`返回通过结果。",
+              "benchmark模式生成延迟图表，且多次运行结果一致。",
+              "优化后版本在5次测试中均快于基线版本。"
+            ]
+          }
+        ]
+      },
+      "annotations": {
+        "emphasis": [
+          "迭代式开发",
+          "消融实验",
+          "TensorRT推理",
+          "Data Flow Tracking"
+        ],
+        "searchTerms": [
+          {
+            "term": "Holoscan CLI",
+            "query": "NVIDIA Holoscan CLI usage"
+          },
+          {
+            "term": "Data Flow Tracking",
+            "query": "Holoscan Data Flow Tracking latency"
+          }
+        ]
+      },
+      "analysisStatus": "complete",
+      "analyzedAt": "2026-08-20T21:59:31.510Z",
+      "model": "deepseek-v4-flash"
+    }
+  ],
+  "lanes": {
+    "ai": [
+      {
+        "id": "3dddaf9068ffc6c5",
+        "title": "Test Agent Changes with LangSmith Preview Builds",
+        "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+        "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+        "publishedAt": "2026-08-20T19:20:50.000Z",
+        "sourceId": "langchain",
+        "sourceName": "LangChain Blog",
+        "sourceSite": "https://blog.langchain.com/",
+        "lane": "ai",
+        "accent": "#1c3c3c",
+        "topic": "Agent 与自动化",
+        "score": 72,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 7,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 92,
+        "bodyHash": "46fd2c9e2367d020ab90abe3",
+        "extraction": {
+          "method": "readability",
+          "length": 4730,
+          "originalLength": 4730,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
+        "analysis": {
+          "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+                "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+                "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+                "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+                "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+                "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+                "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+                "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+                "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+                "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+                "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+                "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+            "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+            "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+            "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+            "预览环境共享，非工程人员也能直接测试并反馈。",
+            "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
+              "basis": "source"
+            },
+            {
+              "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
+              "basis": "source"
+            },
+            {
+              "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
+              "basis": "source"
+            },
+            {
+              "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+              "basis": "source"
+            },
+            {
+              "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+              "basis": "source"
+            },
+            {
+              "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+              "basis": "source"
+            },
+            {
+              "text": "并发限制控制同一父部署同时运行的预览数量。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
+              "steps": [
+                "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+                "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+                "创建拉取请求，触发预览部署。",
+                "分享预览部署链接给审查者，让他们测试 Agent。",
+                "根据反馈推送新提交，预览自动更新。",
+                "测试完成后，手动删除预览或等待 TTL 过期。"
+              ],
+              "tools": [
+                "LangSmith",
+                "GitHub"
+              ],
+              "verification": [
+                "在 LangSmith 界面看到预览部署状态为活跃。",
+                "审查者能访问预览链接并执行测试。",
+                "推送新提交后，预览部署的修订版本更新。",
+                "超过 TTL 后，预览自动消失。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "Preview Builds",
+            "空闲 TTL",
+            "并发限制",
+            "公开测试"
+          ],
+          "searchTerms": [
+            {
+              "term": "Preview Builds",
+              "query": "LangSmith Preview Builds"
+            },
+            {
+              "term": "LangSmith Deployment",
+              "query": "LangSmith Deployment features"
+            },
+            {
+              "term": "拉取请求",
+              "query": "GitHub pull request testing"
+            },
+            {
+              "term": "空闲 TTL",
+              "query": "idle TTL deployment"
+            },
+            {
+              "term": "并发限制",
+              "query": "concurrency limit preview deployment"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-20T21:59:12.362Z",
+        "model": "deepseek-v4-flash"
+      },
+      {
+        "id": "ae3d2b5d8f1b2918",
+        "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+        "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+        "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+        "publishedAt": "2026-08-19T22:22:37.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
+        "lane": "ai",
+        "accent": "#76b900",
+        "topic": "Agent 与自动化",
+        "score": 74,
+        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
+        "readMinutes": 20,
+        "category": "practice",
+        "slot": "practice",
+        "language": "en",
+        "candidateScore": 89,
+        "bodyHash": "ef2cca74fb2b9ce60b9685fa",
+        "extraction": {
+          "method": "readability",
+          "length": 13954,
+          "originalLength": 13954,
+          "trusted": true
+        },
+        "schemaVersion": 2,
+        "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
+        "analysis": {
+          "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
+          "fullAnalysis": [
+            {
+              "heading": "背景与问题",
+              "paragraphs": [
+                "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+                "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+                "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
+              ]
+            },
+            {
+              "heading": "方法与论证",
+              "paragraphs": [
+                "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+                "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+                "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+                "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+                "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
+              ]
+            },
+            {
+              "heading": "证据、结论与边界",
+              "paragraphs": [
+                "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+                "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+                "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
+              ]
+            }
+          ],
+          "keyPoints": [
+            "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+            "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+            "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+            "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+            "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+            "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
+          ],
+          "technicalDetails": [
+            {
+              "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
+              "basis": "source"
+            },
+            {
+              "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
+              "basis": "source"
+            },
+            {
+              "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
+              "basis": "source"
+            },
+            {
+              "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
+              "basis": "source"
+            },
+            {
+              "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
+              "basis": "source"
+            }
+          ],
+          "engineeringPractice": [
+            {
+              "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
+              "steps": [
+                "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+                "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+                "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+                "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+                "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+                "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+                "审查AI助手的代码和输出，设定下一轮优化目标。"
+              ],
+              "tools": [
+                "Holoscan CLI (./holohub)",
+                "HoloHub技能库 (holohub-app-lifecycle)",
+                "Codex with GPT-5.6 Sol",
+                "MONAI endoscopic tool segmentation model"
+              ],
+              "verification": [
+                "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+                "`./holohub test <app>`返回通过结果。",
+                "benchmark模式生成延迟图表，且多次运行结果一致。",
+                "优化后版本在5次测试中均快于基线版本。"
+              ]
+            }
+          ]
+        },
+        "annotations": {
+          "emphasis": [
+            "迭代式开发",
+            "消融实验",
+            "TensorRT推理",
+            "Data Flow Tracking"
+          ],
+          "searchTerms": [
+            {
+              "term": "Holoscan CLI",
+              "query": "NVIDIA Holoscan CLI usage"
+            },
+            {
+              "term": "Data Flow Tracking",
+              "query": "Holoscan Data Flow Tracking latency"
+            }
+          ]
+        },
+        "analysisStatus": "complete",
+        "analyzedAt": "2026-08-20T21:59:31.510Z",
+        "model": "deepseek-v4-flash"
+      }
+    ],
+    "game": [],
+    "art": []
+  }
+}

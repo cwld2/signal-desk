@@ -1,435 +1,320 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-20T05:16:36.496Z",
+  "generatedAt": "2026-08-20T21:59:31.511Z",
   "timezone": "Asia/Shanghai",
   "schedule": "Daily 05:38 Asia/Shanghai",
   "edition": {
-    "date": "2026-08-20",
+    "date": "2026-08-21",
     "isWeeklyEdition": false,
     "weeklyReason": null
   },
   "stats": {
-    "candidates": 22,
-    "selected": 3,
-    "ai": 3,
+    "candidates": 23,
+    "selected": 2,
+    "ai": 2,
     "practice": 2,
-    "update": 1,
+    "update": 0,
     "manual": 0,
     "game": 0,
     "art": 0,
     "currentGame": 2,
     "currentArt": 1,
     "studyMinutes": 30,
-    "bailianCalls": 0
+    "bailianCalls": 3
   },
   "items": [
     {
-      "id": "0055cddeb9b13254",
-      "title": "Evaluating AI Agent Skill Performance with NVIDIA SkillEvaluator",
-      "url": "https://developer.nvidia.com/blog/evaluating-ai-agent-skill-performance-with-nvidia-skillevaluator/",
-      "summary": "AI agents are only as effective as the context they receive. Even with capable models and well-documented NVIDIA libraries, agents can spend extra steps finding...",
-      "publishedAt": "2026-08-19T16:00:00.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
-      "lane": "ai",
-      "accent": "#76b900",
-      "topic": "Agent 与自动化",
-      "score": 72,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 16,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "54065c4a9e2da77b4c327003",
-      "extraction": {
-        "method": "readability",
-        "length": 10856,
-        "originalLength": 10856,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "NVIDIA SkillEvaluator：如何量化AI Agent技能的真实提升",
-      "analysis": {
-        "listSummary": "本文介绍NVIDIA开源的SkillEvaluator工具，用于评估AI Agent技能包对任务表现的影响。它通过三层评估（安全结构、独特性、实时对比）测量技能安装前后的性能差异，并公布300多个已验证技能在30多个NVIDIA产品上的基准结果。核心发现是技能能显著提升正确性、可发现性等维度，但提升幅度因产品而异，且token节省并非自动。对构建或使用AI Agent的开发者，本文提供了可操作的评估方法和重要参考数据，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "AI Agent的表现取决于它接收的上下文，即使模型强大、库文档完善，Agent也可能在寻找正确工具上浪费步骤、消耗token或卡在专业任务上。技能包（Skill）将指令、示例和工具指导打包，帮助Agent更快从意图到解决方案。",
-              "但如何衡量技能是否真的有效？NVIDIA构建了开源评估层SkillEvaluator，通过静态检查和真实任务运行（有/无技能）来量化技能对Agent性能的影响。这解决了技能效果无法客观度量的问题，让开发者能基于数据优化技能。",
-              "NVIDIA已验证技能是打包、签名的能力描述符，告诉Agent某个NVIDIA产品做什么、何时调用、如何调用。“已验证”意味着经过测量确认其就绪。本文分享首批基准结果，覆盖30多个产品的300多个技能，并在两个独立测试框架上评估。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "技能发布前需通过三层评估：第一层是安全与结构，运行静态检查（模式验证、质量评分、安全扫描等）；第二层是独特性，用嵌入相似度检测技能内部重复和目录间重叠；第三层是实时评估，在隔离沙箱中对比有/无技能时的Agent表现。",
-              "实时评估使用Harbor开源框架，SkillEvaluator负责设置、转换任务、运行Agent、收集结果并计算技能影响。每个案例在相同提示、模型、任务输入和评分标准下运行两次，唯一变量是技能是否安装，这种受控比较确保结果可靠。",
-              "以简单示例说明：运行`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集，包含显式、隐式、上下文和负例案例；然后运行`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`执行实时对比，产生分数和Skill Lift。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "基准结果显示，无技能基线分数在正确性、可发现性、有效性、效率上仅为39-46分（满分100），而安全基线高达97分。安装技能后，正确性提升41点至87，可发现性提升40点至82，有效性提升39点至78，效率提升35点至78，安全仅提升1点。",
-              "Skill Lift按产品差异远大于按测试框架差异：Claude Code和Codex平均差约5点，但不同产品间Skill Lift从+2到+46不等。这说明领域、任务和评估设计比Agent框架更重要。",
-              "Token节省并非自动：例如jetson-optimize-memory技能减少76.9% token和53.7%时间，但cuopt-install技能反而增加120.3% token和20.8%时间，揭示优化机会。",
-              "已知局限：可发现性和效率基线非零，因为Agent仍可通过有效工具使用获得部分分数；85%技能仅运行一次尝试，结果存在变异性；未报告置信区间。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "SkillEvaluator通过三层评估（安全结构、独特性、实时对比）量化技能对Agent性能的影响，核心指标是Skill Lift（有技能分数减无技能分数）。",
-          "基准数据显示，技能能显著提升正确性（+41点）、可发现性（+40点）、有效性（+39点）和效率（+35点），但安全基线已高，提升有限。",
-          "技能提升效果因产品而异（Skill Lift从+2到+46），远大于因测试框架（Claude Code vs Codex）的差异（约5点），说明任务和评估设计更关键。",
-          "Token节省并非自动：某些技能能大幅减少token和时间，但另一些反而增加，需通过评估识别优化空间。",
-          "可发现性和效率分数应理解为技能被正确激活和使用的证据，而非无辅助Agent行为，因为技能在环境中竞争注意力。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "Skill Lift是核心指标，定义为有技能运行分数减去无技能运行分数，以点数表示，非百分比变化。它通过受控对比（相同提示、模型、任务、评分标准，唯一变量是技能安装）计算，用于量化技能贡献。",
-            "basis": "source"
-          },
-          {
-            "text": "三层评估：Tier 1静态检查（模式验证、质量评分、安全扫描等）确保安全结构；Tier 2用嵌入相似度检测重复和重叠；Tier 3实时评估在隔离沙箱中对比有/无技能表现。每层独立可运行，回答不同问题。",
-            "basis": "source"
-          },
-          {
-            "text": "Harbor是开源框架，用于在可重复、隔离环境中运行Agent评估。SkillEvaluator负责Harbor设置，将评估案例转为任务，在沙箱中运行Agent，收集结果并计算影响。",
-            "basis": "source"
-          },
-          {
-            "text": "基准数据来自2026年8月12日快照（commit 738d79e），分数宏平均跨技能-框架对，每个技能-框架对权重相等。目录持续评估，最新数据在benchmarks.json中。",
-            "basis": "source"
-          },
-          {
-            "text": "示例命令：`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集（含显式、隐式、上下文和负例案例），`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`运行实时对比。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "开发者想评估自己构建的Agent技能包是否有效，并优化其性能",
-            "steps": [
-              "使用SkillEvaluator创建评估数据集：运行`skillevaluator create-eval-dataset ./my-skill --full`，确保包含显式、隐式、上下文和负例案例",
-              "审查生成的evals.json，确认每个案例的ID、提示、预期输出和断言是否准确反映任务目标",
-              "运行实时评估：`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`，对比有/无技能的分数",
-              "分析Skill Lift结果，特别是正确性、可发现性、有效性、效率维度，识别技能弱点",
-              "根据评估结果迭代技能内容，例如改进指令清晰度或工具调用示例，然后重新评估"
-            ],
-            "tools": [
-              "SkillEvaluator",
-              "Harbor",
-              "Docker",
-              "Codex或Claude Code"
-            ],
-            "verification": [
-              "评估报告显示Skill Lift为正且在各维度有提升",
-              "Token使用和执行时间数据可对比优化前后变化",
-              "技能在相关任务中被激活，在无关任务中保持未加载"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "Skill Lift",
-          "三层评估",
-          "安全基线",
-          "Token节省并非自动",
-          "可发现性和效率"
-        ],
-        "searchTerms": [
-          {
-            "term": "SkillEvaluator",
-            "query": "NVIDIA SkillEvaluator agent skills evaluation"
-          },
-          {
-            "term": "Skill Lift",
-            "query": "Skill Lift metric AI agent performance"
-          },
-          {
-            "term": "Harbor",
-            "query": "Harbor framework agent evaluation"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:57:44.227Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "1a5a789777a0c93c",
-      "title": "Introducing LangSmith Tuned Evaluators",
-      "url": "https://www.langchain.com/blog/introducing-langsmith-tuned-evaluators-starting-with-perceived-error",
-      "summary": "LangSmith Tuned Evaluators attach quality feedback to production traces, starting with Perceived Error, to help teams find and fix agent mistakes.",
-      "publishedAt": "2026-08-19T12:59:39.000Z",
+      "id": "3dddaf9068ffc6c5",
+      "title": "Test Agent Changes with LangSmith Preview Builds",
+      "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+      "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+      "publishedAt": "2026-08-20T19:20:50.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 48,
+      "score": 72,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 8,
+      "readMinutes": 7,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 81,
-      "bodyHash": "855ae19b79c87e5eb7d66d53",
+      "candidateScore": 92,
+      "bodyHash": "46fd2c9e2367d020ab90abe3",
       "extraction": {
         "method": "readability",
-        "length": 5522,
-        "originalLength": 5522,
+        "length": 4730,
+        "originalLength": 4730,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangSmith Tuned Evaluators：为生产环境中的 AI 代理自动附加质量反馈",
+      "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
       "analysis": {
-        "listSummary": "本文介绍 LangSmith 新推出的 Tuned Evaluators，它能自动为生产环境中的对话代理附加质量反馈，帮助团队发现并修复代理错误。文章解释了其工作原理、成本优势，以及首个评估器 Perceived Error 的细节。对于使用 LangSmith 的开发者，这能显著降低评估成本并提高覆盖率，值得一读。",
+        "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "生产环境中的对话代理需要评估“感知错误”，即用户是否遇到代理犯错或误解的情况。这是判断代理体验是否良好的关键信号。",
-              "传统评估方法成本高且难以扩展，团队依赖前沿模型调用，只抽样少量对话，并手动调整评估器。这导致可能错过关键错误信号。",
-              "Tuned Evaluators 解决了这一痛点，通过自动附加质量反馈，让团队能快速定位问题并改进代理。"
+              "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+              "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+              "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+              "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Tuned Evaluators 是预构建的评估器，LangChain 已将其转化为生产就绪的“裁判”。团队只需选择并附加到追踪项目即可使用。",
-              "其核心优势是专用模型，经过后训练，在特定评估目标上超越前沿模型，但成本降低 82%，部分场景节省达 98%。",
-              "工作原理包括：添加评估器、识别合格对话、运行评估、附加反馈，以及供团队分析结果。LangChain 负责维护提示词、模型和基础设施。"
+              "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+              "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+              "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+              "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+              "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+              "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "Perceived Error 是首个评估器，检测代理犯错、误解或方向错误的证据，如用户纠正或矛盾回应。",
-              "基准测试显示其性能优于所有前沿模型，且成本大幅降低。早期合作伙伴 Vanta 证实，它能立即提供质量覆盖，同时团队开发自有评估器。",
-              "适用边界：对话需至少两轮人机交互，并在空闲期后 12 小时内完成评估。目前仅限美国地区的 Plus 和 Cloud Enterprise 计划。"
+              "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+              "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+              "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+              "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
             ]
           }
         ],
         "keyPoints": [
-          "Tuned Evaluators 自动为生产对话附加质量反馈，无需手动抽样或调参。",
-          "专用模型在特定评估目标上性能优于前沿模型，成本降低 82%。",
-          "Perceived Error 检测代理错误信号，如用户纠正或矛盾回应。",
-          "评估器由 LangChain 维护，团队可直接使用，节省工程时间。",
-          "对话需至少两轮交互，评估在 12 小时内完成。"
+          "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+          "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+          "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+          "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+          "预览环境共享，非工程人员也能直接测试并反馈。",
+          "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
         ],
         "technicalDetails": [
           {
-            "text": "Tuned Evaluators 是预构建的评估器，LangChain 将其转化为生产就绪的裁判。它通过后训练专用模型，在特定目标上提供高质量判断，同时降低成本。",
+            "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
             "basis": "source"
           },
           {
-            "text": "Perceived Error 评估器检测代理错误证据，包括显式信号（如用户纠正）和推断信号（如矛盾回应）。它基于标注对话训练，性能超越前沿模型。",
+            "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
             "basis": "source"
           },
           {
-            "text": "评估流程：添加评估器到追踪项目，LangSmith 识别合格对话，运行评估，附加反馈。合格条件为至少两轮人机交互，并在空闲期后 12 小时内完成。",
+            "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
             "basis": "source"
           },
           {
-            "text": "成本节省：基准测试显示成本降低 82%，早期合作伙伴节省达 98%，具体取决于对话组成。",
+            "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+            "basis": "source"
+          },
+          {
+            "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+            "basis": "source"
+          },
+          {
+            "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+            "basis": "source"
+          },
+          {
+            "text": "并发限制控制同一父部署同时运行的预览数量。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "团队使用 LangSmith 追踪生产代理，希望快速发现错误并改进。",
+            "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
             "steps": [
-              "登录 LangSmith 并选择追踪项目。",
-              "添加 Perceived Error 评估器并保存。",
-              "等待评估完成（需至少两轮交互，12 小时内）。",
-              "查看附加的反馈和解释，筛选需关注的对话。",
-              "将标记的对话添加到数据集，用于测试和改进代理。"
+              "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+              "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+              "创建拉取请求，触发预览部署。",
+              "分享预览部署链接给审查者，让他们测试 Agent。",
+              "根据反馈推送新提交，预览自动更新。",
+              "测试完成后，手动删除预览或等待 TTL 过期。"
             ],
             "tools": [
               "LangSmith",
-              "Perceived Error 评估器"
+              "GitHub"
             ],
             "verification": [
-              "评估完成后，对话中可见反馈和解释。",
-              "成本账单显示评估费用，但跳过或失败的评估不收费。"
+              "在 LangSmith 界面看到预览部署状态为活跃。",
+              "审查者能访问预览链接并执行测试。",
+              "推送新提交后，预览部署的修订版本更新。",
+              "超过 TTL 后，预览自动消失。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "Perceived Error",
-          "Tuned Evaluators"
+          "Preview Builds",
+          "空闲 TTL",
+          "并发限制",
+          "公开测试"
         ],
         "searchTerms": [
           {
-            "term": "Perceived Error",
-            "query": "LangSmith Perceived Error evaluator"
+            "term": "Preview Builds",
+            "query": "LangSmith Preview Builds"
           },
           {
-            "term": "Tuned Evaluators",
-            "query": "LangSmith Tuned Evaluators"
+            "term": "LangSmith Deployment",
+            "query": "LangSmith Deployment features"
+          },
+          {
+            "term": "拉取请求",
+            "query": "GitHub pull request testing"
+          },
+          {
+            "term": "空闲 TTL",
+            "query": "idle TTL deployment"
+          },
+          {
+            "term": "并发限制",
+            "query": "concurrency limit preview deployment"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:57:53.992Z",
+      "analyzedAt": "2026-08-20T21:59:12.362Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "9c4d968828856a99",
-      "title": "v0.14.24",
-      "url": "https://github.com/run-llama/llama_index/releases/tag/v0.14.24",
-      "summary": "Release Notes [2026-08-19] llama-index-core [0.14.24] fix: close HotpotQA evaluator file handles ( #22113 ) fix(core): preserve oversized leaf nodes in CodeSplitter ( #22119 ) fix: preserve multiblock chat history writes ( #22124 ) fix(core): skip empty nodes in HTMLNodeParser ( #22125 ) fix(core): respect mmr_threshold=0 in MMR embedding search ( #22126 ) fix: keep all nodes per document in IngestionPipeline upserts (re-submit of #22046 , not a dup of #21456 ) ( #22133 ) fix: don't mark *args/**kwargs as required tool parameters ( #22135 ) fix(core): default MetadataFilters condition to AND when None ( #22155 ) fix: honor agent structured_output_fn/output_cls inside AgentWorkflow ( #22162 ) fix(core): use word tokenization for stopword removal in SemanticDoubleMergingSplitterNodeParser ( #22167 ) fix(core): restore prompt helper fallback to supplied LLM metadata ( #22177 ) populate resp",
-      "publishedAt": "2026-08-19T18:48:01.000Z",
-      "sourceId": "llamaindex",
-      "sourceName": "LlamaIndex Releases",
-      "sourceSite": "https://github.com/run-llama/llama_index/releases",
+      "id": "ae3d2b5d8f1b2918",
+      "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+      "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+      "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+      "publishedAt": "2026-08-19T22:22:37.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#6d5dfc",
+      "accent": "#76b900",
       "topic": "Agent 与自动化",
-      "score": 76,
+      "score": 74,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 9,
-      "category": "update",
-      "slot": "update",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
       "candidateScore": 89,
-      "bodyHash": "c57df3a7e9d8669a26ba711e",
+      "bodyHash": "ef2cca74fb2b9ce60b9685fa",
       "extraction": {
         "method": "readability",
-        "length": 6464,
-        "originalLength": 6464,
+        "length": 13954,
+        "originalLength": 13954,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LlamaIndex v0.14.24 更新解析：修复与增强的细节",
+      "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
       "analysis": {
-        "listSummary": "本文是 LlamaIndex 框架 2026 年 8 月 19 日发布的 v0.14.24 版本更新日志。它详细列出了核心库及多个集成模块的修复和功能增强，包括代码分割、聊天历史、嵌入搜索、模型支持等方面。对于使用 LlamaIndex 构建 AI 应用的开发者，了解这些更新有助于避免已知问题、利用新功能，并确保代码的稳定性。文章内容专业且具体，适合需要跟进框架变化的开发者阅读。",
+        "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "这个版本更新主要解决 LlamaIndex 框架中一系列具体的技术问题。LlamaIndex 是一个帮助开发者构建基于大语言模型（LLM）应用的框架，它负责处理数据连接、索引和查询等任务。",
-              "本次更新涉及的问题包括：文件句柄未关闭导致资源泄漏、代码分割器处理超长节点出错、聊天历史写入不完整、空节点导致解析错误、嵌入搜索参数失效、数据管道更新时丢失节点、工具参数误判、元数据过滤条件错误、代理工作流输出不生效、文本分割器分词方式错误、提示词回退机制失效等。",
-              "这些问题会影响应用的资源管理、数据处理准确性、搜索效果和模型调用正确性。例如，文件句柄未关闭在长时间运行的服务中可能导致内存或文件描述符耗尽；代码分割错误可能导致后续检索或生成结果不准确。"
+              "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+              "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+              "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "修复方法针对每个具体问题展开。例如，修复 HotpotQA 评估器文件句柄未关闭的问题，是通过确保文件在使用后被正确关闭来防止资源泄漏。",
-              "对于 CodeSplitter 保留超大叶子节点的问题，修复确保在分割代码时，即使节点过大也不会被意外丢弃，从而保留完整信息。",
-              "在 MMR 嵌入搜索中，修复了 mmr_threshold=0 时参数被忽略的问题，确保该值能正确生效，影响搜索结果的多样性控制。",
-              "IngestionPipeline 的 upsert 操作修复了每个文档的所有节点都能被保留的问题，避免数据更新时丢失部分内容。",
-              "此外，更新还增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持，并修复了相关模型调用中的参数和上下文窗口设置问题。"
+              "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+              "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+              "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+              "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+              "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文以发布说明的形式提供了每个修复的简要描述和对应的 GitHub issue 或 PR 编号，如 #22113、#22119 等，这些编号是验证修复内容的直接证据。",
-              "结论是本次更新包含大量针对特定场景的修复，旨在提升框架的稳定性和正确性。但更新日志本身不提供性能测试数据或用户反馈，因此无法量化每个修复带来的具体性能提升。",
-              "这些修复的边界在于它们针对的是特定模块和特定问题，并非对所有 LlamaIndex 使用场景的全面优化。开发者应关注与自己项目相关的修复项。"
+              "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+              "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+              "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
             ]
           }
         ],
         "keyPoints": [
-          "LlamaIndex v0.14.24 是一个修复版本，解决了多个模块中存在的具体技术问题。",
-          "核心修复包括代码分割、聊天历史、嵌入搜索、数据管道更新和代理工作流等方面。",
-          "更新增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持。",
-          "多个集成模块（如 Bedrock、Pinecone、Qdrant）也获得了兼容性和功能修复。",
-          "开发者应关注与自己项目相关的修复项，以避免已知问题并利用新功能。"
+          "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+          "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+          "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+          "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+          "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+          "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
         ],
         "technicalDetails": [
           {
-            "text": "HotpotQA evaluator file handles 是指用于评估模型性能的 HotpotQA 数据集文件句柄。修复确保这些文件在使用后被正确关闭，防止资源泄漏。",
+            "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
             "basis": "source"
           },
           {
-            "text": "CodeSplitter 是用于分割代码文本的组件。修复确保在分割时，过大的叶子节点（即分割后的最小单元）不会被丢弃，而是被保留下来，以维持代码的完整性。",
+            "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
             "basis": "source"
           },
           {
-            "text": "MMR（Maximal Marginal Relevance）嵌入搜索是一种平衡相关性和多样性的搜索算法。mmr_threshold 参数用于控制多样性，修复确保当该参数设置为 0 时，其值能被正确传递和生效。",
+            "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
             "basis": "source"
           },
           {
-            "text": "IngestionPipeline 的 upsert 操作用于更新数据。修复确保在更新时，每个文档的所有节点（即数据块）都能被保留，避免数据丢失。",
+            "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
             "basis": "source"
           },
           {
-            "text": "AgentWorkflow 是用于构建代理工作流的组件。修复确保 structured_output_fn 和 output_cls 参数能被正确识别和使用，从而保证代理输出的结构化。",
-            "basis": "source"
-          },
-          {
-            "text": "SemanticDoubleMergingSplitterNodeParser 是一个语义分割器。修复将其停用词移除逻辑改为基于词（word）的分词方式，以更准确地处理文本。",
+            "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发者使用 LlamaIndex 构建 RAG（检索增强生成）应用，需要确保数据处理的稳定性和搜索效果。",
+            "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
             "steps": [
-              "升级 LlamaIndex 核心库到 v0.14.24 或更高版本。",
-              "检查并更新相关集成模块，如向量数据库（Pinecone、Qdrant）和模型提供商（Anthropic、OpenAI）的插件。",
-              "如果使用了 CodeSplitter，测试其处理超大代码文件的行为，确保节点被正确保留。",
-              "如果使用了 MMR 搜索，验证 mmr_threshold=0 的设置是否生效。",
-              "如果使用了 IngestionPipeline 的 upsert，测试更新操作后所有节点是否完整。"
+              "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+              "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+              "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+              "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+              "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+              "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+              "审查AI助手的代码和输出，设定下一轮优化目标。"
             ],
             "tools": [
-              "LlamaIndex",
-              "Python",
-              "向量数据库",
-              "LLM API"
+              "Holoscan CLI (./holohub)",
+              "HoloHub技能库 (holohub-app-lifecycle)",
+              "Codex with GPT-5.6 Sol",
+              "MONAI endoscopic tool segmentation model"
             ],
             "verification": [
-              "运行单元测试，确认相关修复项不再出现错误。",
-              "在测试环境中执行数据管道更新，检查数据完整性。",
-              "进行搜索查询，验证 MMR 参数对结果的影响。"
+              "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+              "`./holohub test <app>`返回通过结果。",
+              "benchmark模式生成延迟图表，且多次运行结果一致。",
+              "优化后版本在5次测试中均快于基线版本。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "文件句柄",
-          "CodeSplitter",
-          "MMR 嵌入搜索",
-          "Claude Sonnet 5",
-          "GPT-5.6"
+          "迭代式开发",
+          "消融实验",
+          "TensorRT推理",
+          "Data Flow Tracking"
         ],
         "searchTerms": [
           {
-            "term": "LlamaIndex",
-            "query": "LlamaIndex v0.14.24 release notes"
+            "term": "Holoscan CLI",
+            "query": "NVIDIA Holoscan CLI usage"
           },
           {
-            "term": "CodeSplitter",
-            "query": "LlamaIndex CodeSplitter oversized leaf nodes fix"
-          },
-          {
-            "term": "MMR",
-            "query": "LlamaIndex MMR embedding search threshold fix"
-          },
-          {
-            "term": "IngestionPipeline",
-            "query": "LlamaIndex IngestionPipeline upsert nodes fix"
-          },
-          {
-            "term": "AgentWorkflow",
-            "query": "LlamaIndex AgentWorkflow structured output fix"
+            "term": "Data Flow Tracking",
+            "query": "Holoscan Data Flow Tracking latency"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:58:08.457Z",
+      "analyzedAt": "2026-08-20T21:59:31.510Z",
       "model": "deepseek-v4-flash"
     },
     {
@@ -849,1235 +734,890 @@
   ],
   "editionItems": [
     {
-      "id": "0055cddeb9b13254",
-      "title": "Evaluating AI Agent Skill Performance with NVIDIA SkillEvaluator",
-      "url": "https://developer.nvidia.com/blog/evaluating-ai-agent-skill-performance-with-nvidia-skillevaluator/",
-      "summary": "AI agents are only as effective as the context they receive. Even with capable models and well-documented NVIDIA libraries, agents can spend extra steps finding...",
-      "publishedAt": "2026-08-19T16:00:00.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
-      "lane": "ai",
-      "accent": "#76b900",
-      "topic": "Agent 与自动化",
-      "score": 72,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 16,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "54065c4a9e2da77b4c327003",
-      "extraction": {
-        "method": "readability",
-        "length": 10856,
-        "originalLength": 10856,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "NVIDIA SkillEvaluator：如何量化AI Agent技能的真实提升",
-      "analysis": {
-        "listSummary": "本文介绍NVIDIA开源的SkillEvaluator工具，用于评估AI Agent技能包对任务表现的影响。它通过三层评估（安全结构、独特性、实时对比）测量技能安装前后的性能差异，并公布300多个已验证技能在30多个NVIDIA产品上的基准结果。核心发现是技能能显著提升正确性、可发现性等维度，但提升幅度因产品而异，且token节省并非自动。对构建或使用AI Agent的开发者，本文提供了可操作的评估方法和重要参考数据，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "AI Agent的表现取决于它接收的上下文，即使模型强大、库文档完善，Agent也可能在寻找正确工具上浪费步骤、消耗token或卡在专业任务上。技能包（Skill）将指令、示例和工具指导打包，帮助Agent更快从意图到解决方案。",
-              "但如何衡量技能是否真的有效？NVIDIA构建了开源评估层SkillEvaluator，通过静态检查和真实任务运行（有/无技能）来量化技能对Agent性能的影响。这解决了技能效果无法客观度量的问题，让开发者能基于数据优化技能。",
-              "NVIDIA已验证技能是打包、签名的能力描述符，告诉Agent某个NVIDIA产品做什么、何时调用、如何调用。“已验证”意味着经过测量确认其就绪。本文分享首批基准结果，覆盖30多个产品的300多个技能，并在两个独立测试框架上评估。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "技能发布前需通过三层评估：第一层是安全与结构，运行静态检查（模式验证、质量评分、安全扫描等）；第二层是独特性，用嵌入相似度检测技能内部重复和目录间重叠；第三层是实时评估，在隔离沙箱中对比有/无技能时的Agent表现。",
-              "实时评估使用Harbor开源框架，SkillEvaluator负责设置、转换任务、运行Agent、收集结果并计算技能影响。每个案例在相同提示、模型、任务输入和评分标准下运行两次，唯一变量是技能是否安装，这种受控比较确保结果可靠。",
-              "以简单示例说明：运行`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集，包含显式、隐式、上下文和负例案例；然后运行`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`执行实时对比，产生分数和Skill Lift。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "基准结果显示，无技能基线分数在正确性、可发现性、有效性、效率上仅为39-46分（满分100），而安全基线高达97分。安装技能后，正确性提升41点至87，可发现性提升40点至82，有效性提升39点至78，效率提升35点至78，安全仅提升1点。",
-              "Skill Lift按产品差异远大于按测试框架差异：Claude Code和Codex平均差约5点，但不同产品间Skill Lift从+2到+46不等。这说明领域、任务和评估设计比Agent框架更重要。",
-              "Token节省并非自动：例如jetson-optimize-memory技能减少76.9% token和53.7%时间，但cuopt-install技能反而增加120.3% token和20.8%时间，揭示优化机会。",
-              "已知局限：可发现性和效率基线非零，因为Agent仍可通过有效工具使用获得部分分数；85%技能仅运行一次尝试，结果存在变异性；未报告置信区间。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "SkillEvaluator通过三层评估（安全结构、独特性、实时对比）量化技能对Agent性能的影响，核心指标是Skill Lift（有技能分数减无技能分数）。",
-          "基准数据显示，技能能显著提升正确性（+41点）、可发现性（+40点）、有效性（+39点）和效率（+35点），但安全基线已高，提升有限。",
-          "技能提升效果因产品而异（Skill Lift从+2到+46），远大于因测试框架（Claude Code vs Codex）的差异（约5点），说明任务和评估设计更关键。",
-          "Token节省并非自动：某些技能能大幅减少token和时间，但另一些反而增加，需通过评估识别优化空间。",
-          "可发现性和效率分数应理解为技能被正确激活和使用的证据，而非无辅助Agent行为，因为技能在环境中竞争注意力。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "Skill Lift是核心指标，定义为有技能运行分数减去无技能运行分数，以点数表示，非百分比变化。它通过受控对比（相同提示、模型、任务、评分标准，唯一变量是技能安装）计算，用于量化技能贡献。",
-            "basis": "source"
-          },
-          {
-            "text": "三层评估：Tier 1静态检查（模式验证、质量评分、安全扫描等）确保安全结构；Tier 2用嵌入相似度检测重复和重叠；Tier 3实时评估在隔离沙箱中对比有/无技能表现。每层独立可运行，回答不同问题。",
-            "basis": "source"
-          },
-          {
-            "text": "Harbor是开源框架，用于在可重复、隔离环境中运行Agent评估。SkillEvaluator负责Harbor设置，将评估案例转为任务，在沙箱中运行Agent，收集结果并计算影响。",
-            "basis": "source"
-          },
-          {
-            "text": "基准数据来自2026年8月12日快照（commit 738d79e），分数宏平均跨技能-框架对，每个技能-框架对权重相等。目录持续评估，最新数据在benchmarks.json中。",
-            "basis": "source"
-          },
-          {
-            "text": "示例命令：`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集（含显式、隐式、上下文和负例案例），`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`运行实时对比。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "开发者想评估自己构建的Agent技能包是否有效，并优化其性能",
-            "steps": [
-              "使用SkillEvaluator创建评估数据集：运行`skillevaluator create-eval-dataset ./my-skill --full`，确保包含显式、隐式、上下文和负例案例",
-              "审查生成的evals.json，确认每个案例的ID、提示、预期输出和断言是否准确反映任务目标",
-              "运行实时评估：`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`，对比有/无技能的分数",
-              "分析Skill Lift结果，特别是正确性、可发现性、有效性、效率维度，识别技能弱点",
-              "根据评估结果迭代技能内容，例如改进指令清晰度或工具调用示例，然后重新评估"
-            ],
-            "tools": [
-              "SkillEvaluator",
-              "Harbor",
-              "Docker",
-              "Codex或Claude Code"
-            ],
-            "verification": [
-              "评估报告显示Skill Lift为正且在各维度有提升",
-              "Token使用和执行时间数据可对比优化前后变化",
-              "技能在相关任务中被激活，在无关任务中保持未加载"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "Skill Lift",
-          "三层评估",
-          "安全基线",
-          "Token节省并非自动",
-          "可发现性和效率"
-        ],
-        "searchTerms": [
-          {
-            "term": "SkillEvaluator",
-            "query": "NVIDIA SkillEvaluator agent skills evaluation"
-          },
-          {
-            "term": "Skill Lift",
-            "query": "Skill Lift metric AI agent performance"
-          },
-          {
-            "term": "Harbor",
-            "query": "Harbor framework agent evaluation"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:57:44.227Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "1a5a789777a0c93c",
-      "title": "Introducing LangSmith Tuned Evaluators",
-      "url": "https://www.langchain.com/blog/introducing-langsmith-tuned-evaluators-starting-with-perceived-error",
-      "summary": "LangSmith Tuned Evaluators attach quality feedback to production traces, starting with Perceived Error, to help teams find and fix agent mistakes.",
-      "publishedAt": "2026-08-19T12:59:39.000Z",
+      "id": "3dddaf9068ffc6c5",
+      "title": "Test Agent Changes with LangSmith Preview Builds",
+      "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+      "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+      "publishedAt": "2026-08-20T19:20:50.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 48,
+      "score": 72,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 8,
+      "readMinutes": 7,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 81,
-      "bodyHash": "855ae19b79c87e5eb7d66d53",
+      "candidateScore": 92,
+      "bodyHash": "46fd2c9e2367d020ab90abe3",
       "extraction": {
         "method": "readability",
-        "length": 5522,
-        "originalLength": 5522,
+        "length": 4730,
+        "originalLength": 4730,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangSmith Tuned Evaluators：为生产环境中的 AI 代理自动附加质量反馈",
+      "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
       "analysis": {
-        "listSummary": "本文介绍 LangSmith 新推出的 Tuned Evaluators，它能自动为生产环境中的对话代理附加质量反馈，帮助团队发现并修复代理错误。文章解释了其工作原理、成本优势，以及首个评估器 Perceived Error 的细节。对于使用 LangSmith 的开发者，这能显著降低评估成本并提高覆盖率，值得一读。",
+        "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "生产环境中的对话代理需要评估“感知错误”，即用户是否遇到代理犯错或误解的情况。这是判断代理体验是否良好的关键信号。",
-              "传统评估方法成本高且难以扩展，团队依赖前沿模型调用，只抽样少量对话，并手动调整评估器。这导致可能错过关键错误信号。",
-              "Tuned Evaluators 解决了这一痛点，通过自动附加质量反馈，让团队能快速定位问题并改进代理。"
+              "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+              "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+              "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+              "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Tuned Evaluators 是预构建的评估器，LangChain 已将其转化为生产就绪的“裁判”。团队只需选择并附加到追踪项目即可使用。",
-              "其核心优势是专用模型，经过后训练，在特定评估目标上超越前沿模型，但成本降低 82%，部分场景节省达 98%。",
-              "工作原理包括：添加评估器、识别合格对话、运行评估、附加反馈，以及供团队分析结果。LangChain 负责维护提示词、模型和基础设施。"
+              "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+              "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+              "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+              "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+              "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+              "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "Perceived Error 是首个评估器，检测代理犯错、误解或方向错误的证据，如用户纠正或矛盾回应。",
-              "基准测试显示其性能优于所有前沿模型，且成本大幅降低。早期合作伙伴 Vanta 证实，它能立即提供质量覆盖，同时团队开发自有评估器。",
-              "适用边界：对话需至少两轮人机交互，并在空闲期后 12 小时内完成评估。目前仅限美国地区的 Plus 和 Cloud Enterprise 计划。"
+              "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+              "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+              "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+              "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
             ]
           }
         ],
         "keyPoints": [
-          "Tuned Evaluators 自动为生产对话附加质量反馈，无需手动抽样或调参。",
-          "专用模型在特定评估目标上性能优于前沿模型，成本降低 82%。",
-          "Perceived Error 检测代理错误信号，如用户纠正或矛盾回应。",
-          "评估器由 LangChain 维护，团队可直接使用，节省工程时间。",
-          "对话需至少两轮交互，评估在 12 小时内完成。"
+          "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+          "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+          "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+          "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+          "预览环境共享，非工程人员也能直接测试并反馈。",
+          "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
         ],
         "technicalDetails": [
           {
-            "text": "Tuned Evaluators 是预构建的评估器，LangChain 将其转化为生产就绪的裁判。它通过后训练专用模型，在特定目标上提供高质量判断，同时降低成本。",
+            "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
             "basis": "source"
           },
           {
-            "text": "Perceived Error 评估器检测代理错误证据，包括显式信号（如用户纠正）和推断信号（如矛盾回应）。它基于标注对话训练，性能超越前沿模型。",
+            "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
             "basis": "source"
           },
           {
-            "text": "评估流程：添加评估器到追踪项目，LangSmith 识别合格对话，运行评估，附加反馈。合格条件为至少两轮人机交互，并在空闲期后 12 小时内完成。",
+            "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
             "basis": "source"
           },
           {
-            "text": "成本节省：基准测试显示成本降低 82%，早期合作伙伴节省达 98%，具体取决于对话组成。",
+            "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+            "basis": "source"
+          },
+          {
+            "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+            "basis": "source"
+          },
+          {
+            "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+            "basis": "source"
+          },
+          {
+            "text": "并发限制控制同一父部署同时运行的预览数量。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "团队使用 LangSmith 追踪生产代理，希望快速发现错误并改进。",
+            "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
             "steps": [
-              "登录 LangSmith 并选择追踪项目。",
-              "添加 Perceived Error 评估器并保存。",
-              "等待评估完成（需至少两轮交互，12 小时内）。",
-              "查看附加的反馈和解释，筛选需关注的对话。",
-              "将标记的对话添加到数据集，用于测试和改进代理。"
+              "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+              "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+              "创建拉取请求，触发预览部署。",
+              "分享预览部署链接给审查者，让他们测试 Agent。",
+              "根据反馈推送新提交，预览自动更新。",
+              "测试完成后，手动删除预览或等待 TTL 过期。"
             ],
             "tools": [
               "LangSmith",
-              "Perceived Error 评估器"
+              "GitHub"
             ],
             "verification": [
-              "评估完成后，对话中可见反馈和解释。",
-              "成本账单显示评估费用，但跳过或失败的评估不收费。"
+              "在 LangSmith 界面看到预览部署状态为活跃。",
+              "审查者能访问预览链接并执行测试。",
+              "推送新提交后，预览部署的修订版本更新。",
+              "超过 TTL 后，预览自动消失。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "Perceived Error",
-          "Tuned Evaluators"
+          "Preview Builds",
+          "空闲 TTL",
+          "并发限制",
+          "公开测试"
         ],
         "searchTerms": [
           {
-            "term": "Perceived Error",
-            "query": "LangSmith Perceived Error evaluator"
+            "term": "Preview Builds",
+            "query": "LangSmith Preview Builds"
           },
           {
-            "term": "Tuned Evaluators",
-            "query": "LangSmith Tuned Evaluators"
+            "term": "LangSmith Deployment",
+            "query": "LangSmith Deployment features"
+          },
+          {
+            "term": "拉取请求",
+            "query": "GitHub pull request testing"
+          },
+          {
+            "term": "空闲 TTL",
+            "query": "idle TTL deployment"
+          },
+          {
+            "term": "并发限制",
+            "query": "concurrency limit preview deployment"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:57:53.992Z",
+      "analyzedAt": "2026-08-20T21:59:12.362Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "9c4d968828856a99",
-      "title": "v0.14.24",
-      "url": "https://github.com/run-llama/llama_index/releases/tag/v0.14.24",
-      "summary": "Release Notes [2026-08-19] llama-index-core [0.14.24] fix: close HotpotQA evaluator file handles ( #22113 ) fix(core): preserve oversized leaf nodes in CodeSplitter ( #22119 ) fix: preserve multiblock chat history writes ( #22124 ) fix(core): skip empty nodes in HTMLNodeParser ( #22125 ) fix(core): respect mmr_threshold=0 in MMR embedding search ( #22126 ) fix: keep all nodes per document in IngestionPipeline upserts (re-submit of #22046 , not a dup of #21456 ) ( #22133 ) fix: don't mark *args/**kwargs as required tool parameters ( #22135 ) fix(core): default MetadataFilters condition to AND when None ( #22155 ) fix: honor agent structured_output_fn/output_cls inside AgentWorkflow ( #22162 ) fix(core): use word tokenization for stopword removal in SemanticDoubleMergingSplitterNodeParser ( #22167 ) fix(core): restore prompt helper fallback to supplied LLM metadata ( #22177 ) populate resp",
-      "publishedAt": "2026-08-19T18:48:01.000Z",
-      "sourceId": "llamaindex",
-      "sourceName": "LlamaIndex Releases",
-      "sourceSite": "https://github.com/run-llama/llama_index/releases",
+      "id": "ae3d2b5d8f1b2918",
+      "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+      "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+      "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+      "publishedAt": "2026-08-19T22:22:37.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#6d5dfc",
+      "accent": "#76b900",
       "topic": "Agent 与自动化",
-      "score": 76,
+      "score": 74,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 9,
-      "category": "update",
-      "slot": "update",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
       "candidateScore": 89,
-      "bodyHash": "c57df3a7e9d8669a26ba711e",
+      "bodyHash": "ef2cca74fb2b9ce60b9685fa",
       "extraction": {
         "method": "readability",
-        "length": 6464,
-        "originalLength": 6464,
+        "length": 13954,
+        "originalLength": 13954,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LlamaIndex v0.14.24 更新解析：修复与增强的细节",
+      "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
       "analysis": {
-        "listSummary": "本文是 LlamaIndex 框架 2026 年 8 月 19 日发布的 v0.14.24 版本更新日志。它详细列出了核心库及多个集成模块的修复和功能增强，包括代码分割、聊天历史、嵌入搜索、模型支持等方面。对于使用 LlamaIndex 构建 AI 应用的开发者，了解这些更新有助于避免已知问题、利用新功能，并确保代码的稳定性。文章内容专业且具体，适合需要跟进框架变化的开发者阅读。",
+        "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "这个版本更新主要解决 LlamaIndex 框架中一系列具体的技术问题。LlamaIndex 是一个帮助开发者构建基于大语言模型（LLM）应用的框架，它负责处理数据连接、索引和查询等任务。",
-              "本次更新涉及的问题包括：文件句柄未关闭导致资源泄漏、代码分割器处理超长节点出错、聊天历史写入不完整、空节点导致解析错误、嵌入搜索参数失效、数据管道更新时丢失节点、工具参数误判、元数据过滤条件错误、代理工作流输出不生效、文本分割器分词方式错误、提示词回退机制失效等。",
-              "这些问题会影响应用的资源管理、数据处理准确性、搜索效果和模型调用正确性。例如，文件句柄未关闭在长时间运行的服务中可能导致内存或文件描述符耗尽；代码分割错误可能导致后续检索或生成结果不准确。"
+              "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+              "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+              "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "修复方法针对每个具体问题展开。例如，修复 HotpotQA 评估器文件句柄未关闭的问题，是通过确保文件在使用后被正确关闭来防止资源泄漏。",
-              "对于 CodeSplitter 保留超大叶子节点的问题，修复确保在分割代码时，即使节点过大也不会被意外丢弃，从而保留完整信息。",
-              "在 MMR 嵌入搜索中，修复了 mmr_threshold=0 时参数被忽略的问题，确保该值能正确生效，影响搜索结果的多样性控制。",
-              "IngestionPipeline 的 upsert 操作修复了每个文档的所有节点都能被保留的问题，避免数据更新时丢失部分内容。",
-              "此外，更新还增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持，并修复了相关模型调用中的参数和上下文窗口设置问题。"
+              "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+              "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+              "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+              "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+              "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文以发布说明的形式提供了每个修复的简要描述和对应的 GitHub issue 或 PR 编号，如 #22113、#22119 等，这些编号是验证修复内容的直接证据。",
-              "结论是本次更新包含大量针对特定场景的修复，旨在提升框架的稳定性和正确性。但更新日志本身不提供性能测试数据或用户反馈，因此无法量化每个修复带来的具体性能提升。",
-              "这些修复的边界在于它们针对的是特定模块和特定问题，并非对所有 LlamaIndex 使用场景的全面优化。开发者应关注与自己项目相关的修复项。"
+              "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+              "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+              "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
             ]
           }
         ],
         "keyPoints": [
-          "LlamaIndex v0.14.24 是一个修复版本，解决了多个模块中存在的具体技术问题。",
-          "核心修复包括代码分割、聊天历史、嵌入搜索、数据管道更新和代理工作流等方面。",
-          "更新增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持。",
-          "多个集成模块（如 Bedrock、Pinecone、Qdrant）也获得了兼容性和功能修复。",
-          "开发者应关注与自己项目相关的修复项，以避免已知问题并利用新功能。"
+          "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+          "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+          "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+          "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+          "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+          "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
         ],
         "technicalDetails": [
           {
-            "text": "HotpotQA evaluator file handles 是指用于评估模型性能的 HotpotQA 数据集文件句柄。修复确保这些文件在使用后被正确关闭，防止资源泄漏。",
+            "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
             "basis": "source"
           },
           {
-            "text": "CodeSplitter 是用于分割代码文本的组件。修复确保在分割时，过大的叶子节点（即分割后的最小单元）不会被丢弃，而是被保留下来，以维持代码的完整性。",
+            "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
             "basis": "source"
           },
           {
-            "text": "MMR（Maximal Marginal Relevance）嵌入搜索是一种平衡相关性和多样性的搜索算法。mmr_threshold 参数用于控制多样性，修复确保当该参数设置为 0 时，其值能被正确传递和生效。",
+            "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
             "basis": "source"
           },
           {
-            "text": "IngestionPipeline 的 upsert 操作用于更新数据。修复确保在更新时，每个文档的所有节点（即数据块）都能被保留，避免数据丢失。",
+            "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
             "basis": "source"
           },
           {
-            "text": "AgentWorkflow 是用于构建代理工作流的组件。修复确保 structured_output_fn 和 output_cls 参数能被正确识别和使用，从而保证代理输出的结构化。",
-            "basis": "source"
-          },
-          {
-            "text": "SemanticDoubleMergingSplitterNodeParser 是一个语义分割器。修复将其停用词移除逻辑改为基于词（word）的分词方式，以更准确地处理文本。",
+            "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发者使用 LlamaIndex 构建 RAG（检索增强生成）应用，需要确保数据处理的稳定性和搜索效果。",
+            "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
             "steps": [
-              "升级 LlamaIndex 核心库到 v0.14.24 或更高版本。",
-              "检查并更新相关集成模块，如向量数据库（Pinecone、Qdrant）和模型提供商（Anthropic、OpenAI）的插件。",
-              "如果使用了 CodeSplitter，测试其处理超大代码文件的行为，确保节点被正确保留。",
-              "如果使用了 MMR 搜索，验证 mmr_threshold=0 的设置是否生效。",
-              "如果使用了 IngestionPipeline 的 upsert，测试更新操作后所有节点是否完整。"
+              "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+              "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+              "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+              "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+              "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+              "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+              "审查AI助手的代码和输出，设定下一轮优化目标。"
             ],
             "tools": [
-              "LlamaIndex",
-              "Python",
-              "向量数据库",
-              "LLM API"
+              "Holoscan CLI (./holohub)",
+              "HoloHub技能库 (holohub-app-lifecycle)",
+              "Codex with GPT-5.6 Sol",
+              "MONAI endoscopic tool segmentation model"
             ],
             "verification": [
-              "运行单元测试，确认相关修复项不再出现错误。",
-              "在测试环境中执行数据管道更新，检查数据完整性。",
-              "进行搜索查询，验证 MMR 参数对结果的影响。"
+              "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+              "`./holohub test <app>`返回通过结果。",
+              "benchmark模式生成延迟图表，且多次运行结果一致。",
+              "优化后版本在5次测试中均快于基线版本。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "文件句柄",
-          "CodeSplitter",
-          "MMR 嵌入搜索",
-          "Claude Sonnet 5",
-          "GPT-5.6"
+          "迭代式开发",
+          "消融实验",
+          "TensorRT推理",
+          "Data Flow Tracking"
         ],
         "searchTerms": [
           {
-            "term": "LlamaIndex",
-            "query": "LlamaIndex v0.14.24 release notes"
+            "term": "Holoscan CLI",
+            "query": "NVIDIA Holoscan CLI usage"
           },
           {
-            "term": "CodeSplitter",
-            "query": "LlamaIndex CodeSplitter oversized leaf nodes fix"
-          },
-          {
-            "term": "MMR",
-            "query": "LlamaIndex MMR embedding search threshold fix"
-          },
-          {
-            "term": "IngestionPipeline",
-            "query": "LlamaIndex IngestionPipeline upsert nodes fix"
-          },
-          {
-            "term": "AgentWorkflow",
-            "query": "LlamaIndex AgentWorkflow structured output fix"
+            "term": "Data Flow Tracking",
+            "query": "Holoscan Data Flow Tracking latency"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:58:08.457Z",
+      "analyzedAt": "2026-08-20T21:59:31.510Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "study": [
     {
-      "id": "0055cddeb9b13254",
-      "title": "Evaluating AI Agent Skill Performance with NVIDIA SkillEvaluator",
-      "url": "https://developer.nvidia.com/blog/evaluating-ai-agent-skill-performance-with-nvidia-skillevaluator/",
-      "summary": "AI agents are only as effective as the context they receive. Even with capable models and well-documented NVIDIA libraries, agents can spend extra steps finding...",
-      "publishedAt": "2026-08-19T16:00:00.000Z",
-      "sourceId": "nvidia-dev",
-      "sourceName": "NVIDIA Developer",
-      "sourceSite": "https://developer.nvidia.com/blog/",
-      "lane": "ai",
-      "accent": "#76b900",
-      "topic": "Agent 与自动化",
-      "score": 72,
-      "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 16,
-      "category": "practice",
-      "slot": "practice",
-      "language": "en",
-      "candidateScore": 92,
-      "bodyHash": "54065c4a9e2da77b4c327003",
-      "extraction": {
-        "method": "readability",
-        "length": 10856,
-        "originalLength": 10856,
-        "trusted": true
-      },
-      "schemaVersion": 2,
-      "displayTitle": "NVIDIA SkillEvaluator：如何量化AI Agent技能的真实提升",
-      "analysis": {
-        "listSummary": "本文介绍NVIDIA开源的SkillEvaluator工具，用于评估AI Agent技能包对任务表现的影响。它通过三层评估（安全结构、独特性、实时对比）测量技能安装前后的性能差异，并公布300多个已验证技能在30多个NVIDIA产品上的基准结果。核心发现是技能能显著提升正确性、可发现性等维度，但提升幅度因产品而异，且token节省并非自动。对构建或使用AI Agent的开发者，本文提供了可操作的评估方法和重要参考数据，值得一读。",
-        "fullAnalysis": [
-          {
-            "heading": "背景与问题",
-            "paragraphs": [
-              "AI Agent的表现取决于它接收的上下文，即使模型强大、库文档完善，Agent也可能在寻找正确工具上浪费步骤、消耗token或卡在专业任务上。技能包（Skill）将指令、示例和工具指导打包，帮助Agent更快从意图到解决方案。",
-              "但如何衡量技能是否真的有效？NVIDIA构建了开源评估层SkillEvaluator，通过静态检查和真实任务运行（有/无技能）来量化技能对Agent性能的影响。这解决了技能效果无法客观度量的问题，让开发者能基于数据优化技能。",
-              "NVIDIA已验证技能是打包、签名的能力描述符，告诉Agent某个NVIDIA产品做什么、何时调用、如何调用。“已验证”意味着经过测量确认其就绪。本文分享首批基准结果，覆盖30多个产品的300多个技能，并在两个独立测试框架上评估。"
-            ]
-          },
-          {
-            "heading": "方法与论证",
-            "paragraphs": [
-              "技能发布前需通过三层评估：第一层是安全与结构，运行静态检查（模式验证、质量评分、安全扫描等）；第二层是独特性，用嵌入相似度检测技能内部重复和目录间重叠；第三层是实时评估，在隔离沙箱中对比有/无技能时的Agent表现。",
-              "实时评估使用Harbor开源框架，SkillEvaluator负责设置、转换任务、运行Agent、收集结果并计算技能影响。每个案例在相同提示、模型、任务输入和评分标准下运行两次，唯一变量是技能是否安装，这种受控比较确保结果可靠。",
-              "以简单示例说明：运行`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集，包含显式、隐式、上下文和负例案例；然后运行`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`执行实时对比，产生分数和Skill Lift。"
-            ]
-          },
-          {
-            "heading": "证据、结论与边界",
-            "paragraphs": [
-              "基准结果显示，无技能基线分数在正确性、可发现性、有效性、效率上仅为39-46分（满分100），而安全基线高达97分。安装技能后，正确性提升41点至87，可发现性提升40点至82，有效性提升39点至78，效率提升35点至78，安全仅提升1点。",
-              "Skill Lift按产品差异远大于按测试框架差异：Claude Code和Codex平均差约5点，但不同产品间Skill Lift从+2到+46不等。这说明领域、任务和评估设计比Agent框架更重要。",
-              "Token节省并非自动：例如jetson-optimize-memory技能减少76.9% token和53.7%时间，但cuopt-install技能反而增加120.3% token和20.8%时间，揭示优化机会。",
-              "已知局限：可发现性和效率基线非零，因为Agent仍可通过有效工具使用获得部分分数；85%技能仅运行一次尝试，结果存在变异性；未报告置信区间。"
-            ]
-          }
-        ],
-        "keyPoints": [
-          "SkillEvaluator通过三层评估（安全结构、独特性、实时对比）量化技能对Agent性能的影响，核心指标是Skill Lift（有技能分数减无技能分数）。",
-          "基准数据显示，技能能显著提升正确性（+41点）、可发现性（+40点）、有效性（+39点）和效率（+35点），但安全基线已高，提升有限。",
-          "技能提升效果因产品而异（Skill Lift从+2到+46），远大于因测试框架（Claude Code vs Codex）的差异（约5点），说明任务和评估设计更关键。",
-          "Token节省并非自动：某些技能能大幅减少token和时间，但另一些反而增加，需通过评估识别优化空间。",
-          "可发现性和效率分数应理解为技能被正确激活和使用的证据，而非无辅助Agent行为，因为技能在环境中竞争注意力。"
-        ],
-        "technicalDetails": [
-          {
-            "text": "Skill Lift是核心指标，定义为有技能运行分数减去无技能运行分数，以点数表示，非百分比变化。它通过受控对比（相同提示、模型、任务、评分标准，唯一变量是技能安装）计算，用于量化技能贡献。",
-            "basis": "source"
-          },
-          {
-            "text": "三层评估：Tier 1静态检查（模式验证、质量评分、安全扫描等）确保安全结构；Tier 2用嵌入相似度检测重复和重叠；Tier 3实时评估在隔离沙箱中对比有/无技能表现。每层独立可运行，回答不同问题。",
-            "basis": "source"
-          },
-          {
-            "text": "Harbor是开源框架，用于在可重复、隔离环境中运行Agent评估。SkillEvaluator负责Harbor设置，将评估案例转为任务，在沙箱中运行Agent，收集结果并计算影响。",
-            "basis": "source"
-          },
-          {
-            "text": "基准数据来自2026年8月12日快照（commit 738d79e），分数宏平均跨技能-框架对，每个技能-框架对权重相等。目录持续评估，最新数据在benchmarks.json中。",
-            "basis": "source"
-          },
-          {
-            "text": "示例命令：`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集（含显式、隐式、上下文和负例案例），`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`运行实时对比。",
-            "basis": "source"
-          }
-        ],
-        "engineeringPractice": [
-          {
-            "scenario": "开发者想评估自己构建的Agent技能包是否有效，并优化其性能",
-            "steps": [
-              "使用SkillEvaluator创建评估数据集：运行`skillevaluator create-eval-dataset ./my-skill --full`，确保包含显式、隐式、上下文和负例案例",
-              "审查生成的evals.json，确认每个案例的ID、提示、预期输出和断言是否准确反映任务目标",
-              "运行实时评估：`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`，对比有/无技能的分数",
-              "分析Skill Lift结果，特别是正确性、可发现性、有效性、效率维度，识别技能弱点",
-              "根据评估结果迭代技能内容，例如改进指令清晰度或工具调用示例，然后重新评估"
-            ],
-            "tools": [
-              "SkillEvaluator",
-              "Harbor",
-              "Docker",
-              "Codex或Claude Code"
-            ],
-            "verification": [
-              "评估报告显示Skill Lift为正且在各维度有提升",
-              "Token使用和执行时间数据可对比优化前后变化",
-              "技能在相关任务中被激活，在无关任务中保持未加载"
-            ]
-          }
-        ]
-      },
-      "annotations": {
-        "emphasis": [
-          "Skill Lift",
-          "三层评估",
-          "安全基线",
-          "Token节省并非自动",
-          "可发现性和效率"
-        ],
-        "searchTerms": [
-          {
-            "term": "SkillEvaluator",
-            "query": "NVIDIA SkillEvaluator agent skills evaluation"
-          },
-          {
-            "term": "Skill Lift",
-            "query": "Skill Lift metric AI agent performance"
-          },
-          {
-            "term": "Harbor",
-            "query": "Harbor framework agent evaluation"
-          }
-        ]
-      },
-      "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:57:44.227Z",
-      "model": "deepseek-v4-flash"
-    },
-    {
-      "id": "1a5a789777a0c93c",
-      "title": "Introducing LangSmith Tuned Evaluators",
-      "url": "https://www.langchain.com/blog/introducing-langsmith-tuned-evaluators-starting-with-perceived-error",
-      "summary": "LangSmith Tuned Evaluators attach quality feedback to production traces, starting with Perceived Error, to help teams find and fix agent mistakes.",
-      "publishedAt": "2026-08-19T12:59:39.000Z",
+      "id": "3dddaf9068ffc6c5",
+      "title": "Test Agent Changes with LangSmith Preview Builds",
+      "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+      "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+      "publishedAt": "2026-08-20T19:20:50.000Z",
       "sourceId": "langchain",
       "sourceName": "LangChain Blog",
       "sourceSite": "https://blog.langchain.com/",
       "lane": "ai",
       "accent": "#1c3c3c",
       "topic": "Agent 与自动化",
-      "score": 48,
+      "score": 72,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 8,
+      "readMinutes": 7,
       "category": "practice",
       "slot": "practice",
       "language": "en",
-      "candidateScore": 81,
-      "bodyHash": "855ae19b79c87e5eb7d66d53",
+      "candidateScore": 92,
+      "bodyHash": "46fd2c9e2367d020ab90abe3",
       "extraction": {
         "method": "readability",
-        "length": 5522,
-        "originalLength": 5522,
+        "length": 4730,
+        "originalLength": 4730,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LangSmith Tuned Evaluators：为生产环境中的 AI 代理自动附加质量反馈",
+      "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
       "analysis": {
-        "listSummary": "本文介绍 LangSmith 新推出的 Tuned Evaluators，它能自动为生产环境中的对话代理附加质量反馈，帮助团队发现并修复代理错误。文章解释了其工作原理、成本优势，以及首个评估器 Perceived Error 的细节。对于使用 LangSmith 的开发者，这能显著降低评估成本并提高覆盖率，值得一读。",
+        "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "生产环境中的对话代理需要评估“感知错误”，即用户是否遇到代理犯错或误解的情况。这是判断代理体验是否良好的关键信号。",
-              "传统评估方法成本高且难以扩展，团队依赖前沿模型调用，只抽样少量对话，并手动调整评估器。这导致可能错过关键错误信号。",
-              "Tuned Evaluators 解决了这一痛点，通过自动附加质量反馈，让团队能快速定位问题并改进代理。"
+              "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+              "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+              "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+              "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "Tuned Evaluators 是预构建的评估器，LangChain 已将其转化为生产就绪的“裁判”。团队只需选择并附加到追踪项目即可使用。",
-              "其核心优势是专用模型，经过后训练，在特定评估目标上超越前沿模型，但成本降低 82%，部分场景节省达 98%。",
-              "工作原理包括：添加评估器、识别合格对话、运行评估、附加反馈，以及供团队分析结果。LangChain 负责维护提示词、模型和基础设施。"
+              "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+              "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+              "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+              "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+              "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+              "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "Perceived Error 是首个评估器，检测代理犯错、误解或方向错误的证据，如用户纠正或矛盾回应。",
-              "基准测试显示其性能优于所有前沿模型，且成本大幅降低。早期合作伙伴 Vanta 证实，它能立即提供质量覆盖，同时团队开发自有评估器。",
-              "适用边界：对话需至少两轮人机交互，并在空闲期后 12 小时内完成评估。目前仅限美国地区的 Plus 和 Cloud Enterprise 计划。"
+              "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+              "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+              "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+              "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
             ]
           }
         ],
         "keyPoints": [
-          "Tuned Evaluators 自动为生产对话附加质量反馈，无需手动抽样或调参。",
-          "专用模型在特定评估目标上性能优于前沿模型，成本降低 82%。",
-          "Perceived Error 检测代理错误信号，如用户纠正或矛盾回应。",
-          "评估器由 LangChain 维护，团队可直接使用，节省工程时间。",
-          "对话需至少两轮交互，评估在 12 小时内完成。"
+          "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+          "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+          "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+          "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+          "预览环境共享，非工程人员也能直接测试并反馈。",
+          "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
         ],
         "technicalDetails": [
           {
-            "text": "Tuned Evaluators 是预构建的评估器，LangChain 将其转化为生产就绪的裁判。它通过后训练专用模型，在特定目标上提供高质量判断，同时降低成本。",
+            "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
             "basis": "source"
           },
           {
-            "text": "Perceived Error 评估器检测代理错误证据，包括显式信号（如用户纠正）和推断信号（如矛盾回应）。它基于标注对话训练，性能超越前沿模型。",
+            "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
             "basis": "source"
           },
           {
-            "text": "评估流程：添加评估器到追踪项目，LangSmith 识别合格对话，运行评估，附加反馈。合格条件为至少两轮人机交互，并在空闲期后 12 小时内完成。",
+            "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
             "basis": "source"
           },
           {
-            "text": "成本节省：基准测试显示成本降低 82%，早期合作伙伴节省达 98%，具体取决于对话组成。",
+            "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+            "basis": "source"
+          },
+          {
+            "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+            "basis": "source"
+          },
+          {
+            "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+            "basis": "source"
+          },
+          {
+            "text": "并发限制控制同一父部署同时运行的预览数量。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "团队使用 LangSmith 追踪生产代理，希望快速发现错误并改进。",
+            "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
             "steps": [
-              "登录 LangSmith 并选择追踪项目。",
-              "添加 Perceived Error 评估器并保存。",
-              "等待评估完成（需至少两轮交互，12 小时内）。",
-              "查看附加的反馈和解释，筛选需关注的对话。",
-              "将标记的对话添加到数据集，用于测试和改进代理。"
+              "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+              "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+              "创建拉取请求，触发预览部署。",
+              "分享预览部署链接给审查者，让他们测试 Agent。",
+              "根据反馈推送新提交，预览自动更新。",
+              "测试完成后，手动删除预览或等待 TTL 过期。"
             ],
             "tools": [
               "LangSmith",
-              "Perceived Error 评估器"
+              "GitHub"
             ],
             "verification": [
-              "评估完成后，对话中可见反馈和解释。",
-              "成本账单显示评估费用，但跳过或失败的评估不收费。"
+              "在 LangSmith 界面看到预览部署状态为活跃。",
+              "审查者能访问预览链接并执行测试。",
+              "推送新提交后，预览部署的修订版本更新。",
+              "超过 TTL 后，预览自动消失。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "Perceived Error",
-          "Tuned Evaluators"
+          "Preview Builds",
+          "空闲 TTL",
+          "并发限制",
+          "公开测试"
         ],
         "searchTerms": [
           {
-            "term": "Perceived Error",
-            "query": "LangSmith Perceived Error evaluator"
+            "term": "Preview Builds",
+            "query": "LangSmith Preview Builds"
           },
           {
-            "term": "Tuned Evaluators",
-            "query": "LangSmith Tuned Evaluators"
+            "term": "LangSmith Deployment",
+            "query": "LangSmith Deployment features"
+          },
+          {
+            "term": "拉取请求",
+            "query": "GitHub pull request testing"
+          },
+          {
+            "term": "空闲 TTL",
+            "query": "idle TTL deployment"
+          },
+          {
+            "term": "并发限制",
+            "query": "concurrency limit preview deployment"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:57:53.992Z",
+      "analyzedAt": "2026-08-20T21:59:12.362Z",
       "model": "deepseek-v4-flash"
     },
     {
-      "id": "9c4d968828856a99",
-      "title": "v0.14.24",
-      "url": "https://github.com/run-llama/llama_index/releases/tag/v0.14.24",
-      "summary": "Release Notes [2026-08-19] llama-index-core [0.14.24] fix: close HotpotQA evaluator file handles ( #22113 ) fix(core): preserve oversized leaf nodes in CodeSplitter ( #22119 ) fix: preserve multiblock chat history writes ( #22124 ) fix(core): skip empty nodes in HTMLNodeParser ( #22125 ) fix(core): respect mmr_threshold=0 in MMR embedding search ( #22126 ) fix: keep all nodes per document in IngestionPipeline upserts (re-submit of #22046 , not a dup of #21456 ) ( #22133 ) fix: don't mark *args/**kwargs as required tool parameters ( #22135 ) fix(core): default MetadataFilters condition to AND when None ( #22155 ) fix: honor agent structured_output_fn/output_cls inside AgentWorkflow ( #22162 ) fix(core): use word tokenization for stopword removal in SemanticDoubleMergingSplitterNodeParser ( #22167 ) fix(core): restore prompt helper fallback to supplied LLM metadata ( #22177 ) populate resp",
-      "publishedAt": "2026-08-19T18:48:01.000Z",
-      "sourceId": "llamaindex",
-      "sourceName": "LlamaIndex Releases",
-      "sourceSite": "https://github.com/run-llama/llama_index/releases",
+      "id": "ae3d2b5d8f1b2918",
+      "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+      "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+      "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+      "publishedAt": "2026-08-19T22:22:37.000Z",
+      "sourceId": "nvidia-dev",
+      "sourceName": "NVIDIA Developer",
+      "sourceSite": "https://developer.nvidia.com/blog/",
       "lane": "ai",
-      "accent": "#6d5dfc",
+      "accent": "#76b900",
       "topic": "Agent 与自动化",
-      "score": 76,
+      "score": 74,
       "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-      "readMinutes": 9,
-      "category": "update",
-      "slot": "update",
+      "readMinutes": 20,
+      "category": "practice",
+      "slot": "practice",
       "language": "en",
       "candidateScore": 89,
-      "bodyHash": "c57df3a7e9d8669a26ba711e",
+      "bodyHash": "ef2cca74fb2b9ce60b9685fa",
       "extraction": {
         "method": "readability",
-        "length": 6464,
-        "originalLength": 6464,
+        "length": 13954,
+        "originalLength": 13954,
         "trusted": true
       },
       "schemaVersion": 2,
-      "displayTitle": "LlamaIndex v0.14.24 更新解析：修复与增强的细节",
+      "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
       "analysis": {
-        "listSummary": "本文是 LlamaIndex 框架 2026 年 8 月 19 日发布的 v0.14.24 版本更新日志。它详细列出了核心库及多个集成模块的修复和功能增强，包括代码分割、聊天历史、嵌入搜索、模型支持等方面。对于使用 LlamaIndex 构建 AI 应用的开发者，了解这些更新有助于避免已知问题、利用新功能，并确保代码的稳定性。文章内容专业且具体，适合需要跟进框架变化的开发者阅读。",
+        "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
         "fullAnalysis": [
           {
             "heading": "背景与问题",
             "paragraphs": [
-              "这个版本更新主要解决 LlamaIndex 框架中一系列具体的技术问题。LlamaIndex 是一个帮助开发者构建基于大语言模型（LLM）应用的框架，它负责处理数据连接、索引和查询等任务。",
-              "本次更新涉及的问题包括：文件句柄未关闭导致资源泄漏、代码分割器处理超长节点出错、聊天历史写入不完整、空节点导致解析错误、嵌入搜索参数失效、数据管道更新时丢失节点、工具参数误判、元数据过滤条件错误、代理工作流输出不生效、文本分割器分词方式错误、提示词回退机制失效等。",
-              "这些问题会影响应用的资源管理、数据处理准确性、搜索效果和模型调用正确性。例如，文件句柄未关闭在长时间运行的服务中可能导致内存或文件描述符耗尽；代码分割错误可能导致后续检索或生成结果不准确。"
+              "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+              "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+              "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
             ]
           },
           {
             "heading": "方法与论证",
             "paragraphs": [
-              "修复方法针对每个具体问题展开。例如，修复 HotpotQA 评估器文件句柄未关闭的问题，是通过确保文件在使用后被正确关闭来防止资源泄漏。",
-              "对于 CodeSplitter 保留超大叶子节点的问题，修复确保在分割代码时，即使节点过大也不会被意外丢弃，从而保留完整信息。",
-              "在 MMR 嵌入搜索中，修复了 mmr_threshold=0 时参数被忽略的问题，确保该值能正确生效，影响搜索结果的多样性控制。",
-              "IngestionPipeline 的 upsert 操作修复了每个文档的所有节点都能被保留的问题，避免数据更新时丢失部分内容。",
-              "此外，更新还增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持，并修复了相关模型调用中的参数和上下文窗口设置问题。"
+              "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+              "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+              "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+              "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+              "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
             ]
           },
           {
             "heading": "证据、结论与边界",
             "paragraphs": [
-              "原文以发布说明的形式提供了每个修复的简要描述和对应的 GitHub issue 或 PR 编号，如 #22113、#22119 等，这些编号是验证修复内容的直接证据。",
-              "结论是本次更新包含大量针对特定场景的修复，旨在提升框架的稳定性和正确性。但更新日志本身不提供性能测试数据或用户反馈，因此无法量化每个修复带来的具体性能提升。",
-              "这些修复的边界在于它们针对的是特定模块和特定问题，并非对所有 LlamaIndex 使用场景的全面优化。开发者应关注与自己项目相关的修复项。"
+              "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+              "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+              "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
             ]
           }
         ],
         "keyPoints": [
-          "LlamaIndex v0.14.24 是一个修复版本，解决了多个模块中存在的具体技术问题。",
-          "核心修复包括代码分割、聊天历史、嵌入搜索、数据管道更新和代理工作流等方面。",
-          "更新增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持。",
-          "多个集成模块（如 Bedrock、Pinecone、Qdrant）也获得了兼容性和功能修复。",
-          "开发者应关注与自己项目相关的修复项，以避免已知问题并利用新功能。"
+          "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+          "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+          "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+          "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+          "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+          "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
         ],
         "technicalDetails": [
           {
-            "text": "HotpotQA evaluator file handles 是指用于评估模型性能的 HotpotQA 数据集文件句柄。修复确保这些文件在使用后被正确关闭，防止资源泄漏。",
+            "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
             "basis": "source"
           },
           {
-            "text": "CodeSplitter 是用于分割代码文本的组件。修复确保在分割时，过大的叶子节点（即分割后的最小单元）不会被丢弃，而是被保留下来，以维持代码的完整性。",
+            "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
             "basis": "source"
           },
           {
-            "text": "MMR（Maximal Marginal Relevance）嵌入搜索是一种平衡相关性和多样性的搜索算法。mmr_threshold 参数用于控制多样性，修复确保当该参数设置为 0 时，其值能被正确传递和生效。",
+            "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
             "basis": "source"
           },
           {
-            "text": "IngestionPipeline 的 upsert 操作用于更新数据。修复确保在更新时，每个文档的所有节点（即数据块）都能被保留，避免数据丢失。",
+            "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
             "basis": "source"
           },
           {
-            "text": "AgentWorkflow 是用于构建代理工作流的组件。修复确保 structured_output_fn 和 output_cls 参数能被正确识别和使用，从而保证代理输出的结构化。",
-            "basis": "source"
-          },
-          {
-            "text": "SemanticDoubleMergingSplitterNodeParser 是一个语义分割器。修复将其停用词移除逻辑改为基于词（word）的分词方式，以更准确地处理文本。",
+            "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
             "basis": "source"
           }
         ],
         "engineeringPractice": [
           {
-            "scenario": "开发者使用 LlamaIndex 构建 RAG（检索增强生成）应用，需要确保数据处理的稳定性和搜索效果。",
+            "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
             "steps": [
-              "升级 LlamaIndex 核心库到 v0.14.24 或更高版本。",
-              "检查并更新相关集成模块，如向量数据库（Pinecone、Qdrant）和模型提供商（Anthropic、OpenAI）的插件。",
-              "如果使用了 CodeSplitter，测试其处理超大代码文件的行为，确保节点被正确保留。",
-              "如果使用了 MMR 搜索，验证 mmr_threshold=0 的设置是否生效。",
-              "如果使用了 IngestionPipeline 的 upsert，测试更新操作后所有节点是否完整。"
+              "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+              "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+              "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+              "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+              "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+              "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+              "审查AI助手的代码和输出，设定下一轮优化目标。"
             ],
             "tools": [
-              "LlamaIndex",
-              "Python",
-              "向量数据库",
-              "LLM API"
+              "Holoscan CLI (./holohub)",
+              "HoloHub技能库 (holohub-app-lifecycle)",
+              "Codex with GPT-5.6 Sol",
+              "MONAI endoscopic tool segmentation model"
             ],
             "verification": [
-              "运行单元测试，确认相关修复项不再出现错误。",
-              "在测试环境中执行数据管道更新，检查数据完整性。",
-              "进行搜索查询，验证 MMR 参数对结果的影响。"
+              "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+              "`./holohub test <app>`返回通过结果。",
+              "benchmark模式生成延迟图表，且多次运行结果一致。",
+              "优化后版本在5次测试中均快于基线版本。"
             ]
           }
         ]
       },
       "annotations": {
         "emphasis": [
-          "文件句柄",
-          "CodeSplitter",
-          "MMR 嵌入搜索",
-          "Claude Sonnet 5",
-          "GPT-5.6"
+          "迭代式开发",
+          "消融实验",
+          "TensorRT推理",
+          "Data Flow Tracking"
         ],
         "searchTerms": [
           {
-            "term": "LlamaIndex",
-            "query": "LlamaIndex v0.14.24 release notes"
+            "term": "Holoscan CLI",
+            "query": "NVIDIA Holoscan CLI usage"
           },
           {
-            "term": "CodeSplitter",
-            "query": "LlamaIndex CodeSplitter oversized leaf nodes fix"
-          },
-          {
-            "term": "MMR",
-            "query": "LlamaIndex MMR embedding search threshold fix"
-          },
-          {
-            "term": "IngestionPipeline",
-            "query": "LlamaIndex IngestionPipeline upsert nodes fix"
-          },
-          {
-            "term": "AgentWorkflow",
-            "query": "LlamaIndex AgentWorkflow structured output fix"
+            "term": "Data Flow Tracking",
+            "query": "Holoscan Data Flow Tracking latency"
           }
         ]
       },
       "analysisStatus": "complete",
-      "analyzedAt": "2026-08-19T21:58:08.457Z",
+      "analyzedAt": "2026-08-20T21:59:31.510Z",
       "model": "deepseek-v4-flash"
     }
   ],
   "lanes": {
     "ai": [
       {
-        "id": "0055cddeb9b13254",
-        "title": "Evaluating AI Agent Skill Performance with NVIDIA SkillEvaluator",
-        "url": "https://developer.nvidia.com/blog/evaluating-ai-agent-skill-performance-with-nvidia-skillevaluator/",
-        "summary": "AI agents are only as effective as the context they receive. Even with capable models and well-documented NVIDIA libraries, agents can spend extra steps finding...",
-        "publishedAt": "2026-08-19T16:00:00.000Z",
-        "sourceId": "nvidia-dev",
-        "sourceName": "NVIDIA Developer",
-        "sourceSite": "https://developer.nvidia.com/blog/",
-        "lane": "ai",
-        "accent": "#76b900",
-        "topic": "Agent 与自动化",
-        "score": 72,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 16,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 92,
-        "bodyHash": "54065c4a9e2da77b4c327003",
-        "extraction": {
-          "method": "readability",
-          "length": 10856,
-          "originalLength": 10856,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "NVIDIA SkillEvaluator：如何量化AI Agent技能的真实提升",
-        "analysis": {
-          "listSummary": "本文介绍NVIDIA开源的SkillEvaluator工具，用于评估AI Agent技能包对任务表现的影响。它通过三层评估（安全结构、独特性、实时对比）测量技能安装前后的性能差异，并公布300多个已验证技能在30多个NVIDIA产品上的基准结果。核心发现是技能能显著提升正确性、可发现性等维度，但提升幅度因产品而异，且token节省并非自动。对构建或使用AI Agent的开发者，本文提供了可操作的评估方法和重要参考数据，值得一读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "AI Agent的表现取决于它接收的上下文，即使模型强大、库文档完善，Agent也可能在寻找正确工具上浪费步骤、消耗token或卡在专业任务上。技能包（Skill）将指令、示例和工具指导打包，帮助Agent更快从意图到解决方案。",
-                "但如何衡量技能是否真的有效？NVIDIA构建了开源评估层SkillEvaluator，通过静态检查和真实任务运行（有/无技能）来量化技能对Agent性能的影响。这解决了技能效果无法客观度量的问题，让开发者能基于数据优化技能。",
-                "NVIDIA已验证技能是打包、签名的能力描述符，告诉Agent某个NVIDIA产品做什么、何时调用、如何调用。“已验证”意味着经过测量确认其就绪。本文分享首批基准结果，覆盖30多个产品的300多个技能，并在两个独立测试框架上评估。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "技能发布前需通过三层评估：第一层是安全与结构，运行静态检查（模式验证、质量评分、安全扫描等）；第二层是独特性，用嵌入相似度检测技能内部重复和目录间重叠；第三层是实时评估，在隔离沙箱中对比有/无技能时的Agent表现。",
-                "实时评估使用Harbor开源框架，SkillEvaluator负责设置、转换任务、运行Agent、收集结果并计算技能影响。每个案例在相同提示、模型、任务输入和评分标准下运行两次，唯一变量是技能是否安装，这种受控比较确保结果可靠。",
-                "以简单示例说明：运行`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集，包含显式、隐式、上下文和负例案例；然后运行`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`执行实时对比，产生分数和Skill Lift。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "基准结果显示，无技能基线分数在正确性、可发现性、有效性、效率上仅为39-46分（满分100），而安全基线高达97分。安装技能后，正确性提升41点至87，可发现性提升40点至82，有效性提升39点至78，效率提升35点至78，安全仅提升1点。",
-                "Skill Lift按产品差异远大于按测试框架差异：Claude Code和Codex平均差约5点，但不同产品间Skill Lift从+2到+46不等。这说明领域、任务和评估设计比Agent框架更重要。",
-                "Token节省并非自动：例如jetson-optimize-memory技能减少76.9% token和53.7%时间，但cuopt-install技能反而增加120.3% token和20.8%时间，揭示优化机会。",
-                "已知局限：可发现性和效率基线非零，因为Agent仍可通过有效工具使用获得部分分数；85%技能仅运行一次尝试，结果存在变异性；未报告置信区间。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "SkillEvaluator通过三层评估（安全结构、独特性、实时对比）量化技能对Agent性能的影响，核心指标是Skill Lift（有技能分数减无技能分数）。",
-            "基准数据显示，技能能显著提升正确性（+41点）、可发现性（+40点）、有效性（+39点）和效率（+35点），但安全基线已高，提升有限。",
-            "技能提升效果因产品而异（Skill Lift从+2到+46），远大于因测试框架（Claude Code vs Codex）的差异（约5点），说明任务和评估设计更关键。",
-            "Token节省并非自动：某些技能能大幅减少token和时间，但另一些反而增加，需通过评估识别优化空间。",
-            "可发现性和效率分数应理解为技能被正确激活和使用的证据，而非无辅助Agent行为，因为技能在环境中竞争注意力。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "Skill Lift是核心指标，定义为有技能运行分数减去无技能运行分数，以点数表示，非百分比变化。它通过受控对比（相同提示、模型、任务、评分标准，唯一变量是技能安装）计算，用于量化技能贡献。",
-              "basis": "source"
-            },
-            {
-              "text": "三层评估：Tier 1静态检查（模式验证、质量评分、安全扫描等）确保安全结构；Tier 2用嵌入相似度检测重复和重叠；Tier 3实时评估在隔离沙箱中对比有/无技能表现。每层独立可运行，回答不同问题。",
-              "basis": "source"
-            },
-            {
-              "text": "Harbor是开源框架，用于在可重复、隔离环境中运行Agent评估。SkillEvaluator负责Harbor设置，将评估案例转为任务，在沙箱中运行Agent，收集结果并计算影响。",
-              "basis": "source"
-            },
-            {
-              "text": "基准数据来自2026年8月12日快照（commit 738d79e），分数宏平均跨技能-框架对，每个技能-框架对权重相等。目录持续评估，最新数据在benchmarks.json中。",
-              "basis": "source"
-            },
-            {
-              "text": "示例命令：`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集（含显式、隐式、上下文和负例案例），`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`运行实时对比。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "开发者想评估自己构建的Agent技能包是否有效，并优化其性能",
-              "steps": [
-                "使用SkillEvaluator创建评估数据集：运行`skillevaluator create-eval-dataset ./my-skill --full`，确保包含显式、隐式、上下文和负例案例",
-                "审查生成的evals.json，确认每个案例的ID、提示、预期输出和断言是否准确反映任务目标",
-                "运行实时评估：`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`，对比有/无技能的分数",
-                "分析Skill Lift结果，特别是正确性、可发现性、有效性、效率维度，识别技能弱点",
-                "根据评估结果迭代技能内容，例如改进指令清晰度或工具调用示例，然后重新评估"
-              ],
-              "tools": [
-                "SkillEvaluator",
-                "Harbor",
-                "Docker",
-                "Codex或Claude Code"
-              ],
-              "verification": [
-                "评估报告显示Skill Lift为正且在各维度有提升",
-                "Token使用和执行时间数据可对比优化前后变化",
-                "技能在相关任务中被激活，在无关任务中保持未加载"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "Skill Lift",
-            "三层评估",
-            "安全基线",
-            "Token节省并非自动",
-            "可发现性和效率"
-          ],
-          "searchTerms": [
-            {
-              "term": "SkillEvaluator",
-              "query": "NVIDIA SkillEvaluator agent skills evaluation"
-            },
-            {
-              "term": "Skill Lift",
-              "query": "Skill Lift metric AI agent performance"
-            },
-            {
-              "term": "Harbor",
-              "query": "Harbor framework agent evaluation"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-19T21:57:44.227Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "1a5a789777a0c93c",
-        "title": "Introducing LangSmith Tuned Evaluators",
-        "url": "https://www.langchain.com/blog/introducing-langsmith-tuned-evaluators-starting-with-perceived-error",
-        "summary": "LangSmith Tuned Evaluators attach quality feedback to production traces, starting with Perceived Error, to help teams find and fix agent mistakes.",
-        "publishedAt": "2026-08-19T12:59:39.000Z",
+        "id": "3dddaf9068ffc6c5",
+        "title": "Test Agent Changes with LangSmith Preview Builds",
+        "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+        "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+        "publishedAt": "2026-08-20T19:20:50.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
         "topic": "Agent 与自动化",
-        "score": 48,
+        "score": 72,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 8,
+        "readMinutes": 7,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 81,
-        "bodyHash": "855ae19b79c87e5eb7d66d53",
+        "candidateScore": 92,
+        "bodyHash": "46fd2c9e2367d020ab90abe3",
         "extraction": {
           "method": "readability",
-          "length": 5522,
-          "originalLength": 5522,
+          "length": 4730,
+          "originalLength": 4730,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LangSmith Tuned Evaluators：为生产环境中的 AI 代理自动附加质量反馈",
+        "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
         "analysis": {
-          "listSummary": "本文介绍 LangSmith 新推出的 Tuned Evaluators，它能自动为生产环境中的对话代理附加质量反馈，帮助团队发现并修复代理错误。文章解释了其工作原理、成本优势，以及首个评估器 Perceived Error 的细节。对于使用 LangSmith 的开发者，这能显著降低评估成本并提高覆盖率，值得一读。",
+          "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "生产环境中的对话代理需要评估“感知错误”，即用户是否遇到代理犯错或误解的情况。这是判断代理体验是否良好的关键信号。",
-                "传统评估方法成本高且难以扩展，团队依赖前沿模型调用，只抽样少量对话，并手动调整评估器。这导致可能错过关键错误信号。",
-                "Tuned Evaluators 解决了这一痛点，通过自动附加质量反馈，让团队能快速定位问题并改进代理。"
+                "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+                "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+                "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+                "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "Tuned Evaluators 是预构建的评估器，LangChain 已将其转化为生产就绪的“裁判”。团队只需选择并附加到追踪项目即可使用。",
-                "其核心优势是专用模型，经过后训练，在特定评估目标上超越前沿模型，但成本降低 82%，部分场景节省达 98%。",
-                "工作原理包括：添加评估器、识别合格对话、运行评估、附加反馈，以及供团队分析结果。LangChain 负责维护提示词、模型和基础设施。"
+                "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+                "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+                "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+                "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+                "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+                "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "Perceived Error 是首个评估器，检测代理犯错、误解或方向错误的证据，如用户纠正或矛盾回应。",
-                "基准测试显示其性能优于所有前沿模型，且成本大幅降低。早期合作伙伴 Vanta 证实，它能立即提供质量覆盖，同时团队开发自有评估器。",
-                "适用边界：对话需至少两轮人机交互，并在空闲期后 12 小时内完成评估。目前仅限美国地区的 Plus 和 Cloud Enterprise 计划。"
+                "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+                "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+                "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+                "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
               ]
             }
           ],
           "keyPoints": [
-            "Tuned Evaluators 自动为生产对话附加质量反馈，无需手动抽样或调参。",
-            "专用模型在特定评估目标上性能优于前沿模型，成本降低 82%。",
-            "Perceived Error 检测代理错误信号，如用户纠正或矛盾回应。",
-            "评估器由 LangChain 维护，团队可直接使用，节省工程时间。",
-            "对话需至少两轮交互，评估在 12 小时内完成。"
+            "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+            "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+            "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+            "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+            "预览环境共享，非工程人员也能直接测试并反馈。",
+            "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
           ],
           "technicalDetails": [
             {
-              "text": "Tuned Evaluators 是预构建的评估器，LangChain 将其转化为生产就绪的裁判。它通过后训练专用模型，在特定目标上提供高质量判断，同时降低成本。",
+              "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
               "basis": "source"
             },
             {
-              "text": "Perceived Error 评估器检测代理错误证据，包括显式信号（如用户纠正）和推断信号（如矛盾回应）。它基于标注对话训练，性能超越前沿模型。",
+              "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
               "basis": "source"
             },
             {
-              "text": "评估流程：添加评估器到追踪项目，LangSmith 识别合格对话，运行评估，附加反馈。合格条件为至少两轮人机交互，并在空闲期后 12 小时内完成。",
+              "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
               "basis": "source"
             },
             {
-              "text": "成本节省：基准测试显示成本降低 82%，早期合作伙伴节省达 98%，具体取决于对话组成。",
+              "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+              "basis": "source"
+            },
+            {
+              "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+              "basis": "source"
+            },
+            {
+              "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+              "basis": "source"
+            },
+            {
+              "text": "并发限制控制同一父部署同时运行的预览数量。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "团队使用 LangSmith 追踪生产代理，希望快速发现错误并改进。",
+              "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
               "steps": [
-                "登录 LangSmith 并选择追踪项目。",
-                "添加 Perceived Error 评估器并保存。",
-                "等待评估完成（需至少两轮交互，12 小时内）。",
-                "查看附加的反馈和解释，筛选需关注的对话。",
-                "将标记的对话添加到数据集，用于测试和改进代理。"
+                "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+                "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+                "创建拉取请求，触发预览部署。",
+                "分享预览部署链接给审查者，让他们测试 Agent。",
+                "根据反馈推送新提交，预览自动更新。",
+                "测试完成后，手动删除预览或等待 TTL 过期。"
               ],
               "tools": [
                 "LangSmith",
-                "Perceived Error 评估器"
+                "GitHub"
               ],
               "verification": [
-                "评估完成后，对话中可见反馈和解释。",
-                "成本账单显示评估费用，但跳过或失败的评估不收费。"
+                "在 LangSmith 界面看到预览部署状态为活跃。",
+                "审查者能访问预览链接并执行测试。",
+                "推送新提交后，预览部署的修订版本更新。",
+                "超过 TTL 后，预览自动消失。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "Perceived Error",
-            "Tuned Evaluators"
+            "Preview Builds",
+            "空闲 TTL",
+            "并发限制",
+            "公开测试"
           ],
           "searchTerms": [
             {
-              "term": "Perceived Error",
-              "query": "LangSmith Perceived Error evaluator"
+              "term": "Preview Builds",
+              "query": "LangSmith Preview Builds"
             },
             {
-              "term": "Tuned Evaluators",
-              "query": "LangSmith Tuned Evaluators"
+              "term": "LangSmith Deployment",
+              "query": "LangSmith Deployment features"
+            },
+            {
+              "term": "拉取请求",
+              "query": "GitHub pull request testing"
+            },
+            {
+              "term": "空闲 TTL",
+              "query": "idle TTL deployment"
+            },
+            {
+              "term": "并发限制",
+              "query": "concurrency limit preview deployment"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-19T21:57:53.992Z",
+        "analyzedAt": "2026-08-20T21:59:12.362Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "9c4d968828856a99",
-        "title": "v0.14.24",
-        "url": "https://github.com/run-llama/llama_index/releases/tag/v0.14.24",
-        "summary": "Release Notes [2026-08-19] llama-index-core [0.14.24] fix: close HotpotQA evaluator file handles ( #22113 ) fix(core): preserve oversized leaf nodes in CodeSplitter ( #22119 ) fix: preserve multiblock chat history writes ( #22124 ) fix(core): skip empty nodes in HTMLNodeParser ( #22125 ) fix(core): respect mmr_threshold=0 in MMR embedding search ( #22126 ) fix: keep all nodes per document in IngestionPipeline upserts (re-submit of #22046 , not a dup of #21456 ) ( #22133 ) fix: don't mark *args/**kwargs as required tool parameters ( #22135 ) fix(core): default MetadataFilters condition to AND when None ( #22155 ) fix: honor agent structured_output_fn/output_cls inside AgentWorkflow ( #22162 ) fix(core): use word tokenization for stopword removal in SemanticDoubleMergingSplitterNodeParser ( #22167 ) fix(core): restore prompt helper fallback to supplied LLM metadata ( #22177 ) populate resp",
-        "publishedAt": "2026-08-19T18:48:01.000Z",
-        "sourceId": "llamaindex",
-        "sourceName": "LlamaIndex Releases",
-        "sourceSite": "https://github.com/run-llama/llama_index/releases",
+        "id": "ae3d2b5d8f1b2918",
+        "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+        "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+        "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+        "publishedAt": "2026-08-19T22:22:37.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
         "lane": "ai",
-        "accent": "#6d5dfc",
+        "accent": "#76b900",
         "topic": "Agent 与自动化",
-        "score": 76,
+        "score": 74,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 9,
-        "category": "update",
-        "slot": "update",
+        "readMinutes": 20,
+        "category": "practice",
+        "slot": "practice",
         "language": "en",
         "candidateScore": 89,
-        "bodyHash": "c57df3a7e9d8669a26ba711e",
+        "bodyHash": "ef2cca74fb2b9ce60b9685fa",
         "extraction": {
           "method": "readability",
-          "length": 6464,
-          "originalLength": 6464,
+          "length": 13954,
+          "originalLength": 13954,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LlamaIndex v0.14.24 更新解析：修复与增强的细节",
+        "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
         "analysis": {
-          "listSummary": "本文是 LlamaIndex 框架 2026 年 8 月 19 日发布的 v0.14.24 版本更新日志。它详细列出了核心库及多个集成模块的修复和功能增强，包括代码分割、聊天历史、嵌入搜索、模型支持等方面。对于使用 LlamaIndex 构建 AI 应用的开发者，了解这些更新有助于避免已知问题、利用新功能，并确保代码的稳定性。文章内容专业且具体，适合需要跟进框架变化的开发者阅读。",
+          "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "这个版本更新主要解决 LlamaIndex 框架中一系列具体的技术问题。LlamaIndex 是一个帮助开发者构建基于大语言模型（LLM）应用的框架，它负责处理数据连接、索引和查询等任务。",
-                "本次更新涉及的问题包括：文件句柄未关闭导致资源泄漏、代码分割器处理超长节点出错、聊天历史写入不完整、空节点导致解析错误、嵌入搜索参数失效、数据管道更新时丢失节点、工具参数误判、元数据过滤条件错误、代理工作流输出不生效、文本分割器分词方式错误、提示词回退机制失效等。",
-                "这些问题会影响应用的资源管理、数据处理准确性、搜索效果和模型调用正确性。例如，文件句柄未关闭在长时间运行的服务中可能导致内存或文件描述符耗尽；代码分割错误可能导致后续检索或生成结果不准确。"
+                "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+                "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+                "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "修复方法针对每个具体问题展开。例如，修复 HotpotQA 评估器文件句柄未关闭的问题，是通过确保文件在使用后被正确关闭来防止资源泄漏。",
-                "对于 CodeSplitter 保留超大叶子节点的问题，修复确保在分割代码时，即使节点过大也不会被意外丢弃，从而保留完整信息。",
-                "在 MMR 嵌入搜索中，修复了 mmr_threshold=0 时参数被忽略的问题，确保该值能正确生效，影响搜索结果的多样性控制。",
-                "IngestionPipeline 的 upsert 操作修复了每个文档的所有节点都能被保留的问题，避免数据更新时丢失部分内容。",
-                "此外，更新还增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持，并修复了相关模型调用中的参数和上下文窗口设置问题。"
+                "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+                "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+                "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+                "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+                "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文以发布说明的形式提供了每个修复的简要描述和对应的 GitHub issue 或 PR 编号，如 #22113、#22119 等，这些编号是验证修复内容的直接证据。",
-                "结论是本次更新包含大量针对特定场景的修复，旨在提升框架的稳定性和正确性。但更新日志本身不提供性能测试数据或用户反馈，因此无法量化每个修复带来的具体性能提升。",
-                "这些修复的边界在于它们针对的是特定模块和特定问题，并非对所有 LlamaIndex 使用场景的全面优化。开发者应关注与自己项目相关的修复项。"
+                "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+                "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+                "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
               ]
             }
           ],
           "keyPoints": [
-            "LlamaIndex v0.14.24 是一个修复版本，解决了多个模块中存在的具体技术问题。",
-            "核心修复包括代码分割、聊天历史、嵌入搜索、数据管道更新和代理工作流等方面。",
-            "更新增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持。",
-            "多个集成模块（如 Bedrock、Pinecone、Qdrant）也获得了兼容性和功能修复。",
-            "开发者应关注与自己项目相关的修复项，以避免已知问题并利用新功能。"
+            "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+            "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+            "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+            "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+            "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+            "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
           ],
           "technicalDetails": [
             {
-              "text": "HotpotQA evaluator file handles 是指用于评估模型性能的 HotpotQA 数据集文件句柄。修复确保这些文件在使用后被正确关闭，防止资源泄漏。",
+              "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
               "basis": "source"
             },
             {
-              "text": "CodeSplitter 是用于分割代码文本的组件。修复确保在分割时，过大的叶子节点（即分割后的最小单元）不会被丢弃，而是被保留下来，以维持代码的完整性。",
+              "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
               "basis": "source"
             },
             {
-              "text": "MMR（Maximal Marginal Relevance）嵌入搜索是一种平衡相关性和多样性的搜索算法。mmr_threshold 参数用于控制多样性，修复确保当该参数设置为 0 时，其值能被正确传递和生效。",
+              "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
               "basis": "source"
             },
             {
-              "text": "IngestionPipeline 的 upsert 操作用于更新数据。修复确保在更新时，每个文档的所有节点（即数据块）都能被保留，避免数据丢失。",
+              "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
               "basis": "source"
             },
             {
-              "text": "AgentWorkflow 是用于构建代理工作流的组件。修复确保 structured_output_fn 和 output_cls 参数能被正确识别和使用，从而保证代理输出的结构化。",
-              "basis": "source"
-            },
-            {
-              "text": "SemanticDoubleMergingSplitterNodeParser 是一个语义分割器。修复将其停用词移除逻辑改为基于词（word）的分词方式，以更准确地处理文本。",
+              "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "开发者使用 LlamaIndex 构建 RAG（检索增强生成）应用，需要确保数据处理的稳定性和搜索效果。",
+              "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
               "steps": [
-                "升级 LlamaIndex 核心库到 v0.14.24 或更高版本。",
-                "检查并更新相关集成模块，如向量数据库（Pinecone、Qdrant）和模型提供商（Anthropic、OpenAI）的插件。",
-                "如果使用了 CodeSplitter，测试其处理超大代码文件的行为，确保节点被正确保留。",
-                "如果使用了 MMR 搜索，验证 mmr_threshold=0 的设置是否生效。",
-                "如果使用了 IngestionPipeline 的 upsert，测试更新操作后所有节点是否完整。"
+                "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+                "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+                "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+                "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+                "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+                "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+                "审查AI助手的代码和输出，设定下一轮优化目标。"
               ],
               "tools": [
-                "LlamaIndex",
-                "Python",
-                "向量数据库",
-                "LLM API"
+                "Holoscan CLI (./holohub)",
+                "HoloHub技能库 (holohub-app-lifecycle)",
+                "Codex with GPT-5.6 Sol",
+                "MONAI endoscopic tool segmentation model"
               ],
               "verification": [
-                "运行单元测试，确认相关修复项不再出现错误。",
-                "在测试环境中执行数据管道更新，检查数据完整性。",
-                "进行搜索查询，验证 MMR 参数对结果的影响。"
+                "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+                "`./holohub test <app>`返回通过结果。",
+                "benchmark模式生成延迟图表，且多次运行结果一致。",
+                "优化后版本在5次测试中均快于基线版本。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "文件句柄",
-            "CodeSplitter",
-            "MMR 嵌入搜索",
-            "Claude Sonnet 5",
-            "GPT-5.6"
+            "迭代式开发",
+            "消融实验",
+            "TensorRT推理",
+            "Data Flow Tracking"
           ],
           "searchTerms": [
             {
-              "term": "LlamaIndex",
-              "query": "LlamaIndex v0.14.24 release notes"
+              "term": "Holoscan CLI",
+              "query": "NVIDIA Holoscan CLI usage"
             },
             {
-              "term": "CodeSplitter",
-              "query": "LlamaIndex CodeSplitter oversized leaf nodes fix"
-            },
-            {
-              "term": "MMR",
-              "query": "LlamaIndex MMR embedding search threshold fix"
-            },
-            {
-              "term": "IngestionPipeline",
-              "query": "LlamaIndex IngestionPipeline upsert nodes fix"
-            },
-            {
-              "term": "AgentWorkflow",
-              "query": "LlamaIndex AgentWorkflow structured output fix"
+              "term": "Data Flow Tracking",
+              "query": "Holoscan Data Flow Tracking latency"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-19T21:58:08.457Z",
+        "analyzedAt": "2026-08-20T21:59:31.510Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2503,412 +2043,297 @@
   "editionLanes": {
     "ai": [
       {
-        "id": "0055cddeb9b13254",
-        "title": "Evaluating AI Agent Skill Performance with NVIDIA SkillEvaluator",
-        "url": "https://developer.nvidia.com/blog/evaluating-ai-agent-skill-performance-with-nvidia-skillevaluator/",
-        "summary": "AI agents are only as effective as the context they receive. Even with capable models and well-documented NVIDIA libraries, agents can spend extra steps finding...",
-        "publishedAt": "2026-08-19T16:00:00.000Z",
-        "sourceId": "nvidia-dev",
-        "sourceName": "NVIDIA Developer",
-        "sourceSite": "https://developer.nvidia.com/blog/",
-        "lane": "ai",
-        "accent": "#76b900",
-        "topic": "Agent 与自动化",
-        "score": 72,
-        "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 16,
-        "category": "practice",
-        "slot": "practice",
-        "language": "en",
-        "candidateScore": 92,
-        "bodyHash": "54065c4a9e2da77b4c327003",
-        "extraction": {
-          "method": "readability",
-          "length": 10856,
-          "originalLength": 10856,
-          "trusted": true
-        },
-        "schemaVersion": 2,
-        "displayTitle": "NVIDIA SkillEvaluator：如何量化AI Agent技能的真实提升",
-        "analysis": {
-          "listSummary": "本文介绍NVIDIA开源的SkillEvaluator工具，用于评估AI Agent技能包对任务表现的影响。它通过三层评估（安全结构、独特性、实时对比）测量技能安装前后的性能差异，并公布300多个已验证技能在30多个NVIDIA产品上的基准结果。核心发现是技能能显著提升正确性、可发现性等维度，但提升幅度因产品而异，且token节省并非自动。对构建或使用AI Agent的开发者，本文提供了可操作的评估方法和重要参考数据，值得一读。",
-          "fullAnalysis": [
-            {
-              "heading": "背景与问题",
-              "paragraphs": [
-                "AI Agent的表现取决于它接收的上下文，即使模型强大、库文档完善，Agent也可能在寻找正确工具上浪费步骤、消耗token或卡在专业任务上。技能包（Skill）将指令、示例和工具指导打包，帮助Agent更快从意图到解决方案。",
-                "但如何衡量技能是否真的有效？NVIDIA构建了开源评估层SkillEvaluator，通过静态检查和真实任务运行（有/无技能）来量化技能对Agent性能的影响。这解决了技能效果无法客观度量的问题，让开发者能基于数据优化技能。",
-                "NVIDIA已验证技能是打包、签名的能力描述符，告诉Agent某个NVIDIA产品做什么、何时调用、如何调用。“已验证”意味着经过测量确认其就绪。本文分享首批基准结果，覆盖30多个产品的300多个技能，并在两个独立测试框架上评估。"
-              ]
-            },
-            {
-              "heading": "方法与论证",
-              "paragraphs": [
-                "技能发布前需通过三层评估：第一层是安全与结构，运行静态检查（模式验证、质量评分、安全扫描等）；第二层是独特性，用嵌入相似度检测技能内部重复和目录间重叠；第三层是实时评估，在隔离沙箱中对比有/无技能时的Agent表现。",
-                "实时评估使用Harbor开源框架，SkillEvaluator负责设置、转换任务、运行Agent、收集结果并计算技能影响。每个案例在相同提示、模型、任务输入和评分标准下运行两次，唯一变量是技能是否安装，这种受控比较确保结果可靠。",
-                "以简单示例说明：运行`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集，包含显式、隐式、上下文和负例案例；然后运行`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`执行实时对比，产生分数和Skill Lift。"
-              ]
-            },
-            {
-              "heading": "证据、结论与边界",
-              "paragraphs": [
-                "基准结果显示，无技能基线分数在正确性、可发现性、有效性、效率上仅为39-46分（满分100），而安全基线高达97分。安装技能后，正确性提升41点至87，可发现性提升40点至82，有效性提升39点至78，效率提升35点至78，安全仅提升1点。",
-                "Skill Lift按产品差异远大于按测试框架差异：Claude Code和Codex平均差约5点，但不同产品间Skill Lift从+2到+46不等。这说明领域、任务和评估设计比Agent框架更重要。",
-                "Token节省并非自动：例如jetson-optimize-memory技能减少76.9% token和53.7%时间，但cuopt-install技能反而增加120.3% token和20.8%时间，揭示优化机会。",
-                "已知局限：可发现性和效率基线非零，因为Agent仍可通过有效工具使用获得部分分数；85%技能仅运行一次尝试，结果存在变异性；未报告置信区间。"
-              ]
-            }
-          ],
-          "keyPoints": [
-            "SkillEvaluator通过三层评估（安全结构、独特性、实时对比）量化技能对Agent性能的影响，核心指标是Skill Lift（有技能分数减无技能分数）。",
-            "基准数据显示，技能能显著提升正确性（+41点）、可发现性（+40点）、有效性（+39点）和效率（+35点），但安全基线已高，提升有限。",
-            "技能提升效果因产品而异（Skill Lift从+2到+46），远大于因测试框架（Claude Code vs Codex）的差异（约5点），说明任务和评估设计更关键。",
-            "Token节省并非自动：某些技能能大幅减少token和时间，但另一些反而增加，需通过评估识别优化空间。",
-            "可发现性和效率分数应理解为技能被正确激活和使用的证据，而非无辅助Agent行为，因为技能在环境中竞争注意力。"
-          ],
-          "technicalDetails": [
-            {
-              "text": "Skill Lift是核心指标，定义为有技能运行分数减去无技能运行分数，以点数表示，非百分比变化。它通过受控对比（相同提示、模型、任务、评分标准，唯一变量是技能安装）计算，用于量化技能贡献。",
-              "basis": "source"
-            },
-            {
-              "text": "三层评估：Tier 1静态检查（模式验证、质量评分、安全扫描等）确保安全结构；Tier 2用嵌入相似度检测重复和重叠；Tier 3实时评估在隔离沙箱中对比有/无技能表现。每层独立可运行，回答不同问题。",
-              "basis": "source"
-            },
-            {
-              "text": "Harbor是开源框架，用于在可重复、隔离环境中运行Agent评估。SkillEvaluator负责Harbor设置，将评估案例转为任务，在沙箱中运行Agent，收集结果并计算影响。",
-              "basis": "source"
-            },
-            {
-              "text": "基准数据来自2026年8月12日快照（commit 738d79e），分数宏平均跨技能-框架对，每个技能-框架对权重相等。目录持续评估，最新数据在benchmarks.json中。",
-              "basis": "source"
-            },
-            {
-              "text": "示例命令：`skillevaluator create-eval-dataset ./my-skill --full`生成评估数据集（含显式、隐式、上下文和负例案例），`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`运行实时对比。",
-              "basis": "source"
-            }
-          ],
-          "engineeringPractice": [
-            {
-              "scenario": "开发者想评估自己构建的Agent技能包是否有效，并优化其性能",
-              "steps": [
-                "使用SkillEvaluator创建评估数据集：运行`skillevaluator create-eval-dataset ./my-skill --full`，确保包含显式、隐式、上下文和负例案例",
-                "审查生成的evals.json，确认每个案例的ID、提示、预期输出和断言是否准确反映任务目标",
-                "运行实时评估：`skillevaluator tier3 evaluate ./my-skill --agents codex --env-mode docker`，对比有/无技能的分数",
-                "分析Skill Lift结果，特别是正确性、可发现性、有效性、效率维度，识别技能弱点",
-                "根据评估结果迭代技能内容，例如改进指令清晰度或工具调用示例，然后重新评估"
-              ],
-              "tools": [
-                "SkillEvaluator",
-                "Harbor",
-                "Docker",
-                "Codex或Claude Code"
-              ],
-              "verification": [
-                "评估报告显示Skill Lift为正且在各维度有提升",
-                "Token使用和执行时间数据可对比优化前后变化",
-                "技能在相关任务中被激活，在无关任务中保持未加载"
-              ]
-            }
-          ]
-        },
-        "annotations": {
-          "emphasis": [
-            "Skill Lift",
-            "三层评估",
-            "安全基线",
-            "Token节省并非自动",
-            "可发现性和效率"
-          ],
-          "searchTerms": [
-            {
-              "term": "SkillEvaluator",
-              "query": "NVIDIA SkillEvaluator agent skills evaluation"
-            },
-            {
-              "term": "Skill Lift",
-              "query": "Skill Lift metric AI agent performance"
-            },
-            {
-              "term": "Harbor",
-              "query": "Harbor framework agent evaluation"
-            }
-          ]
-        },
-        "analysisStatus": "complete",
-        "analyzedAt": "2026-08-19T21:57:44.227Z",
-        "model": "deepseek-v4-flash"
-      },
-      {
-        "id": "1a5a789777a0c93c",
-        "title": "Introducing LangSmith Tuned Evaluators",
-        "url": "https://www.langchain.com/blog/introducing-langsmith-tuned-evaluators-starting-with-perceived-error",
-        "summary": "LangSmith Tuned Evaluators attach quality feedback to production traces, starting with Perceived Error, to help teams find and fix agent mistakes.",
-        "publishedAt": "2026-08-19T12:59:39.000Z",
+        "id": "3dddaf9068ffc6c5",
+        "title": "Test Agent Changes with LangSmith Preview Builds",
+        "url": "https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production",
+        "summary": "Preview Builds let teams test pull request branches in temporary, production-like LangSmith deployments before merging agent changes.",
+        "publishedAt": "2026-08-20T19:20:50.000Z",
         "sourceId": "langchain",
         "sourceName": "LangChain Blog",
         "sourceSite": "https://blog.langchain.com/",
         "lane": "ai",
         "accent": "#1c3c3c",
         "topic": "Agent 与自动化",
-        "score": 48,
+        "score": 72,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 8,
+        "readMinutes": 7,
         "category": "practice",
         "slot": "practice",
         "language": "en",
-        "candidateScore": 81,
-        "bodyHash": "855ae19b79c87e5eb7d66d53",
+        "candidateScore": 92,
+        "bodyHash": "46fd2c9e2367d020ab90abe3",
         "extraction": {
           "method": "readability",
-          "length": 5522,
-          "originalLength": 5522,
+          "length": 4730,
+          "originalLength": 4730,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LangSmith Tuned Evaluators：为生产环境中的 AI 代理自动附加质量反馈",
+        "displayTitle": "用 LangSmith 预览构建在合并前测试 Agent 变更",
         "analysis": {
-          "listSummary": "本文介绍 LangSmith 新推出的 Tuned Evaluators，它能自动为生产环境中的对话代理附加质量反馈，帮助团队发现并修复代理错误。文章解释了其工作原理、成本优势，以及首个评估器 Perceived Error 的细节。对于使用 LangSmith 的开发者，这能显著降低评估成本并提高覆盖率，值得一读。",
+          "listSummary": "本文介绍 LangSmith 的新功能 Preview Builds（预览构建），它允许团队在合并代码前，为每个拉取请求（PR）创建临时的、类似生产环境的部署，以便测试 Agent 变更。该功能解决了传统本地测试难以让整个团队共享审查环境的问题，通过自动同步最新提交、支持标签触发和资源控制，简化了测试流程。对于使用 LangSmith 和 GitHub 的团队，这是一个提升协作效率和代码质量的有用工具，值得一读。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "生产环境中的对话代理需要评估“感知错误”，即用户是否遇到代理犯错或误解的情况。这是判断代理体验是否良好的关键信号。",
-                "传统评估方法成本高且难以扩展，团队依赖前沿模型调用，只抽样少量对话，并手动调整评估器。这导致可能错过关键错误信号。",
-                "Tuned Evaluators 解决了这一痛点，通过自动附加质量反馈，让团队能快速定位问题并改进代理。"
+                "在软件开发中，测试代码变更（尤其是涉及 AI Agent 的变更）通常很困难，因为变更的影响往往只有在实际运行时才能显现。",
+                "传统的做法是开发者在本地测试，但本地环境很难与团队共享，导致其他成员（如产品经理、QA）无法方便地审查行为。",
+                "每次拉取请求都创建新部署成本高且繁琐，而直接合并到生产环境又风险太大。",
+                "Preview Builds 正是为了解决这一痛点：它为每个 PR 提供一个临时、独立的部署环境，让团队在合并前充分测试。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "Tuned Evaluators 是预构建的评估器，LangChain 已将其转化为生产就绪的“裁判”。团队只需选择并附加到追踪项目即可使用。",
-                "其核心优势是专用模型，经过后训练，在特定评估目标上超越前沿模型，但成本降低 82%，部分场景节省达 98%。",
-                "工作原理包括：添加评估器、识别合格对话、运行评估、附加反馈，以及供团队分析结果。LangChain 负责维护提示词、模型和基础设施。"
+                "Preview Builds 的核心机制是：当 PR 触发时，LangSmith 从 PR 的源分支构建一个隔离的部署环境，链接到父部署（即主部署），但不影响父部署。",
+                "这个预览环境运行完整的 Agent，包括提示词、工具调用、模型和依赖，审查者可以像使用生产环境一样测试，并查看追踪（traces）来理解行为。",
+                "关键优势是同步性：每次推送新提交到分支，LangSmith 自动更新预览部署，确保审查者始终看到最新版本，无需手动重建环境。",
+                "团队可以配置触发方式：每个 PR 都创建预览，或仅当添加特定 GitHub 标签时创建，从而灵活控制资源使用。",
+                "预览环境是共享的，非工程人员（如产品经理、领域专家）可以直接测试并反馈，工程师也能检查底层调用，这促进了跨角色协作。",
+                "为了管理资源，Preview Builds 提供了空闲 TTL（自动删除不活跃的预览）和并发限制，并支持手动删除，确保环境不会无限期占用。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "Perceived Error 是首个评估器，检测代理犯错、误解或方向错误的证据，如用户纠正或矛盾回应。",
-                "基准测试显示其性能优于所有前沿模型，且成本大幅降低。早期合作伙伴 Vanta 证实，它能立即提供质量覆盖，同时团队开发自有评估器。",
-                "适用边界：对话需至少两轮人机交互，并在空闲期后 12 小时内完成评估。目前仅限美国地区的 Plus 和 Cloud Enterprise 计划。"
+                "原文明确指出，Preview Builds 目前处于公开测试阶段，仅适用于通过 GitHub 集成连接的 LangSmith Cloud 部署。",
+                "它从父部署复制密钥（secrets），但建议对敏感服务使用专门为预览工作负载设计的凭证，以降低安全风险。",
+                "结论是，该功能简化了 Agent 变更的测试流程，提高了团队协作效率，但它的有效性依赖于团队正确配置触发条件和资源限制。",
+                "边界在于：它不适用于非 GitHub 集成或本地部署，且预览环境是临时的，不适合长期运行。"
               ]
             }
           ],
           "keyPoints": [
-            "Tuned Evaluators 自动为生产对话附加质量反馈，无需手动抽样或调参。",
-            "专用模型在特定评估目标上性能优于前沿模型，成本降低 82%。",
-            "Perceived Error 检测代理错误信号，如用户纠正或矛盾回应。",
-            "评估器由 LangChain 维护，团队可直接使用，节省工程时间。",
-            "对话需至少两轮交互，评估在 12 小时内完成。"
+            "Preview Builds 为每个拉取请求创建临时、隔离的部署环境，便于在合并前测试 Agent。",
+            "预览环境自动同步最新提交，确保审查者始终看到最新代码。",
+            "支持两种触发模式：每个 PR 自动创建，或仅当添加标签时创建。",
+            "提供空闲 TTL 和并发限制，帮助控制资源使用和清理。",
+            "预览环境共享，非工程人员也能直接测试并反馈。",
+            "当前仅适用于 GitHub 集成和 LangSmith Cloud。"
           ],
           "technicalDetails": [
             {
-              "text": "Tuned Evaluators 是预构建的评估器，LangChain 将其转化为生产就绪的裁判。它通过后训练专用模型，在特定目标上提供高质量判断，同时降低成本。",
+              "text": "Preview Builds 是 LangSmith Deployment 的一个功能，它从拉取请求的源分支构建临时部署，链接到父部署但独立运行。",
               "basis": "source"
             },
             {
-              "text": "Perceived Error 评估器检测代理错误证据，包括显式信号（如用户纠正）和推断信号（如矛盾回应）。它基于标注对话训练，性能超越前沿模型。",
+              "text": "当 PR 触发时，LangSmith 部署源分支到隔离环境，不更新父部署，允许测试完整 Agent。",
               "basis": "source"
             },
             {
-              "text": "评估流程：添加评估器到追踪项目，LangSmith 识别合格对话，运行评估，附加反馈。合格条件为至少两轮人机交互，并在空闲期后 12 小时内完成。",
+              "text": "每次推送新提交，LangSmith 自动创建预览部署的新修订版本，保持同步。",
               "basis": "source"
             },
             {
-              "text": "成本节省：基准测试显示成本降低 82%，早期合作伙伴节省达 98%，具体取决于对话组成。",
+              "text": "触发方式可配置为 Every PR 或 Label only，后者需要添加 GitHub 标签。",
+              "basis": "source"
+            },
+            {
+              "text": "预览部署复制父部署的密钥，但建议使用专用凭证以增强安全性。",
+              "basis": "source"
+            },
+            {
+              "text": "空闲 TTL 定义预览在最新修订后不活跃的持续时间，超时后自动删除。",
+              "basis": "source"
+            },
+            {
+              "text": "并发限制控制同一父部署同时运行的预览数量。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "团队使用 LangSmith 追踪生产代理，希望快速发现错误并改进。",
+              "scenario": "团队使用 LangSmith 和 GitHub 开发 Agent，需要在合并前进行行为审查。",
               "steps": [
-                "登录 LangSmith 并选择追踪项目。",
-                "添加 Perceived Error 评估器并保存。",
-                "等待评估完成（需至少两轮交互，12 小时内）。",
-                "查看附加的反馈和解释，筛选需关注的对话。",
-                "将标记的对话添加到数据集，用于测试和改进代理。"
+                "在 LangSmith Cloud 中，进入 Deployment Settings，启用 Preview Builds。",
+                "选择触发方式（Every PR 或 Label only），并配置空闲 TTL 和并发限制。",
+                "创建拉取请求，触发预览部署。",
+                "分享预览部署链接给审查者，让他们测试 Agent。",
+                "根据反馈推送新提交，预览自动更新。",
+                "测试完成后，手动删除预览或等待 TTL 过期。"
               ],
               "tools": [
                 "LangSmith",
-                "Perceived Error 评估器"
+                "GitHub"
               ],
               "verification": [
-                "评估完成后，对话中可见反馈和解释。",
-                "成本账单显示评估费用，但跳过或失败的评估不收费。"
+                "在 LangSmith 界面看到预览部署状态为活跃。",
+                "审查者能访问预览链接并执行测试。",
+                "推送新提交后，预览部署的修订版本更新。",
+                "超过 TTL 后，预览自动消失。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "Perceived Error",
-            "Tuned Evaluators"
+            "Preview Builds",
+            "空闲 TTL",
+            "并发限制",
+            "公开测试"
           ],
           "searchTerms": [
             {
-              "term": "Perceived Error",
-              "query": "LangSmith Perceived Error evaluator"
+              "term": "Preview Builds",
+              "query": "LangSmith Preview Builds"
             },
             {
-              "term": "Tuned Evaluators",
-              "query": "LangSmith Tuned Evaluators"
+              "term": "LangSmith Deployment",
+              "query": "LangSmith Deployment features"
+            },
+            {
+              "term": "拉取请求",
+              "query": "GitHub pull request testing"
+            },
+            {
+              "term": "空闲 TTL",
+              "query": "idle TTL deployment"
+            },
+            {
+              "term": "并发限制",
+              "query": "concurrency limit preview deployment"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-19T21:57:53.992Z",
+        "analyzedAt": "2026-08-20T21:59:12.362Z",
         "model": "deepseek-v4-flash"
       },
       {
-        "id": "9c4d968828856a99",
-        "title": "v0.14.24",
-        "url": "https://github.com/run-llama/llama_index/releases/tag/v0.14.24",
-        "summary": "Release Notes [2026-08-19] llama-index-core [0.14.24] fix: close HotpotQA evaluator file handles ( #22113 ) fix(core): preserve oversized leaf nodes in CodeSplitter ( #22119 ) fix: preserve multiblock chat history writes ( #22124 ) fix(core): skip empty nodes in HTMLNodeParser ( #22125 ) fix(core): respect mmr_threshold=0 in MMR embedding search ( #22126 ) fix: keep all nodes per document in IngestionPipeline upserts (re-submit of #22046 , not a dup of #21456 ) ( #22133 ) fix: don't mark *args/**kwargs as required tool parameters ( #22135 ) fix(core): default MetadataFilters condition to AND when None ( #22155 ) fix: honor agent structured_output_fn/output_cls inside AgentWorkflow ( #22162 ) fix(core): use word tokenization for stopword removal in SemanticDoubleMergingSplitterNodeParser ( #22167 ) fix(core): restore prompt helper fallback to supplied LLM metadata ( #22177 ) populate resp",
-        "publishedAt": "2026-08-19T18:48:01.000Z",
-        "sourceId": "llamaindex",
-        "sourceName": "LlamaIndex Releases",
-        "sourceSite": "https://github.com/run-llama/llama_index/releases",
+        "id": "ae3d2b5d8f1b2918",
+        "title": "Developing NVIDIA Holoscan Applications with CLI, Skills, and AI Coding Agents",
+        "url": "https://developer.nvidia.com/blog/developing-nvidia-holoscan-applications-with-cli-skills-and-ai-coding-agents/",
+        "summary": "NVIDIA Holoscan is a platform for building real-time AI applications at the edge, from medical imaging to robotics. HoloHub is its companion repository: a...",
+        "publishedAt": "2026-08-19T22:22:37.000Z",
+        "sourceId": "nvidia-dev",
+        "sourceName": "NVIDIA Developer",
+        "sourceSite": "https://developer.nvidia.com/blog/",
         "lane": "ai",
-        "accent": "#6d5dfc",
+        "accent": "#76b900",
         "topic": "Agent 与自动化",
-        "score": 76,
+        "score": 74,
         "learningNote": "拆解任务、工具、状态与失败恢复四个环节，判断哪些部分真正可复用。",
-        "readMinutes": 9,
-        "category": "update",
-        "slot": "update",
+        "readMinutes": 20,
+        "category": "practice",
+        "slot": "practice",
         "language": "en",
         "candidateScore": 89,
-        "bodyHash": "c57df3a7e9d8669a26ba711e",
+        "bodyHash": "ef2cca74fb2b9ce60b9685fa",
         "extraction": {
           "method": "readability",
-          "length": 6464,
-          "originalLength": 6464,
+          "length": 13954,
+          "originalLength": 13954,
           "trusted": true
         },
         "schemaVersion": 2,
-        "displayTitle": "LlamaIndex v0.14.24 更新解析：修复与增强的细节",
+        "displayTitle": "用AI编程助手开发NVIDIA Holoscan实时应用：从零到可复现基准测试的实战指南",
         "analysis": {
-          "listSummary": "本文是 LlamaIndex 框架 2026 年 8 月 19 日发布的 v0.14.24 版本更新日志。它详细列出了核心库及多个集成模块的修复和功能增强，包括代码分割、聊天历史、嵌入搜索、模型支持等方面。对于使用 LlamaIndex 构建 AI 应用的开发者，了解这些更新有助于避免已知问题、利用新功能，并确保代码的稳定性。文章内容专业且具体，适合需要跟进框架变化的开发者阅读。",
+          "listSummary": "本文介绍如何用通用AI编程助手（如Codex）结合Holoscan CLI、HoloHub技能库和文档，开发一个实时内窥镜工具分割应用。文章通过四个迭代步骤展示了从最小可用版本到性能优化的完整流程，并通过消融实验对比了不同资源组合的效率。读者将学会如何将AI助手融入工程开发循环，理解CLI、技能和文档对开发效率的影响。值得一读，尤其适合希望用AI加速边缘AI应用开发的工程师。",
           "fullAnalysis": [
             {
               "heading": "背景与问题",
               "paragraphs": [
-                "这个版本更新主要解决 LlamaIndex 框架中一系列具体的技术问题。LlamaIndex 是一个帮助开发者构建基于大语言模型（LLM）应用的框架，它负责处理数据连接、索引和查询等任务。",
-                "本次更新涉及的问题包括：文件句柄未关闭导致资源泄漏、代码分割器处理超长节点出错、聊天历史写入不完整、空节点导致解析错误、嵌入搜索参数失效、数据管道更新时丢失节点、工具参数误判、元数据过滤条件错误、代理工作流输出不生效、文本分割器分词方式错误、提示词回退机制失效等。",
-                "这些问题会影响应用的资源管理、数据处理准确性、搜索效果和模型调用正确性。例如，文件句柄未关闭在长时间运行的服务中可能导致内存或文件描述符耗尽；代码分割错误可能导致后续检索或生成结果不准确。"
+                "NVIDIA Holoscan是一个用于在边缘构建实时AI应用的平台，覆盖从医学影像到机器人等领域。HoloHub是其配套仓库，包含大量参考应用和组件。本文的核心问题是：通用AI编程助手能否利用工程师可用的示例、文档和工具，独立完成一个实际开发任务？",
+                "传统开发中，工程师需要手动理解框架、编写代码、调试运行。而AI助手可以加速这一过程，但前提是需要合适的指导。文章探索了如何通过CLI（命令行界面，即通过输入命令与电脑交互的方式）、技能库（预定义的开发流程和检查清单）和文档示例，引导AI助手高效完成开发。",
+                "开发目标是构建一个端到端的内窥镜工具分割应用，要求实时推理、可视化分割掩码和统计信息。作者复用了现有的MONAI模型和示例视频，重点在于新应用的集成和优化，而非从零训练模型。"
               ]
             },
             {
               "heading": "方法与论证",
               "paragraphs": [
-                "修复方法针对每个具体问题展开。例如，修复 HotpotQA 评估器文件句柄未关闭的问题，是通过确保文件在使用后被正确关闭来防止资源泄漏。",
-                "对于 CodeSplitter 保留超大叶子节点的问题，修复确保在分割代码时，即使节点过大也不会被意外丢弃，从而保留完整信息。",
-                "在 MMR 嵌入搜索中，修复了 mmr_threshold=0 时参数被忽略的问题，确保该值能正确生效，影响搜索结果的多样性控制。",
-                "IngestionPipeline 的 upsert 操作修复了每个文档的所有节点都能被保留的问题，避免数据更新时丢失部分内容。",
-                "此外，更新还增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持，并修复了相关模型调用中的参数和上下文窗口设置问题。"
+                "文章采用迭代式开发方法，将大目标分解为多个可验证的小步骤。每个迭代中，工程师定义目标和约束，AI助手检查相关示例、实现代码并通过CLI运行开发操作，最后由工程师审查代码和输出，再设定下一轮目标。",
+                "迭代0强调目标分解的重要性。作者建议不要试图用一个提示词构建整个应用，而是根据不确定性和证据，将目标拆分为可审查的工程问题，例如环境配置、模型复用、可视化效果、延迟测量和渲染吞吐量等。",
+                "迭代1创建了最小可用应用。开发者提示词明确要求复用现有模型和预处理，禁止修改模型权重。AI助手通过阅读生命周期技能、参考HoloHub示例，使用`./holohub create`生成脚手架，并实现了应用图、执行模式和测试。最终应用成功连接了视频回放、预处理、TensorRT推理（NVIDIA的深度学习推理优化引擎）、后处理和可视化。",
+                "迭代2引入了可重复的基准测试。开发者要求增加更多统计指标和基准模式。AI助手实现了三个命名应用模式：visual（交互式运行）、smoke（快速无头验证）和benchmark（离屏处理300帧并导出测量结果）。使用Holoscan Data Flow Tracking记录延迟，使性能评估不再依赖主观视觉检查。",
+                "迭代3专注于延迟优化。AI助手确认推理仍在每帧运行，但通过复用静态张量、异步传输遥测数据等低风险优化，将渲染吞吐量提升50.5%，平均延迟降低33.6%。优化过程中保留了每帧推理，避免了复杂的掩码复用策略。"
               ]
             },
             {
               "heading": "证据、结论与边界",
               "paragraphs": [
-                "原文以发布说明的形式提供了每个修复的简要描述和对应的 GitHub issue 或 PR 编号，如 #22113、#22119 等，这些编号是验证修复内容的直接证据。",
-                "结论是本次更新包含大量针对特定场景的修复，旨在提升框架的稳定性和正确性。但更新日志本身不提供性能测试数据或用户反馈，因此无法量化每个修复带来的具体性能提升。",
-                "这些修复的边界在于它们针对的是特定模块和特定问题，并非对所有 LlamaIndex 使用场景的全面优化。开发者应关注与自己项目相关的修复项。"
+                "消融实验对比了三种资源组合：CLI+技能+文档、CLI+文档、仅文档。结果显示，完整组合耗时最短（40分钟）且token消耗最少（11M），而仅文档组合虽然耗时相同但代码质量差（2.6倍慢），CLI+文档组合耗时最长（65分钟）且token消耗最多（20M）。",
+                "结论是CLI、技能和文档的组合提供了最佳开发者体验和最低资源开销。CLI提供了统一的操作接口，技能编码了项目特定的流程，文档和示例提供了工程上下文。AI助手和工程师使用相同的命令，便于审查和重复。",
+                "边界条件包括：实验基于特定模型（Codex 0.146.0 with GPT-5.6 Sol）、特定时间（8月1日）和单一应用场景。不同任务或模型可能结果不同。此外，优化迭代中保留了每帧推理，未探索掩码复用策略，这可能是未来的优化方向。"
               ]
             }
           ],
           "keyPoints": [
-            "LlamaIndex v0.14.24 是一个修复版本，解决了多个模块中存在的具体技术问题。",
-            "核心修复包括代码分割、聊天历史、嵌入搜索、数据管道更新和代理工作流等方面。",
-            "更新增加了对 Claude Sonnet 5、Claude Opus 5、GPT-5.6 和 Gemini 3.7 Flash 等新模型的支持。",
-            "多个集成模块（如 Bedrock、Pinecone、Qdrant）也获得了兼容性和功能修复。",
-            "开发者应关注与自己项目相关的修复项，以避免已知问题并利用新功能。"
+            "将大目标分解为可验证的小迭代，每步都产生可审查的代码和测试，是AI辅助开发的关键。",
+            "Holoscan CLI通过`./holohub`包装器提供了统一的操作接口，AI助手和工程师都能使用相同命令。",
+            "HoloHub技能库（如holohub-app-lifecycle）编码了项目特定的开发流程，显著减少了试错。",
+            "基准测试模式（benchmark）使性能优化有据可依，而非依赖主观视觉检查。",
+            "消融实验表明，CLI+技能+文档的组合比缺少任何一项都更高效，token消耗可减少45%。",
+            "优化时先处理低风险开销（如异步传输），保留每帧推理，避免了复杂的策略决策。"
           ],
           "technicalDetails": [
             {
-              "text": "HotpotQA evaluator file handles 是指用于评估模型性能的 HotpotQA 数据集文件句柄。修复确保这些文件在使用后被正确关闭，防止资源泄漏。",
+              "text": "Holoscan CLI：它是什么——NVIDIA Holoscan的命令行工具，通过`./holohub`包装器调用。怎么工作——提供create、run、test、modes等子命令，管理应用生命周期。为什么重要——统一了开发操作，使AI助手和工程师能使用相同接口，减少环境配置错误。",
               "basis": "source"
             },
             {
-              "text": "CodeSplitter 是用于分割代码文本的组件。修复确保在分割时，过大的叶子节点（即分割后的最小单元）不会被丢弃，而是被保留下来，以维持代码的完整性。",
+              "text": "HoloHub技能库：它是什么——预定义的开发技能，如holohub-app-lifecycle和holohub-debug-build-run。怎么工作——通过agents.md以渐进式披露模式提供，指导AI助手按项目特定流程操作。为什么重要——编码了最佳实践和检查清单，避免AI助手使用通用但低效的Bash工具。",
               "basis": "source"
             },
             {
-              "text": "MMR（Maximal Marginal Relevance）嵌入搜索是一种平衡相关性和多样性的搜索算法。mmr_threshold 参数用于控制多样性，修复确保当该参数设置为 0 时，其值能被正确传递和生效。",
+              "text": "TensorRT推理：它是什么——NVIDIA的深度学习推理优化引擎。怎么工作——在Holoscan应用中被用作InferenceOp，加速模型推理。为什么重要——在消融实验中，忽略TensorRT的版本比使用它的版本慢2.6倍，凸显了优化算子的重要性。",
               "basis": "source"
             },
             {
-              "text": "IngestionPipeline 的 upsert 操作用于更新数据。修复确保在更新时，每个文档的所有节点（即数据块）都能被保留，避免数据丢失。",
+              "text": "Holoscan Data Flow Tracking：它是什么——用于跟踪数据流路径延迟的机制。怎么工作——在benchmark模式下，从视频回放到渲染帧的路径上记录延迟。为什么重要——提供了可重复的延迟测量，使性能优化有量化依据。",
               "basis": "source"
             },
             {
-              "text": "AgentWorkflow 是用于构建代理工作流的组件。修复确保 structured_output_fn 和 output_cls 参数能被正确识别和使用，从而保证代理输出的结构化。",
-              "basis": "source"
-            },
-            {
-              "text": "SemanticDoubleMergingSplitterNodeParser 是一个语义分割器。修复将其停用词移除逻辑改为基于词（word）的分词方式，以更准确地处理文本。",
+              "text": "应用模式（Modes）：它是什么——应用的不同执行方式，包括visual、smoke和benchmark。怎么工作——通过`./holohub modes`发现，通过`./holohub run <app> <mode>`执行。为什么重要——将交互式演示、快速验证和基准测试分离，提高了开发效率。",
               "basis": "source"
             }
           ],
           "engineeringPractice": [
             {
-              "scenario": "开发者使用 LlamaIndex 构建 RAG（检索增强生成）应用，需要确保数据处理的稳定性和搜索效果。",
+              "scenario": "使用AI编程助手开发Holoscan边缘AI应用",
               "steps": [
-                "升级 LlamaIndex 核心库到 v0.14.24 或更高版本。",
-                "检查并更新相关集成模块，如向量数据库（Pinecone、Qdrant）和模型提供商（Anthropic、OpenAI）的插件。",
-                "如果使用了 CodeSplitter，测试其处理超大代码文件的行为，确保节点被正确保留。",
-                "如果使用了 MMR 搜索，验证 mmr_threshold=0 的设置是否生效。",
-                "如果使用了 IngestionPipeline 的 upsert，测试更新操作后所有节点是否完整。"
+                "定义清晰的目标和约束，如复用特定模型、禁止修改权重。",
+                "将大目标分解为可验证的迭代，每步设定一个可审查的问题。",
+                "为AI助手提供CLI、技能库和文档示例，确保其能发现开发操作。",
+                "使用`./holohub create`生成应用脚手架，然后实现应用逻辑。",
+                "通过`./holohub run`运行应用，`./holohub test`执行测试，验证功能。",
+                "添加benchmark模式，使用Data Flow Tracking记录延迟并导出图表。",
+                "审查AI助手的代码和输出，设定下一轮优化目标。"
               ],
               "tools": [
-                "LlamaIndex",
-                "Python",
-                "向量数据库",
-                "LLM API"
+                "Holoscan CLI (./holohub)",
+                "HoloHub技能库 (holohub-app-lifecycle)",
+                "Codex with GPT-5.6 Sol",
+                "MONAI endoscopic tool segmentation model"
               ],
               "verification": [
-                "运行单元测试，确认相关修复项不再出现错误。",
-                "在测试环境中执行数据管道更新，检查数据完整性。",
-                "进行搜索查询，验证 MMR 参数对结果的影响。"
+                "应用能通过`./holohub run <app> visual`正常运行并显示可视化。",
+                "`./holohub test <app>`返回通过结果。",
+                "benchmark模式生成延迟图表，且多次运行结果一致。",
+                "优化后版本在5次测试中均快于基线版本。"
               ]
             }
           ]
         },
         "annotations": {
           "emphasis": [
-            "文件句柄",
-            "CodeSplitter",
-            "MMR 嵌入搜索",
-            "Claude Sonnet 5",
-            "GPT-5.6"
+            "迭代式开发",
+            "消融实验",
+            "TensorRT推理",
+            "Data Flow Tracking"
           ],
           "searchTerms": [
             {
-              "term": "LlamaIndex",
-              "query": "LlamaIndex v0.14.24 release notes"
+              "term": "Holoscan CLI",
+              "query": "NVIDIA Holoscan CLI usage"
             },
             {
-              "term": "CodeSplitter",
-              "query": "LlamaIndex CodeSplitter oversized leaf nodes fix"
-            },
-            {
-              "term": "MMR",
-              "query": "LlamaIndex MMR embedding search threshold fix"
-            },
-            {
-              "term": "IngestionPipeline",
-              "query": "LlamaIndex IngestionPipeline upsert nodes fix"
-            },
-            {
-              "term": "AgentWorkflow",
-              "query": "LlamaIndex AgentWorkflow structured output fix"
+              "term": "Data Flow Tracking",
+              "query": "Holoscan Data Flow Tracking latency"
             }
           ]
         },
         "analysisStatus": "complete",
-        "analyzedAt": "2026-08-19T21:58:08.457Z",
+        "analyzedAt": "2026-08-20T21:59:31.510Z",
         "model": "deepseek-v4-flash"
       }
     ],
@@ -2930,7 +2355,7 @@
       "dailyLimit": 1,
       "accent": "#ff9d00",
       "ok": true,
-      "latencyMs": 163,
+      "latencyMs": 167,
       "itemCount": 35
     },
     {
@@ -2947,7 +2372,7 @@
       "dailyLimit": 1,
       "accent": "#24292f",
       "ok": true,
-      "latencyMs": 122,
+      "latencyMs": 105,
       "itemCount": 10
     },
     {
@@ -2964,7 +2389,7 @@
       "dailyLimit": 1,
       "accent": "#1c3c3c",
       "ok": true,
-      "latencyMs": 583,
+      "latencyMs": 485,
       "itemCount": 33
     },
     {
@@ -2981,7 +2406,7 @@
       "dailyLimit": 1,
       "accent": "#6d5dfc",
       "ok": true,
-      "latencyMs": 864,
+      "latencyMs": 1291,
       "itemCount": 10
     },
     {
@@ -2998,7 +2423,7 @@
       "dailyLimit": 1,
       "accent": "#615ced",
       "ok": true,
-      "latencyMs": 105,
+      "latencyMs": 63,
       "itemCount": 35
     },
     {
@@ -3015,7 +2440,7 @@
       "dailyLimit": 1,
       "accent": "#111111",
       "ok": true,
-      "latencyMs": 129,
+      "latencyMs": 180,
       "itemCount": 35
     },
     {
@@ -3032,7 +2457,7 @@
       "dailyLimit": 1,
       "accent": "#76b900",
       "ok": true,
-      "latencyMs": 617,
+      "latencyMs": 225,
       "itemCount": 35
     },
     {
@@ -3049,7 +2474,7 @@
       "dailyLimit": 1,
       "accent": "#b36b00",
       "ok": true,
-      "latencyMs": 153,
+      "latencyMs": 123,
       "itemCount": 30
     },
     {
@@ -3066,7 +2491,7 @@
       "dailyLimit": 1,
       "accent": "#10a37f",
       "ok": true,
-      "latencyMs": 166,
+      "latencyMs": 163,
       "itemCount": 35
     },
     {
@@ -3083,7 +2508,7 @@
       "dailyLimit": 1,
       "accent": "#4285f4",
       "ok": true,
-      "latencyMs": 610,
+      "latencyMs": 551,
       "itemCount": 20
     },
     {
@@ -3100,7 +2525,7 @@
       "dailyLimit": 1,
       "accent": "#5c6bc0",
       "ok": true,
-      "latencyMs": 342,
+      "latencyMs": 532,
       "itemCount": 35
     },
     {
@@ -3117,7 +2542,7 @@
       "dailyLimit": 1,
       "accent": "#ff7139",
       "ok": true,
-      "latencyMs": 319,
+      "latencyMs": 166,
       "itemCount": 15
     },
     {
@@ -3134,7 +2559,7 @@
       "dailyLimit": 1,
       "accent": "#478cbf",
       "ok": true,
-      "latencyMs": 959,
+      "latencyMs": 720,
       "itemCount": 15
     },
     {
@@ -3151,7 +2576,7 @@
       "dailyLimit": 1,
       "accent": "#222c37",
       "ok": true,
-      "latencyMs": 18732,
+      "latencyMs": 18829,
       "itemCount": 35
     },
     {
@@ -3168,7 +2593,7 @@
       "dailyLimit": 1,
       "accent": "#c33b32",
       "ok": true,
-      "latencyMs": 441,
+      "latencyMs": 712,
       "itemCount": 35
     },
     {
@@ -3190,7 +2615,7 @@
       "dailyLimit": 1,
       "accent": "#3f7f69",
       "ok": true,
-      "latencyMs": 799,
+      "latencyMs": 1182,
       "itemCount": 4
     },
     {
@@ -3207,7 +2632,7 @@
       "dailyLimit": 1,
       "accent": "#7d4db3",
       "ok": true,
-      "latencyMs": 943,
+      "latencyMs": 665,
       "itemCount": 10
     }
   ],
@@ -3294,7 +2719,9 @@
       "c0dbb0bf5ccc0065",
       "0055cddeb9b13254",
       "1a5a789777a0c93c",
-      "9c4d968828856a99"
+      "9c4d968828856a99",
+      "3dddaf9068ffc6c5",
+      "ae3d2b5d8f1b2918"
     ],
     "processedManualUrls": []
   },
@@ -3303,10 +2730,10 @@
       "selection": "deepseek-v4-flash",
       "analysis": "deepseek-v4-flash"
     },
-    "calls": 0,
-    "rejectedCount": 248,
+    "calls": 3,
+    "rejectedCount": 260,
     "sourceFailureCount": 0
   },
   "stale": false,
-  "previousGeneratedAt": "2026-08-19T21:58:08.458Z"
+  "previousGeneratedAt": "2026-08-20T05:16:36.496Z"
 }
