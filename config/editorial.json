@@ -68,8 +68,8 @@
     "selectionExcerptCharacters": 1800
   },
   "models": {
-    "selection": "deepseek-v4-flash",
-    "analysis": "deepseek-v4-flash",
+    "selection": "v4flash0731",
+    "analysis": "v4flash0731",
     "temperature": 0.5,
     "maximumCalls": 10,
     "selectionTimeoutMs": 150000,

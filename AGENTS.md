@@ -1,4 +1,4 @@
-﻿# AGENTS.md — 畅神妙妙屋（公开版）
+# AGENTS.md — 畅神妙妙屋（公开版）
 
 ## 项目概述
 
@@ -20,8 +20,8 @@
 
 - 使用兼容 OpenAI 格式的 API；公开版与私有版均通过 GitHub Actions Secret `DASHSCOPE_API_KEY` + Variable `DASHSCOPE_BASE_URL` 配置，将 `DASHSCOPE_BASE_URL` 指向中转站地址即可切换为中转 API。
 - 默认 base URL：`https://dashscope.aliyuncs.com/compatible-mode/v1`；中转站时填写中转站对应地址。
-- 筛选模型：deepseek-v4-flash
-- 分析模型：deepseek-v4-flash
+- 筛选模型：v4flash0731
+- 分析模型：v4flash0731
 - 模型名以 config/editorial.json 的 models 为准；可用 Variable `DASHSCOPE_SELECTION_MODEL` / `DASHSCOPE_ANALYSIS_MODEL` 覆盖
 - 温度：0.5，每次任务最多调用 10 次
 - 请求体加 `thinking: { type: "disabled" }` 与 max_tokens 16384；解析同时读 content 与 reasoning_content，用括号配平兜底提取 JSON，防止思考模式把推理渗进结构化输出导致解析失败。
@@ -114,3 +114,4 @@ git -c http.proxy=http://127.0.0.1:7890 -c https.proxy=http://127.0.0.1:7890 pus
 17. 日常简报筛选放宽：`minimumCandidateScore` 58 → 45、`candidateFetchPerSource` 4 → 12、`candidateBodyPool` 上限 practice 12 → 20 / update 8 → 14，解决「入选 0 篇、淘汰 368 条」里大量「超过单来源正文候选抓取上限」与「相关度 53-57 低于门槛」的误杀。
 18. GitHub 热门改为每周一、周四各 3 个、当周累积最多 6 个（`githubWeekly.limit=3` + 新增 `weeklyLimit=6`）；`weekly-github.yml` 改为两条 cron（`25 20 * * 0` 周一、`25 20 * * 3` 周四）；`shouldSkipGithub` 改按 `weeklyLimit` 判断，周四不再被当周已有数据误跳过；`buildGithubOutput` 支持累积并按 id 去重。
 19. 修复 `validate-github-feed.js` 硬编码 `items.length !== 2`（「必须恰好推荐 2 个仓库」）——这是此前把 `githubWeekly.limit` 改成 5 却始终没生效的真正原因（生成 5 个会被校验拦下、回滚保留旧的 2 个）。现改为校验 1..weeklyLimit。
+20. 修复工作流密钥防泄露检测正则误杀：原正则 `sk-[A-Za-z0-9_-]{16,}` 会误匹配含 `task-execution-...` 等 URL，现改为 `\bsk-[A-Za-z0-9]{20,}`；模型名更新为 `v4flash0731`。
